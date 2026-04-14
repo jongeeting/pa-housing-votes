@@ -1,0 +1,67 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { VoteMap } from "@/components/VoteMap";
+import { APRIL_14_2025_ROLL_CALLS } from "@/data/votes/2025-04-14-housing";
+
+const rollCalls = APRIL_14_2025_ROLL_CALLS;
+---
+
+<Layout title="PA Housing Votes — April 14, 2025 committee vote">
+  <header class="page-header">
+    <div class="page-header__inner">
+      <p class="page-header__eyebrow">PA Housing Votes</p>
+      <h1>How every PA House district voted on zoning reform</h1>
+      <p class="page-header__lede">
+        On April 14, 2025 the House Housing &amp; Urban Affairs committee
+        voted on two state zoning reform bills. This map shows how each
+        committee member voted, alongside the partisan and municipal
+        composition of their district.
+      </p>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <VoteMap client:only="react" rollCalls={rollCalls} />
+  </main>
+
+  <section class="page-notes">
+    <h2>Reading the map</h2>
+    <ul>
+      <li>
+        <strong>Fill color</strong> shows how that district&rsquo;s
+        representative voted on the selected bill. Green = Yea, orange =
+        Nay, gray = not on the committee.
+      </li>
+      <li>
+        <strong>Outline color</strong> shows party (blue = Democrat,
+        red = Republican). Districts with a colored outline belong to a
+        committee member who cast a vote.
+      </li>
+      <li>
+        <strong>Click a district</strong> to see the member, their vote
+        on each bill, and the population share covered by the largest
+        municipalities and municipal class types.
+      </li>
+    </ul>
+
+    <h2>Sources</h2>
+    <ul>
+      {rollCalls.map((rc) => (
+        <li>
+          {rc.bill.label} —
+          <a href={rc.sourceUrl} target="_blank" rel="noopener">
+            roll call (palegis.us)
+          </a>
+        </li>
+      ))}
+      <li>
+        Districts: US Census TIGER/LINE 2024 (state legislative
+        districts, lower chamber).
+      </li>
+      <li>
+        Municipalities: US Census TIGER/LINE 2024 (county subdivisions)
+        with population from ACS 2023 5-year estimates.
+      </li>
+    </ul>
+  </section>
+</Layout>
