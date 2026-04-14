@@ -111,10 +111,21 @@ code {
 .vote-map__canvas-wrap {
   position: relative;
   height: clamp(420px, 65vh, 720px);
+  width: 100%;
 }
 .vote-map__canvas {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+.vote-map__canvas .maplibregl-canvas-container,
+.vote-map__canvas .maplibregl-canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 .vote-map-empty {
   padding: 4rem 1rem;

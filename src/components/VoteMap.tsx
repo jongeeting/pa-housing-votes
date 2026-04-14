@@ -63,27 +63,22 @@ export const VoteMap = ({
 
     const map = new maplibregl.Map({
       container: containerRef.current,
+      // No raster basemap — the districts are the story and a
+      // basemap mostly adds noise. Static off-white background +
+      // district polygons + their outlines gives a clean editorial
+      // look and avoids third-party tile CORS / rate-limit issues.
+      // We can revisit and add a vector basemap (Protomaps / MapTiler)
+      // once we want a self-contained statewide reference layer.
       style: {
         version: 8,
         glyphs:
           "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
-        sources: {
-          basemap: {
-            type: "raster",
-            tiles: [
-              "https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-            ],
-            tileSize: 256,
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          },
-        },
+        sources: {},
         layers: [
           {
-            id: "basemap",
-            type: "raster",
-            source: "basemap",
-            paint: { "raster-opacity": 0.85 },
+            id: "background",
+            type: "background",
+            paint: { "background-color": "#f1f5f9" },
           },
         ],
       },
@@ -91,9 +86,37 @@ export const VoteMap = ({
       fitBoundsOptions: { padding: 32 },
       maxZoom: 12,
       minZoom: 5,
+      attributionControl: false,
     });
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
-    map.addControl(new maplibregl.AttributionControl({ compact: true }));
+    map.addControl(
+      new maplibregl.AttributionControl({
+        compact: true,
+        customAttribution:
+          'Districts &amp; municipalities: US Census TIGER/LINE 2024. Pop: ACS 2023 5-year.',
+      }),
+    );
+
+    // Defensive resize: when the map is hydrated client-side, the
+    // container can briefly measure as zero-height before layout
+    // settles. Force a re-measure on load and on next animation frame.
+    const forceResize = () => {
+      try {
+        map.resize();
+      } catch {
+        /* map disposed */
+      }
+    };
+    map.on("load", forceResize);
+    requestAnimationFrame(forceResize);
+
+    // ResizeObserver keeps the canvas in sync with the parent's
+    // computed size after fonts / async CSS apply.
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && containerRef.current) {
+      ro = new ResizeObserver(() => forceResize());
+      ro.observe(containerRef.current);
+    }
 
     map.on("load", async () => {
       map.addSource("districts", {
@@ -169,6 +192,7 @@ export const VoteMap = ({
     });
 
     return () => {
+      ro?.disconnect();
       map.remove();
       mapRef.current = null;
     };
