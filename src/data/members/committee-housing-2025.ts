@@ -25,7 +25,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Markosek",
     party: "D",
     chamber: "House",
-    district: "", // TODO: fill in (Chair)
+    district: "25", // Chair
   },
   {
     id: "house-2025-abney",
@@ -33,7 +33,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Abney",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "19",
   },
   {
     id: "house-2025-boyd",
@@ -41,7 +41,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Boyd",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "163",
   },
   {
     id: "house-2025-brown",
@@ -49,7 +49,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Brown",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "10",
   },
   {
     id: "house-2025-cephas",
@@ -57,7 +57,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Cephas",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "192",
   },
   {
     id: "house-2025-green",
@@ -65,7 +65,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Green",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "190",
   },
   {
     id: "house-2025-krajewski",
@@ -73,7 +73,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Krajewski",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "188",
   },
   {
     id: "house-2025-madsen",
@@ -81,7 +81,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Madsen",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "104",
   },
   {
     id: "house-2025-mayes",
@@ -89,7 +89,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Mayes",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "24",
   },
   {
     id: "house-2025-powell",
@@ -97,7 +97,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Powell",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "21",
   },
   {
     id: "house-2025-probst",
@@ -105,7 +105,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Probst",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "189",
   },
   {
     id: "house-2025-smith-wade-el",
@@ -113,7 +113,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Smith-Wade-El",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "49",
   },
   {
     id: "house-2025-tiburcio",
@@ -121,7 +121,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Tiburcio",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "22",
   },
   {
     id: "house-2025-waxman",
@@ -129,7 +129,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Waxman",
     party: "D",
     chamber: "House",
-    district: "",
+    district: "182",
   },
 
   // ----- Republicans (Minority) -----
@@ -139,7 +139,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Irvin",
     party: "R",
     chamber: "House",
-    district: "", // TODO: fill in (Republican Chair)
+    district: "81", // Republican Chair
   },
   {
     id: "house-2025-bashline",
@@ -147,7 +147,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Bashline",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "63",
   },
   {
     id: "house-2025-jones",
@@ -155,7 +155,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Jones",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "98",
   },
   {
     id: "house-2025-kephart",
@@ -163,7 +163,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Kephart",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "73",
   },
   {
     id: "house-2025-mackenzie",
@@ -171,7 +171,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Mackenzie",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "131",
   },
   {
     id: "house-2025-major",
@@ -179,7 +179,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Major",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "60",
   },
   {
     id: "house-2025-rasel",
@@ -187,7 +187,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Rasel",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "56",
   },
   {
     id: "house-2025-rossi",
@@ -195,7 +195,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Rossi",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "59",
   },
   {
     id: "house-2025-shaffer",
@@ -203,7 +203,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Shaffer",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "28",
   },
   {
     id: "house-2025-twardzik",
@@ -211,7 +211,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Twardzik",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "123",
   },
   {
     id: "house-2025-walsh",
@@ -219,7 +219,7 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Walsh",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "117",
   },
   {
     id: "house-2025-weaknecht",
@@ -227,6 +227,6 @@ export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
     lastName: "Weaknecht",
     party: "R",
     chamber: "House",
-    district: "",
+    district: "5",
   },
 ];

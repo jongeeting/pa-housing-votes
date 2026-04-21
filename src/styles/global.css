@@ -86,8 +86,35 @@ code {
   margin-top: 1.5rem;
   font-size: 1.1rem;
 }
+.page-notes p {
+  line-height: 1.6;
+}
 .page-notes ul {
   padding-left: 1.2rem;
+}
+
+.status-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+.status-table th,
+.status-table td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.status-table th {
+  background: #f1f5f9;
+  color: var(--fg);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.status-table td a {
+  font-size: 0.85rem;
 }
 
 .page-footer {

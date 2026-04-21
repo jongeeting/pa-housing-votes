@@ -1,8 +1,9 @@
 import type { RollCall, MunicipalClass } from "@/lib/types";
 import { MUNICIPAL_CLASS_LABELS } from "@/lib/types";
 import { MEMBERS_BY_DISTRICT } from "@/data/members";
+import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
 import { findVote } from "@/lib/voteAggregation";
-import { VOTE_COLORS } from "@/lib/colors";
+import { VOTE_COLORS, COSPONSOR_FILL } from "@/lib/colors";
 
 interface Props {
   district: string;
@@ -47,6 +48,20 @@ const formatPct = (n: number) => `${Math.round(n * 100)}%`;
 const formatPop = (n: number) =>
   new Intl.NumberFormat("en-US").format(Math.round(n));
 
+/** Check if a district's rep is a cosponsor (or prime sponsor) of a bill. */
+const getCosponsorInfo = (
+  district: string,
+  billId: string,
+): { isCosponsor: boolean; isSponsor: boolean; name: string | null } => {
+  const cs = COSPONSORSHIPS_BY_BILL.get(billId);
+  if (!cs) return { isCosponsor: false, isSponsor: false, name: null };
+  if (cs.primeSponsor.district === district)
+    return { isCosponsor: true, isSponsor: true, name: cs.primeSponsor.name };
+  const match = cs.cosponsors.find((c) => c.district === district);
+  if (match) return { isCosponsor: true, isSponsor: false, name: match.name };
+  return { isCosponsor: false, isSponsor: false, name: null };
+};
+
 export const DistrictPopup = ({
   district,
   properties,
@@ -85,11 +100,31 @@ export const DistrictPopup = ({
             </span>{" "}
             {member.fullName}
           </div>
-        ) : (
-          <div className="popup__member popup__member--unknown">
-            Member unknown — add to <code>members/index.ts</code>
-          </div>
-        )}
+        ) : (() => {
+          // Try to find the rep's name from cosponsorship data
+          const csInfo = COSPONSORSHIPS_BY_BILL
+            ? Array.from(COSPONSORSHIPS_BY_BILL.values()).reduce<{ name: string | null; party: string | null }>((acc, cs) => {
+                if (acc.name) return acc;
+                if (cs.primeSponsor.district === district)
+                  return { name: cs.primeSponsor.name, party: cs.primeSponsor.party };
+                const match = cs.cosponsors.find((c) => c.district === district);
+                if (match) return { name: match.name, party: match.party };
+                return acc;
+              }, { name: null, party: null })
+            : { name: null, party: null };
+          return csInfo.name ? (
+            <div className="popup__member">
+              <span className={`popup__party popup__party--${csInfo.party?.toLowerCase()}`}>
+                {csInfo.party}
+              </span>{" "}
+              {csInfo.name}
+            </div>
+          ) : (
+            <div className="popup__member popup__member--unknown">
+              Not on committee
+            </div>
+          );
+        })()}
       </div>
 
       <div className="popup__section">
@@ -98,16 +133,34 @@ export const DistrictPopup = ({
           <tbody>
             {rollCalls.map((rc) => {
               const v = member ? findVote(rc, member.id) : undefined;
+              const csInfo = getCosponsorInfo(district, rc.bill.id);
               return (
                 <tr key={rc.id}>
                   <td className="popup__bill-cell">{rc.bill.label}</td>
                   <td>
                     {v ? (
+                      <>
+                        <span
+                          className="popup__vote-pill"
+                          style={{ background: VOTE_COLORS[v.vote] }}
+                        >
+                          {v.vote}
+                        </span>
+                        {csInfo.isCosponsor && (
+                          <span
+                            className="popup__vote-pill"
+                            style={{ background: COSPONSOR_FILL, marginLeft: 4 }}
+                          >
+                            {csInfo.isSponsor ? "Sponsor" : "Cosponsor"}
+                          </span>
+                        )}
+                      </>
+                    ) : csInfo.isCosponsor ? (
                       <span
                         className="popup__vote-pill"
-                        style={{ background: VOTE_COLORS[v.vote] }}
+                        style={{ background: COSPONSOR_FILL }}
                       >
-                        {v.vote}
+                        {csInfo.isSponsor ? "Prime sponsor" : "Cosponsor"}
                       </span>
                     ) : (
                       <span className="popup__vote-pill popup__vote-pill--none">

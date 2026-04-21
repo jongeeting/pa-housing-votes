@@ -25,4 +25,6 @@ export const PARTY_STROKE: Record<Party, string> = {
   I: "#6b7280",
 };
 
+export const COSPONSOR_FILL = "#a78bfa";
+
 export const NO_VOTE_FILL = "#e5e7eb";

@@ -1,5 +1,5 @@
 import type { RollCall } from "@/lib/types";
-import { VOTE_COLORS, NO_VOTE_FILL, PARTY_STROKE } from "@/lib/colors";
+import { VOTE_COLORS, COSPONSOR_FILL, NO_VOTE_FILL, PARTY_STROKE } from "@/lib/colors";
 
 interface Props {
   rollCall: RollCall;
@@ -30,6 +30,13 @@ export const Legend = ({ rollCall }: Props) => {
             style={{ background: VOTE_COLORS["Not Voting"] }}
           />
           Not voting / absent
+        </li>
+        <li>
+          <span
+            className="legend__swatch"
+            style={{ background: COSPONSOR_FILL }}
+          />
+          Cosponsor
         </li>
         <li>
           <span

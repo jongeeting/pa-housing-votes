@@ -7,9 +7,11 @@ import {
   VOTE_COLORS,
   VOTE_FILL_OPACITY,
   PARTY_STROKE,
+  COSPONSOR_FILL,
   NO_VOTE_FILL,
 } from "@/lib/colors";
 import { snapshotByDistrict } from "@/lib/voteAggregation";
+import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
 import { DistrictPopup } from "./DistrictPopup";
 import { BillSelector } from "./BillSelector";
 import { Legend } from "./Legend";
@@ -36,6 +38,7 @@ export const VoteMap = ({
   rollCalls,
   districtsUrl = DEFAULT_DISTRICTS_URL,
 }: Props) => {
+  const cosponsorships = COSPONSORSHIPS_BY_BILL;
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [selectedRollCallId, setSelectedRollCallId] = useState(
@@ -54,8 +57,14 @@ export const VoteMap = ({
 
   // Build the per-district color expression for the active roll call.
   const districtSnapshots = useMemo(
-    () => (selectedRollCall ? snapshotByDistrict(selectedRollCall) : new Map()),
-    [selectedRollCall],
+    () =>
+      selectedRollCall
+        ? snapshotByDistrict(
+            selectedRollCall,
+            cosponsorships?.get(selectedRollCall.bill.id),
+          )
+        : new Map(),
+    [selectedRollCall, cosponsorships],
   );
 
   useEffect(() => {
@@ -211,9 +220,16 @@ export const VoteMap = ({
     ];
 
     // Collect (district, color) pairs.
+    // Priority: vote color > cosponsor purple > gray.
     for (const [district, snap] of districtSnapshots) {
       matchExpression.push(district);
-      matchExpression.push(snap.vote ? VOTE_COLORS[snap.vote] : NO_VOTE_FILL);
+      if (snap.vote) {
+        matchExpression.push(VOTE_COLORS[snap.vote]);
+      } else if (snap.isCosponsor) {
+        matchExpression.push(COSPONSOR_FILL);
+      } else {
+        matchExpression.push(NO_VOTE_FILL);
+      }
     }
     matchExpression.push(NO_VOTE_FILL); // fallback
 

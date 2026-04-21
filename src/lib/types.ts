@@ -20,6 +20,16 @@ export interface Member {
   chamber: Chamber;
   /** District number as a string, e.g. "182". */
   district: string;
+  /** Current = actively serving; former = left office (ran elsewhere, retired, lost, etc.). */
+  status?: "current" | "former";
+  /** Month/year when they left office, e.g. "2024-12". Optional and only for former members. */
+  termEnd?: string;
+  /** Free-text explanation of termEnd for former members, e.g. "Ran for Lehigh County Executive". */
+  termEndNote?: string;
+  /** Official email address (Capitol office). */
+  email?: string;
+  /** URL to the palegis.us bio page. */
+  bioUrl?: string;
 }
 
 export interface MemberVote {
@@ -27,17 +37,64 @@ export interface MemberVote {
   vote: Vote;
 }
 
+/** What phase a bill is in. Memos are pre-introduction. */
+export type BillStatus =
+  | "memo" // Cosponsorship memo, not yet introduced
+  | "introduced" // Assigned a number, referred to committee
+  | "in_committee"
+  | "passed_committee"
+  | "laid_on_table"
+  | "passed_chamber" // Passed originating chamber
+  | "other_chamber" // Received in the opposite chamber
+  | "conference"
+  | "enacted"
+  | "dead"; // Failed or session-ended without action
+
+/** Policy area — a bill may have multiple. */
+export type BillTopic =
+  | "adu" // Accessory dwelling units
+  | "missing_middle" // Duplex/triplex/fourplex in SFH areas
+  | "occupancy" // Unrelated-person occupancy caps (Golden Girls)
+  | "parking" // Parking-minimum preemption
+  | "tod" // Transit-oriented development
+  | "commercial_conversion" // Residential-in-commercial zones
+  | "single_stair" // Single-exit stairwell
+  | "governance" // Housing council, ombudsman, etc.
+  | "funding" // Grants, tax abatements
+  | "workforce" // Builder training
+  | "study"; // Resolutions directing studies
+
+/** Bill vs. resolution vs. cosponsorship memo. */
+export type BillKind = "bill" | "resolution" | "memo";
+
 export interface Bill {
-  /** e.g. "HB1294" — no spaces, no session year. */
+  /** e.g. "HB2186" — no spaces, no session year. Or "house-memo-47776" for memos. */
   id: string;
-  /** Display label, e.g. "HB 1294". */
+  /** Display label, e.g. "HB 2186" or "House Memo 47776". */
   label: string;
-  session: string; // e.g. "2025-2026"
+  session: "2023-2024" | "2025-2026";
   chamber: Chamber;
+  kind: BillKind;
   shortTitle: string;
   description: string;
-  /** Optional canonical URL on palegis.us. */
+  topics: BillTopic[];
+  status: BillStatus;
+  /** Prime sponsor's district (e.g. "38"). Chamber inferred from Bill.chamber. */
+  primeSponsorDistrict: string;
+  /** Committee of current reference, if any. */
+  committee?: string;
+  /** ISO date when introduced/referred. */
+  introducedDate?: string;
+  /** ISO date of most recent action. */
+  lastActionDate?: string;
+  /** Free-text describing latest action, e.g. "Laid on the table, April 13, 2026". */
+  lastActionNote?: string;
+  /** Prior bill IDs this is a successor to (e.g. HB 2185 → ["HB2045","HB1976"]). */
+  priorVersions?: string[];
+  /** Canonical palegis.us bill info page. */
   sourceUrl?: string;
+  /** Direct PDF of the bill text. */
+  billTextUrl?: string;
 }
 
 export interface RollCall {
@@ -102,6 +159,12 @@ export type MunicipalClass =
   | "second_class_township"
   | "town" // Bloomsburg
   | "other";
+
+export interface Cosponsorship {
+  billId: string;
+  primeSponsor: { name: string; district: string; party: Party };
+  cosponsors: Array<{ name: string; district: string; party: Party }>;
+}
 
 export const MUNICIPAL_CLASS_LABELS: Record<MunicipalClass, string> = {
   first_class_city: "First-class city",

@@ -1,0 +1,204 @@
+district,name,party,hb2186_vote,hb2109_vote,hb2186_cosponsor,hb2109_cosponsor,support,senate_district,overlap_share
+14,,,,,False,False,none,47,1.0
+83,,,,,False,False,none,23,1.0
+149,,,,,False,False,none,17,1.0
+199,,,,,False,False,none,34,1.0
+11,,,,,False,False,none,21,1.0
+105,,,,,False,False,none,15,1.0
+62,,,,,False,False,none,41,1.0
+57,,,,,False,False,none,39,1.0
+2,,,,,False,False,none,49,1.0
+156,,,,,False,False,none,19,1.0
+3,,,,,False,False,none,49,1.0
+23,,,,,False,False,none,43,1.0
+1,,,,,False,False,none,49,1.0
+108,,,,,False,False,none,27,1.0
+145,,,,,False,False,none,16,1.0
+49,Ismail Smith-Wade-El,D,Yea,Yea,True,True,voted_yea,13,1.0
+142,Joe Hogan,R,,,True,False,cosponsor,6,1.0
+73,Dallas Kephart,R,Yea,Yea,False,False,voted_yea,35,1.0
+7,,,,,False,False,none,50,1.0
+94,,,,,False,False,none,28,1.0
+175,,,,,False,False,none,1,1.0
+176,,,,,False,False,none,40,1.0
+26,,,,,False,False,none,44,1.0
+123,Tim Twardzik,R,Nay,Yea,False,False,voted_yea,29,1.0
+106,,,,,False,False,none,15,1.0
+44,,,,,False,False,none,37,1.0
+67,,,,,False,False,none,25,1.0
+50,,,,,False,False,none,46,1.0
+115,Maureen Madden,D,,,True,True,cosponsor,40,1.0
+90,,,,,False,False,none,33,1.0
+116,,,,,False,False,none,29,1.0
+53,,,,,False,False,none,12,1.0
+136,Robert Freeman,D,,,True,False,cosponsor,18,1.0
+18,,,,,False,False,none,6,1.0
+127,,,,,False,False,none,11,1.0
+48,,,,,False,False,none,46,1.0
+69,,,,,False,False,none,32,1.0
+191,,,,,False,False,none,8,1.0
+114,,,,,False,False,none,22,1.0
+178,,,,,False,False,none,6,1.0
+25,Brandon Markosek,D,Yea,Yea,False,False,voted_yea,45,1.0
+80,,,,,False,False,none,30,1.0
+151,,,,,False,False,none,12,1.0
+126,,,,,False,False,none,11,1.0
+52,,,,,False,False,none,32,1.0
+170,,,,,False,False,none,5,1.0
+33,,,,,False,False,none,38,1.0
+159,,,,,False,False,none,9,1.0
+79,,,,,False,False,none,30,1.0
+173,,,,,False,False,none,5,1.0
+16,,,,,False,False,none,47,1.0
+184,,,,,False,False,none,1,1.0
+102,,,,,False,False,none,48,1.0
+93,,,,,False,False,none,28,1.0
+51,,,,,False,False,none,32,1.0
+82,,,,,False,False,none,25,1.0
+89,,,,,False,False,none,33,1.0
+160,,,,,False,False,none,9,1.0
+72,,,,,False,False,none,35,1.0
+31,Perry Warren,D,,,False,True,cosponsor,10,1.0
+182,Ben Waxman,D,Yea,Yea,True,True,voted_yea,1,1.0
+187,,,,,False,False,none,16,1.0
+9,,,,,False,False,none,50,1.0
+172,,,,,False,False,none,5,1.0
+56,Brian Rasel,R,Yea,Nay,False,False,voted_yea,39,1.0
+129,Johanny Cepeda-Freytiz,D,,,True,True,cosponsor,11,1.0
+180,,,,,False,False,none,2,1.0
+22,Ana Tiburcio,D,Yea,Yea,False,False,voted_yea,14,1.0
+169,,,,,False,False,none,28,1.0
+101,,,,,False,False,none,48,1.0
+68,,,,,False,False,none,23,1.0
+29,,,,,False,False,none,10,1.0
+91,,,,,False,False,none,33,1.0
+118,,,,,False,False,none,22,1.0
+100,,,,,False,False,none,13,1.0
+141,,,,,False,False,none,10,1.0
+122,,,,,False,False,none,29,1.0
+154,,,,,False,False,none,4,1.0
+165,,,,,False,False,none,26,1.0
+35,,,,,False,False,none,45,1.0
+174,,,,,False,False,none,5,1.0
+192,Morgan Cephas,D,Yea,Yea,False,False,voted_yea,7,1.0
+12,,,,,False,False,none,47,1.0
+60,Abby Major,R,Yea,Yea,False,True,voted_yea,41,1.0
+84,,,,,False,False,none,23,1.0
+104,Dave Madsen,D,Yea,Yea,False,False,voted_yea,15,1.0
+109,,,,,False,False,none,27,1.0
+164,Gina Curry,D,,,True,True,cosponsor,26,1.0
+92,,,,,False,False,none,31,1.0
+77,,,,,False,False,none,35,0.995
+58,,,,,False,False,none,39,0.993
+5,Eric Weaknecht,R,Nay,Nay,False,False,voted_nay,48,0.986
+120,,,,,False,False,none,20,0.983
+146,Joe Ciresi,D,,,True,True,cosponsor,24,0.979
+137,,,,,False,False,none,18,0.974
+134,,,,,False,False,none,14,0.971
+111,,,,,False,False,none,20,0.969
+155,Danielle Friel Otten,D,,,True,True,cosponsor,44,0.965
+202,Jared Solomon,D,,,True,True,cosponsor,2,0.951
+97,,,,,False,False,none,13,0.936
+41,,,,,False,False,none,36,0.929
+201,,,,,False,False,none,4,0.928
+27,,,,,False,False,none,42,0.923
+144,,,,,False,False,none,6,0.922
+161,,,,,False,False,none,9,0.914
+113,,,,,False,False,none,40,0.907
+152,Nancy Guenst,D,,,False,True,cosponsor,12,0.903
+186,,,,,False,False,none,8,0.897
+195,Keith Harris,D,,,True,True,cosponsor,3,0.892
+140,,,,,False,False,none,10,0.892
+200,,,,,False,False,none,4,0.89
+112,,,,,False,False,none,40,0.882
+147,,,,,False,False,none,24,0.881
+74,Dan Williams,D,,,True,True,cosponsor,44,0.881
+38,John Inglis III,D,,,True,True,cosponsor,45,0.879
+190,G. Roni Green,D,Yea,Yea,False,True,voted_yea,7,0.854
+150,,,,,False,False,none,44,0.848
+4,,,,,False,False,none,49,0.845
+87,,,,,False,False,none,34,0.845
+37,,,,,False,False,none,36,0.839
+157,,,,,False,False,none,19,0.839
+34,,,,,False,False,none,43,0.838
+71,,,,,False,False,none,35,0.838
+6,,,,,False,False,none,50,0.836
+64,,,,,False,False,none,21,0.835
+198,,,,,False,False,none,3,0.822
+133,,,,,False,False,none,14,0.818
+10,Amen Brown,D,Yea,Yea,False,False,voted_yea,7,0.818
+46,,,,,False,False,none,46,0.817
+96,Nikki Rivera,D,,,False,True,cosponsor,36,0.816
+65,,,,,False,False,none,21,0.815
+28,Jeremy Shaffer,R,Nay,Nay,False,False,voted_nay,38,0.814
+20,,,,,False,False,none,38,0.804
+163,Heather Boyd,D,Yea,Yea,False,False,voted_yea,26,0.803
+181,Malcolm Kenyatta,D,,,False,True,cosponsor,3,0.798
+76,,,,,False,False,none,25,0.796
+13,,,,,False,False,none,19,0.786
+194,Tarik Khan,D,,,True,True,cosponsor,7,0.782
+132,,,,,False,False,none,16,0.758
+121,,,,,False,False,none,29,0.751
+138,,,,,False,False,none,18,0.749
+188,Rick Krajewski,D,Yea,Yea,False,False,voted_yea,8,0.745
+135,,,,,False,False,none,18,0.739
+166,,,,,False,False,none,17,0.739
+139,,,,,False,False,none,20,0.734
+81,Rich Irvin,R,Yea,Yea,False,False,voted_yea,30,0.73
+125,,,,,False,False,none,34,0.727
+167,,,,,False,False,none,44,0.715
+15,,,,,False,False,none,46,0.712
+45,,,,,False,False,none,37,0.71
+196,,,,,False,False,none,28,0.706
+143,,,,,False,False,none,16,0.699
+78,,,,,False,False,none,32,0.699
+19,Aerion Abney,D,Yea,Yea,False,False,voted_yea,42,0.682
+75,,,,,False,False,none,25,0.682
+153,Benjamin Sanchez,D,,,False,True,cosponsor,4,0.676
+98,Tom Jones,R,Nay,Nay,False,False,voted_nay,36,0.676
+189,Tarah Probst,D,Yea,Yea,False,False,voted_yea,20,0.676
+85,,,,,False,False,none,27,0.67
+177,,,,,False,False,none,2,0.665
+17,,,,,False,False,none,50,0.663
+119,,,,,False,False,none,20,0.658
+21,Lindsay Powell,D,Yea,Yea,True,True,voted_yea,38,0.655
+54,Greg Scott,D,,,True,True,cosponsor,12,0.646
+183,,,,,False,False,none,14,0.645
+179,,,,,False,False,none,2,0.645
+203,,,,,False,False,none,2,0.642
+197,,,,,False,False,none,3,0.64
+88,,,,,False,False,none,34,0.631
+162,,,,,False,False,none,26,0.626
+86,,,,,False,False,none,34,0.624
+43,,,,,False,False,none,36,0.619
+55,,,,,False,False,none,41,0.616
+24,La'Tasha Mayes,D,Yea,Yea,True,True,voted_yea,38,0.592
+47,,,,,False,False,none,31,0.592
+63,Josh Bashline,R,Yea,Yea,False,False,voted_yea,21,0.59
+110,,,,,False,False,none,23,0.588
+130,,,,,False,False,none,24,0.571
+124,,,,,False,False,none,29,0.568
+103,Nathan Davidson,D,,,True,True,cosponsor,34,0.566
+193,,,,,False,False,none,33,0.548
+95,Carol Hill-Evans,D,,,False,True,cosponsor,28,0.547
+66,,,,,False,False,none,41,0.545
+40,,,,,False,False,none,46,0.544
+59,Leslie Rossi,R,Nay,Nay,False,False,voted_nay,41,0.544
+185,,,,,False,False,none,8,0.534
+158,,,,,False,False,none,19,0.526
+131,Milou Mackenzie,R,Nay,Nay,False,False,voted_nay,16,0.517
+107,,,,,False,False,none,27,0.516
+32,,,,,False,False,none,43,0.511
+171,,,,,False,False,none,30,0.511
+148,,,,,False,False,none,17,0.508
+30,,,,,False,False,none,37,0.503
+61,Liz Hanbidge,D,,,True,False,cosponsor,12,0.503
+42,Jen Mazzocco,D,,,True,False,cosponsor,42,0.49
+36,,,,,False,False,none,43,0.467
+8,,,,,False,False,none,21,0.465
+99,David Zimmerman,R,,,True,False,cosponsor,13,0.459
+117,Jamie Walsh,R,Nay,Nay,False,False,voted_nay,27,0.459
+39,,,,,False,False,none,45,0.454
+168,,,,,False,False,none,9,0.446
+70,,,,,False,False,none,12,0.403
+128,,,,,False,False,none,13,0.35

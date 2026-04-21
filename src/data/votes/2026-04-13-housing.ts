@@ -1,22 +1,16 @@
 import type { RollCall } from "@/lib/types";
 
 /**
- * House Housing & Urban Affairs committee — April 14, 2025.
+ * House Housing & Urban Affairs committee — April 13, 2026.
  *
  * Two state zoning reform bills reported out of committee on the same
  * day, both by 19–7 margins but with different Republican coalitions.
  *
- *   HB 2186 — committee roll call (palegis.us rollcallid TBD)
- *   HB 2109 — committee roll call (palegis.us rollcallid TBD)
- *
- * !!  ACTION REQUIRED  !!
- * The two source URLs below are intentionally set to whichever
- * rollcallid we *guessed* — we still need to confirm which palegis.us
- * rollcallid corresponds to which bill. Update the `sourceUrl` and
- * `bill.sourceUrl` fields below once confirmed.
+ *   HB 2186 — committee roll call (palegis.us rollcallid=1915)
+ *   HB 2109 — committee roll call (palegis.us rollcallid=1909)
  *
  * Vote details transcribed from the official roll call summary
- * screenshots provided 2025-04-14.
+ * screenshots provided 2026-04-13.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -24,26 +18,26 @@ import type { RollCall } from "@/lib/types";
 /* -------------------------------------------------------------------------- */
 
 export const ROLL_CALL_HB2186: RollCall = {
-  id: "2025-04-14-house-housing-hb2186",
-  date: "2025-04-14",
+  id: "2026-04-13-house-housing-hb2186",
+  date: "2026-04-13",
   chamber: "House",
-  committee: "Housing and Urban Affairs",
+  committee: "Housing and Community Development",
   bill: {
     id: "HB2186",
     label: "HB 2186",
     session: "2025-2026",
     chamber: "House",
-    shortTitle: "TODO: short title",
-    description: "TODO: one-sentence plain-English summary",
+    shortTitle: "Accessory Dwelling Units",
+    description:
+      "Requires municipalities to allow accessory dwelling units (ADUs) — small secondary homes on single-family lots — statewide.",
     sourceUrl:
-      "https://www.palegis.us/cfdocs/billInfo/billInfo.cfm?syear=2025&sind=0&body=H&type=B&bn=2186",
+      "https://www.palegis.us/legislation/bills/2025/hb2186",
   },
   motion: "That House Bill 2186 be reported as committed.",
   outcome: "Passed",
   totals: { yea: 19, nay: 7, notVoting: 0 },
-  // !! VERIFY: which rollcallid corresponds to HB 2186?
   sourceUrl:
-    "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=64&rollcallid=1909&sessYr=2025&sessInd=0",
+    "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=64&rollcallid=1915&sessYr=2025&sessInd=0",
   votes: [
     // Democrats — all Yea
     { memberId: "house-2025-markosek", vote: "Yea" },
@@ -81,26 +75,26 @@ export const ROLL_CALL_HB2186: RollCall = {
 /* -------------------------------------------------------------------------- */
 
 export const ROLL_CALL_HB2109: RollCall = {
-  id: "2025-04-14-house-housing-hb2109",
-  date: "2025-04-14",
+  id: "2026-04-13-house-housing-hb2109",
+  date: "2026-04-13",
   chamber: "House",
-  committee: "Housing and Urban Affairs",
+  committee: "Housing and Community Development",
   bill: {
     id: "HB2109",
     label: "HB 2109",
     session: "2025-2026",
     chamber: "House",
-    shortTitle: "TODO: short title",
-    description: "TODO: one-sentence plain-English summary",
+    shortTitle: "Occupancy Limits Preemption",
+    description:
+      "Bars municipalities from capping the number of unrelated people who can live together, removing a common barrier to shared housing.",
     sourceUrl:
-      "https://www.palegis.us/cfdocs/billInfo/billInfo.cfm?syear=2025&sind=0&body=H&type=B&bn=2109",
+      "https://www.palegis.us/legislation/bills/2025/hb2109",
   },
   motion: "That House Bill 2109 be reported as committed.",
   outcome: "Passed",
   totals: { yea: 19, nay: 7, notVoting: 0 },
-  // !! VERIFY: which rollcallid corresponds to HB 2109?
   sourceUrl:
-    "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=64&rollcallid=1915&sessYr=2025&sessInd=0",
+    "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=64&rollcallid=1909&sessYr=2025&sessInd=0",
   votes: [
     // Democrats — all Yea (same as HB 2186)
     { memberId: "house-2025-markosek", vote: "Yea" },
@@ -133,7 +127,7 @@ export const ROLL_CALL_HB2109: RollCall = {
   ],
 };
 
-export const APRIL_14_2025_ROLL_CALLS: RollCall[] = [
+export const APRIL_13_2026_ROLL_CALLS: RollCall[] = [
   ROLL_CALL_HB2186,
   ROLL_CALL_HB2109,
 ];
