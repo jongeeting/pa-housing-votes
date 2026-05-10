@@ -265,6 +265,41 @@ code {
   margin: 0.5rem 0;
 }
 
+/* Map controls ------------------------------------------------------------ */
+
+.vote-map__controls {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
+}
+.vote-map__toggle {
+  pointer-events: auto;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--fg);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.vote-map__toggle:hover {
+  border-color: #94a3b8;
+}
+.vote-map__toggle.is-active {
+  background: #1f2937;
+  color: #fff;
+  border-color: #1f2937;
+}
+
 /* Popup ------------------------------------------------------------------- */
 
 .popup {

@@ -144,6 +144,15 @@ export interface DistrictProperties {
     populationShare: number; // 0..1
   }>;
   /**
+   * Top counties by population share within this district. Most districts
+   * sit entirely in one county; rural districts may span 3-5.
+   */
+  topCounties: Array<{
+    name: string;
+    geoid: string; // 5-char FIPS, e.g. "42101" for Philadelphia
+    populationShare: number; // 0..1
+  }>;
+  /**
    * Aggregate share of district population by municipal class.
    * Keys sum to ~1.0 (some areas may be unincorporated → "other").
    */
@@ -151,14 +160,14 @@ export interface DistrictProperties {
 }
 
 export type MunicipalClass =
-  | "first_class_city" // Philadelphia
-  | "second_class_city" // Pittsburgh, Scranton
-  | "second_class_a_city"
-  | "third_class_city"
+  | "first_class_city" // Philadelphia (only one)
+  | "second_class_city" // Pittsburgh (only one)
+  | "second_class_a_city" // Scranton (only one)
+  | "third_class_city" // ~53 of these (Allentown, Erie, Reading, Lancaster, York, etc.)
   | "borough"
-  | "first_class_township"
-  | "second_class_township"
-  | "town" // Bloomsburg
+  | "first_class_township" // ~93 of these — older "1970s suburban boom" tier
+  | "second_class_township" // ~1,450 of these — exurban / rural tier
+  | "town" // Bloomsburg (only one)
   | "other";
 
 export interface Cosponsorship {

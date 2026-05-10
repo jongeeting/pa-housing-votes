@@ -19,11 +19,17 @@ interface TopMuniRow {
   populationShare: number;
 }
 
-const parseTopMunis = (raw: unknown): TopMuniRow[] => {
-  if (Array.isArray(raw)) return raw as TopMuniRow[];
+interface TopCountyRow {
+  name: string;
+  geoid: string;
+  populationShare: number;
+}
+
+const parseList = <T,>(raw: unknown): T[] => {
+  if (Array.isArray(raw)) return raw as T[];
   if (typeof raw === "string") {
     try {
-      return JSON.parse(raw) as TopMuniRow[];
+      return JSON.parse(raw) as T[];
     } catch {
       return [];
     }
@@ -71,7 +77,8 @@ export const DistrictPopup = ({
   const member = MEMBERS_BY_DISTRICT.get(district) ?? null;
   const population = Number(properties.population ?? 0);
   const landAreaSqMi = Number(properties.landAreaSqMi ?? 0);
-  const topMunis = parseTopMunis(properties.topMunicipalities);
+  const topMunis = parseList<TopMuniRow>(properties.topMunicipalities);
+  const topCounties = parseList<TopCountyRow>(properties.topCounties);
   const classShares = parseClassShares(properties.classShares);
 
   // Sort class shares for the stacked bar.
@@ -168,6 +175,24 @@ export const DistrictPopup = ({
           </div>
         </dl>
       </div>
+
+      {topCounties.length > 0 && (
+        <div className="popup__section">
+          <div className="popup__section-title">
+            {topCounties.length === 1 ? "County" : "Top counties"}
+          </div>
+          <ul className="popup__munis">
+            {topCounties.slice(0, 5).map((c) => (
+              <li key={c.geoid}>
+                <span className="popup__muni-name">{c.name} County</span>
+                <span className="popup__muni-share">
+                  {formatPct(c.populationShare)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {topMunis.length > 0 && (
         <div className="popup__section">

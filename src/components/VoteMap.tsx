@@ -20,9 +20,12 @@ interface Props {
   rollCalls: RollCall[];
   /** Path (relative to site root) of the districts GeoJSON. */
   districtsUrl?: string;
+  /** Path of the counties GeoJSON used by the toggleable county layer. */
+  countiesUrl?: string;
 }
 
 const DEFAULT_DISTRICTS_URL = "/data/pa_house_districts.geojson";
+const DEFAULT_COUNTIES_URL = "/data/pa_counties.geojson";
 
 const PA_BOUNDS: [[number, number], [number, number]] = [
   [-80.6, 39.6],
@@ -37,6 +40,7 @@ const PA_BOUNDS: [[number, number], [number, number]] = [
 export const VoteMap = ({
   rollCalls,
   districtsUrl = DEFAULT_DISTRICTS_URL,
+  countiesUrl = DEFAULT_COUNTIES_URL,
 }: Props) => {
   const cosponsorships = COSPONSORSHIPS_BY_BILL;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,6 +53,7 @@ export const VoteMap = ({
     properties: Record<string, unknown>;
   } | null>(null);
   const [mapReady, setMapReady] = useState(false);
+  const [showCounties, setShowCounties] = useState(false);
 
   const selectedRollCall = useMemo(
     () => rollCalls.find((r) => r.id === selectedRollCallId) ?? rollCalls[0],
@@ -175,6 +180,35 @@ export const VoteMap = ({
         filter: ["==", ["get", "district"], "__none__"],
       });
 
+      // County polygons — added as a hidden line layer on top, toggled
+      // via setLayoutProperty when the user clicks the Counties button.
+      // Rendered above district outlines so county boundaries are
+      // visible against the district mosaic.
+      map.addSource("counties", {
+        type: "geojson",
+        data: countiesUrl,
+      });
+
+      map.addLayer({
+        id: "counties-outline",
+        type: "line",
+        source: "counties",
+        layout: { visibility: "none" },
+        paint: {
+          "line-color": "#1f2937",
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            5,
+            1.2,
+            10,
+            2.4,
+          ],
+          "line-opacity": 0.85,
+        },
+      });
+
       map.on("click", "districts-fill", (e) => {
         const feature = e.features?.[0];
         if (!feature) return;
@@ -206,7 +240,19 @@ export const VoteMap = ({
       mapRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [districtsUrl]);
+  }, [districtsUrl, countiesUrl]);
+
+  // Toggle county layer visibility when the user clicks the Counties button.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    if (!map.getLayer("counties-outline")) return;
+    map.setLayoutProperty(
+      "counties-outline",
+      "visibility",
+      showCounties ? "visible" : "none",
+    );
+  }, [showCounties, mapReady]);
 
   // Re-paint district fills whenever the selected roll call changes.
   useEffect(() => {
@@ -279,6 +325,16 @@ export const VoteMap = ({
       />
       <div className="vote-map__canvas-wrap">
         <div ref={containerRef} className="vote-map__canvas" />
+        <div className="vote-map__controls">
+          <button
+            type="button"
+            className={`vote-map__toggle${showCounties ? " is-active" : ""}`}
+            onClick={() => setShowCounties((v) => !v)}
+            aria-pressed={showCounties}
+          >
+            County lines
+          </button>
+        </div>
         <Legend rollCall={selectedRollCall} />
         {selectedDistrict && (
           <DistrictPopup
