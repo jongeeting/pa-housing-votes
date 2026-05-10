@@ -9,6 +9,7 @@ dependencies = [
   "pandas>=2.2",
   "requests>=2.32",
   "tqdm>=4.66",
+  "beautifulsoup4>=4.12",
 ]
 
 [tool.ruff]
