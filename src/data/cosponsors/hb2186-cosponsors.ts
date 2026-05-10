@@ -2,7 +2,11 @@ import type { Cosponsorship } from "@/lib/types";
 
 /**
  * HB 2186 — Accessory Dwelling Units.
- * Cosponsors transcribed from palegis.us bill page screenshot 2026-04-14.
+ *
+ * Cosponsors per the PN 3373 introducer list (post-second-consideration,
+ * 2026-05-06). Differs from the PN 3173 introducer list captured 2026-04-14:
+ * Sean Dougherty (HD-172) added; Robert Freeman (HD-136) removed. Freeman
+ * still voted Yea on the floor vote despite dropping his cosponsorship.
  */
 export const HB2186_COSPONSORSHIP: Cosponsorship = {
   billId: "HB2186",
@@ -15,7 +19,6 @@ export const HB2186_COSPONSORSHIP: Cosponsorship = {
     { name: "David Zimmerman", district: "99", party: "R" },
     { name: "Ismail Smith-Wade-El", district: "49", party: "D" },
     { name: "Lindsay Powell", district: "21", party: "D" },
-    { name: "Robert Freeman", district: "136", party: "D" },
     { name: "Liz Hanbidge", district: "61", party: "D" },
     { name: "Danielle Friel Otten", district: "155", party: "D" },
     { name: "Ben Waxman", district: "182", party: "D" },
@@ -28,5 +31,6 @@ export const HB2186_COSPONSORSHIP: Cosponsorship = {
     { name: "Gina Curry", district: "164", party: "D" },
     { name: "Jen Mazzocco", district: "42", party: "D" },
     { name: "Joe Hogan", district: "142", party: "R" },
+    { name: "Sean Dougherty", district: "172", party: "D" },
   ],
 };

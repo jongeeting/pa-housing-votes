@@ -43,7 +43,7 @@ export const Legend = ({ rollCall }: Props) => {
             className="legend__swatch"
             style={{ background: NO_VOTE_FILL }}
           />
-          Not on committee
+          No record
         </li>
       </ul>
       <div className="legend__divider" />

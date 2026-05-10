@@ -77,7 +77,8 @@ export const HB2109: Bill = {
   lastActionNote:
     "Passed committee 19–7 April 13, 2026 (as amended); first consideration same day; laid on table pending floor scheduling.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2109",
-  billTextUrl: "/data/bills/HB2109-PN3172.pdf",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2109/PN3172",
 };
 
 export const HB2186: Bill = {
@@ -90,15 +91,16 @@ export const HB2186: Bill = {
   description:
     "Requires municipalities to allow accessory dwelling units (ADUs) — small secondary homes on single-family lots — statewide.",
   topics: ["adu"],
-  status: "laid_on_table",
+  status: "passed_2nd_consideration",
   primeSponsorDistrict: "38", // John Inglis III
   committee: "Housing and Community Development",
   introducedDate: "2026-02-02",
-  lastActionDate: "2026-04-13",
+  lastActionDate: "2026-05-06",
   lastActionNote:
-    "Passed committee 19–7 April 13, 2026 (as amended); first consideration same day; laid on table pending floor scheduling.",
+    "Passed second consideration 134–67 on May 6, 2026 (as amended by A3220); reprinted as PN 3373; awaiting third consideration / final passage.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2186",
-  billTextUrl: "/data/bills/HB2186-PN3173.pdf",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2186/PN3373",
 };
 
 export const HB2155: Bill = {

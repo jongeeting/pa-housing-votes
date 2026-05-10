@@ -44,7 +44,8 @@ export type BillStatus =
   | "in_committee"
   | "passed_committee"
   | "laid_on_table"
-  | "passed_chamber" // Passed originating chamber
+  | "passed_2nd_consideration" // Cleared 2nd consideration; awaiting 3rd / final passage
+  | "passed_chamber" // Passed originating chamber on 3rd consideration / final passage
   | "other_chamber" // Received in the opposite chamber
   | "conference"
   | "enacted"

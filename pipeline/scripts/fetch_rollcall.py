@@ -77,6 +77,24 @@ def _natural_surname(display_name: str) -> str | None:
     return tokens[-1] if tokens else None
 
 
+def _slugify(display_name: str) -> str:
+    """Build a URL-safe slug from a member's display name.
+
+    Palegis publishes slugs in bio hrefs (e.g. rep-john-inglis-iii), but
+    their HTML quoting is broken for names containing apostrophes —
+    href='/.../rep-la'tasha-mayes' truncates at the apostrophe. We
+    therefore synthesize our own slug from the display name instead of
+    trusting palegis's href.
+
+    "La'Tasha Mayes" → "la-tasha-mayes", "Joseph D'Orsie" → "joseph-d-orsie",
+    "Timothy J. O'Neal" → "timothy-j-o-neal".
+    """
+    lowered = display_name.lower()
+    # Replace anything that isn't a-z0-9 with a hyphen, collapse runs.
+    slug = re.sub(r"[^a-z0-9]+", "-", lowered).strip("-")
+    return slug
+
+
 def fetch_html(session: str, chamber: str, rc_num: int, refetch: bool) -> Path:
     url = (
         f"https://www.palegis.us/{chamber}/roll-calls/summary"
@@ -106,9 +124,12 @@ def parse_member(block) -> dict | None:
     m = BIO_RE.search(href)
     if not m:
         return None
-    bio_id, slug = m.group(2), m.group(4)
+    bio_id = m.group(2)
 
     display = re.sub(r"^Rep\.\s+|^Sen\.\s+", "", anchor.get_text(strip=True))
+    # Synthesize slug from display name rather than trusting palegis's
+    # broken-quoting href slug; see _slugify docstring.
+    slug = _slugify(display)
 
     party_badge = block.select_one("span.badge[class*='bg-party-']")
     party = None

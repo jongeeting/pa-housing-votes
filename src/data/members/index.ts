@@ -1,40 +1,40 @@
 import type { Member } from "@/lib/types";
+import { PA_HOUSE_MEMBERS_2025 } from "./pa-house-2025";
 import { HOUSING_COMMITTEE_MEMBERS_2025 } from "./committee-housing-2025";
 import { LOCALGOV_COMMITTEE_MEMBERS_2023 } from "./localgov-2023";
 
 /**
  * All known members across sessions.
  *
- * - HOUSING_COMMITTEE_MEMBERS_2025: the current House Housing & Community
- *   Development Committee (26 members).
- * - LOCALGOV_COMMITTEE_MEMBERS_2023: the 25 members of the 2023–24 House
- *   Local Government Committee who voted on HB 1976 / HB 2045.
+ * - PA_HOUSE_MEMBERS_2025: the canonical 2025-2026 House roster (201
+ *   sitting members; 2 vacant seats). Built from the HB 2186 floor
+ *   vote roll call (rcNum 1054).
+ * - LOCALGOV_COMMITTEE_MEMBERS_2023: 25 historical members of the
+ *   2023-24 House Local Government Committee, kept around so the HB
+ *   1976 / HB 2045 roll calls resolve correctly. IDs use the
+ *   `house-2023-` prefix to avoid collisions with current incumbents.
  *
- * Some legislators appear in both (e.g. Smith-Wade-El served on Local
- * Gov in 2023–24 and on Housing in 2025–26) — they have distinct member
- * IDs per session so roll call lookups resolve to the right record.
- *
- * As the site grows, additional cohorts (Senate committees, full
- * chambers for letter lookups) can be composed in here.
+ * HOUSING_COMMITTEE_MEMBERS_2025 is a derived view of PA_HOUSE_MEMBERS_2025
+ * (committee-housing-2025.ts looks members up by ID), so it is NOT
+ * included separately in MEMBERS — that would double-count.
  */
 export const MEMBERS: Member[] = [
-  ...HOUSING_COMMITTEE_MEMBERS_2025,
+  ...PA_HOUSE_MEMBERS_2025,
   ...LOCALGOV_COMMITTEE_MEMBERS_2023,
 ];
 
 /**
- * Lookup by district number. Only the current (2025–26) Housing committee
- * for now — the popup uses this to render "who represents this district
- * today." When we expand to the full House + Senate member directory,
- * this can widen. The 2023–24 Local Government roster is deliberately
- * NOT in here so it doesn't shadow the current incumbent when both
- * served in the same district (e.g. Smith-Wade-El HD-49).
+ * Lookup by district number. Built from the full current House roster
+ * so every district maps to its sitting rep — the popup uses this for
+ * "who represents this district today." The 2023-24 Local Government
+ * cohort is deliberately NOT included so historical members do not
+ * shadow current incumbents.
  */
 export const MEMBERS_BY_DISTRICT = new Map(
-  HOUSING_COMMITTEE_MEMBERS_2025
-    .filter((m) => m.district !== "")
-    .map((m) => [m.district, m]),
+  PA_HOUSE_MEMBERS_2025.map((m) => [m.district, m]),
 );
 
 /** Lookup by member ID (includes former members for historical roll calls). */
 export const MEMBERS_BY_ID = new Map(MEMBERS.map((m) => [m.id, m]));
+
+export { HOUSING_COMMITTEE_MEMBERS_2025 };

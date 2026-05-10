@@ -100,31 +100,11 @@ export const DistrictPopup = ({
             </span>{" "}
             {member.fullName}
           </div>
-        ) : (() => {
-          // Try to find the rep's name from cosponsorship data
-          const csInfo = COSPONSORSHIPS_BY_BILL
-            ? Array.from(COSPONSORSHIPS_BY_BILL.values()).reduce<{ name: string | null; party: string | null }>((acc, cs) => {
-                if (acc.name) return acc;
-                if (cs.primeSponsor.district === district)
-                  return { name: cs.primeSponsor.name, party: cs.primeSponsor.party };
-                const match = cs.cosponsors.find((c) => c.district === district);
-                if (match) return { name: match.name, party: match.party };
-                return acc;
-              }, { name: null, party: null })
-            : { name: null, party: null };
-          return csInfo.name ? (
-            <div className="popup__member">
-              <span className={`popup__party popup__party--${csInfo.party?.toLowerCase()}`}>
-                {csInfo.party}
-              </span>{" "}
-              {csInfo.name}
-            </div>
-          ) : (
-            <div className="popup__member popup__member--unknown">
-              Not on committee
-            </div>
-          );
-        })()}
+        ) : (
+          <div className="popup__member popup__member--unknown">
+            Vacant seat
+          </div>
+        )}
       </div>
 
       <div className="popup__section">
@@ -164,7 +144,7 @@ export const DistrictPopup = ({
                       </span>
                     ) : (
                       <span className="popup__vote-pill popup__vote-pill--none">
-                        Not on committee
+                        —
                       </span>
                     )}
                   </td>

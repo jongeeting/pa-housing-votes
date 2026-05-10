@@ -3,7 +3,7 @@
   "chamber": "house",
   "rcNum": 1054,
   "sourceUrl": "https://www.palegis.us/house/roll-calls/summary?sessYr=2025&sessInd=0&rcNum=1054",
-  "fetchedAt": "2026-05-10T19:39:37+00:00",
+  "fetchedAt": "2026-05-10T19:44:58+00:00",
   "voteDate": "2026-05-06",
   "voteTime": "3:15 PM",
   "bill": {
@@ -331,7 +331,7 @@
     },
     {
       "bioId": "1947",
-      "slug": "joseph-d",
+      "slug": "joseph-d-orsie",
       "displayName": "Joseph D'Orsie",
       "lastName": "D'Orsie",
       "party": "R",
@@ -1060,7 +1060,7 @@
     },
     {
       "bioId": "1941",
-      "slug": "la",
+      "slug": "la-tasha-mayes",
       "displayName": "La'Tasha Mayes",
       "lastName": "Mayes",
       "party": "D",
@@ -1222,7 +1222,7 @@
     },
     {
       "bioId": "1855",
-      "slug": "jennifer-o",
+      "slug": "jennifer-o-mara",
       "displayName": "Jennifer O'Mara",
       "lastName": "O'Mara",
       "party": "D",
@@ -1231,7 +1231,7 @@
     },
     {
       "bioId": "1797",
-      "slug": "timothy-j-o",
+      "slug": "timothy-j-o-neal",
       "displayName": "Timothy J. O'Neal",
       "lastName": "O'Neal",
       "party": "R",

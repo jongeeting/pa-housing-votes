@@ -1,232 +1,72 @@
 import type { Member } from "@/lib/types";
+import { PA_HOUSE_MEMBERS_2025 } from "./pa-house-2025";
 
 /**
- * House Housing & Urban Affairs committee, 2025–2026 session.
+ * House Housing & Community Development committee, 2025-2026 session.
  *
  * 14 Democrats + 12 Republicans = 26 total members.
  *
- * !!  ACTION REQUIRED  !!
- * District numbers are intentionally left as empty strings until they
- * are verified. Paste each member's PA House district number into the
- * `district` field below, then re-run `bun run dev`. The map will
- * automatically color those districts as soon as the value is non-empty.
- *
- * Easiest source for district lookup:
- *   https://www.legis.state.pa.us/cfdocs/legis/home/member_information/representatives.cfm
- *
- * Member ID format: "house-2025-<district>-<lastname-lower-kebab>"
- * Update the IDs after filling in districts so they stay descriptive.
+ * Members are referenced by ID from PA_HOUSE_MEMBERS_2025 (the canonical
+ * full-house roster). This file holds only committee membership and role
+ * annotations — Member objects themselves live in pa-house-2025.ts.
  */
-export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] = [
-  // ----- Democrats (Majority) -----
-  {
-    id: "house-2025-markosek",
-    fullName: "Brandon Markosek",
-    lastName: "Markosek",
-    party: "D",
-    chamber: "House",
-    district: "25", // Chair
-  },
-  {
-    id: "house-2025-abney",
-    fullName: "Aerion Abney",
-    lastName: "Abney",
-    party: "D",
-    chamber: "House",
-    district: "19",
-  },
-  {
-    id: "house-2025-boyd",
-    fullName: "Heather Boyd",
-    lastName: "Boyd",
-    party: "D",
-    chamber: "House",
-    district: "163",
-  },
-  {
-    id: "house-2025-brown",
-    fullName: "Amen Brown",
-    lastName: "Brown",
-    party: "D",
-    chamber: "House",
-    district: "10",
-  },
-  {
-    id: "house-2025-cephas",
-    fullName: "Morgan Cephas",
-    lastName: "Cephas",
-    party: "D",
-    chamber: "House",
-    district: "192",
-  },
-  {
-    id: "house-2025-green",
-    fullName: "G. Roni Green",
-    lastName: "Green",
-    party: "D",
-    chamber: "House",
-    district: "190",
-  },
-  {
-    id: "house-2025-krajewski",
-    fullName: "Rick Krajewski",
-    lastName: "Krajewski",
-    party: "D",
-    chamber: "House",
-    district: "188",
-  },
-  {
-    id: "house-2025-madsen",
-    fullName: "Dave Madsen",
-    lastName: "Madsen",
-    party: "D",
-    chamber: "House",
-    district: "104",
-  },
-  {
-    id: "house-2025-mayes",
-    fullName: "La'Tasha Mayes",
-    lastName: "Mayes",
-    party: "D",
-    chamber: "House",
-    district: "24",
-  },
-  {
-    id: "house-2025-powell",
-    fullName: "Lindsay Powell",
-    lastName: "Powell",
-    party: "D",
-    chamber: "House",
-    district: "21",
-  },
-  {
-    id: "house-2025-probst",
-    fullName: "Tarah Probst",
-    lastName: "Probst",
-    party: "D",
-    chamber: "House",
-    district: "189",
-  },
-  {
-    id: "house-2025-smith-wade-el",
-    fullName: "Ismail Smith-Wade-El",
-    lastName: "Smith-Wade-El",
-    party: "D",
-    chamber: "House",
-    district: "49",
-  },
-  {
-    id: "house-2025-tiburcio",
-    fullName: "Ana Tiburcio",
-    lastName: "Tiburcio",
-    party: "D",
-    chamber: "House",
-    district: "22",
-  },
-  {
-    id: "house-2025-waxman",
-    fullName: "Ben Waxman",
-    lastName: "Waxman",
-    party: "D",
-    chamber: "House",
-    district: "182",
-  },
 
-  // ----- Republicans (Minority) -----
-  {
-    id: "house-2025-irvin",
-    fullName: "Rich Irvin",
-    lastName: "Irvin",
-    party: "R",
-    chamber: "House",
-    district: "81", // Republican Chair
-  },
-  {
-    id: "house-2025-bashline",
-    fullName: "Josh Bashline",
-    lastName: "Bashline",
-    party: "R",
-    chamber: "House",
-    district: "63",
-  },
-  {
-    id: "house-2025-jones",
-    fullName: "Tom Jones",
-    lastName: "Jones",
-    party: "R",
-    chamber: "House",
-    district: "98",
-  },
-  {
-    id: "house-2025-kephart",
-    fullName: "Dallas Kephart",
-    lastName: "Kephart",
-    party: "R",
-    chamber: "House",
-    district: "73",
-  },
-  {
-    id: "house-2025-mackenzie",
-    fullName: "Milou Mackenzie",
-    lastName: "Mackenzie",
-    party: "R",
-    chamber: "House",
-    district: "131",
-  },
-  {
-    id: "house-2025-major",
-    fullName: "Abby Major",
-    lastName: "Major",
-    party: "R",
-    chamber: "House",
-    district: "60",
-  },
-  {
-    id: "house-2025-rasel",
-    fullName: "Brian Rasel",
-    lastName: "Rasel",
-    party: "R",
-    chamber: "House",
-    district: "56",
-  },
-  {
-    id: "house-2025-rossi",
-    fullName: "Leslie Rossi",
-    lastName: "Rossi",
-    party: "R",
-    chamber: "House",
-    district: "59",
-  },
-  {
-    id: "house-2025-shaffer",
-    fullName: "Jeremy Shaffer",
-    lastName: "Shaffer",
-    party: "R",
-    chamber: "House",
-    district: "28",
-  },
-  {
-    id: "house-2025-twardzik",
-    fullName: "Tim Twardzik",
-    lastName: "Twardzik",
-    party: "R",
-    chamber: "House",
-    district: "123",
-  },
-  {
-    id: "house-2025-walsh",
-    fullName: "Jamie Walsh",
-    lastName: "Walsh",
-    party: "R",
-    chamber: "House",
-    district: "117",
-  },
-  {
-    id: "house-2025-weaknecht",
-    fullName: "Eric Weaknecht",
-    lastName: "Weaknecht",
-    party: "R",
-    chamber: "House",
-    district: "5",
-  },
+const ROSTER_BY_ID = new Map(PA_HOUSE_MEMBERS_2025.map((m) => [m.id, m]));
+
+interface CommitteeSeat {
+  id: string;
+  role?: "Chair" | "Republican Chair";
+}
+
+const HOUSING_COMMITTEE_SEATS_2025: CommitteeSeat[] = [
+  // Democrats (Majority)
+  { id: "house-2025-brandon-markosek", role: "Chair" },
+  { id: "house-2025-aerion-abney" },
+  { id: "house-2025-heather-boyd" },
+  { id: "house-2025-amen-brown" },
+  { id: "house-2025-morgan-cephas" },
+  { id: "house-2025-g-roni-green" },
+  { id: "house-2025-rick-krajewski" },
+  { id: "house-2025-dave-madsen" },
+  { id: "house-2025-la-tasha-mayes" },
+  { id: "house-2025-lindsay-powell" },
+  { id: "house-2025-tarah-probst" },
+  { id: "house-2025-ismail-smith-wade-el" },
+  { id: "house-2025-ana-tiburcio" },
+  { id: "house-2025-ben-waxman" },
+  // Republicans (Minority)
+  { id: "house-2025-rich-irvin", role: "Republican Chair" },
+  { id: "house-2025-josh-bashline" },
+  { id: "house-2025-tom-jones" },
+  { id: "house-2025-dallas-kephart" },
+  { id: "house-2025-milou-mackenzie" },
+  { id: "house-2025-abby-major" },
+  { id: "house-2025-brian-rasel" },
+  { id: "house-2025-leslie-rossi" },
+  { id: "house-2025-jeremy-shaffer" },
+  { id: "house-2025-tim-twardzik" },
+  { id: "house-2025-jamie-walsh" },
+  { id: "house-2025-eric-weaknecht" },
 ];
+
+const resolveSeat = (seat: CommitteeSeat): Member => {
+  const m = ROSTER_BY_ID.get(seat.id);
+  if (!m) {
+    throw new Error(
+      `Housing committee references unknown member id: ${seat.id}. ` +
+        `If the member retired or was redistricted, update this roster.`,
+    );
+  }
+  return m;
+};
+
+export const HOUSING_COMMITTEE_MEMBERS_2025: Member[] =
+  HOUSING_COMMITTEE_SEATS_2025.map(resolveSeat);
+
+export const HOUSING_COMMITTEE_IDS_2025: ReadonlySet<string> = new Set(
+  HOUSING_COMMITTEE_SEATS_2025.map((s) => s.id),
+);
+
+export const HOUSING_COMMITTEE_ROLES_2025: ReadonlyMap<string, string> = new Map(
+  HOUSING_COMMITTEE_SEATS_2025.filter((s) => s.role).map((s) => [s.id, s.role!]),
+);
