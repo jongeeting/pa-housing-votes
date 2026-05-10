@@ -2,7 +2,7 @@ import type { Cosponsorship } from "@/lib/types";
 
 /**
  * HB 2186 — Accessory Dwelling Units.
- * Cosponsors transcribed from palegis.us bill page screenshot 2025-04-14.
+ * Cosponsors transcribed from palegis.us bill page screenshot 2026-04-14.
  */
 export const HB2186_COSPONSORSHIP: Cosponsorship = {
   billId: "HB2186",
