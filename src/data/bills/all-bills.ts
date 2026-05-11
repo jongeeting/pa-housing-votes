@@ -21,10 +21,10 @@ export const HB1976: Bill = {
   session: "2023-2024",
   chamber: "House",
   kind: "bill",
-  shortTitle: "Multiple-Unit Dwelling Zoning",
+  shortTitle: "Multi-Family Housing in Office Zones",
   description:
-    "Would have required municipalities to allow multiple-unit dwellings (duplexes, triplexes, quadplexes) by right in areas zoned for single-family housing.",
-  topics: ["missing_middle"],
+    "Would have required municipalities to allow multi-family housing by right in areas zoned for office or commercial use — the office-to-residential conversion play. Reintroduced this session as HB 1459.",
+  topics: ["commercial_conversion"],
   status: "laid_on_table",
   primeSponsorDistrict: "22", // Joshua Siegel (former)
   committee: "Local Government",
@@ -35,6 +35,26 @@ export const HB1976: Bill = {
   sourceUrl: "https://www.palegis.us/legislation/bills/2023/hb1976",
 };
 
+export const HB1988: Bill = {
+  id: "HB1988",
+  label: "HB 1988",
+  session: "2023-2024",
+  chamber: "House",
+  kind: "bill",
+  shortTitle: "Single-Stair Study via Construction Code Council",
+  description:
+    "Would have amended the Pennsylvania Construction Code Act so the Uniform Construction Code Review and Advisory Council could study single-exit stairwell apartment buildings — the regulatory predicate for legalizing them. Part of the 2024 Housing Affordability Bill Package. Not known to be reintroduced this session as a bill, but Senate Memo 47956 (Street) covers similar ground.",
+  topics: ["single_stair", "study"],
+  status: "dead",
+  primeSponsorDistrict: "22", // Joshua Siegel (former)
+  committee: "Housing and Community Development",
+  introducedDate: "2024-01-31",
+  lastActionDate: "2024-01-31",
+  lastActionNote:
+    "Referred to Housing & Community Development January 31, 2024; no further action before the 2023–24 session ended.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2023/hb1988",
+};
+
 export const HB2045: Bill = {
   id: "HB2045",
   label: "HB 2045",
@@ -43,7 +63,7 @@ export const HB2045: Bill = {
   kind: "bill",
   shortTitle: "Duplex/Triplex/Quadplex in SFH Areas",
   description:
-    "A companion to HB 1976 allowing duplex, triplex, and quadplex housing by right on lots zoned for single-family homes. Rep. Sappey (D-158) was the one Democratic defector, voting Nay on HB 2045 after voting Yea on HB 1976.",
+    "Would have required municipalities to allow duplex, triplex, and quadplex housing by right on lots zoned for single-family homes — the missing-middle play. Rep. Sappey (D-158) was the one Democratic defector. Reintroduced this session as HB 2185.",
   topics: ["missing_middle"],
   status: "laid_on_table",
   primeSponsorDistrict: "22", // Joshua Siegel (former)
@@ -65,7 +85,7 @@ export const HB2109: Bill = {
   session: "2025-2026",
   chamber: "House",
   kind: "bill",
-  shortTitle: "Occupancy Limits Preemption (Golden Girls Law)",
+  shortTitle: "Occupancy Reform (Golden Girls Law)",
   description:
     "Bars municipalities from capping the number of unrelated people who can live together, removing a common barrier to shared housing arrangements.",
   topics: ["occupancy"],
@@ -219,6 +239,27 @@ export const HR484: Bill = {
 /*  2025–2026 session — Local Government (House)                              */
 /* -------------------------------------------------------------------------- */
 
+export const HB1459: Bill = {
+  id: "HB1459",
+  label: "HB 1459",
+  session: "2025-2026",
+  chamber: "House",
+  kind: "bill",
+  shortTitle: "Multi-Family Housing in Office Zones",
+  description:
+    "Requires municipalities to allow multi-family housing by right in areas zoned for office or commercial use — the office-to-residential conversion play. Reintroduction of HB 1976 from the 2023–2024 session.",
+  topics: ["commercial_conversion"],
+  status: "in_committee",
+  primeSponsorDistrict: "22", // Joshua Siegel (resigned for Lehigh Co. Exec; Inglis flagged as taking over but transfer not yet recorded on palegis as of this writing)
+  committee: "Local Government",
+  introducedDate: "2025-05-13",
+  lastActionDate: "2025-05-13",
+  lastActionNote:
+    "Referred to Local Government May 13, 2025. Prime sponsor Joshua Siegel resigned to run for Lehigh County Executive; Rep. John Inglis III is expected to take over prime sponsorship but the transfer is not yet recorded on palegis.",
+  priorVersions: ["HB1976"],
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb1459",
+};
+
 export const HB2185: Bill = {
   id: "HB2185",
   label: "HB 2185",
@@ -227,7 +268,7 @@ export const HB2185: Bill = {
   kind: "bill",
   shortTitle: "Duplex/Triplex/Fourplex in SFH Areas",
   description:
-    "Requires municipalities to allow duplexes, triplexes, and quadplexes by right in areas zoned for single-family homes. Successor bill to HB 1976 and HB 2045 from the 2023–2024 session.",
+    "Requires municipalities to allow duplexes, triplexes, and quadplexes by right in areas zoned for single-family homes — the missing-middle play. Successor to HB 2045 from the 2023–2024 session.",
   topics: ["missing_middle"],
   status: "in_committee",
   primeSponsorDistrict: "38", // John Inglis III
@@ -235,7 +276,7 @@ export const HB2185: Bill = {
   introducedDate: "2026-02-02",
   lastActionDate: "2026-02-02",
   lastActionNote: "Referred to Local Government.",
-  priorVersions: ["HB1976", "HB2045"],
+  priorVersions: ["HB2045"],
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2185",
 };
 
@@ -326,6 +367,7 @@ export const SENATE_MEMO_48019: Bill = {
 export const ALL_BILLS: Bill[] = [
   // 2023–2024
   HB1976,
+  HB1988,
   HB2045,
   // 2025–2026 Housing & Community Development
   HB2109,
@@ -337,6 +379,7 @@ export const ALL_BILLS: Bill[] = [
   HB2430,
   HR484,
   // 2025–2026 Local Government (House)
+  HB1459,
   HB2185,
   // 2025–2026 Senate
   SB1239,

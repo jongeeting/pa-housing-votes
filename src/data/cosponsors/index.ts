@@ -11,7 +11,9 @@ import { HR484_COSPONSORSHIP } from "./hr484-cosponsors";
 import { SB1239_COSPONSORSHIP } from "./sb1239-cosponsors";
 import { SENATE_MEMO_47956_COSPONSORSHIP } from "./senate-memo-47956-cosponsors";
 import { SENATE_MEMO_48019_COSPONSORSHIP } from "./senate-memo-48019-cosponsors";
+import { HB1459_COSPONSORSHIP } from "./hb1459-cosponsors";
 import { HB1976_COSPONSORSHIP } from "./hb1976-cosponsors";
+import { HB1988_COSPONSORSHIP } from "./hb1988-cosponsors";
 import { HB2045_COSPONSORSHIP } from "./hb2045-cosponsors";
 
 /**
@@ -32,7 +34,9 @@ export const COSPONSORSHIPS: Cosponsorship[] = [
   SB1239_COSPONSORSHIP,
   SENATE_MEMO_47956_COSPONSORSHIP,
   SENATE_MEMO_48019_COSPONSORSHIP,
+  HB1459_COSPONSORSHIP,
   HB1976_COSPONSORSHIP,
+  HB1988_COSPONSORSHIP,
   HB2045_COSPONSORSHIP,
 ];
 

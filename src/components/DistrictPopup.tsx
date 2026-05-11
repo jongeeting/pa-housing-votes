@@ -63,6 +63,19 @@ const formatPct = (n: number) => `${Math.round(n * 100)}%`;
 const formatPop = (n: number) =>
   new Intl.NumberFormat("en-US").format(Math.round(n));
 
+const SHORT_MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+const formatShortDate = (iso: string): string => {
+  // "2026-05-06" → "May 6, 2026"
+  const [y, m, d] = iso.split("-");
+  const mi = parseInt(m, 10) - 1;
+  if (Number.isNaN(mi) || mi < 0 || mi > 11) return iso;
+  return `${SHORT_MONTHS[mi]} ${parseInt(d, 10)}, ${y}`;
+};
+
 interface CosInfo {
   isCosponsor: boolean;
   isSponsor: boolean;
@@ -109,6 +122,28 @@ export const DistrictPopup = ({
   // district shouldn't surface a column of house roll calls.
   const itemsForChamber = items.filter((i) => getMapItemChamber(i) === chamber);
 
+  // Group items by bill so multiple procedural votes (committee + floor)
+  // on the same bill cluster under one bill header. Each group preserves
+  // chronological order (oldest first) so a Nay → Yea flip is visible.
+  const itemsByBill = new Map<string, MapItem[]>();
+  for (const item of itemsForChamber) {
+    const billId = getMapItemBill(item).id;
+    if (!itemsByBill.has(billId)) itemsByBill.set(billId, []);
+    itemsByBill.get(billId)!.push(item);
+  }
+  const itemDate = (item: MapItem) =>
+    item.kind === "rollCall" ? item.rollCall.date : "0";
+  for (const arr of itemsByBill.values()) {
+    arr.sort((a, b) => itemDate(a).localeCompare(itemDate(b)));
+  }
+
+  const phaseLabel = (item: MapItem): string => {
+    const rc = getMapItemRollCall(item);
+    if (!rc) return "Cosponsors only";
+    if (rc.committee) return `Committee (${formatShortDate(rc.date)})`;
+    return `Floor (${formatShortDate(rc.date)})`;
+  };
+
   return (
     <div className="popup" role="dialog" aria-label={`District ${district}`}>
       <button
@@ -139,60 +174,81 @@ export const DistrictPopup = ({
         )}
       </div>
 
-      {itemsForChamber.length > 0 && (
+      {itemsByBill.size > 0 && (
         <div className="popup__section">
           <div className="popup__section-title">
             {chamber === "Senate" ? "Senate bills" : "Bills tracked"}
           </div>
-          <table className="popup__votes">
-            <tbody>
-              {itemsForChamber.map((item) => {
-                const bill = getMapItemBill(item);
-                const rc = getMapItemRollCall(item);
-                const v = rc && member ? findVote(rc, member.id) : undefined;
-                const cs = cosponsorInfoForItem(item, district);
-                return (
-                  <tr key={getMapItemId(item)}>
-                    <td className="popup__bill-cell">{bill.label}</td>
-                    <td>
-                      {v ? (
-                        <>
-                          <span
-                            className="popup__vote-pill"
-                            style={{ background: VOTE_COLORS[v.vote] }}
-                          >
-                            {v.vote}
-                          </span>
-                          {cs.isCosponsor && (
-                            <span
-                              className="popup__vote-pill"
-                              style={{
-                                background: COSPONSOR_FILL,
-                                marginLeft: 4,
-                              }}
-                            >
-                              {cs.isSponsor ? "Sponsor" : "Cosponsor"}
-                            </span>
-                          )}
-                        </>
-                      ) : cs.isCosponsor ? (
-                        <span
-                          className="popup__vote-pill"
-                          style={{ background: COSPONSOR_FILL }}
-                        >
-                          {cs.isSponsor ? "Prime sponsor" : "Cosponsor"}
-                        </span>
-                      ) : (
-                        <span className="popup__vote-pill popup__vote-pill--none">
-                          —
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {Array.from(itemsByBill.entries()).map(([billId, billItems]) => {
+            const bill = getMapItemBill(billItems[0]);
+            // Track prior vote within the bill to flag flips
+            // ("Nay" → "Yea" between procedural stages is politically salient).
+            let priorVote: string | null = null;
+            return (
+              <div key={billId} className="popup__bill-group">
+                <div className="popup__bill-label">
+                  <strong>{bill.label}</strong>{" "}
+                  <span className="popup__bill-title">{bill.shortTitle}</span>
+                </div>
+                <table className="popup__votes">
+                  <tbody>
+                    {billItems.map((item) => {
+                      const rc = getMapItemRollCall(item);
+                      const v = rc && member ? findVote(rc, member.id) : undefined;
+                      const cs = cosponsorInfoForItem(item, district);
+                      const flipped =
+                        v && priorVote && v.vote !== priorVote;
+                      if (v) priorVote = v.vote;
+                      return (
+                        <tr key={getMapItemId(item)}>
+                          <td className="popup__phase-cell">{phaseLabel(item)}</td>
+                          <td className="popup__pill-cell">
+                            {v ? (
+                              <>
+                                <span
+                                  className="popup__vote-pill"
+                                  style={{ background: VOTE_COLORS[v.vote] }}
+                                >
+                                  {v.vote}
+                                </span>
+                                {flipped && (
+                                  <span className="popup__flip-flag">
+                                    flipped
+                                  </span>
+                                )}
+                                {cs.isCosponsor && (
+                                  <span
+                                    className="popup__vote-pill"
+                                    style={{
+                                      background: COSPONSOR_FILL,
+                                      marginLeft: 4,
+                                    }}
+                                  >
+                                    {cs.isSponsor ? "Sponsor" : "Cosponsor"}
+                                  </span>
+                                )}
+                              </>
+                            ) : cs.isCosponsor ? (
+                              <span
+                                className="popup__vote-pill"
+                                style={{ background: COSPONSOR_FILL }}
+                              >
+                                {cs.isSponsor ? "Prime sponsor" : "Cosponsor"}
+                              </span>
+                            ) : (
+                              <span className="popup__vote-pill popup__vote-pill--none">
+                                —
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            );
+          })}
         </div>
       )}
 

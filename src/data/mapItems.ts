@@ -6,6 +6,8 @@ import {
   SB1239,
   SENATE_MEMO_47956,
   SENATE_MEMO_48019,
+  HB1459,
+  HB1988,
   HB2185,
   HB2155,
   HB2192,
@@ -17,6 +19,8 @@ import {
 import { SB1239_COSPONSORSHIP } from "./cosponsors/sb1239-cosponsors";
 import { SENATE_MEMO_47956_COSPONSORSHIP } from "./cosponsors/senate-memo-47956-cosponsors";
 import { SENATE_MEMO_48019_COSPONSORSHIP } from "./cosponsors/senate-memo-48019-cosponsors";
+import { HB1459_COSPONSORSHIP } from "./cosponsors/hb1459-cosponsors";
+import { HB1988_COSPONSORSHIP } from "./cosponsors/hb1988-cosponsors";
 import { HB2185_COSPONSORSHIP } from "./cosponsors/hb2185-cosponsors";
 import { HB2155_COSPONSORSHIP } from "./cosponsors/hb2155-cosponsors";
 import { HB2192_COSPONSORSHIP } from "./cosponsors/hb2192-cosponsors";
@@ -44,6 +48,7 @@ export const ALL_MAP_ITEMS: MapItem[] = [
   { kind: "rollCall", rollCall: ROLL_CALL_HB2186_FLOOR },
 
   // ----- 2025-2026 House cosponsor-only items (no roll call yet) -----
+  { kind: "cosponsorOnly", bill: HB1459, cosponsorship: HB1459_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2185, cosponsorship: HB2185_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2155, cosponsorship: HB2155_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2192, cosponsorship: HB2192_COSPONSORSHIP },
@@ -54,6 +59,9 @@ export const ALL_MAP_ITEMS: MapItem[] = [
 
   // ----- 2023-2024 House roll calls (historical) -----
   ...JUNE_5_2024_ROLL_CALLS.map((rc) => ({ kind: "rollCall" as const, rollCall: rc })),
+
+  // ----- 2023-2024 House cosponsor-only items (historical, no roll call) -----
+  { kind: "cosponsorOnly", bill: HB1988, cosponsorship: HB1988_COSPONSORSHIP },
 
   // ----- 2025-2026 Senate cosponsor-only items -----
   { kind: "cosponsorOnly", bill: SB1239, cosponsorship: SB1239_COSPONSORSHIP },

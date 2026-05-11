@@ -4,10 +4,17 @@ import { HB1976, HB2045 } from "../bills/all-bills";
 /**
  * House Local Government committee — June 5, 2024.
  *
- * Two missing-middle bills (HB 1976 and HB 2045) from the 2023–24 session,
- * both passed committee but never advanced further and were laid on the
- * table when session ended. These are the direct ancestors of HB 2185
- * (Inglis) in the current session.
+ * Two Siegel zoning reform bills from the 2023-24 session, both passed
+ * committee but never advanced further and were laid on the table when
+ * session ended:
+ *
+ *   HB 1976 — Multi-family housing in office-zoned areas (commercial
+ *     conversion). Reintroduced this term as HB 1459.
+ *   HB 2045 — Duplex / triplex / quadplex by-right in single-family
+ *     zones (missing middle). Reintroduced this term as HB 2185.
+ *
+ * Note: an earlier version of this file described both bills as missing-
+ * middle. That was wrong for HB 1976 — verified against palegis.
  *
  * Member IDs use ad-hoc strings since most of these legislators aren't
  * in the current committee-housing-2025 dataset. The district is the

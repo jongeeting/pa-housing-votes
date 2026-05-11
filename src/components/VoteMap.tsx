@@ -71,8 +71,8 @@ export const VoteMap = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
 
-  const firstId = items[0] ? getMapItemId(items[0]) : "";
-  const [selectedItemId, setSelectedItemId] = useState(firstId);
+  const firstId = items[0] ? getMapItemId(items[0]) : null;
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(firstId);
   const [selectedDistrict, setSelectedDistrict] = useState<{
     district: string;
     properties: Record<string, unknown>;
@@ -85,8 +85,13 @@ export const VoteMap = ({
     new Set(),
   );
 
+  // null when in "Just explore" mode — no choropleth, just the layer
+  // panel selections drive what's visible.
   const selectedItem = useMemo(
-    () => items.find((i) => getMapItemId(i) === selectedItemId) ?? items[0],
+    () =>
+      selectedItemId
+        ? items.find((i) => getMapItemId(i) === selectedItemId) ?? null
+        : null,
     [items, selectedItemId],
   );
   const activeChamber: Chamber = selectedItem
@@ -393,7 +398,30 @@ export const VoteMap = ({
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !mapReady || !selectedItem) return;
+    if (!map || !mapReady) return;
+
+    // Explore mode: clear any prior expressions and let the layer use
+    // its base NO_VOTE_FILL color + default outline.
+    if (!selectedItem) {
+      for (const chamber of ["House", "Senate"] as Chamber[]) {
+        const fill = fillLayerId(chamber);
+        const outline = outlineLayerId(chamber);
+        if (map.getLayer(fill)) map.setPaintProperty(fill, "fill-color", NO_VOTE_FILL);
+        if (map.getLayer(outline)) {
+          map.setPaintProperty(outline, "line-color", "#374151");
+          map.setPaintProperty(outline, "line-width", [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            5,
+            0.4,
+            10,
+            1.2,
+          ] as unknown as maplibregl.ExpressionSpecification);
+        }
+      }
+      return;
+    }
 
     const matchExpression: (string | string[] | number[])[] = [
       "match",
@@ -442,7 +470,7 @@ export const VoteMap = ({
     ] as unknown as maplibregl.ExpressionSpecification);
   }, [districtSnapshots, activeChamber, mapReady, selectedItem]);
 
-  if (!selectedItem) {
+  if (items.length === 0) {
     return (
       <div className="vote-map-empty">
         No items available. Add a roll call or cosponsorship in{" "}
@@ -468,7 +496,7 @@ export const VoteMap = ({
           highlightClasses={highlightClasses}
           onHighlightClassesChange={setHighlightClasses}
         />
-        <Legend item={selectedItem} />
+        {selectedItem && <Legend item={selectedItem} />}
         {selectedDistrict && (
           <DistrictPopup
             district={selectedDistrict.district}

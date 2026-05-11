@@ -16,9 +16,9 @@ const CLASSES_IN_DISPLAY_ORDER: MunicipalClass[] = [
   "second_class_city",
   "second_class_a_city",
   "third_class_city",
+  "borough",
   "first_class_township",
   "second_class_township",
-  "borough",
   "town",
 ];
 
