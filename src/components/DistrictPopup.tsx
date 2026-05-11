@@ -1,4 +1,4 @@
-import type { Chamber, MapItem, MunicipalClass } from "@/lib/types";
+import type { Chamber, MapItem, MunicipalClass, NestedDistrict } from "@/lib/types";
 import { MUNICIPAL_CLASS_LABELS } from "@/lib/types";
 import { getMemberByDistrict } from "@/data/members";
 import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
@@ -9,6 +9,8 @@ import {
   getMapItemCosponsorship,
   getMapItemId,
   getMapItemRollCall,
+  type DistrictVoteSnapshot,
+  type NestedSupport,
 } from "@/lib/voteAggregation";
 import { VOTE_COLORS, COSPONSOR_FILL } from "@/lib/colors";
 
@@ -19,6 +21,14 @@ interface Props {
   /** Which chamber's districts the user clicked on. */
   chamber: Chamber;
   items: MapItem[];
+  /** The active MapItem (null in explore mode). Used to derive vote/cosponsor
+   * info for the nested-delegation context lines. */
+  activeItem: MapItem | null;
+  /** House-side snapshots for cross-chamber rollups (only populated when
+   * the active chamber is House). */
+  houseSnapshots: Map<string, DistrictVoteSnapshot>;
+  /** Per-Senate-district rollup of nested House delegation support. */
+  senateNestedSupport: Map<string, NestedSupport>;
   onClose: () => void;
 }
 
@@ -79,6 +89,11 @@ const formatShortDate = (iso: string): string => {
 interface CosInfo {
   isCosponsor: boolean;
   isSponsor: boolean;
+  /** Historical/recorded cosponsor name from the bill data — may
+   * differ from the district's current member (e.g. Dillon was the
+   * SD-5 cosponsor of SB 1126 but the seat is now Picozzi). */
+  recordedName?: string;
+  recordedParty?: string;
 }
 
 const cosponsorInfoForItem = (item: MapItem, district: string): CosInfo => {
@@ -92,9 +107,20 @@ const cosponsorInfoForItem = (item: MapItem, district: string): CosInfo => {
     null;
   if (!cs) return { isCosponsor: false, isSponsor: false };
   if (cs.primeSponsor.district === district)
-    return { isCosponsor: true, isSponsor: true };
-  if (cs.cosponsors.some((c) => c.district === district))
-    return { isCosponsor: true, isSponsor: false };
+    return {
+      isCosponsor: true,
+      isSponsor: true,
+      recordedName: cs.primeSponsor.name,
+      recordedParty: cs.primeSponsor.party,
+    };
+  const match = cs.cosponsors.find((c) => c.district === district);
+  if (match)
+    return {
+      isCosponsor: true,
+      isSponsor: false,
+      recordedName: match.name,
+      recordedParty: match.party,
+    };
   return { isCosponsor: false, isSponsor: false };
 };
 
@@ -103,6 +129,9 @@ export const DistrictPopup = ({
   properties,
   chamber,
   items,
+  activeItem,
+  houseSnapshots,
+  senateNestedSupport,
   onClose,
 }: Props) => {
   const member = getMemberByDistrict(chamber, district);
@@ -111,6 +140,12 @@ export const DistrictPopup = ({
   const topMunis = parseList<TopMuniRow>(properties.topMunicipalities);
   const topCounties = parseList<TopCountyRow>(properties.topCounties);
   const classShares = parseClassShares(properties.classShares);
+  const nestedHouseDistricts = parseList<NestedDistrict>(
+    properties.nestedHouseDistricts,
+  );
+  const parentSenateDistricts = parseList<NestedDistrict>(
+    properties.parentSenateDistricts,
+  );
 
   const sortedClasses = Object.entries(classShares)
     .filter(([, v]) => v > 0.005)
@@ -121,6 +156,28 @@ export const DistrictPopup = ({
   // Show only the items applicable to this chamber — clicking a senate
   // district shouldn't surface a column of house roll calls.
   const itemsForChamber = items.filter((i) => getMapItemChamber(i) === chamber);
+
+  // Cross-chamber context for the nesting story:
+  // - House popup → which Senate district contains this HD, and what %
+  //   of THAT senate district's nested House delegation supports the
+  //   active bill.
+  // - Senate popup → the list of nested House districts with their
+  //   stance on the active bill (the "4/4 Yea" breakdown, expanded).
+  const primaryParentSD =
+    chamber === "House"
+      ? parentSenateDistricts.find((p) => p.overlapShareOfHD >= 0.5)
+      : null;
+  const primaryParentSDSenator = primaryParentSD
+    ? getMemberByDistrict("Senate", primaryParentSD.district)
+    : null;
+  const primaryParentSDSupport = primaryParentSD
+    ? senateNestedSupport.get(primaryParentSD.district)
+    : undefined;
+
+  const nestedPrimaryHDs =
+    chamber === "Senate"
+      ? nestedHouseDistricts.filter((n) => n.overlapShareOfHD >= 0.5)
+      : [];
 
   // Group items by bill so multiple procedural votes (committee + floor)
   // on the same bill cluster under one bill header. Each group preserves
@@ -181,14 +238,21 @@ export const DistrictPopup = ({
           </div>
           {Array.from(itemsByBill.entries()).map(([billId, billItems]) => {
             const bill = getMapItemBill(billItems[0]);
+            const isHistorical = bill.session === "2023-2024";
             // Track prior vote within the bill to flag flips
             // ("Nay" → "Yea" between procedural stages is politically salient).
             let priorVote: string | null = null;
             return (
-              <div key={billId} className="popup__bill-group">
+              <div
+                key={billId}
+                className={`popup__bill-group${isHistorical ? " popup__bill-group--historical" : ""}`}
+              >
                 <div className="popup__bill-label">
                   <strong>{bill.label}</strong>{" "}
                   <span className="popup__bill-title">{bill.shortTitle}</span>
+                  {isHistorical && (
+                    <span className="popup__past-session-tag">Past session</span>
+                  )}
                 </div>
                 <table className="popup__votes">
                   <tbody>
@@ -199,6 +263,16 @@ export const DistrictPopup = ({
                       const flipped =
                         v && priorVote && v.vote !== priorVote;
                       if (v) priorVote = v.vote;
+                      // For historical bills, surface the recorded
+                      // cosponsor name when it differs from the
+                      // current member — otherwise people will read
+                      // "Picozzi cosponsored SB 1126" when actually
+                      // Dillon did (the seat flipped in 2024).
+                      const showPredecessor =
+                        cs.isCosponsor &&
+                        cs.recordedName &&
+                        member &&
+                        cs.recordedName !== member.fullName;
                       return (
                         <tr key={getMapItemId(item)}>
                           <td className="popup__phase-cell">{phaseLabel(item)}</td>
@@ -240,6 +314,22 @@ export const DistrictPopup = ({
                                 —
                               </span>
                             )}
+                            {showPredecessor && (
+                              <div className="popup__predecessor">
+                                {cs.recordedName}
+                                {cs.recordedParty && (
+                                  <>
+                                    {" ("}
+                                    <span
+                                      className={`popup__party popup__party--${cs.recordedParty.toLowerCase()}`}
+                                    >
+                                      {cs.recordedParty}
+                                    </span>
+                                    {", then-rep)"}
+                                  </>
+                                )}
+                              </div>
+                            )}
                           </td>
                         </tr>
                       );
@@ -249,6 +339,93 @@ export const DistrictPopup = ({
               </div>
             );
           })}
+        </div>
+      )}
+
+      {chamber === "House" && primaryParentSD && (
+        <div className="popup__section popup__nesting">
+          <div className="popup__section-title">Senate context</div>
+          <div className="popup__nesting-body">
+            Nested in{" "}
+            <strong>
+              SD-{primaryParentSD.district}
+              {primaryParentSDSenator && (
+                <>
+                  {" — "}
+                  <span
+                    className={`popup__party popup__party--${primaryParentSDSenator.party.toLowerCase()}`}
+                  >
+                    {primaryParentSDSenator.party}
+                  </span>{" "}
+                  {primaryParentSDSenator.fullName}
+                </>
+              )}
+            </strong>
+            .
+            {activeItem && primaryParentSDSupport && primaryParentSDSupport.total > 0 && (
+              <>
+                {" "}
+                {primaryParentSDSupport.yea + primaryParentSDSupport.cosponsor}
+                /{primaryParentSDSupport.total} of the nested House districts
+                {activeItem.kind === "rollCall"
+                  ? " voted Yea or cosponsored "
+                  : " cosponsor "}
+                {getMapItemBill(activeItem).label}.
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {chamber === "Senate" && nestedPrimaryHDs.length > 0 && (
+        <div className="popup__section popup__nesting">
+          <div className="popup__section-title">
+            Nested House delegation ({nestedPrimaryHDs.length})
+          </div>
+          <ul className="popup__nested-hds">
+            {nestedPrimaryHDs.map((n) => {
+              const hdSnap = houseSnapshots.get(n.district);
+              const hdMember = getMemberByDistrict("House", n.district);
+              const name = hdMember?.fullName ?? "Vacant";
+              const party = hdMember?.party ?? null;
+              const vote = hdSnap?.vote ?? null;
+              const isCosponsor = hdSnap?.isCosponsor ?? false;
+              return (
+                <li key={n.district}>
+                  <span className="popup__nested-hd-id">HD-{n.district}</span>
+                  {party && (
+                    <span
+                      className={`popup__party popup__party--${party.toLowerCase()}`}
+                    >
+                      {party}
+                    </span>
+                  )}
+                  <span className="popup__nested-hd-name">{name}</span>
+                  <span className="popup__nested-hd-state">
+                    {vote ? (
+                      <span
+                        className="popup__vote-pill"
+                        style={{ background: VOTE_COLORS[vote] }}
+                      >
+                        {vote}
+                      </span>
+                    ) : isCosponsor ? (
+                      <span
+                        className="popup__vote-pill"
+                        style={{ background: COSPONSOR_FILL }}
+                      >
+                        Cosponsor
+                      </span>
+                    ) : (
+                      <span className="popup__vote-pill popup__vote-pill--none">
+                        —
+                      </span>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
 

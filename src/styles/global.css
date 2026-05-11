@@ -292,6 +292,29 @@ code {
 .bill-selector__bill-shortTitle {
   color: var(--fg-muted);
 }
+.bill-selector__bill-shortTitle--historical {
+  font-style: italic;
+}
+.bill-selector__bill-block--historical strong {
+  color: var(--fg-muted);
+}
+.bill-selector__current-bill--historical {
+  font-style: italic;
+}
+.bill-selector__past-session-tag {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  vertical-align: middle;
+}
 .bill-selector__bill-chamber {
   float: right;
   font-size: 0.72rem;
@@ -581,6 +604,72 @@ code {
   color: #b45309; /* amber-700 — calls attention without being alarming */
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+/* Historical bills get italic titles + a small "Past session" tag so
+ * users immediately understand they're inactive but useful for the
+ * geographic political-support story. */
+.popup__bill-group--historical .popup__bill-title {
+  font-style: italic;
+}
+.popup__past-session-tag {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  vertical-align: middle;
+}
+.popup__predecessor {
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+/* Nesting context (cross-chamber popup sections) */
+.popup__nesting {
+  background: #f8fafc;
+  border-left: 3px solid #94a3b8;
+  padding-left: 0.5rem;
+  border-radius: 3px;
+}
+.popup__nesting-body {
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+.popup__nested-hds {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+}
+.popup__nested-hds li {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+.popup__nested-hd-id {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.popup__nested-hd-name {
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.popup__nested-hd-state {
+  justify-self: end;
 }
 .popup__vote-pill {
   display: inline-block;

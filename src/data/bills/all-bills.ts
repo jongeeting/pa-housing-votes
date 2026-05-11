@@ -55,6 +55,26 @@ export const HB1988: Bill = {
   sourceUrl: "https://www.palegis.us/legislation/bills/2023/hb1988",
 };
 
+export const SB1126: Bill = {
+  id: "SB1126",
+  label: "SB 1126",
+  session: "2023-2024",
+  chamber: "Senate",
+  kind: "bill",
+  shortTitle: "Bipartisan Zoning Reform Omnibus",
+  description:
+    "DiSanto's omnibus bill amending the Municipalities Planning Code to legalize accessory dwelling units, duplexes/triplexes/fourplexes, and manufactured homes statewide — a bipartisan Senate land-use reform package framed as \"Housing Affordability through Land Use Reforms.\" 5 Republican + 3 Democratic cosponsors. Most of its provisions are now being pursued in this session as separate bills (HB 2186, HB 2185, etc.).",
+  topics: ["adu", "missing_middle", "commercial_conversion"],
+  status: "dead",
+  primeSponsorDistrict: "15", // John DiSanto (former — did not seek re-election in 2024)
+  committee: "Urban Affairs and Housing",
+  introducedDate: "2024-04-05",
+  lastActionDate: "2024-04-05",
+  lastActionNote:
+    "Referred to Urban Affairs and Housing April 5, 2024; no further action before the 2023-24 session ended.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2023/sb1126",
+};
+
 export const HB2045: Bill = {
   id: "HB2045",
   label: "HB 2045",
@@ -369,6 +389,7 @@ export const ALL_BILLS: Bill[] = [
   HB1976,
   HB1988,
   HB2045,
+  SB1126,
   // 2025–2026 Housing & Community Development
   HB2109,
   HB2186,

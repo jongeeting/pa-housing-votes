@@ -387,6 +387,66 @@ def intersect_districts_x_munis(
     return inter
 
 
+def compute_nesting(
+    house: gpd.GeoDataFrame,
+    senate: gpd.GeoDataFrame,
+) -> tuple[dict[str, list[dict]], dict[str, list[dict]]]:
+    """Compute House <-> Senate district nesting via spatial overlay.
+
+    For each Senate district, return the list of House districts that
+    sit inside it with two share metrics:
+
+      - overlapShareOfHD: what fraction of the HD's area is inside this SD
+        (≥0.5 means the HD primarily belongs to this SD).
+      - areaShareOfSD: what fraction of the SD's area is covered by this HD.
+
+    Returns (senate_to_house, house_to_senate). The second is a flipped
+    view (each HD knows which SDs it touches and by how much).
+    """
+    log.info(
+        "computing nesting: %d house x %d senate districts",
+        len(house),
+        len(senate),
+    )
+    h = house[["district", "geometry"]].rename(columns={"district": "houseDistrict"}).copy()
+    s = senate[["district", "geometry"]].rename(columns={"district": "senateDistrict"}).copy()
+    h["hd_area"] = h.geometry.area
+    s["sd_area"] = s.geometry.area
+    inter = gpd.overlay(h, s, how="intersection", keep_geom_type=True)
+    inter["intersection_area"] = inter.geometry.area
+    inter["overlapShareOfHD"] = inter["intersection_area"] / inter["hd_area"]
+    inter["areaShareOfSD"] = inter["intersection_area"] / inter["sd_area"]
+
+    # Filter to meaningful slivers (skip tiny floating-point dust).
+    inter = inter[inter["overlapShareOfHD"] > 0.005].copy()
+
+    sd_to_hd: dict[str, list[dict]] = {}
+    for sd, sub in inter.groupby("senateDistrict"):
+        rows = sub.sort_values("areaShareOfSD", ascending=False)
+        sd_to_hd[str(sd)] = [
+            {
+                "district": str(r["houseDistrict"]),
+                "overlapShareOfHD": float(r["overlapShareOfHD"]),
+                "areaShareOfSD": float(r["areaShareOfSD"]),
+            }
+            for _, r in rows.iterrows()
+        ]
+
+    hd_to_sd: dict[str, list[dict]] = {}
+    for hd, sub in inter.groupby("houseDistrict"):
+        rows = sub.sort_values("overlapShareOfHD", ascending=False)
+        hd_to_sd[str(hd)] = [
+            {
+                "district": str(r["senateDistrict"]),
+                "overlapShareOfHD": float(r["overlapShareOfHD"]),
+                "areaShareOfSD": float(r["areaShareOfSD"]),
+            }
+            for _, r in rows.iterrows()
+        ]
+
+    return sd_to_hd, hd_to_sd
+
+
 def aggregate_district_stats(
     inter: gpd.GeoDataFrame,
     pop_df: pd.DataFrame,
@@ -472,11 +532,21 @@ def aggregate_district_stats(
 # ---------------------------------------------------------------------------
 
 
-def write_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
-    """Write the district GeoJSON, embedding nested objects as real JSON (not strings)."""
+def write_geojson(
+    gdf: gpd.GeoDataFrame,
+    path: Path,
+    *,
+    name: str,
+    cross_chamber_key: str,
+    cross_chamber_data: dict[str, list[dict]] | None = None,
+) -> None:
+    """Write the district GeoJSON, embedding nested objects as real JSON (not strings).
+
+    cross_chamber_key: property name to use for cross-chamber nesting on
+    each feature ("nestedHouseDistricts" for senate features,
+    "parentSenateDistricts" for house features).
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
-    # GeoPandas serializes dict/list cells as strings via to_file; we want
-    # them as real JSON, so build the FeatureCollection by hand.
     features = []
     for _, row in gdf.iterrows():
         props = {
@@ -487,6 +557,8 @@ def write_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
             "topCounties": row["topCounties"],
             "classShares": row["classShares"],
         }
+        if cross_chamber_data is not None:
+            props[cross_chamber_key] = cross_chamber_data.get(str(row["district"]), [])
         features.append(
             {
                 "type": "Feature",
@@ -500,7 +572,7 @@ def write_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
         )
     fc = {
         "type": "FeatureCollection",
-        "name": "pa_house_districts",
+        "name": name,
         "crs": {"type": "name", "properties": {"name": "EPSG:4326"}},
         "features": features,
     }
@@ -581,6 +653,8 @@ def build_chamber_geojson(
     county_names: dict[str, str],
     output_path: Path,
     label: str,
+    cross_chamber_key: str,
+    cross_chamber_data: dict[str, list[dict]],
 ) -> None:
     """Intersect districts with munis, aggregate stats, simplify, write GeoJSON."""
     log.info("building %s GeoJSON...", label)
@@ -588,7 +662,13 @@ def build_chamber_geojson(
     stats = aggregate_district_stats(inter, pop, county_names)
     enriched = districts.merge(stats, on="district", how="left")
     enriched = simplify_for_web(enriched)
-    write_geojson(enriched, output_path)
+    write_geojson(
+        enriched,
+        output_path,
+        name=f"pa_{label}_districts",
+        cross_chamber_key=cross_chamber_key,
+        cross_chamber_data=cross_chamber_data,
+    )
 
 
 def main(argv: Iterable[str]) -> int:
@@ -607,9 +687,19 @@ def main(argv: Iterable[str]) -> int:
     log.info("loading ACS population...")
     pop = load_acs_population()
 
-    build_chamber_geojson(house, munis, pop, county_names, OUTPUT_PATH, "house")
+    sd_to_hd, hd_to_sd = compute_nesting(house, senate)
+
     build_chamber_geojson(
-        senate, munis, pop, county_names, SENATE_OUTPUT_PATH, "senate"
+        house, munis, pop, county_names, OUTPUT_PATH,
+        label="house",
+        cross_chamber_key="parentSenateDistricts",
+        cross_chamber_data=hd_to_sd,
+    )
+    build_chamber_geojson(
+        senate, munis, pop, county_names, SENATE_OUTPUT_PATH,
+        label="senate",
+        cross_chamber_key="nestedHouseDistricts",
+        cross_chamber_data=sd_to_hd,
     )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
     write_munis_geojson(munis, MUNIS_OUTPUT_PATH)

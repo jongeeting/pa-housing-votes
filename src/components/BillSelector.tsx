@@ -163,6 +163,7 @@ interface SelectedDescriptor {
   topicLabel: string;
   phase: string;
   tally: string;
+  isHistorical: boolean;
 }
 
 const describeSelected = (
@@ -188,6 +189,7 @@ const describeSelected = (
     topicLabel,
     phase: phaseTag(item),
     tally: tally(item),
+    isHistorical: bill.session === "2023-2024",
   };
 };
 
@@ -240,8 +242,11 @@ export const BillSelector = ({ items, selectedId, onChange }: Props) => {
           <>
             <span className="bill-selector__current-topic">
               {selected.topicLabel} · {selected.chamber}
+              {selected.isHistorical && " · Past session"}
             </span>
-            <span className="bill-selector__current-bill">
+            <span
+              className={`bill-selector__current-bill${selected.isHistorical ? " bill-selector__current-bill--historical" : ""}`}
+            >
               <strong>{selected.bill.label}</strong> {selected.bill.shortTitle}
             </span>
             <span className="bill-selector__current-phase">
@@ -285,12 +290,22 @@ export const BillSelector = ({ items, selectedId, onChange }: Props) => {
             <div className="bill-selector__group" key={g.topic}>
               <div className="bill-selector__group-title">{g.topicLabel}</div>
               {g.bills.map((bucket) => (
-                <div className="bill-selector__bill-block" key={bucket.billId}>
+                <div
+                  className={`bill-selector__bill-block${bucket.isHistorical ? " bill-selector__bill-block--historical" : ""}`}
+                  key={bucket.billId}
+                >
                   <div className="bill-selector__bill-row">
                     <strong>{bucket.billLabel}</strong>{" "}
-                    <span className="bill-selector__bill-shortTitle">
+                    <span
+                      className={`bill-selector__bill-shortTitle${bucket.isHistorical ? " bill-selector__bill-shortTitle--historical" : ""}`}
+                    >
                       {bucket.shortTitle}
                     </span>
+                    {bucket.isHistorical && (
+                      <span className="bill-selector__past-session-tag">
+                        Past session
+                      </span>
+                    )}
                     <span className="bill-selector__bill-chamber">
                       {bucket.chamber}
                       {bucket.isHistorical ? " · 2023-24" : ""}

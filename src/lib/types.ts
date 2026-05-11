@@ -157,6 +157,21 @@ export interface DistrictProperties {
    * Keys sum to ~1.0 (some areas may be unincorporated → "other").
    */
   classShares: Record<MunicipalClass, number>;
+  /**
+   * Cross-chamber nesting. Senate features get nestedHouseDistricts;
+   * House features get parentSenateDistricts. Each entry's
+   * overlapShareOfHD is the fraction of the HOUSE district's area that
+   * sits inside the senate district; areaShareOfSD is the fraction of
+   * the SENATE district's area covered by the HD.
+   */
+  nestedHouseDistricts?: NestedDistrict[];
+  parentSenateDistricts?: NestedDistrict[];
+}
+
+export interface NestedDistrict {
+  district: string;
+  overlapShareOfHD: number; // 0..1 — fraction of the HD's area in the SD
+  areaShareOfSD: number; // 0..1 — fraction of the SD's area covered by this HD
 }
 
 export type MunicipalClass =

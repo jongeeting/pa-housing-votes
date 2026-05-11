@@ -123,3 +123,87 @@ export const findVote = (
   memberId: string,
 ): MemberVote | undefined =>
   rollCall.votes.find((v) => v.memberId === memberId);
+
+/* ---------------------------------------------------------------------- */
+/*  Cross-chamber nesting rollups                                         */
+/* ---------------------------------------------------------------------- */
+
+export interface NestedSupport {
+  yea: number;
+  nay: number;
+  cosponsor: number; // House members who cosponsored but did not vote on this roll call
+  noRecord: number; // No vote, no cosponsorship
+  total: number; // Districts considered (typically those >= 50% overlap)
+  supportPct: number; // (yea + cosponsor without yea) / total
+}
+
+interface NestedHouseDistrict {
+  district: string;
+  overlapShareOfHD?: number;
+}
+
+/**
+ * Aggregate a senate district's nested House delegation's stance on a
+ * MapItem. Only counts House districts whose center-of-mass primarily
+ * sits inside the senate district (overlap >= 0.5 — slivers from the
+ * neighbors are excluded).
+ */
+export const computeNestedSupport = (
+  nestedHDs: NestedHouseDistrict[] | undefined,
+  item: MapItem,
+  houseSnapshots: Map<string, DistrictVoteSnapshot>,
+): NestedSupport => {
+  const out: NestedSupport = {
+    yea: 0,
+    nay: 0,
+    cosponsor: 0,
+    noRecord: 0,
+    total: 0,
+    supportPct: 0,
+  };
+  if (!nestedHDs) return out;
+  // Filter to HDs primarily nested in this SD.
+  const primary = nestedHDs.filter(
+    (n) => (n.overlapShareOfHD ?? 0) >= 0.5,
+  );
+  for (const n of primary) {
+    out.total += 1;
+    const snap = houseSnapshots.get(n.district);
+    if (!snap) {
+      out.noRecord += 1;
+      continue;
+    }
+    if (snap.vote === "Yea") out.yea += 1;
+    else if (snap.vote === "Nay") out.nay += 1;
+    else if (snap.isCosponsor) out.cosponsor += 1;
+    else out.noRecord += 1;
+  }
+  // "Support" = Yea + cosponsor-without-vote. For roll-call items the
+  // user cares about the vote; for cosponsor-only items cosponsorship is
+  // the only signal we have.
+  const supportCount =
+    item.kind === "rollCall" ? out.yea + out.cosponsor : out.cosponsor;
+  out.supportPct = out.total > 0 ? supportCount / out.total : 0;
+  return out;
+};
+
+/**
+ * Build per-Senate-district nested-support data for the active item.
+ * Returns a Map keyed by senate district id.
+ */
+export const senateNestedSupportMap = (
+  senateFeatures: Array<{
+    properties: { district: string; nestedHouseDistricts?: NestedHouseDistrict[] };
+  }>,
+  item: MapItem,
+  houseSnapshots: Map<string, DistrictVoteSnapshot>,
+): Map<string, NestedSupport> => {
+  const out = new Map<string, NestedSupport>();
+  for (const f of senateFeatures) {
+    out.set(
+      f.properties.district,
+      computeNestedSupport(f.properties.nestedHouseDistricts, item, houseSnapshots),
+    );
+  }
+  return out;
+};

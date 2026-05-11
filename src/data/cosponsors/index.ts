@@ -15,6 +15,7 @@ import { HB1459_COSPONSORSHIP } from "./hb1459-cosponsors";
 import { HB1976_COSPONSORSHIP } from "./hb1976-cosponsors";
 import { HB1988_COSPONSORSHIP } from "./hb1988-cosponsors";
 import { HB2045_COSPONSORSHIP } from "./hb2045-cosponsors";
+import { SB1126_COSPONSORSHIP } from "./sb1126-cosponsors";
 
 /**
  * All tracked cosponsorships, one per bill.
@@ -38,6 +39,7 @@ export const COSPONSORSHIPS: Cosponsorship[] = [
   HB1976_COSPONSORSHIP,
   HB1988_COSPONSORSHIP,
   HB2045_COSPONSORSHIP,
+  SB1126_COSPONSORSHIP,
 ];
 
 /** Lookup by bill ID (e.g. "HB2109"). */

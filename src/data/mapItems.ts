@@ -15,7 +15,9 @@ import {
   HB2428,
   HB2430,
   HR484,
+  SB1126,
 } from "./bills/all-bills";
+import { SB1126_COSPONSORSHIP } from "./cosponsors/sb1126-cosponsors";
 import { SB1239_COSPONSORSHIP } from "./cosponsors/sb1239-cosponsors";
 import { SENATE_MEMO_47956_COSPONSORSHIP } from "./cosponsors/senate-memo-47956-cosponsors";
 import { SENATE_MEMO_48019_COSPONSORSHIP } from "./cosponsors/senate-memo-48019-cosponsors";
@@ -62,6 +64,9 @@ export const ALL_MAP_ITEMS: MapItem[] = [
 
   // ----- 2023-2024 House cosponsor-only items (historical, no roll call) -----
   { kind: "cosponsorOnly", bill: HB1988, cosponsorship: HB1988_COSPONSORSHIP },
+
+  // ----- 2023-2024 Senate cosponsor-only items (historical) -----
+  { kind: "cosponsorOnly", bill: SB1126, cosponsorship: SB1126_COSPONSORSHIP },
 
   // ----- 2025-2026 Senate cosponsor-only items -----
   { kind: "cosponsorOnly", bill: SB1239, cosponsorship: SB1239_COSPONSORSHIP },
