@@ -176,6 +176,22 @@ export interface Cosponsorship {
   cosponsors: Array<{ name: string; district: string; party: Party }>;
 }
 
+/**
+ * What the map can show as a single selectable tab.
+ *
+ * Most legislation we track doesn't have a roll call yet — bills sit in
+ * committee, memos circulate, etc. — but they DO have cosponsor lists
+ * we can map. A MapItem unifies both modes:
+ *
+ * - kind: "rollCall" — render the choropleth from member votes, with
+ *   the bill's cosponsorship layered on as a purple overlay.
+ * - kind: "cosponsorOnly" — render only the prime sponsor + cosponsor
+ *   districts in purple (no vote data exists).
+ */
+export type MapItem =
+  | { kind: "rollCall"; rollCall: RollCall }
+  | { kind: "cosponsorOnly"; bill: Bill; cosponsorship: Cosponsorship };
+
 export const MUNICIPAL_CLASS_LABELS: Record<MunicipalClass, string> = {
   first_class_city: "First-class city",
   second_class_city: "Second-class city",

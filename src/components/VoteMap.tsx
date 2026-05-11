@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import type { RollCall } from "@/lib/types";
+import type { Chamber, MapItem, MunicipalClass } from "@/lib/types";
 import {
   VOTE_COLORS,
   VOTE_FILL_OPACITY,
@@ -10,79 +10,120 @@ import {
   COSPONSOR_FILL,
   NO_VOTE_FILL,
 } from "@/lib/colors";
-import { snapshotByDistrict } from "@/lib/voteAggregation";
+import {
+  getMapItemChamber,
+  getMapItemCosponsorship,
+  getMapItemId,
+  snapshotByDistrict,
+} from "@/lib/voteAggregation";
 import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
 import { DistrictPopup } from "./DistrictPopup";
 import { BillSelector } from "./BillSelector";
 import { Legend } from "./Legend";
+import { LayerPanel } from "./LayerPanel";
 
 interface Props {
-  rollCalls: RollCall[];
-  /** Path (relative to site root) of the districts GeoJSON. */
-  districtsUrl?: string;
-  /** Path of the counties GeoJSON used by the toggleable county layer. */
+  items: MapItem[];
+  houseDistrictsUrl?: string;
+  senateDistrictsUrl?: string;
   countiesUrl?: string;
+  munisUrl?: string;
 }
 
-const DEFAULT_DISTRICTS_URL = "/data/pa_house_districts.geojson";
+const DEFAULT_HOUSE_URL = "/data/pa_house_districts.geojson";
+const DEFAULT_SENATE_URL = "/data/pa_senate_districts.geojson";
 const DEFAULT_COUNTIES_URL = "/data/pa_counties.geojson";
+const DEFAULT_MUNIS_URL = "/data/pa_municipalities.geojson";
 
 const PA_BOUNDS: [[number, number], [number, number]] = [
   [-80.6, 39.6],
   [-74.6, 42.4],
 ];
 
+const CHAMBER_SOURCES: Record<Chamber, string> = {
+  House: "districts-house",
+  Senate: "districts-senate",
+};
+
+const fillLayerId = (chamber: Chamber) => `districts-fill-${chamber.toLowerCase()}`;
+const outlineLayerId = (chamber: Chamber) => `districts-outline-${chamber.toLowerCase()}`;
+const selectedLayerId = (chamber: Chamber) => `districts-selected-${chamber.toLowerCase()}`;
+
 /**
- * Statewide PA House district choropleth showing how each district's
- * representative voted on a selected roll call. Click a district to
- * see member info + municipal composition.
+ * Statewide PA House or Senate district choropleth. The active chamber
+ * is driven by the selected MapItem's bill chamber — pick HB X and the
+ * map renders house districts, pick SB Y and it swaps to senate.
+ *
+ * Layers (bottom to top):
+ *   background → districts-fill (per chamber) → districts-outline
+ *   → munis-fill (highlight by class, off by default)
+ *   → munis-outline (off by default) → counties-outline (off by default)
+ *   → districts-selected ring
  */
 export const VoteMap = ({
-  rollCalls,
-  districtsUrl = DEFAULT_DISTRICTS_URL,
+  items,
+  houseDistrictsUrl = DEFAULT_HOUSE_URL,
+  senateDistrictsUrl = DEFAULT_SENATE_URL,
   countiesUrl = DEFAULT_COUNTIES_URL,
+  munisUrl = DEFAULT_MUNIS_URL,
 }: Props) => {
   const cosponsorships = COSPONSORSHIPS_BY_BILL;
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
-  const [selectedRollCallId, setSelectedRollCallId] = useState(
-    rollCalls[0]?.id ?? "",
-  );
+
+  const firstId = items[0] ? getMapItemId(items[0]) : "";
+  const [selectedItemId, setSelectedItemId] = useState(firstId);
   const [selectedDistrict, setSelectedDistrict] = useState<{
     district: string;
     properties: Record<string, unknown>;
+    chamber: Chamber;
   } | null>(null);
   const [mapReady, setMapReady] = useState(false);
   const [showCounties, setShowCounties] = useState(false);
-
-  const selectedRollCall = useMemo(
-    () => rollCalls.find((r) => r.id === selectedRollCallId) ?? rollCalls[0],
-    [rollCalls, selectedRollCallId],
+  const [showMunis, setShowMunis] = useState(false);
+  const [highlightClasses, setHighlightClasses] = useState<Set<MunicipalClass>>(
+    new Set(),
   );
 
-  // Build the per-district color expression for the active roll call.
+  const selectedItem = useMemo(
+    () => items.find((i) => getMapItemId(i) === selectedItemId) ?? items[0],
+    [items, selectedItemId],
+  );
+  const activeChamber: Chamber = selectedItem
+    ? getMapItemChamber(selectedItem)
+    : "House";
+
+  // Closing the popup when the chamber changes — the old selection
+  // belongs to the previous chamber's districts.
+  useEffect(() => {
+    setSelectedDistrict(null);
+  }, [activeChamber]);
+
+  // Snapshots keyed off the selected MapItem.
   const districtSnapshots = useMemo(
-    () =>
-      selectedRollCall
-        ? snapshotByDistrict(
-            selectedRollCall,
-            cosponsorships?.get(selectedRollCall.bill.id),
-          )
-        : new Map(),
-    [selectedRollCall, cosponsorships],
+    () => {
+      if (!selectedItem) return new Map();
+      const cs =
+        getMapItemCosponsorship(selectedItem) ??
+        cosponsorships?.get(
+          selectedItem.kind === "rollCall"
+            ? selectedItem.rollCall.bill.id
+            : selectedItem.bill.id,
+        );
+      return snapshotByDistrict(selectedItem, cs);
+    },
+    [selectedItem, cosponsorships],
   );
+
+  /* ------------------------------------------------------------------ */
+  /*  Map init                                                          */
+  /* ------------------------------------------------------------------ */
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
     const map = new maplibregl.Map({
       container: containerRef.current,
-      // No raster basemap — the districts are the story and a
-      // basemap mostly adds noise. Static off-white background +
-      // district polygons + their outlines gives a clean editorial
-      // look and avoids third-party tile CORS / rate-limit issues.
-      // We can revisit and add a vector basemap (Protomaps / MapTiler)
-      // once we want a self-contained statewide reference layer.
       style: {
         version: 8,
         glyphs:
@@ -107,13 +148,10 @@ export const VoteMap = ({
       new maplibregl.AttributionControl({
         compact: true,
         customAttribution:
-          'Districts &amp; municipalities: US Census TIGER/LINE 2024. Pop: ACS 2023 5-year.',
+          'Districts &amp; municipalities: US Census TIGER/LINE 2024. Pop: ACS 2023 5-year. Muni class: DCED.',
       }),
     );
 
-    // Defensive resize: when the map is hydrated client-side, the
-    // container can briefly measure as zero-height before layout
-    // settles. Force a re-measure on load and on next animation frame.
     const forceResize = () => {
       try {
         map.resize();
@@ -124,8 +162,6 @@ export const VoteMap = ({
     map.on("load", forceResize);
     requestAnimationFrame(forceResize);
 
-    // ResizeObserver keeps the canvas in sync with the parent's
-    // computed size after fonts / async CSS apply.
     let ro: ResizeObserver | null = null;
     if (typeof ResizeObserver !== "undefined" && containerRef.current) {
       ro = new ResizeObserver(() => forceResize());
@@ -133,62 +169,89 @@ export const VoteMap = ({
     }
 
     map.on("load", async () => {
-      map.addSource("districts", {
+      // House + Senate sources
+      map.addSource(CHAMBER_SOURCES.House, {
         type: "geojson",
-        data: districtsUrl,
+        data: houseDistrictsUrl,
+        promoteId: "district",
+      });
+      map.addSource(CHAMBER_SOURCES.Senate, {
+        type: "geojson",
+        data: senateDistrictsUrl,
         promoteId: "district",
       });
 
+      // Add fill / outline / selected-ring per chamber. Visibility is
+      // managed by a separate effect.
+      for (const chamber of ["House", "Senate"] as Chamber[]) {
+        const source = CHAMBER_SOURCES[chamber];
+        map.addLayer({
+          id: fillLayerId(chamber),
+          type: "fill",
+          source,
+          paint: {
+            "fill-color": NO_VOTE_FILL,
+            "fill-opacity": VOTE_FILL_OPACITY,
+          },
+          layout: { visibility: chamber === "House" ? "visible" : "none" },
+        });
+        map.addLayer({
+          id: outlineLayerId(chamber),
+          type: "line",
+          source,
+          paint: {
+            "line-color": "#374151",
+            "line-width": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              5,
+              0.4,
+              10,
+              1.2,
+            ],
+            "line-opacity": 0.55,
+          },
+          layout: { visibility: chamber === "House" ? "visible" : "none" },
+        });
+      }
+
+      // Muni layers (fill + outline). Hidden by default; user must
+      // toggle "Municipal lines" on. Class-highlight fill kicks in when
+      // the user checks one or more classes in the layer panel.
+      map.addSource("munis", { type: "geojson", data: munisUrl });
       map.addLayer({
-        id: "districts-fill",
+        id: "munis-fill",
         type: "fill",
-        source: "districts",
+        source: "munis",
+        layout: { visibility: "none" },
         paint: {
-          "fill-color": NO_VOTE_FILL,
-          "fill-opacity": VOTE_FILL_OPACITY,
+          "fill-color": "#c084fc", // violet-400; expression overridden below
+          "fill-opacity": 0,
         },
       });
-
       map.addLayer({
-        id: "districts-outline",
+        id: "munis-outline",
         type: "line",
-        source: "districts",
+        source: "munis",
+        layout: { visibility: "none" },
         paint: {
-          "line-color": "#374151",
+          "line-color": "#475569",
           "line-width": [
             "interpolate",
             ["linear"],
             ["zoom"],
-            5,
-            0.4,
+            6,
+            0.3,
             10,
-            1.2,
+            0.9,
           ],
-          "line-opacity": 0.55,
+          "line-opacity": 0.7,
         },
       });
 
-      // Highlight ring for the selected district (drawn above outlines).
-      map.addLayer({
-        id: "districts-selected",
-        type: "line",
-        source: "districts",
-        paint: {
-          "line-color": "#111827",
-          "line-width": 3,
-        },
-        filter: ["==", ["get", "district"], "__none__"],
-      });
-
-      // County polygons — added as a hidden line layer on top, toggled
-      // via setLayoutProperty when the user clicks the Counties button.
-      // Rendered above district outlines so county boundaries are
-      // visible against the district mosaic.
-      map.addSource("counties", {
-        type: "geojson",
-        data: countiesUrl,
-      });
-
+      // Counties — outlines only, on top of munis.
+      map.addSource("counties", { type: "geojson", data: countiesUrl });
       map.addLayer({
         id: "counties-outline",
         type: "line",
@@ -209,26 +272,44 @@ export const VoteMap = ({
         },
       });
 
-      map.on("click", "districts-fill", (e) => {
-        const feature = e.features?.[0];
-        if (!feature) return;
-        setSelectedDistrict({
-          district: String(feature.properties?.district ?? ""),
-          properties: feature.properties ?? {},
+      // Selected ring per chamber, drawn last so it's always on top.
+      for (const chamber of ["House", "Senate"] as Chamber[]) {
+        map.addLayer({
+          id: selectedLayerId(chamber),
+          type: "line",
+          source: CHAMBER_SOURCES[chamber],
+          paint: { "line-color": "#111827", "line-width": 3 },
+          filter: ["==", ["get", "district"], "__none__"],
+          layout: { visibility: chamber === "House" ? "visible" : "none" },
         });
-        map.setFilter("districts-selected", [
-          "==",
-          ["get", "district"],
-          feature.properties?.district,
-        ]);
-      });
+      }
 
-      map.on("mouseenter", "districts-fill", () => {
-        map.getCanvas().style.cursor = "pointer";
-      });
-      map.on("mouseleave", "districts-fill", () => {
-        map.getCanvas().style.cursor = "";
-      });
+      // Click handlers — one per chamber's fill layer. Only the active
+      // chamber's fill is visible so misclicks aren't an issue.
+      for (const chamber of ["House", "Senate"] as Chamber[]) {
+        const layer = fillLayerId(chamber);
+        map.on("click", layer, (e) => {
+          const feature = e.features?.[0];
+          if (!feature) return;
+          const district = String(feature.properties?.district ?? "");
+          setSelectedDistrict({
+            district,
+            properties: feature.properties ?? {},
+            chamber,
+          });
+          map.setFilter(selectedLayerId(chamber), [
+            "==",
+            ["get", "district"],
+            district,
+          ]);
+        });
+        map.on("mouseenter", layer, () => {
+          map.getCanvas().style.cursor = "pointer";
+        });
+        map.on("mouseleave", layer, () => {
+          map.getCanvas().style.cursor = "";
+        });
+      }
 
       mapRef.current = map;
       setMapReady(true);
@@ -240,13 +321,30 @@ export const VoteMap = ({
       mapRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [districtsUrl, countiesUrl]);
+  }, [houseDistrictsUrl, senateDistrictsUrl, countiesUrl, munisUrl]);
 
-  // Toggle county layer visibility when the user clicks the Counties button.
+  /* ------------------------------------------------------------------ */
+  /*  Chamber visibility                                                */
+  /* ------------------------------------------------------------------ */
+
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady) return;
-    if (!map.getLayer("counties-outline")) return;
+    for (const chamber of ["House", "Senate"] as Chamber[]) {
+      const visibility = chamber === activeChamber ? "visible" : "none";
+      for (const lid of [fillLayerId(chamber), outlineLayerId(chamber), selectedLayerId(chamber)]) {
+        if (map.getLayer(lid)) map.setLayoutProperty(lid, "visibility", visibility);
+      }
+    }
+  }, [activeChamber, mapReady]);
+
+  /* ------------------------------------------------------------------ */
+  /*  Counties toggle                                                   */
+  /* ------------------------------------------------------------------ */
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady || !map.getLayer("counties-outline")) return;
     map.setLayoutProperty(
       "counties-outline",
       "visibility",
@@ -254,32 +352,61 @@ export const VoteMap = ({
     );
   }, [showCounties, mapReady]);
 
-  // Re-paint district fills whenever the selected roll call changes.
+  /* ------------------------------------------------------------------ */
+  /*  Munis toggle + class highlight                                    */
+  /* ------------------------------------------------------------------ */
+
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !mapReady || !selectedRollCall) return;
+    if (!map || !mapReady || !map.getLayer("munis-outline")) return;
+    map.setLayoutProperty(
+      "munis-outline",
+      "visibility",
+      showMunis ? "visible" : "none",
+    );
+    // Fill is visible iff munis-on AND a class is highlighted.
+    const fillVisible = showMunis && highlightClasses.size > 0;
+    map.setLayoutProperty(
+      "munis-fill",
+      "visibility",
+      fillVisible ? "visible" : "none",
+    );
+    if (fillVisible) {
+      const classes = Array.from(highlightClasses);
+      // Per-muni opacity: highlighted classes get 0.55, others 0.
+      map.setPaintProperty(
+        "munis-fill",
+        "fill-opacity",
+        [
+          "case",
+          ["in", ["get", "classCode"], ["literal", classes]],
+          0.55,
+          0,
+        ] as unknown as maplibregl.ExpressionSpecification,
+      );
+    }
+  }, [showMunis, highlightClasses, mapReady]);
 
-    // Build a "match" expression: district id → fill color.
+  /* ------------------------------------------------------------------ */
+  /*  Paint the active chamber's choropleth                             */
+  /* ------------------------------------------------------------------ */
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady || !selectedItem) return;
+
     const matchExpression: (string | string[] | number[])[] = [
       "match",
       ["get", "district"],
     ];
-
-    // Collect (district, color) pairs.
-    // Priority: vote color > cosponsor purple > gray.
     for (const [district, snap] of districtSnapshots) {
       matchExpression.push(district);
-      if (snap.vote) {
-        matchExpression.push(VOTE_COLORS[snap.vote]);
-      } else if (snap.isCosponsor) {
-        matchExpression.push(COSPONSOR_FILL);
-      } else {
-        matchExpression.push(NO_VOTE_FILL);
-      }
+      if (snap.vote) matchExpression.push(VOTE_COLORS[snap.vote]);
+      else if (snap.isCosponsor) matchExpression.push(COSPONSOR_FILL);
+      else matchExpression.push(NO_VOTE_FILL);
     }
-    matchExpression.push(NO_VOTE_FILL); // fallback
+    matchExpression.push(NO_VOTE_FILL);
 
-    // Same idea for stroke color, party-tinted only on members who voted.
     const strokeExpression: (string | string[])[] = [
       "match",
       ["get", "district"],
@@ -288,30 +415,38 @@ export const VoteMap = ({
       strokeExpression.push(district);
       strokeExpression.push(snap.party ? PARTY_STROKE[snap.party] : "#374151");
     }
-    strokeExpression.push("#9ca3af"); // fallback for non-committee districts
+    strokeExpression.push("#9ca3af");
+
+    const fillLayer = fillLayerId(activeChamber);
+    const outlineLayer = outlineLayerId(activeChamber);
 
     map.setPaintProperty(
-      "districts-fill",
+      fillLayer,
       "fill-color",
       matchExpression as unknown as maplibregl.ExpressionSpecification,
     );
     map.setPaintProperty(
-      "districts-outline",
+      outlineLayer,
       "line-color",
       strokeExpression as unknown as maplibregl.ExpressionSpecification,
     );
-    map.setPaintProperty("districts-outline", "line-width", [
+    map.setPaintProperty(outlineLayer, "line-width", [
       "case",
-      ["has", ["to-string", ["get", "district"]], ["literal", Object.fromEntries(Array.from(districtSnapshots.entries()).map(([d]) => [d, true]))]],
+      [
+        "has",
+        ["to-string", ["get", "district"]],
+        ["literal", Object.fromEntries(Array.from(districtSnapshots.entries()).map(([d]) => [d, true]))],
+      ],
       1.6,
       0.6,
     ] as unknown as maplibregl.ExpressionSpecification);
-  }, [districtSnapshots, selectedRollCall, mapReady]);
+  }, [districtSnapshots, activeChamber, mapReady, selectedItem]);
 
-  if (!selectedRollCall) {
+  if (!selectedItem) {
     return (
       <div className="vote-map-empty">
-        No roll calls available. Add one in <code>src/data/votes/</code>.
+        No items available. Add a roll call or cosponsorship in{" "}
+        <code>src/data/mapItems.ts</code>.
       </div>
     );
   }
@@ -319,35 +454,41 @@ export const VoteMap = ({
   return (
     <div className="vote-map">
       <BillSelector
-        rollCalls={rollCalls}
-        selectedId={selectedRollCallId}
-        onChange={setSelectedRollCallId}
+        items={items}
+        selectedId={selectedItemId}
+        onChange={setSelectedItemId}
       />
       <div className="vote-map__canvas-wrap">
         <div ref={containerRef} className="vote-map__canvas" />
-        <div className="vote-map__controls">
-          <button
-            type="button"
-            className={`vote-map__toggle${showCounties ? " is-active" : ""}`}
-            onClick={() => setShowCounties((v) => !v)}
-            aria-pressed={showCounties}
-          >
-            County lines
-          </button>
-        </div>
-        <Legend rollCall={selectedRollCall} />
+        <LayerPanel
+          showCounties={showCounties}
+          onShowCountiesChange={setShowCounties}
+          showMunis={showMunis}
+          onShowMunisChange={setShowMunis}
+          highlightClasses={highlightClasses}
+          onHighlightClassesChange={setHighlightClasses}
+        />
+        <Legend item={selectedItem} />
         {selectedDistrict && (
           <DistrictPopup
             district={selectedDistrict.district}
             properties={selectedDistrict.properties}
-            rollCalls={rollCalls}
+            chamber={selectedDistrict.chamber}
+            items={items}
             onClose={() => {
               setSelectedDistrict(null);
-              mapRef.current?.setFilter("districts-selected", [
-                "==",
-                ["get", "district"],
-                "__none__",
-              ]);
+              const map = mapRef.current;
+              if (map) {
+                for (const chamber of ["House", "Senate"] as Chamber[]) {
+                  if (map.getLayer(selectedLayerId(chamber))) {
+                    map.setFilter(selectedLayerId(chamber), [
+                      "==",
+                      ["get", "district"],
+                      "__none__",
+                    ]);
+                  }
+                }
+              }
             }}
           />
         )}

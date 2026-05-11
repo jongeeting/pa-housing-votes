@@ -71,11 +71,14 @@ RAW_DIR = DATA_DIR / "raw"
 CACHE_DIR = DATA_DIR / "cache"
 OUTPUT_DIR = REPO_DIR / "public" / "data"
 OUTPUT_PATH = OUTPUT_DIR / "pa_house_districts.geojson"
+SENATE_OUTPUT_PATH = OUTPUT_DIR / "pa_senate_districts.geojson"
 COUNTIES_OUTPUT_PATH = OUTPUT_DIR / "pa_counties.geojson"
+MUNIS_OUTPUT_PATH = OUTPUT_DIR / "pa_municipalities.geojson"
 
 # Census TIGER/LINE 2024
 TIGER_BASE = "https://www2.census.gov/geo/tiger/TIGER2024"
 SLDL_URL = f"{TIGER_BASE}/SLDL/tl_2024_42_sldl.zip"  # PA State House
+SLDU_URL = f"{TIGER_BASE}/SLDU/tl_2024_42_sldu.zip"  # PA State Senate
 COUSUB_URL = f"{TIGER_BASE}/COUSUB/tl_2024_42_cousub.zip"  # PA municipalities
 COUNTY_URL = f"{TIGER_BASE}/COUNTY/tl_2024_us_county.zip"  # All counties; filtered to PA
 
@@ -156,6 +159,15 @@ def load_districts() -> gpd.GeoDataFrame:
     # Census uses SLDLST as the district number, e.g. "001", "203".
     gdf["district"] = gdf["SLDLST"].str.lstrip("0")
     # Square miles from ALAND (square meters)
+    gdf["landAreaSqMi"] = gdf["ALAND"].astype(float) / 2_589_988.110336
+    return gdf[["district", "landAreaSqMi", "geometry"]].copy()
+
+
+def load_senate_districts() -> gpd.GeoDataFrame:
+    sldu_zip = download(SLDU_URL, RAW_DIR / "tl_2024_42_sldu.zip")
+    gdf = read_zipped_shapefile(sldu_zip).to_crs(EQUAL_AREA_CRS)
+    # Census uses SLDUST as the senate district number, e.g. "001", "050".
+    gdf["district"] = gdf["SLDUST"].str.lstrip("0")
     gdf["landAreaSqMi"] = gdf["ALAND"].astype(float) / 2_589_988.110336
     return gdf[["district", "landAreaSqMi", "geometry"]].copy()
 
@@ -523,6 +535,34 @@ def write_counties_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
     )
 
 
+def write_munis_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
+    """Write the PA municipalities GeoJSON layer (used for the map's
+    municipal-boundaries overlay + class-highlight filter)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # 2,573 features — keep simplification moderate (50m) since users
+    # toggle this on intentionally and might zoom in.
+    simplified = gdf.copy()
+    simplified["geometry"] = simplified.geometry.simplify(50, preserve_topology=True)
+    simplified = simplified.to_crs(WGS84)
+    fc = json.loads(simplified.to_json())
+    for feat in fc["features"]:
+        props = feat.get("properties", {})
+        feat["properties"] = {
+            "geoid": props.get("geoid", ""),
+            "name": props.get("name", ""),
+            "classCode": props.get("classCode", "other"),
+        }
+    fc["name"] = "pa_municipalities"
+    fc["crs"] = {"type": "name", "properties": {"name": "EPSG:4326"}}
+    path.write_text(json.dumps(fc, separators=(",", ":")))
+    log.info(
+        "wrote %s (%d features, %.1f KB)",
+        path,
+        len(fc["features"]),
+        path.stat().st_size / 1024,
+    )
+
+
 def simplify_for_web(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Simplify district polygons to ~50m tolerance in equal-area CRS.
 
@@ -534,10 +574,29 @@ def simplify_for_web(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     return out
 
 
+def build_chamber_geojson(
+    districts: gpd.GeoDataFrame,
+    munis: gpd.GeoDataFrame,
+    pop: pd.DataFrame,
+    county_names: dict[str, str],
+    output_path: Path,
+    label: str,
+) -> None:
+    """Intersect districts with munis, aggregate stats, simplify, write GeoJSON."""
+    log.info("building %s GeoJSON...", label)
+    inter = intersect_districts_x_munis(districts, munis)
+    stats = aggregate_district_stats(inter, pop, county_names)
+    enriched = districts.merge(stats, on="district", how="left")
+    enriched = simplify_for_web(enriched)
+    write_geojson(enriched, output_path)
+
+
 def main(argv: Iterable[str]) -> int:
     ensure_dirs()
-    log.info("loading districts...")
-    districts = load_districts()
+    log.info("loading house districts...")
+    house = load_districts()
+    log.info("loading senate districts...")
+    senate = load_senate_districts()
     log.info("loading counties...")
     counties = load_counties()
     county_names = dict(zip(counties["geoid"], counties["name"]))
@@ -548,15 +607,12 @@ def main(argv: Iterable[str]) -> int:
     log.info("loading ACS population...")
     pop = load_acs_population()
 
-    inter = intersect_districts_x_munis(districts, munis)
-    stats = aggregate_district_stats(inter, pop, county_names)
-
-    # Join stats back onto district geometries
-    enriched = districts.merge(stats, on="district", how="left")
-    enriched = simplify_for_web(enriched)
-
-    write_geojson(enriched, OUTPUT_PATH)
+    build_chamber_geojson(house, munis, pop, county_names, OUTPUT_PATH, "house")
+    build_chamber_geojson(
+        senate, munis, pop, county_names, SENATE_OUTPUT_PATH, "senate"
+    )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
+    write_munis_geojson(munis, MUNIS_OUTPUT_PATH)
     return 0
 
 

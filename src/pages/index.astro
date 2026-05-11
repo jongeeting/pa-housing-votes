@@ -1,10 +1,9 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { VoteMap } from "@/components/VoteMap";
+import { ALL_MAP_ITEMS } from "@/data/mapItems";
 import { APRIL_13_2026_ROLL_CALLS } from "@/data/votes/2026-04-13-housing";
 import { ROLL_CALL_HB2186_FLOOR } from "@/data/votes/2026-05-06-hb2186-floor";
-
-const rollCalls = [...APRIL_13_2026_ROLL_CALLS, ROLL_CALL_HB2186_FLOOR];
 
 interface StatusRow {
   bill: { id: string; label: string; shortTitle: string; sourceUrl?: string; billTextUrl?: string };
@@ -32,21 +31,22 @@ const statusRows: StatusRow[] = [
   <header class="page-header">
     <div class="page-header__inner">
       <p class="page-header__eyebrow">PA Housing Votes</p>
-      <h1>How every PA House district voted on zoning reform</h1>
+      <h1>How every PA House &amp; Senate district stands on zoning reform</h1>
       <p class="page-header__lede">
         On April 13, 2026 the House Housing &amp; Community Development
         committee reported two state zoning reform bills — both 19&ndash;7
         with bipartisan support. On May 6, the ADU bill (HB 2186) cleared
         second consideration on the House floor, 134&ndash;67, with every
-        Democrat plus 32 Republicans voting Yea. This map shows how each
-        district voted on each bill and which districts&rsquo;
-        representatives co-sponsored.
+        Democrat plus 32 Republicans voting Yea. The map shows House votes
+        plus the cosponsor maps for Senate bills (SB 1239 residential in
+        commercial zones, Rothman&rsquo;s Senate ADU memo, Sen. Street&rsquo;s
+        single-stair memo).
       </p>
     </div>
   </header>
 
   <main class="page-main">
-    <VoteMap client:only="react" rollCalls={rollCalls} />
+    <VoteMap client:only="react" items={ALL_MAP_ITEMS} />
   </main>
 
   <section class="page-notes">
@@ -100,42 +100,47 @@ const statusRows: StatusRow[] = [
     <ul>
       <li>
         <strong>Fill color</strong> shows how that district&rsquo;s
-        representative voted on the selected bill. Green = Yea, orange =
-        Nay, purple = cosponsor (no vote yet on this roll call), gray =
-        neither.
+        legislator engaged with the selected bill. Green = Yea, orange =
+        Nay, purple = sponsor or cosponsor, gray = no record.
       </li>
       <li>
         <strong>Outline color</strong> shows party (blue = Democrat,
         red = Republican).
       </li>
       <li>
-        <strong>Click a district</strong> to see the member, their vote
-        on each roll call, and the population share covered by the largest
-        municipalities and municipal class types.
+        <strong>Tabs at top</strong> switch between bills. Picking a
+        Senate bill swaps the map to the 50 Senate districts; picking a
+        House bill swaps back.
+      </li>
+      <li>
+        <strong>Layers panel</strong> (top-left) toggles county and
+        municipal boundaries on top of the choropleth, and lets you
+        highlight a single municipal class (e.g. all 1st-class townships
+        — the older 1970s-suburban-boom tier — vs. 2nd-class — exurban
+        and rural).
+      </li>
+      <li>
+        <strong>Click a district</strong> to see the member, every
+        tracked bill&rsquo;s status for that district, and the
+        population share covered by the largest counties, municipalities,
+        and municipal class types.
       </li>
     </ul>
 
     <h2>Sources</h2>
     <ul>
-      {rollCalls.map((rc) => (
-        <li>
-          {rc.bill.label}: {rc.bill.shortTitle} ({rc.committee ? "committee" : "floor"}, {rc.date}) &mdash;
-          <a href={rc.bill.sourceUrl} target="_blank" rel="noopener">
-            bill info
-          </a>{" | "}
-          <a href={rc.sourceUrl} target="_blank" rel="noopener">
-            roll call
-          </a>{" "}
-          (palegis.us)
-        </li>
-      ))}
       <li>
-        Districts: US Census TIGER/LINE 2024 (state legislative
-        districts, lower chamber).
+        Roll calls and bill metadata: palegis.us (linked per bill above).
       </li>
       <li>
-        Municipalities: US Census TIGER/LINE 2024 (county subdivisions)
-        with population from ACS 2023 5-year estimates.
+        Districts: US Census TIGER/LINE 2024 (state legislative
+        districts, lower and upper chambers).
+      </li>
+      <li>
+        Counties &amp; municipalities: US Census TIGER/LINE 2024;
+        population from ACS 2023 5-year estimates; municipal class from
+        the PA Department of Community &amp; Economic Development
+        (dced.pa.gov).
       </li>
     </ul>
   </section>

@@ -1,15 +1,24 @@
-import type { RollCall, MunicipalClass } from "@/lib/types";
+import type { Chamber, MapItem, MunicipalClass } from "@/lib/types";
 import { MUNICIPAL_CLASS_LABELS } from "@/lib/types";
-import { MEMBERS_BY_DISTRICT } from "@/data/members";
+import { getMemberByDistrict } from "@/data/members";
 import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
-import { findVote } from "@/lib/voteAggregation";
+import {
+  findVote,
+  getMapItemBill,
+  getMapItemChamber,
+  getMapItemCosponsorship,
+  getMapItemId,
+  getMapItemRollCall,
+} from "@/lib/voteAggregation";
 import { VOTE_COLORS, COSPONSOR_FILL } from "@/lib/colors";
 
 interface Props {
   district: string;
   /** Raw GeoJSON feature properties from MapLibre. */
   properties: Record<string, unknown>;
-  rollCalls: RollCall[];
+  /** Which chamber's districts the user clicked on. */
+  chamber: Chamber;
+  items: MapItem[];
   onClose: () => void;
 }
 
@@ -54,37 +63,51 @@ const formatPct = (n: number) => `${Math.round(n * 100)}%`;
 const formatPop = (n: number) =>
   new Intl.NumberFormat("en-US").format(Math.round(n));
 
-/** Check if a district's rep is a cosponsor (or prime sponsor) of a bill. */
-const getCosponsorInfo = (
-  district: string,
-  billId: string,
-): { isCosponsor: boolean; isSponsor: boolean; name: string | null } => {
-  const cs = COSPONSORSHIPS_BY_BILL.get(billId);
-  if (!cs) return { isCosponsor: false, isSponsor: false, name: null };
+interface CosInfo {
+  isCosponsor: boolean;
+  isSponsor: boolean;
+}
+
+const cosponsorInfoForItem = (item: MapItem, district: string): CosInfo => {
+  // For cosponsor-only items the cosponsorship is attached to the item.
+  // For roll-call items, look up the bill's cosponsorship from the
+  // global index so the popup can show both the vote and (if applicable)
+  // the cosponsor pill side by side.
+  const cs =
+    getMapItemCosponsorship(item) ??
+    COSPONSORSHIPS_BY_BILL.get(getMapItemBill(item).id) ??
+    null;
+  if (!cs) return { isCosponsor: false, isSponsor: false };
   if (cs.primeSponsor.district === district)
-    return { isCosponsor: true, isSponsor: true, name: cs.primeSponsor.name };
-  const match = cs.cosponsors.find((c) => c.district === district);
-  if (match) return { isCosponsor: true, isSponsor: false, name: match.name };
-  return { isCosponsor: false, isSponsor: false, name: null };
+    return { isCosponsor: true, isSponsor: true };
+  if (cs.cosponsors.some((c) => c.district === district))
+    return { isCosponsor: true, isSponsor: false };
+  return { isCosponsor: false, isSponsor: false };
 };
 
 export const DistrictPopup = ({
   district,
   properties,
-  rollCalls,
+  chamber,
+  items,
   onClose,
 }: Props) => {
-  const member = MEMBERS_BY_DISTRICT.get(district) ?? null;
+  const member = getMemberByDistrict(chamber, district);
   const population = Number(properties.population ?? 0);
   const landAreaSqMi = Number(properties.landAreaSqMi ?? 0);
   const topMunis = parseList<TopMuniRow>(properties.topMunicipalities);
   const topCounties = parseList<TopCountyRow>(properties.topCounties);
   const classShares = parseClassShares(properties.classShares);
 
-  // Sort class shares for the stacked bar.
   const sortedClasses = Object.entries(classShares)
     .filter(([, v]) => v > 0.005)
     .sort(([, a], [, b]) => b - a) as [MunicipalClass, number][];
+
+  const districtLabel = chamber === "Senate" ? "PA Senate District" : "PA House District";
+
+  // Show only the items applicable to this chamber — clicking a senate
+  // district shouldn't surface a column of house roll calls.
+  const itemsForChamber = items.filter((i) => getMapItemChamber(i) === chamber);
 
   return (
     <div className="popup" role="dialog" aria-label={`District ${district}`}>
@@ -97,7 +120,9 @@ export const DistrictPopup = ({
         ×
       </button>
       <div className="popup__header">
-        <div className="popup__district">PA House District {district}</div>
+        <div className="popup__district">
+          {districtLabel} {district}
+        </div>
         {member ? (
           <div className="popup__member">
             <span
@@ -114,53 +139,62 @@ export const DistrictPopup = ({
         )}
       </div>
 
-      <div className="popup__section">
-        <div className="popup__section-title">Votes</div>
-        <table className="popup__votes">
-          <tbody>
-            {rollCalls.map((rc) => {
-              const v = member ? findVote(rc, member.id) : undefined;
-              const csInfo = getCosponsorInfo(district, rc.bill.id);
-              return (
-                <tr key={rc.id}>
-                  <td className="popup__bill-cell">{rc.bill.label}</td>
-                  <td>
-                    {v ? (
-                      <>
-                        <span
-                          className="popup__vote-pill"
-                          style={{ background: VOTE_COLORS[v.vote] }}
-                        >
-                          {v.vote}
-                        </span>
-                        {csInfo.isCosponsor && (
+      {itemsForChamber.length > 0 && (
+        <div className="popup__section">
+          <div className="popup__section-title">
+            {chamber === "Senate" ? "Senate bills" : "Bills tracked"}
+          </div>
+          <table className="popup__votes">
+            <tbody>
+              {itemsForChamber.map((item) => {
+                const bill = getMapItemBill(item);
+                const rc = getMapItemRollCall(item);
+                const v = rc && member ? findVote(rc, member.id) : undefined;
+                const cs = cosponsorInfoForItem(item, district);
+                return (
+                  <tr key={getMapItemId(item)}>
+                    <td className="popup__bill-cell">{bill.label}</td>
+                    <td>
+                      {v ? (
+                        <>
                           <span
                             className="popup__vote-pill"
-                            style={{ background: COSPONSOR_FILL, marginLeft: 4 }}
+                            style={{ background: VOTE_COLORS[v.vote] }}
                           >
-                            {csInfo.isSponsor ? "Sponsor" : "Cosponsor"}
+                            {v.vote}
                           </span>
-                        )}
-                      </>
-                    ) : csInfo.isCosponsor ? (
-                      <span
-                        className="popup__vote-pill"
-                        style={{ background: COSPONSOR_FILL }}
-                      >
-                        {csInfo.isSponsor ? "Prime sponsor" : "Cosponsor"}
-                      </span>
-                    ) : (
-                      <span className="popup__vote-pill popup__vote-pill--none">
-                        —
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+                          {cs.isCosponsor && (
+                            <span
+                              className="popup__vote-pill"
+                              style={{
+                                background: COSPONSOR_FILL,
+                                marginLeft: 4,
+                              }}
+                            >
+                              {cs.isSponsor ? "Sponsor" : "Cosponsor"}
+                            </span>
+                          )}
+                        </>
+                      ) : cs.isCosponsor ? (
+                        <span
+                          className="popup__vote-pill"
+                          style={{ background: COSPONSOR_FILL }}
+                        >
+                          {cs.isSponsor ? "Prime sponsor" : "Cosponsor"}
+                        </span>
+                      ) : (
+                        <span className="popup__vote-pill popup__vote-pill--none">
+                          —
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       <div className="popup__section">
         <div className="popup__section-title">District facts</div>

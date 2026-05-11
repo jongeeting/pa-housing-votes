@@ -1,4 +1,12 @@
-import type { RollCall, Vote, MemberVote, Cosponsorship } from "./types";
+import type {
+  Bill,
+  Chamber,
+  Cosponsorship,
+  MapItem,
+  MemberVote,
+  RollCall,
+  Vote,
+} from "./types";
 import { MEMBERS_BY_ID } from "@/data/members";
 
 export interface DistrictVoteSnapshot {
@@ -11,41 +19,66 @@ export interface DistrictVoteSnapshot {
   isSponsor: boolean;
 }
 
+/* ---------------------------------------------------------------------- */
+/*  MapItem accessors                                                     */
+/* ---------------------------------------------------------------------- */
+
+export const getMapItemBill = (item: MapItem): Bill =>
+  item.kind === "rollCall" ? item.rollCall.bill : item.bill;
+
+export const getMapItemChamber = (item: MapItem): Chamber =>
+  getMapItemBill(item).chamber;
+
+export const getMapItemId = (item: MapItem): string =>
+  item.kind === "rollCall" ? item.rollCall.id : `cosponsors-${item.bill.id}`;
+
+export const getMapItemRollCall = (item: MapItem): RollCall | null =>
+  item.kind === "rollCall" ? item.rollCall : null;
+
+export const getMapItemCosponsorship = (item: MapItem): Cosponsorship | null =>
+  item.kind === "cosponsorOnly" ? item.cosponsorship : null;
+
+/* ---------------------------------------------------------------------- */
+/*  Snapshot building                                                     */
+/* ---------------------------------------------------------------------- */
+
 /**
- * Build a district → vote map for a given roll call, optionally
- * merging cosponsorship data so cosponsor districts get a distinct
- * fill even if the rep isn't on the committee.
+ * Build a district → snapshot map for a MapItem. Works for both roll
+ * calls (votes + cosponsor overlay) and cosponsor-only items (just the
+ * cosponsor overlay; vote stays null everywhere).
  */
 export const snapshotByDistrict = (
-  rollCall: RollCall,
+  item: MapItem,
   cosponsorship?: Cosponsorship,
 ): Map<string, DistrictVoteSnapshot> => {
   const out = new Map<string, DistrictVoteSnapshot>();
+  const rollCall = getMapItemRollCall(item);
+  const cs = cosponsorship ?? getMapItemCosponsorship(item) ?? undefined;
 
-  // 1. Committee votes
-  for (const mv of rollCall.votes) {
-    const member = MEMBERS_BY_ID.get(mv.memberId);
-    if (!member) continue;
-    out.set(member.district, {
-      district: member.district,
-      vote: mv.vote,
-      memberId: member.id,
-      memberName: member.fullName,
-      party: member.party,
-      isCosponsor: false,
-      isSponsor: false,
-    });
+  // 1. Vote records (only present for roll-call items)
+  if (rollCall) {
+    for (const mv of rollCall.votes) {
+      const member = MEMBERS_BY_ID.get(mv.memberId);
+      if (!member) continue;
+      out.set(member.district, {
+        district: member.district,
+        vote: mv.vote,
+        memberId: member.id,
+        memberName: member.fullName,
+        party: member.party,
+        isCosponsor: false,
+        isSponsor: false,
+      });
+    }
   }
 
   // 2. Merge cosponsorship data
-  if (cosponsorship) {
-    const { primeSponsor, cosponsors } = cosponsorship;
-
-    // Prime sponsor
-    const existing = out.get(primeSponsor.district);
-    if (existing) {
-      existing.isSponsor = true;
-      existing.isCosponsor = true;
+  if (cs) {
+    const { primeSponsor, cosponsors } = cs;
+    const existingPrime = out.get(primeSponsor.district);
+    if (existingPrime) {
+      existingPrime.isSponsor = true;
+      existingPrime.isCosponsor = true;
     } else {
       out.set(primeSponsor.district, {
         district: primeSponsor.district,
@@ -57,19 +90,17 @@ export const snapshotByDistrict = (
         isSponsor: true,
       });
     }
-
-    // Cosponsors
-    for (const cs of cosponsors) {
-      const snap = out.get(cs.district);
+    for (const c of cosponsors) {
+      const snap = out.get(c.district);
       if (snap) {
         snap.isCosponsor = true;
       } else {
-        out.set(cs.district, {
-          district: cs.district,
+        out.set(c.district, {
+          district: c.district,
           vote: null,
           memberId: null,
-          memberName: cs.name,
-          party: cs.party,
+          memberName: c.name,
+          party: c.party,
           isCosponsor: true,
           isSponsor: false,
         });
@@ -80,8 +111,12 @@ export const snapshotByDistrict = (
   return out;
 };
 
+/* ---------------------------------------------------------------------- */
+/*  Helpers                                                               */
+/* ---------------------------------------------------------------------- */
+
 /**
- * Helper: find a member's vote on a specific roll call.
+ * Find a member's vote on a specific roll call.
  */
 export const findVote = (
   rollCall: RollCall,

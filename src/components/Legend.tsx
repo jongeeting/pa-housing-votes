@@ -1,42 +1,51 @@
-import type { RollCall } from "@/lib/types";
+import type { MapItem } from "@/lib/types";
 import { VOTE_COLORS, COSPONSOR_FILL, NO_VOTE_FILL, PARTY_STROKE } from "@/lib/colors";
+import { getMapItemBill, getMapItemRollCall } from "@/lib/voteAggregation";
 
 interface Props {
-  rollCall: RollCall;
+  item: MapItem;
 }
 
-export const Legend = ({ rollCall }: Props) => {
+export const Legend = ({ item }: Props) => {
+  const bill = getMapItemBill(item);
+  const rc = getMapItemRollCall(item);
   return (
     <div className="legend">
-      <div className="legend__title">{rollCall.bill.label} vote</div>
+      <div className="legend__title">
+        {bill.label} {rc ? "vote" : "cosponsors"}
+      </div>
       <ul className="legend__list">
-        <li>
-          <span
-            className="legend__swatch"
-            style={{ background: VOTE_COLORS.Yea }}
-          />
-          Yea
-        </li>
-        <li>
-          <span
-            className="legend__swatch"
-            style={{ background: VOTE_COLORS.Nay }}
-          />
-          Nay
-        </li>
-        <li>
-          <span
-            className="legend__swatch"
-            style={{ background: VOTE_COLORS["Not Voting"] }}
-          />
-          Not voting / absent
-        </li>
+        {rc && (
+          <>
+            <li>
+              <span
+                className="legend__swatch"
+                style={{ background: VOTE_COLORS.Yea }}
+              />
+              Yea
+            </li>
+            <li>
+              <span
+                className="legend__swatch"
+                style={{ background: VOTE_COLORS.Nay }}
+              />
+              Nay
+            </li>
+            <li>
+              <span
+                className="legend__swatch"
+                style={{ background: VOTE_COLORS["Not Voting"] }}
+              />
+              Not voting / absent
+            </li>
+          </>
+        )}
         <li>
           <span
             className="legend__swatch"
             style={{ background: COSPONSOR_FILL }}
           />
-          Cosponsor
+          {rc ? "Cosponsor" : "Cosponsor / sponsor"}
         </li>
         <li>
           <span
