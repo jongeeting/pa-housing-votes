@@ -2,29 +2,58 @@
 import Layout from "@/layouts/Layout.astro";
 import { VoteMap } from "@/components/VoteMap";
 import { ALL_MAP_ITEMS } from "@/data/mapItems";
-import { APRIL_13_2026_ROLL_CALLS } from "@/data/votes/2026-04-13-housing";
-import { ROLL_CALL_HB2186_FLOOR } from "@/data/votes/2026-05-06-hb2186-floor";
+import { ALL_BILLS } from "@/data/bills/all-bills";
+import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
+import { groupBillsByTopic } from "@/lib/billGroups";
+import type { Bill, BillStatus } from "@/lib/types";
 
-interface StatusRow {
-  bill: { id: string; label: string; shortTitle: string; sourceUrl?: string; billTextUrl?: string };
-  committeeVote: { totals: { yea: number; nay: number }; sourceUrl: string };
-  floorVote?: { totals: { yea: number; nay: number }; sourceUrl: string };
-  status: string;
-}
+const billGroups = groupBillsByTopic(ALL_BILLS);
 
-const statusRows: StatusRow[] = [
-  {
-    bill: APRIL_13_2026_ROLL_CALLS[0].bill,
-    committeeVote: APRIL_13_2026_ROLL_CALLS[0],
-    floorVote: ROLL_CALL_HB2186_FLOOR,
-    status: "Passed 2nd consideration; awaiting 3rd / final passage",
-  },
-  {
-    bill: APRIL_13_2026_ROLL_CALLS[1].bill,
-    committeeVote: APRIL_13_2026_ROLL_CALLS[1],
-    status: "Laid on the table; awaiting 2nd consideration",
-  },
-];
+const STATUS_LABEL: Record<BillStatus, string> = {
+  memo: "Cosponsorship memo",
+  introduced: "Introduced",
+  in_committee: "In committee",
+  passed_committee: "Passed committee",
+  laid_on_table: "Laid on the table",
+  passed_2nd_consideration: "Passed 2nd consideration",
+  passed_chamber: "Passed chamber",
+  other_chamber: "In other chamber",
+  conference: "In conference",
+  enacted: "Enacted",
+  dead: "Dead (last session)",
+};
+
+const STATUS_TONE: Record<BillStatus, "active" | "warm" | "stalled" | "dead"> = {
+  memo: "stalled",
+  introduced: "stalled",
+  in_committee: "stalled",
+  passed_committee: "warm",
+  laid_on_table: "warm",
+  passed_2nd_consideration: "active",
+  passed_chamber: "active",
+  other_chamber: "active",
+  conference: "active",
+  enacted: "active",
+  dead: "dead",
+};
+
+const billAnchorId = (bill: Bill): string => `bill-${bill.id.toLowerCase()}`;
+
+const primeSponsorName = (bill: Bill): string | null => {
+  // Historical bills have prime sponsors who may have left office, so
+  // prefer the cosponsorship file's recorded name over a current-roster
+  // lookup. For bills with no cosponsorship file (rare), fall back to
+  // the district number alone.
+  const cs = COSPONSORSHIPS_BY_BILL.get(bill.id);
+  if (cs) return cs.primeSponsor.name;
+  return null;
+};
+
+const cosponsorCount = (bill: Bill): number => {
+  const cs = COSPONSORSHIPS_BY_BILL.get(bill.id);
+  if (!cs) return 0;
+  return cs.cosponsors.length;
+};
 ---
 
 <Layout title="PA Housing Votes — Zoning reform tracker">
@@ -46,56 +75,102 @@ const statusRows: StatusRow[] = [
     </div>
   </header>
 
-  <main class="page-main">
+  <main id="map" class="page-main">
     <VoteMap client:only="react" items={ALL_MAP_ITEMS} />
   </main>
 
-  <section class="page-notes">
-    <h2>Where the bills stand</h2>
-    <table class="status-table">
-      <thead>
-        <tr>
-          <th>Bill</th>
-          <th>Short title</th>
-          <th>Committee vote</th>
-          <th>Floor vote</th>
-          <th>Current status</th>
-          <th>Links</th>
-        </tr>
-      </thead>
-      <tbody>
-        {statusRows.map((row) => (
-          <tr>
-            <td><strong>{row.bill.label}</strong></td>
-            <td>{row.bill.shortTitle}</td>
-            <td>
-              <a href={row.committeeVote.sourceUrl} target="_blank" rel="noopener">
-                Passed {row.committeeVote.totals.yea}&ndash;{row.committeeVote.totals.nay}
-              </a>
-            </td>
-            <td>
-              {row.floorVote ? (
-                <a href={row.floorVote.sourceUrl} target="_blank" rel="noopener">
-                  Passed {row.floorVote.totals.yea}&ndash;{row.floorVote.totals.nay}
-                </a>
-              ) : (
-                <span class="muted">&mdash;</span>
-              )}
-            </td>
-            <td>{row.status}</td>
-            <td>
-              <a href={row.bill.sourceUrl} target="_blank" rel="noopener">Bill info</a>
-              {row.bill.billTextUrl && (
-                <>
-                  {" | "}
-                  <a href={row.bill.billTextUrl} target="_blank" rel="noopener">Full text (PDF)</a>
-                </>
-              )}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+  <section id="bills" class="page-notes bills-section">
+    <h2>Every tracked bill</h2>
+    <p class="bills-section__lede">
+      Pennsylvania is considering a wide slate of housing-affordability
+      legislation across both chambers. Bills are grouped by reform
+      type below — click any title to see who voted and where on the
+      map. Past-session bills are included as geographic context
+      since cosponsor patterns often predict where coalitions can be
+      rebuilt.
+    </p>
+    {billGroups.map((g) => (
+      <div class="bills-topic">
+        <h3 class="bills-topic__title">{g.topicLabel}</h3>
+        <div class="bills-grid">
+          {g.bills.map((bill) => {
+            const isHistorical = bill.session === "2023-2024";
+            const tone = STATUS_TONE[bill.status];
+            const sponsor = primeSponsorName(bill);
+            const coCount = cosponsorCount(bill);
+            return (
+              <article
+                id={billAnchorId(bill)}
+                class={`bill-card bill-card--${tone}${isHistorical ? " bill-card--historical" : ""}`}
+              >
+                <header class="bill-card__header">
+                  <div class="bill-card__title">
+                    <strong>{bill.label}</strong>{" "}
+                    <span
+                      class={`bill-card__shortTitle${isHistorical ? " bill-card__shortTitle--historical" : ""}`}
+                    >
+                      {bill.shortTitle}
+                    </span>
+                  </div>
+                  <div class="bill-card__chips">
+                    <span class={`bill-card__status bill-card__status--${tone}`}>
+                      {STATUS_LABEL[bill.status]}
+                    </span>
+                    <span class="bill-card__chamber">
+                      {bill.chamber}
+                      {isHistorical ? " · 2023-24" : ""}
+                    </span>
+                  </div>
+                </header>
+                <p class="bill-card__description">{bill.description}</p>
+                <dl class="bill-card__meta">
+                  {sponsor && (
+                    <div>
+                      <dt>Prime sponsor</dt>
+                      <dd>
+                        {sponsor}
+                        {isHistorical && (
+                          <span class="bill-card__then-rep"> (then-rep)</span>
+                        )}
+                      </dd>
+                    </div>
+                  )}
+                  {coCount > 0 && (
+                    <div>
+                      <dt>Cosponsors</dt>
+                      <dd>{coCount}</dd>
+                    </div>
+                  )}
+                  {bill.lastActionNote && (
+                    <div class="bill-card__action">
+                      <dt>Most recent action</dt>
+                      <dd>{bill.lastActionNote}</dd>
+                    </div>
+                  )}
+                </dl>
+                <p class="bill-card__links">
+                  {bill.sourceUrl && (
+                    <a href={bill.sourceUrl} target="_blank" rel="noopener">
+                      Bill page on palegis.us
+                    </a>
+                  )}
+                  {bill.billTextUrl && (
+                    <>
+                      {" · "}
+                      <a href={bill.billTextUrl} target="_blank" rel="noopener">
+                        Full bill text (PDF)
+                      </a>
+                    </>
+                  )}
+                  {" · "}
+                  <a href="#map">View on the map &uarr;</a>
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    ))}
 
     <h2>Reading the map</h2>
     <ul>
@@ -109,22 +184,24 @@ const statusRows: StatusRow[] = [
         red = Republican).
       </li>
       <li>
-        <strong>Tabs at top</strong> switch between bills. Picking a
-        Senate bill swaps the map to the 50 Senate districts; picking a
-        House bill swaps back.
+        <strong>The bill selector</strong> at the top of the map switches
+        between bills. Picking a Senate bill swaps the map to the 50
+        Senate districts; picking a House bill swaps back. The
+        &ldquo;Just explore the map&rdquo; option lets you browse without
+        a vote choropleth.
       </li>
       <li>
-        <strong>Layers panel</strong> (top-left) toggles county and
-        municipal boundaries on top of the choropleth, and lets you
-        highlight a single municipal class (e.g. all 1st-class townships
-        — the older 1970s-suburban-boom tier — vs. 2nd-class — exurban
-        and rural).
+        <strong>Layers panel</strong> (top-left) toggles county /
+        municipal boundaries and the other-chamber district lines, and
+        lets you highlight a single municipal class (e.g. all 1st-class
+        townships — the older 1970s-suburban-boom tier — vs. 2nd-class
+        — exurban and rural).
       </li>
       <li>
         <strong>Click a district</strong> to see the member, every
-        tracked bill&rsquo;s status for that district, and the
-        population share covered by the largest counties, municipalities,
-        and municipal class types.
+        tracked bill&rsquo;s status for that district, and population /
+        municipal context. Hover any municipality (when the muni layer
+        is on) for population, density, and class details.
       </li>
     </ul>
 

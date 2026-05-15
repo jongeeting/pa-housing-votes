@@ -6,6 +6,7 @@ import {
   getMapItemId,
   getMapItemRollCall,
 } from "@/lib/voteAggregation";
+import { TOPIC_LABEL, TOPIC_ORDER } from "@/lib/billGroups";
 
 interface Props {
   items: MapItem[];
@@ -15,35 +16,6 @@ interface Props {
 }
 
 export const EXPLORE_ID = "__explore__";
-
-const TOPIC_LABEL: Record<BillTopic, string> = {
-  adu: "Accessory Dwellings",
-  missing_middle: "Missing Middle (multi-unit in SFH zones)",
-  commercial_conversion: "Office / Commercial Conversion",
-  tod: "Transit-Oriented Development",
-  parking: "Parking Reform",
-  occupancy: "Occupancy Reform",
-  single_stair: "Single-Stair Reform",
-  governance: "Governance & Studies",
-  funding: "Funding & Grants",
-  workforce: "Workforce Training",
-  study: "Governance & Studies",
-};
-
-/** Display order — strategic first, supporting / context last. */
-const TOPIC_ORDER: BillTopic[] = [
-  "adu",
-  "missing_middle",
-  "commercial_conversion",
-  "tod",
-  "parking",
-  "occupancy",
-  "single_stair",
-  "funding",
-  "governance",
-  "workforce",
-  "study",
-];
 
 interface BillBucket {
   billId: string;

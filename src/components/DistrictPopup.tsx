@@ -73,6 +73,17 @@ const formatPct = (n: number) => `${Math.round(n * 100)}%`;
 const formatPop = (n: number) =>
   new Intl.NumberFormat("en-US").format(Math.round(n));
 
+/** First sentence of a description, capped at ~180 chars. */
+const briefSentence = (description: string): string => {
+  if (!description) return "";
+  const periodIdx = description.indexOf(". ");
+  if (periodIdx > -1 && periodIdx <= 180) {
+    return description.slice(0, periodIdx + 1);
+  }
+  if (description.length <= 180) return description;
+  return description.slice(0, 180).trimEnd() + "…";
+};
+
 const SHORT_MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
@@ -254,6 +265,17 @@ export const DistrictPopup = ({
                     <span className="popup__past-session-tag">Past session</span>
                   )}
                 </div>
+                {bill.description && (
+                  <div className="popup__bill-brief">
+                    {briefSentence(bill.description)}{" "}
+                    <a
+                      href={`/#bill-${bill.id.toLowerCase()}`}
+                      className="popup__bill-link"
+                    >
+                      More info ↓
+                    </a>
+                  </div>
+                )}
                 <table className="popup__votes">
                   <tbody>
                     {billItems.map((item) => {

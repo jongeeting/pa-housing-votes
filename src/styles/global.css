@@ -40,6 +40,62 @@ code {
 
 /* Page chrome ------------------------------------------------------------- */
 
+.site-nav {
+  background: #0f172a;
+  color: #fff;
+  border-bottom: 1px solid #1e293b;
+}
+.site-nav__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.site-nav__brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.site-nav__brand:hover {
+  color: #c7d2fe;
+}
+.site-nav__links {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.site-nav__links a {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 4px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+.site-nav__links a:hover {
+  color: #fff;
+  border-bottom-color: #c7d2fe;
+}
+@media (max-width: 540px) {
+  .site-nav__inner {
+    padding: 0.6rem 1rem;
+  }
+  .site-nav__links {
+    gap: 0.85rem;
+  }
+  .site-nav__links a {
+    font-size: 0.78rem;
+  }
+}
+
 .page-header {
   background: #fff;
   border-bottom: 1px solid var(--border);
@@ -481,6 +537,196 @@ code {
   margin: 0;
 }
 
+/* Bills index ------------------------------------------------------------- */
+
+.bills-section__lede {
+  max-width: 720px;
+  color: var(--fg-muted);
+}
+.bills-topic {
+  margin-top: 1.5rem;
+}
+.bills-topic__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid #c7d2fe;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+}
+.bills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0.85rem;
+}
+.bill-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 0.85rem 1rem 0.9rem;
+  scroll-margin-top: 64px; /* keep #bill-X anchors clear of the nav */
+}
+.bill-card--active {
+  border-left-color: #16a34a; /* green-600 — actively moving */
+}
+.bill-card--warm {
+  border-left-color: #f59e0b; /* amber-500 — passed something, sitting */
+}
+.bill-card--stalled {
+  border-left-color: #94a3b8; /* slate-400 — pre-action */
+}
+.bill-card--dead {
+  border-left-color: #cbd5e1;
+  opacity: 0.85;
+}
+.bill-card--historical {
+  background: #f8fafc;
+}
+.bill-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+.bill-card__title strong {
+  font-size: 1.02rem;
+  margin-right: 6px;
+}
+.bill-card__shortTitle {
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+}
+.bill-card__shortTitle--historical {
+  font-style: italic;
+}
+.bill-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.bill-card__status {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: #e2e8f0;
+  color: #334155;
+  white-space: nowrap;
+}
+.bill-card__status--active {
+  background: #d1fae5;
+  color: #065f46;
+}
+.bill-card__status--warm {
+  background: #fef3c7;
+  color: #92400e;
+}
+.bill-card__status--stalled {
+  background: #e2e8f0;
+  color: #475569;
+}
+.bill-card__status--dead {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.bill-card__chamber {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: #f1f5f9;
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.bill-card__description {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin: 0.4rem 0 0.55rem;
+}
+.bill-card__meta {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+}
+.bill-card__meta > div {
+  display: flex;
+  gap: 0.4rem;
+}
+.bill-card__meta dt {
+  font-weight: 600;
+  color: var(--fg-muted);
+  min-width: 6.5em;
+}
+.bill-card__meta dd {
+  margin: 0;
+  color: var(--fg);
+}
+.bill-card__then-rep {
+  color: var(--fg-muted);
+  font-style: italic;
+  font-size: 0.78rem;
+}
+.bill-card__action dd {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+}
+.bill-card__links {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.bill-card__links a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.bill-card__links a:hover {
+  text-decoration: underline;
+}
+
+/* Muni hover tooltip ------------------------------------------------------ */
+
+.muni-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 12;
+  background: rgba(15, 23, 42, 0.94);
+  color: #fff;
+  border-radius: 6px;
+  padding: 7px 11px 8px;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  max-width: 280px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  font-variant-numeric: tabular-nums;
+}
+.muni-tooltip__name {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.muni-tooltip__meta {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.7rem;
+  margin-top: 1px;
+}
+.muni-tooltip__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
 /* Popup ------------------------------------------------------------------- */
 
 .popup {
@@ -630,6 +876,21 @@ code {
   color: var(--fg-muted);
   margin-top: 2px;
   font-style: italic;
+}
+.popup__bill-brief {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  line-height: 1.4;
+  margin: 2px 0 4px;
+}
+.popup__bill-link {
+  color: var(--accent, #2563eb);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.popup__bill-link:hover {
+  text-decoration: underline;
 }
 
 /* Nesting context (cross-chamber popup sections) */

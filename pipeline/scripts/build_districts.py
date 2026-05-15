@@ -607,22 +607,41 @@ def write_counties_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
     )
 
 
-def write_munis_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
+def write_munis_geojson(
+    gdf: gpd.GeoDataFrame,
+    pop: pd.DataFrame,
+    county_names: dict[str, str],
+    path: Path,
+) -> None:
     """Write the PA municipalities GeoJSON layer (used for the map's
-    municipal-boundaries overlay + class-highlight filter)."""
+    municipal-boundaries overlay + class-highlight filter + hover
+    tooltip). Each feature carries the muni's name, class, county, ACS
+    population, land area in square miles, and population density."""
     path.parent.mkdir(parents=True, exist_ok=True)
+    enriched = gdf.copy()
+    enriched = enriched.merge(pop, on="geoid", how="left")
+    enriched["population"] = enriched["population"].fillna(0).astype(int)
+    # Equal-area CRS at this point (EPSG:5070) → area in m².
+    enriched["landAreaSqMi"] = enriched.geometry.area / 2_589_988.110336
+    enriched["countyName"] = enriched["countyGeoid"].map(county_names).fillna("")
     # 2,573 features — keep simplification moderate (50m) since users
     # toggle this on intentionally and might zoom in.
-    simplified = gdf.copy()
-    simplified["geometry"] = simplified.geometry.simplify(50, preserve_topology=True)
-    simplified = simplified.to_crs(WGS84)
-    fc = json.loads(simplified.to_json())
+    enriched["geometry"] = enriched.geometry.simplify(50, preserve_topology=True)
+    enriched = enriched.to_crs(WGS84)
+    fc = json.loads(enriched.to_json())
     for feat in fc["features"]:
         props = feat.get("properties", {})
+        land_area = float(props.get("landAreaSqMi") or 0)
+        population = int(props.get("population") or 0)
+        density = round(population / land_area) if land_area > 0 else 0
         feat["properties"] = {
             "geoid": props.get("geoid", ""),
             "name": props.get("name", ""),
             "classCode": props.get("classCode", "other"),
+            "countyName": props.get("countyName", ""),
+            "population": population,
+            "landAreaSqMi": round(land_area, 1),
+            "populationDensity": density,
         }
     fc["name"] = "pa_municipalities"
     fc["crs"] = {"type": "name", "properties": {"name": "EPSG:4326"}}
@@ -702,7 +721,7 @@ def main(argv: Iterable[str]) -> int:
         cross_chamber_data=sd_to_hd,
     )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
-    write_munis_geojson(munis, MUNIS_OUTPUT_PATH)
+    write_munis_geojson(munis, pop, county_names, MUNIS_OUTPUT_PATH)
     return 0
 
 

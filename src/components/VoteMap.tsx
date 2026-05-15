@@ -16,12 +16,14 @@ import {
   getMapItemCosponsorship,
   getMapItemId,
   snapshotByDistrict,
+  type DistrictVoteSnapshot,
 } from "@/lib/voteAggregation";
 import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
 import { DistrictPopup } from "./DistrictPopup";
 import { BillSelector } from "./BillSelector";
 import { Legend } from "./Legend";
 import { LayerPanel } from "./LayerPanel";
+import { MuniTooltip, type MuniTooltipData } from "./MuniTooltip";
 
 interface Props {
   items: MapItem[];
@@ -92,6 +94,11 @@ export const VoteMap = ({
   const [showHouseLines, setShowHouseLines] = useState(false);
   const [showSenateLines, setShowSenateLines] = useState(false);
   const [showNestedSupport, setShowNestedSupport] = useState(false);
+  // Cursor-following tooltip when hovering a muni (only when muni
+  // layer is on). Null = no hover.
+  const [hoveredMuni, setHoveredMuni] = useState<
+    { x: number; y: number; data: MuniTooltipData } | null
+  >(null);
   // Map<senate district id, full nested-support breakdown for active item>
   const [senateNestedSupport, setSenateNestedSupport] = useState<
     Map<string, import("@/lib/voteAggregation").NestedSupport>
@@ -117,9 +124,9 @@ export const VoteMap = ({
   }, [activeChamber]);
 
   // Snapshots keyed off the selected MapItem.
-  const districtSnapshots = useMemo(
+  const districtSnapshots = useMemo<Map<string, DistrictVoteSnapshot>>(
     () => {
-      if (!selectedItem) return new Map();
+      if (!selectedItem) return new Map<string, DistrictVoteSnapshot>();
       const cs =
         getMapItemCosponsorship(selectedItem) ??
         cosponsorships?.get(
@@ -463,6 +470,30 @@ export const VoteMap = ({
         map.getCanvas().style.cursor = "";
       });
 
+      // Muni hover tooltip — only fires when munis-fill is visible
+      // (controlled by showMunis). Cursor stays as default since
+      // there's no click action on munis; the tooltip just shows.
+      map.on("mousemove", "munis-fill", (e) => {
+        const feature = e.features?.[0];
+        if (!feature) return;
+        const props = feature.properties ?? {};
+        setHoveredMuni({
+          x: e.point.x,
+          y: e.point.y,
+          data: {
+            name: String(props.name ?? ""),
+            classCode: String(props.classCode ?? "other") as MuniTooltipData["classCode"],
+            countyName: String(props.countyName ?? ""),
+            population: Number(props.population ?? 0),
+            landAreaSqMi: Number(props.landAreaSqMi ?? 0),
+            populationDensity: Number(props.populationDensity ?? 0),
+          },
+        });
+      });
+      map.on("mouseleave", "munis-fill", () => {
+        setHoveredMuni(null);
+      });
+
       mapRef.current = map;
       setMapReady(true);
     });
@@ -593,13 +624,20 @@ export const VoteMap = ({
       "visibility",
       showMunis ? "visible" : "none",
     );
-    // Fill is visible iff munis-on AND a class is highlighted.
-    const fillVisible = showMunis && highlightClasses.size > 0;
+    // Fill is always-visible-when-munis-are-on so hover/tooltip
+    // works; class highlight controls opacity (0 when no class is
+    // selected → transparent but still hit-testable).
     map.setLayoutProperty(
       "munis-fill",
       "visibility",
-      fillVisible ? "visible" : "none",
+      showMunis ? "visible" : "none",
     );
+    const fillVisible = showMunis && highlightClasses.size > 0;
+    if (!showMunis) {
+      // Layer went away — drop stale tooltip; mouseleave doesn't fire
+      // when visibility flips.
+      setHoveredMuni(null);
+    }
     if (fillVisible) {
       const classes = Array.from(highlightClasses);
       // Per-muni opacity: highlighted classes get 0.55, others 0.
@@ -729,6 +767,13 @@ export const VoteMap = ({
           onShowNestedSupportChange={setShowNestedSupport}
         />
         {selectedItem && <Legend item={selectedItem} />}
+        {hoveredMuni && (
+          <MuniTooltip
+            x={hoveredMuni.x}
+            y={hoveredMuni.y}
+            data={hoveredMuni.data}
+          />
+        )}
         {selectedDistrict && (
           <DistrictPopup
             district={selectedDistrict.district}

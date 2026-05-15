@@ -1,0 +1,30 @@
+# Netlify build configuration for the pa-housing-votes Astro site.
+#
+# This is a static build (no SSR adapter); `astro build` produces a
+# fully-prerendered `dist/` directory which Netlify serves directly.
+
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[build.environment]
+  # Astro 5 supports Node 18+ but 20 is the current LTS sweet spot and
+  # what most CI defaults to.
+  NODE_VERSION = "20"
+
+# GeoJSON / JSON data assets are large and rarely change — let Netlify
+# serve them with a long cache + force revalidation when the underlying
+# file changes (Netlify hashes filenames for built JS/CSS but our data
+# files keep stable names).
+[[headers]]
+  for = "/data/*.geojson"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/data/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# Bun.lockb at the repo root isn't useful to Netlify (uses Node tools)
+# but the bun.lock IS — leave the package manager autodetection alone.
