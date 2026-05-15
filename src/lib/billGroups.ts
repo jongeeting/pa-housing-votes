@@ -2,7 +2,7 @@ import type { Bill, BillTopic } from "./types";
 
 export const TOPIC_LABEL: Record<BillTopic, string> = {
   adu: "Accessory Dwellings",
-  missing_middle: "Missing Middle (multi-unit in SFH zones)",
+  missing_middle: "Missing Middle (small apartments in single-family-only zones)",
   commercial_conversion: "Office / Commercial Conversion",
   tod: "Transit-Oriented Development",
   parking: "Parking Reform",

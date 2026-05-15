@@ -81,7 +81,7 @@ export const HB2045: Bill = {
   session: "2023-2024",
   chamber: "House",
   kind: "bill",
-  shortTitle: "Duplex/Triplex/Quadplex in SFH Areas",
+  shortTitle: "Duplex/Triplex/Quadplex in Single-Family-Only Zones",
   description:
     "Would have required municipalities to allow duplexes, triplexes, and quadplexes on lots currently zoned for single-family homes only — letting neighborhoods add modest density without large apartment buildings. Rep. Sappey (D-158) was the one Democratic defector. Reintroduced this session as HB 2185.",
   topics: ["missing_middle"],
@@ -286,7 +286,7 @@ export const HB2185: Bill = {
   session: "2025-2026",
   chamber: "House",
   kind: "bill",
-  shortTitle: "Duplex/Triplex/Fourplex in SFH Areas",
+  shortTitle: "Duplex/Triplex/Fourplex in Single-Family-Only Zones",
   description:
     "Requires municipalities to allow duplexes, triplexes, and quadplexes on lots currently zoned for single-family homes only — letting neighborhoods add modest density without large apartment buildings. Successor to HB 2045 from the 2023–2024 session.",
   topics: ["missing_middle"],

@@ -54,7 +54,7 @@ export type BillStatus =
 /** Policy area — a bill may have multiple. */
 export type BillTopic =
   | "adu" // Accessory dwelling units
-  | "missing_middle" // Duplex/triplex/fourplex in SFH areas
+  | "missing_middle" // Duplex/triplex/fourplex in single-family-only zones
   | "occupancy" // Unrelated-person occupancy caps (Golden Girls)
   | "parking" // Parking-minimum preemption
   | "tod" // Transit-oriented development

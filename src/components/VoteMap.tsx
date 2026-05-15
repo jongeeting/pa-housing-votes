@@ -513,13 +513,30 @@ export const VoteMap = ({
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady) return;
+    const exploreMode = !selectedItem;
     for (const chamber of ["House", "Senate"] as Chamber[]) {
-      const visibility = chamber === activeChamber ? "visible" : "none";
-      for (const lid of [fillLayerId(chamber), outlineLayerId(chamber), selectedLayerId(chamber)]) {
-        if (map.getLayer(lid)) map.setLayoutProperty(lid, "visibility", visibility);
+      const isActive = chamber === activeChamber;
+      // Fill + selected-ring follow the active chamber regardless of
+      // mode — we need a clickable surface for the popup either way.
+      for (const lid of [fillLayerId(chamber), selectedLayerId(chamber)]) {
+        if (map.getLayer(lid)) {
+          map.setLayoutProperty(lid, "visibility", isActive ? "visible" : "none");
+        }
+      }
+      // Active-chamber outline:
+      //   Bill mode → always on (carries party-stroke colors).
+      //   Explore mode → controlled by the chamber's line toggle so
+      //     the user can start with a clean canvas and add lines.
+      const wantOutline = isActive && (
+        !exploreMode ||
+        (chamber === "House" ? showHouseLines : showSenateLines)
+      );
+      const outlineId = outlineLayerId(chamber);
+      if (map.getLayer(outlineId)) {
+        map.setLayoutProperty(outlineId, "visibility", wantOutline ? "visible" : "none");
       }
     }
-  }, [activeChamber, mapReady]);
+  }, [activeChamber, showHouseLines, showSenateLines, selectedItem, mapReady]);
 
   /* ------------------------------------------------------------------ */
   /*  Cross-chamber overlay visibility + heatmap paint                  */
