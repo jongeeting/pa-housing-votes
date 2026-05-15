@@ -776,13 +776,19 @@ code {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
-  padding: 1rem 1.1rem 1.1rem;
+  /* Top padding lives inside the sticky header so the header can pin
+   * flush to the top of the popup when the user scrolls — useful for
+   * social-media screenshots of legislator + voting history together. */
+  padding: 0 1.1rem 1.1rem;
   font-size: 0.88rem;
   max-height: calc(100% - 24px);
   overflow-y: auto;
   z-index: 11;
 }
 .popup__close {
+  /* Anchored to the popup card itself — stays at the top-right
+   * corner regardless of scroll, sitting above the sticky header
+   * so the X is always reachable. */
   position: absolute;
   top: 6px;
   right: 8px;
@@ -793,12 +799,19 @@ code {
   color: var(--fg-muted);
   cursor: pointer;
   padding: 4px 8px;
+  z-index: 3;
 }
 .popup__close:hover {
   color: var(--fg);
 }
 .popup__header {
-  margin-bottom: 0.6rem;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  margin: 0 -1.1rem 0.6rem;
+  padding: 0.9rem 2.5rem 0.55rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  z-index: 2;
 }
 .popup__district {
   font-size: 0.75rem;
