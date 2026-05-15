@@ -38,14 +38,24 @@ const {
     </nav>
     <slot />
     <footer class="page-footer">
-      <p>
-        Brought to you by
-        {" "}
-        <a class="footer-bpn" href="https://buildphillynow.substack.com" target="_blank" rel="noopener">
-          <span class="footer-bpn__mark" aria-hidden="true">BPN</span>
-          <span class="footer-bpn__wordmark">Build Philly Now</span>
-        </a>
-        . Source on
+      <p class="page-footer__brand-line">Brought to you by</p>
+      <a
+        class="footer-bpn"
+        href="https://buildphillynow.substack.com"
+        target="_blank"
+        rel="noopener"
+        aria-label="Build Philly Now"
+      >
+        <img
+          src="/bpn-logo.svg"
+          alt="Build Philly Now"
+          class="footer-bpn__logo"
+          width="160"
+          height="61"
+        />
+      </a>
+      <p class="page-footer__github">
+        Source on
         {" "}
         <a href="https://github.com/jongeeting/pa-housing-votes">GitHub</a>.
       </p>
