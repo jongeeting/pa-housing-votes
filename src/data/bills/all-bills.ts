@@ -21,11 +21,11 @@ export const HB1976: Bill = {
   session: "2023-2024",
   chamber: "House",
   kind: "bill",
-  shortTitle: "Multi-Family Housing in Office Zones",
+  shortTitle: "Multi-Family Housing in Commercial Zones",
   description:
-    "Would have required municipalities to allow multi-family housing by right in areas zoned for office or commercial use — the office-to-residential conversion play. Reintroduced this session as HB 1459.",
+    "Would have required municipalities to allow apartment buildings, mixed-use developments, and conversions of existing buildings in any commercially-zoned area — downtowns, office districts, malls, strip centers. Reintroduced this session as HB 1459.",
   topics: ["commercial_conversion"],
-  status: "laid_on_table",
+  status: "dead",
   primeSponsorDistrict: "22", // Joshua Siegel (former)
   committee: "Local Government",
   introducedDate: "2024-02-01",
@@ -63,7 +63,7 @@ export const SB1126: Bill = {
   kind: "bill",
   shortTitle: "Bipartisan Zoning Reform Omnibus",
   description:
-    "DiSanto's omnibus bill amending the Municipalities Planning Code to legalize accessory dwelling units, duplexes/triplexes/fourplexes, and manufactured homes statewide — a bipartisan Senate land-use reform package framed as \"Housing Affordability through Land Use Reforms.\" 5 Republican + 3 Democratic cosponsors. Most of its provisions are now being pursued in this session as separate bills (HB 2186, HB 2185, etc.).",
+    "DiSanto's omnibus bill amending the Municipalities Planning Code to legalize accessory dwelling units, duplexes/triplexes/fourplexes, and manufactured homes statewide — a bipartisan Senate land-use reform package framed as \"Housing Affordability through Land Use Reforms.\" 5 Republican + 3 Democratic cosponsors.",
   topics: ["adu", "missing_middle", "commercial_conversion"],
   status: "dead",
   primeSponsorDistrict: "15", // John DiSanto (former — did not seek re-election in 2024)
@@ -83,9 +83,9 @@ export const HB2045: Bill = {
   kind: "bill",
   shortTitle: "Duplex/Triplex/Quadplex in SFH Areas",
   description:
-    "Would have required municipalities to allow duplex, triplex, and quadplex housing by right on lots zoned for single-family homes — the missing-middle play. Rep. Sappey (D-158) was the one Democratic defector. Reintroduced this session as HB 2185.",
+    "Would have required municipalities to allow duplexes, triplexes, and quadplexes on lots currently zoned for single-family homes only — letting neighborhoods add modest density without large apartment buildings. Rep. Sappey (D-158) was the one Democratic defector. Reintroduced this session as HB 2185.",
   topics: ["missing_middle"],
-  status: "laid_on_table",
+  status: "dead",
   primeSponsorDistrict: "22", // Joshua Siegel (former)
   committee: "Local Government",
   introducedDate: "2024-03-15",
@@ -149,9 +149,9 @@ export const HB2155: Bill = {
   session: "2025-2026",
   chamber: "House",
   kind: "bill",
-  shortTitle: "Parking Minimum Preemption",
+  shortTitle: "Parking Flexibility",
   description:
-    "Prohibits municipalities from imposing off-street parking minimum requirements for new development, removing a major cost driver in housing construction.",
+    "Sets a state zoning standard that municipalities may not require off-street parking minimums for new development, reducing a major housing cost driver.",
   topics: ["parking"],
   status: "in_committee",
   primeSponsorDistrict: "54", // Greg Scott
@@ -265,9 +265,9 @@ export const HB1459: Bill = {
   session: "2025-2026",
   chamber: "House",
   kind: "bill",
-  shortTitle: "Multi-Family Housing in Office Zones",
+  shortTitle: "Multi-Family Housing in Commercial Zones",
   description:
-    "Requires municipalities to allow multi-family housing by right in areas zoned for office or commercial use — the office-to-residential conversion play. Reintroduction of HB 1976 from the 2023–2024 session.",
+    "Requires municipalities to allow apartment buildings, mixed-use developments, and conversions of existing buildings in any commercially-zoned area — downtowns, office districts, malls, strip centers. Reintroduction of HB 1976 from the 2023–2024 session.",
   topics: ["commercial_conversion"],
   status: "in_committee",
   primeSponsorDistrict: "22", // Joshua Siegel (resigned for Lehigh Co. Exec; Inglis flagged as taking over but transfer not yet recorded on palegis as of this writing)
@@ -288,7 +288,7 @@ export const HB2185: Bill = {
   kind: "bill",
   shortTitle: "Duplex/Triplex/Fourplex in SFH Areas",
   description:
-    "Requires municipalities to allow duplexes, triplexes, and quadplexes by right in areas zoned for single-family homes — the missing-middle play. Successor to HB 2045 from the 2023–2024 session.",
+    "Requires municipalities to allow duplexes, triplexes, and quadplexes on lots currently zoned for single-family homes only — letting neighborhoods add modest density without large apartment buildings. Successor to HB 2045 from the 2023–2024 session.",
   topics: ["missing_middle"],
   status: "in_committee",
   primeSponsorDistrict: "38", // John Inglis III
@@ -312,7 +312,7 @@ export const SB1239: Bill = {
   kind: "bill",
   shortTitle: "Residential in Commercial Zones",
   description:
-    "Requires municipalities to allow multifamily, mixed-use, and adaptive-reuse residential development by-right in commercially-zoned areas like malls, office parks, and downtowns. Amends the Municipalities Planning Code, which by default excludes Philadelphia and Pittsburgh.",
+    "Requires municipalities to allow apartment buildings, mixed-use developments, and conversions of existing commercial buildings in commercially-zoned areas like malls, office parks, and downtowns. Amends the Municipalities Planning Code, which, without amendment, excludes Philadelphia and Pittsburgh.",
   topics: ["commercial_conversion"],
   status: "in_committee",
   primeSponsorDistrict: "16", // Jarrett Coleman
@@ -337,7 +337,7 @@ export const HOUSE_MEMO_47776: Bill = {
   kind: "memo",
   shortTitle: "Building More Homes Near Transit",
   description:
-    "A cosponsorship memo proposing legislation to require increased residential density near public transit stops. Aims to expand housing supply, reduce car dependency, and lower emissions through transit-oriented development.",
+    "Aims to expand housing opportunities near transit amenities, to support transit ridership and local economic development.",
   topics: ["tod"],
   status: "memo",
   primeSponsorDistrict: "38", // John Inglis III

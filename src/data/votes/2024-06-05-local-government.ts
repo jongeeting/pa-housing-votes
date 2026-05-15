@@ -8,10 +8,11 @@ import { HB1976, HB2045 } from "../bills/all-bills";
  * committee but never advanced further and were laid on the table when
  * session ended:
  *
- *   HB 1976 — Multi-family housing in office-zoned areas (commercial
- *     conversion). Reintroduced this term as HB 1459.
- *   HB 2045 — Duplex / triplex / quadplex by-right in single-family
- *     zones (missing middle). Reintroduced this term as HB 2185.
+ *   HB 1976 — Multi-family housing in commercially-zoned areas
+ *     (downtowns, office districts, malls, strip centers).
+ *     Reintroduced this term as HB 1459.
+ *   HB 2045 — Duplex / triplex / quadplex in single-family zones
+ *     (missing middle). Reintroduced this term as HB 2185.
  *
  * Note: an earlier version of this file described both bills as missing-
  * middle. That was wrong for HB 1976 — verified against palegis.

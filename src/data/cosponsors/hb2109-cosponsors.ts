@@ -1,8 +1,8 @@
 import type { Cosponsorship } from "@/lib/types";
 
 /**
- * HB 2109 — "The Golden Girls Law" — occupancy limits preemption.
- * Cosponsors transcribed from palegis.us bill page screenshot 2025-04-14.
+ * HB 2109 — "The Golden Girls Law" — occupancy reform.
+ * Cosponsors transcribed from palegis.us bill page screenshot 2026-04-14.
  */
 export const HB2109_COSPONSORSHIP: Cosponsorship = {
   billId: "HB2109",

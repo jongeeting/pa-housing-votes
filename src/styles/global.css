@@ -557,8 +557,18 @@ code {
 }
 .bills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  /* min(100%, 320px) lets columns shrink to the full container width
+   * on narrow phones instead of overflowing horizontally. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: 0.85rem;
+}
+.bills-past-section {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.bills-past-section .bills-section__lede {
+  margin: 0.4rem 0 1rem;
 }
 .bill-card {
   background: #fff;
@@ -567,6 +577,9 @@ code {
   border-radius: 6px;
   padding: 0.85rem 1rem 0.9rem;
   scroll-margin-top: 64px; /* keep #bill-X anchors clear of the nav */
+  /* Prevent any single long token (URLs, joined words) from forcing a
+   * narrow card to scroll horizontally. */
+  overflow-wrap: anywhere;
 }
 .bill-card--active {
   border-left-color: #16a34a; /* green-600 — actively moving */

@@ -1,0 +1,112 @@
+---
+import type { Bill, BillStatus } from "@/lib/types";
+import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
+
+interface Props {
+  bill: Bill;
+}
+const { bill } = Astro.props;
+
+const STATUS_LABEL: Record<BillStatus, string> = {
+  memo: "Cosponsorship memo",
+  introduced: "Introduced",
+  in_committee: "In committee",
+  passed_committee: "Passed committee",
+  laid_on_table: "Laid on the table",
+  passed_2nd_consideration: "Passed 2nd consideration",
+  passed_chamber: "Passed chamber",
+  other_chamber: "In other chamber",
+  conference: "In conference",
+  enacted: "Enacted",
+  dead: "Dead (last session)",
+};
+
+const STATUS_TONE: Record<BillStatus, "active" | "warm" | "stalled" | "dead"> = {
+  memo: "stalled",
+  introduced: "stalled",
+  in_committee: "stalled",
+  passed_committee: "warm",
+  laid_on_table: "warm",
+  passed_2nd_consideration: "active",
+  passed_chamber: "active",
+  other_chamber: "active",
+  conference: "active",
+  enacted: "active",
+  dead: "dead",
+};
+
+const isHistorical = bill.session === "2023-2024";
+const tone = STATUS_TONE[bill.status];
+const cs = COSPONSORSHIPS_BY_BILL.get(bill.id);
+const sponsor = cs?.primeSponsor.name ?? null;
+const coCount = cs?.cosponsors.length ?? 0;
+const anchorId = `bill-${bill.id.toLowerCase()}`;
+---
+
+<article
+  id={anchorId}
+  class={`bill-card bill-card--${tone}${isHistorical ? " bill-card--historical" : ""}`}
+>
+  <header class="bill-card__header">
+    <div class="bill-card__title">
+      <strong>{bill.label}</strong>{" "}
+      <span
+        class={`bill-card__shortTitle${isHistorical ? " bill-card__shortTitle--historical" : ""}`}
+      >
+        {bill.shortTitle}
+      </span>
+    </div>
+    <div class="bill-card__chips">
+      <span class={`bill-card__status bill-card__status--${tone}`}>
+        {STATUS_LABEL[bill.status]}
+      </span>
+      <span class="bill-card__chamber">
+        {bill.chamber}
+        {isHistorical ? " · 2023-24" : ""}
+      </span>
+    </div>
+  </header>
+  <p class="bill-card__description">{bill.description}</p>
+  <dl class="bill-card__meta">
+    {sponsor && (
+      <div>
+        <dt>Prime sponsor</dt>
+        <dd>
+          {sponsor}
+          {isHistorical && (
+            <span class="bill-card__then-rep"> (then-rep)</span>
+          )}
+        </dd>
+      </div>
+    )}
+    {coCount > 0 && (
+      <div>
+        <dt>Cosponsors</dt>
+        <dd>{coCount}</dd>
+      </div>
+    )}
+    {bill.lastActionNote && (
+      <div class="bill-card__action">
+        <dt>Most recent action</dt>
+        <dd>{bill.lastActionNote}</dd>
+      </div>
+    )}
+  </dl>
+  <p class="bill-card__links">
+    {bill.sourceUrl && (
+      <a href={bill.sourceUrl} target="_blank" rel="noopener">
+        Bill page on palegis.us
+      </a>
+    )}
+    {bill.billTextUrl && (
+      <>
+        {" · "}
+        <a href={bill.billTextUrl} target="_blank" rel="noopener">
+          Full bill text (PDF)
+        </a>
+      </>
+    )}
+    {" · "}
+    <a href="#map">View on the map &uarr;</a>
+  </p>
+</article>
