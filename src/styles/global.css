@@ -770,6 +770,17 @@ code {
   padding-top: 5px;
   margin-top: 6px;
 }
+/* Hint shown on Philly + Pittsburgh muni hovers where the muni-wide
+   permit rate would be misleadingly uniform — we steer users to the
+   per-district click-popup, which uses parcel-level data. */
+.muni-tooltip__note {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.7rem;
+  font-style: italic;
+  margin-top: 5px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.18);
+}
 /* Two-column housing facts in the district popup. */
 .popup__facts--housing > div {
   display: grid;

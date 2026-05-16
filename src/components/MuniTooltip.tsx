@@ -43,6 +43,23 @@ const fmtRate = (n: number | null): string =>
   n === null || n === undefined || Number.isNaN(n) ? "—" : n.toFixed(1);
 
 /**
+ * Municipalities for which we have parcel-level permit data that the
+ * district popups expose at much finer resolution than the muni tooltip
+ * possibly can. The muni-wide rate is technically accurate but
+ * misleadingly uniform (every hover inside Philly's polygon would
+ * show 5.2/1k/yr), so we hide the permit row in the tooltip and point
+ * the user to click a district instead. Matched on (name, county)
+ * to avoid catching the tiny "New Philadelphia" borough in Schuylkill.
+ */
+const PARCEL_MUNI_KEYS = new Set<string>([
+  "Philadelphia|Philadelphia",
+  "Pittsburgh|Allegheny",
+]);
+
+const isParcelDataMuni = (name: string, countyName: string): boolean =>
+  PARCEL_MUNI_KEYS.has(`${name}|${countyName}`);
+
+/**
  * Tiny floating tooltip that follows the cursor when the muni layer is
  * visible. Shows the muni's name, class, county, headline demographics
  * (population / area / density) plus housing-affordability signals
@@ -52,8 +69,9 @@ const fmtRate = (n: number | null): string =>
 export const MuniTooltip = ({ x, y, data }: Props) => {
   const classLabel =
     MUNICIPAL_CLASS_LABELS[data.classCode] ?? data.classCode;
+  const isParcelMuni = isParcelDataMuni(data.name, data.countyName);
   const hasHousingFacts =
-    data.permitsPer1kPerYear !== null ||
+    (!isParcelMuni && data.permitsPer1kPerYear !== null) ||
     data.rentBurdenedPct !== null ||
     data.medianHomeValue !== null;
   return (
@@ -78,11 +96,20 @@ export const MuniTooltip = ({ x, y, data }: Props) => {
       </div>
       {hasHousingFacts && (
         <div className="muni-tooltip__stats muni-tooltip__stats--housing">
-          <span>Permitted {fmtRate(data.permitsPer1kPerYear)} units/1k/yr</span>
-          <span aria-hidden="true">·</span>
+          {!isParcelMuni && (
+            <>
+              <span>Permitted {fmtRate(data.permitsPer1kPerYear)} units/1k/yr</span>
+              <span aria-hidden="true">·</span>
+            </>
+          )}
           <span>{fmtPct(data.rentBurdenedPct)} rent-burdened</span>
           <span aria-hidden="true">·</span>
           <span>{fmtUSD(data.medianHomeValue)} median home</span>
+        </div>
+      )}
+      {isParcelMuni && (
+        <div className="muni-tooltip__note">
+          Permits vary a lot by district — click for breakdown
         </div>
       )}
     </div>
