@@ -116,6 +116,16 @@ ACS_URL = (
 BPS_BASE = "https://www2.census.gov/econ/bps/Place/Northeast%20Region"
 BPS_YEARS = [2020, 2021, 2022, 2023, 2024]
 
+# Cities for which we have parcel-level permit data, with the muni GEOIDs
+# that should be removed from the BPS aggregation to avoid double-counting.
+# Per-city CSVs live in pipeline/data/permits/{city}.csv with a shared
+# schema (see fetch_philly_permits.py docstring).
+PARCEL_CITIES = {
+    "philadelphia": "4210160000",  # Philadelphia city
+    "pittsburgh":   "4200361000",  # Pittsburgh city
+}
+PERMITS_DIR = PIPELINE_DIR / "data" / "permits"
+
 # Authoritative PA municipal classifications, maintained by DCED.
 # Includes CLASS column with PA legal designation (1st/2nd/2nd-A/3rd City,
 # Borough, 1st/2nd Township, Town). The Census CLASSFP code is generic
@@ -561,6 +571,78 @@ def load_bps_permits(years: list[int] = BPS_YEARS) -> pd.DataFrame:
     return grouped
 
 
+def redistribute_bps_across_slices(
+    bps_df: pd.DataFrame,
+    acs_df: pd.DataFrame,
+) -> pd.DataFrame:
+    """For cross-county municipalities (a single muni split across two
+    county GEOIDs because Census splits the polygon at county lines),
+    BPS reports the city's entire permit count under one slice's
+    GEOID. Without this fix, the reporting slice over-reports the
+    per-1000 rate (denominator is too small) and the other slice
+    shows "—".
+
+    The fix: group by MCD code (last 5 chars of GEOID — the
+    Census place id within PA), sum BPS permits and ACS population
+    across all slices of the same MCD, then redistribute the total
+    permits proportionally to each slice's population.
+
+    For single-county munis, the MCD has one slice; the math
+    collapses to no change.
+
+    Affected munis include Bethlehem (Lehigh + Northampton),
+    Adamstown borough (Berks + Lancaster), Telford borough (Bucks +
+    Montgomery), and a handful of other smaller cross-county
+    boroughs.
+    """
+    if bps_df.empty or acs_df.empty:
+        return bps_df
+
+    # MCD code is the last 5 chars of a 10-char GEOID
+    work = bps_df.copy()
+    work["mcd"] = work["geoid"].str[-5:]
+    pop = acs_df[["geoid", "population"]].copy()
+    pop["mcd"] = pop["geoid"].str[-5:]
+
+    mcd_permits = work.groupby("mcd")["permitsUnits5yrTotal"].sum()
+    mcd_years = work.groupby("mcd")["permitsYearsCovered"].max()
+    mcd_pop = pop.groupby("mcd")["population"].sum()
+
+    # Build a per-GEOID redistributed series. Start from every ACS GEOID
+    # so cross-county slices that had no BPS row still get their share.
+    out_rows = []
+    n_cross_county = 0
+    for _, r in pop.iterrows():
+        mcd = r["mcd"]
+        slice_pop = float(r["population"])
+        total_mcd_pop = float(mcd_pop.get(mcd, 0))
+        permits_at_mcd = float(mcd_permits.get(mcd, 0))
+        years_at_mcd = int(mcd_years.get(mcd, 0))
+        # Count how many GEOIDs share this MCD (cross-county detection)
+        slices = (pop["mcd"] == mcd).sum()
+        if slices > 1 and permits_at_mcd > 0:
+            n_cross_county += 1
+        if total_mcd_pop > 0 and permits_at_mcd > 0:
+            share = slice_pop / total_mcd_pop
+            allocated = permits_at_mcd * share
+        else:
+            allocated = 0.0
+        out_rows.append(
+            {
+                "geoid": r["geoid"],
+                "permitsUnits5yrTotal": allocated,
+                "permitsYearsCovered": years_at_mcd,
+            }
+        )
+
+    if n_cross_county:
+        log.info(
+            "BPS redistribution touched %d cross-county slices",
+            n_cross_county,
+        )
+    return pd.DataFrame(out_rows)
+
+
 # ---------------------------------------------------------------------------
 # Spatial intersection + apportionment
 # ---------------------------------------------------------------------------
@@ -586,6 +668,93 @@ def intersect_districts_x_munis(
     inter["intersection_area"] = inter.geometry.area
     inter["area_share"] = inter["intersection_area"] / inter["muni_area"]
     return inter
+
+
+def compute_parcel_overrides(
+    house: gpd.GeoDataFrame,
+    senate: gpd.GeoDataFrame,
+    bps_by_geoid: dict[str, int],
+) -> dict[str, dict[str, float]]:
+    """For each city with parcel-level permit data, spatial-join its
+    geocoded permits onto the House and Senate district polygons and
+    return per-district 5-year unit allocations.
+
+    Cities whose CSVs carry real per-permit unit counts (Philly) get
+    summed directly. Cities whose CSVs have no structured unit field
+    (Pittsburgh; units = 0 throughout) are allocated by spatial share
+    of permits multiplied by the city's BPS 5-year unit total.
+
+    Returns: {
+      "house":  {hd_id: units_5yr},
+      "senate": {sd_id: units_5yr},
+    }
+    """
+    out: dict[str, dict[str, float]] = {"house": {}, "senate": {}}
+
+    if not PERMITS_DIR.exists():
+        log.info("no parcel permits dir at %s; skipping overrides", PERMITS_DIR)
+        return out
+
+    for city_key, muni_geoid in PARCEL_CITIES.items():
+        csv_path = PERMITS_DIR / f"{city_key}.csv"
+        if not csv_path.exists():
+            log.warning("no parcel CSV for %s at %s — skipping override", city_key, csv_path)
+            continue
+        df = pd.read_csv(csv_path)
+        if df.empty:
+            continue
+        gdf = gpd.GeoDataFrame(
+            df,
+            geometry=gpd.points_from_xy(df["lng"], df["lat"]),
+            crs=WGS84,
+        ).to_crs(EQUAL_AREA_CRS)
+
+        total_units = int(df["units"].sum())
+        log.info(
+            "parcel override for %s: %d permits, %d structured units",
+            city_key,
+            len(df),
+            total_units,
+        )
+
+        for dist_gdf, dist_key in [(house, "house"), (senate, "senate")]:
+            joined = gpd.sjoin(
+                gdf,
+                dist_gdf[["district", "geometry"]],
+                how="inner",
+                predicate="within",
+            )
+            if joined.empty:
+                continue
+            if total_units > 0:
+                # Real unit counts — sum per district (Philly path).
+                per_district = joined.groupby("district")["units"].sum()
+                method = "structured-units"
+            else:
+                # No unit counts in source — distribute the city's BPS
+                # total proportionally to permit-count share (Pittsburgh).
+                bps_total = bps_by_geoid.get(muni_geoid, 0)
+                if bps_total == 0:
+                    log.warning(
+                        "%s parcel CSV has no units AND no BPS total for "
+                        "GEOID %s — overriding to zero",
+                        city_key, muni_geoid,
+                    )
+                    per_district = joined.groupby("district").size() * 0.0
+                else:
+                    counts = joined.groupby("district").size()
+                    per_district = counts / counts.sum() * bps_total
+                method = f"permit-share × BPS total ({bps_by_geoid.get(muni_geoid, 0)} units)"
+            log.info(
+                "  %s × %d districts (%s)",
+                dist_key,
+                len(per_district),
+                method,
+            )
+            for d, u in per_district.items():
+                out[dist_key][str(d)] = out[dist_key].get(str(d), 0) + float(u)
+
+    return out
 
 
 def compute_nesting(
@@ -653,6 +822,7 @@ def aggregate_district_stats(
     acs_df: pd.DataFrame,
     bps_df: pd.DataFrame,
     county_names: dict[str, str],
+    parcel_overrides: dict[str, float] | None = None,
 ) -> pd.DataFrame:
     """For each district, compute total population, top-5 munis by
     population share, top-5 counties by population share, class shares,
@@ -754,6 +924,14 @@ def aggregate_district_stats(
     # Per-district housing aggregates
     grp = df.groupby("district")
     permits_total = grp["permits_in_intersection"].sum()
+    # Parcel-level overrides: for cities where we have geocoded permit
+    # data (Philly, Pittsburgh), add the per-district unit totals from
+    # those sources. Those cities' GEOIDs have been removed from
+    # bps_df upstream so the area-apportioned permits_total does not
+    # double-count them.
+    if parcel_overrides:
+        overrides_series = pd.Series(parcel_overrides, dtype=float)
+        permits_total = permits_total.add(overrides_series, fill_value=0)
     rent_households = grp["rent_households_in_intersection"].sum()
     rent_burdened = grp["rent_burdened_in_intersection"].sum()
     owner_households = grp["owner_households_in_intersection"].sum()
@@ -937,8 +1115,14 @@ def write_munis_geojson(
     enriched = enriched.merge(acs, on="geoid", how="left")
     enriched = enriched.merge(bps, on="geoid", how="left")
     enriched["population"] = enriched["population"].fillna(0).astype(int)
+    # Keep permitsUnits5yrTotal as float — after cross-county
+    # redistribution, slices carry fractional unit counts (e.g.
+    # Bethlehem's permits split proportionally between Lehigh +
+    # Northampton). Casting to int here would lose the precision
+    # and break the "all slices of one muni share the same rate"
+    # invariant.
     enriched["permitsUnits5yrTotal"] = (
-        enriched["permitsUnits5yrTotal"].fillna(0).astype(int)
+        enriched["permitsUnits5yrTotal"].fillna(0).astype(float)
     )
     enriched["permitsYearsCovered"] = (
         enriched["permitsYearsCovered"].fillna(0).astype(int)
@@ -956,7 +1140,7 @@ def write_munis_geojson(
         land_area = float(props.get("landAreaSqMi") or 0)
         population = int(props.get("population") or 0)
         density = round(population / land_area) if land_area > 0 else 0
-        permits_total = int(props.get("permitsUnits5yrTotal") or 0)
+        permits_total = float(props.get("permitsUnits5yrTotal") or 0)
         years_covered = int(props.get("permitsYearsCovered") or 0)
         # Annual permits per 1,000 residents, averaged over the 5-year
         # window. If a muni has no population, leave the rate null so
@@ -1013,11 +1197,14 @@ def build_chamber_geojson(
     label: str,
     cross_chamber_key: str,
     cross_chamber_data: dict[str, list[dict]],
+    parcel_overrides: dict[str, float] | None = None,
 ) -> None:
     """Intersect districts with munis, aggregate stats, simplify, write GeoJSON."""
     log.info("building %s GeoJSON...", label)
     inter = intersect_districts_x_munis(districts, munis)
-    stats = aggregate_district_stats(inter, acs, bps, county_names)
+    stats = aggregate_district_stats(
+        inter, acs, bps, county_names, parcel_overrides=parcel_overrides
+    )
     enriched = districts.merge(stats, on="district", how="left")
     enriched = simplify_for_web(enriched)
     write_geojson(
@@ -1067,20 +1254,42 @@ def main(argv: Iterable[str]) -> int:
     acs = load_acs_housing_facts()
     log.info("loading BPS housing permits...")
     bps = load_bps_permits()
+    bps = redistribute_bps_across_slices(bps, acs)
 
     sd_to_hd, hd_to_sd = compute_nesting(house, senate)
 
+    # Build a BPS GEOID → 5yr unit total lookup BEFORE we filter out
+    # the override-cities — the override step needs the city-level
+    # total for cities without structured per-permit unit counts
+    # (Pittsburgh path).
+    bps_by_geoid = dict(zip(bps["geoid"], bps["permitsUnits5yrTotal"]))
+    parcel_overrides = compute_parcel_overrides(house, senate, bps_by_geoid)
+
+    # Now strip the parcel-override cities from BPS so the
+    # area-apportioned path doesn't double-count them. The parcel
+    # data is the authoritative source for these GEOIDs.
+    override_geoids = set(PARCEL_CITIES.values())
+    bps_for_aggregation = bps[~bps["geoid"].isin(override_geoids)].copy()
+    if override_geoids:
+        log.info(
+            "Removed %d city GEOIDs from BPS to defer to parcel data: %s",
+            len(override_geoids),
+            sorted(override_geoids),
+        )
+
     build_chamber_geojson(
-        house, munis, acs, bps, county_names, OUTPUT_PATH,
+        house, munis, acs, bps_for_aggregation, county_names, OUTPUT_PATH,
         label="house",
         cross_chamber_key="parentSenateDistricts",
         cross_chamber_data=hd_to_sd,
+        parcel_overrides=parcel_overrides.get("house"),
     )
     build_chamber_geojson(
-        senate, munis, acs, bps, county_names, SENATE_OUTPUT_PATH,
+        senate, munis, acs, bps_for_aggregation, county_names, SENATE_OUTPUT_PATH,
         label="senate",
         cross_chamber_key="nestedHouseDistricts",
         cross_chamber_data=sd_to_hd,
+        parcel_overrides=parcel_overrides.get("senate"),
     )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
     write_munis_geojson(munis, acs, bps, county_names, MUNIS_OUTPUT_PATH)

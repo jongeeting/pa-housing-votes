@@ -105,6 +105,66 @@ const pastGroups = groupBillsByTopic(pastBills);
       </li>
     </ul>
 
+    <h2>About the housing data</h2>
+    <p>
+      The housing-affordability stats shown on every district come
+      from public Census data and city open-data portals, with
+      district-level numbers derived as follows:
+    </p>
+    <ul>
+      <li>
+        <strong>Median income, median home value, rent-burdened %,
+        owner-burdened %</strong> &mdash; pulled from the ACS 2023
+        5-year survey at the municipality level, then
+        population-weighted across the muni areas inside each
+        district. ACS suppresses estimates for very small populations;
+        those districts display &ldquo;&mdash;.&rdquo;
+      </li>
+      <li>
+        <strong>Permitted housing units per 1,000 residents / year
+        (2020-2024)</strong> &mdash; counted from Census Building
+        Permits Survey (BPS) annual files for 99% of Pennsylvania
+        municipalities. For Philadelphia and Pittsburgh, where the
+        city sits inside many state legislative districts, we use
+        each city&rsquo;s own geocoded permit data instead so each
+        district reflects its actual permitting activity:
+        <ul>
+          <li>
+            <strong>Philadelphia</strong> &mdash; Department of Licenses
+            and Inspections (L&amp;I) permits, filtered to new-construction
+            housing 2020-2024. Per-permit unit counts are summed by
+            point-in-polygon to each House and Senate district.
+          </li>
+          <li>
+            <strong>Pittsburgh</strong> &mdash; Department of Permits,
+            Licenses, and Inspections (PLI) data via WPRDC. Because
+            Pittsburgh&rsquo;s portal doesn&rsquo;t store unit counts
+            per permit, we use the spatial distribution of permits
+            across districts to allocate the city&rsquo;s BPS-reported
+            5-year unit total.
+          </li>
+          <li>
+            Other municipalities that span multiple state districts
+            (Allentown, Reading, Erie, Lancaster, etc.) use
+            area-apportionment of the BPS total &mdash; this assumes
+            permits are roughly evenly distributed across each
+            city&rsquo;s area, which is a known approximation. Of these,
+            only Allentown spans more than two House districts, and
+            even there the largest slice holds 42% of the city&rsquo;s
+            area.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>Cross-county boroughs and cities</strong> (e.g.
+        Bethlehem, which sits in both Lehigh and Northampton counties)
+        are reported by BPS under a single county. Their permits are
+        redistributed across all county-slices proportional to
+        population so the permitting rate is consistent regardless of
+        which county side you look at.
+      </li>
+    </ul>
+
     <h2>Sources</h2>
     <ul>
       <li>
@@ -119,6 +179,16 @@ const pastGroups = groupBillsByTopic(pastBills);
         population from ACS 2023 5-year estimates; municipal class from
         the PA Department of Community &amp; Economic Development
         (dced.pa.gov).
+      </li>
+      <li>
+        Housing-affordability stats:
+        ACS 2023 5-year (tables B19013, B25077, B25070, B25091);
+        Census Building Permits Survey (BPS) annual files
+        2020-2024;
+        Philadelphia L&amp;I permits via
+        <a href="https://opendataphilly.org/dataset/licenses-and-inspections-building-permits" target="_blank" rel="noopener">OpenDataPhilly</a>;
+        Pittsburgh PLI permits via
+        <a href="https://data.wprdc.org/dataset/pli-permits" target="_blank" rel="noopener">WPRDC</a>.
       </li>
     </ul>
   </section>

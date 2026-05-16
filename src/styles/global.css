@@ -786,6 +786,14 @@ code {
   margin: 0;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.popup__facts-source {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--fg-muted);
+  margin-top: 1px;
 }
 
 /* Popup ------------------------------------------------------------------- */

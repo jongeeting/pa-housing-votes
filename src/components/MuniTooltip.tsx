@@ -78,7 +78,7 @@ export const MuniTooltip = ({ x, y, data }: Props) => {
       </div>
       {hasHousingFacts && (
         <div className="muni-tooltip__stats muni-tooltip__stats--housing">
-          <span>Built {fmtRate(data.permitsPer1kPerYear)}/1k/yr</span>
+          <span>Permitted {fmtRate(data.permitsPer1kPerYear)} units/1k/yr</span>
           <span aria-hidden="true">·</span>
           <span>{fmtPct(data.rentBurdenedPct)} rent-burdened</span>
           <span aria-hidden="true">·</span>

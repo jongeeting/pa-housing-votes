@@ -493,8 +493,11 @@ export const DistrictPopup = ({
           <dl className="popup__facts popup__facts--housing">
             {permitsPer1kPerYear !== null && (
               <div>
-                <dt>Built (5-yr avg)</dt>
-                <dd>{permitsPer1kPerYear.toFixed(1)} per 1,000 residents/yr</dd>
+                <dt>Permitted housing units</dt>
+                <dd>
+                  {permitsPer1kPerYear.toFixed(1)} per 1,000 residents / yr
+                  <span className="popup__facts-source">2020-2024 avg</span>
+                </dd>
               </div>
             )}
             {medianHomeValue !== null && (
