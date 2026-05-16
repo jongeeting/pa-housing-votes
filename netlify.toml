@@ -12,19 +12,24 @@
   # what most CI defaults to.
   NODE_VERSION = "20"
 
-# GeoJSON / JSON data assets are large and rarely change — let Netlify
-# serve them with a long cache + force revalidation when the underlying
-# file changes (Netlify hashes filenames for built JS/CSS but our data
-# files keep stable names).
+# GeoJSON / JSON data assets are large but our pipeline rebuilds them
+# regularly (parcel-permit refresh, ACS swaps, new bills). Use a short
+# browser cache + stale-while-revalidate so returning visitors see new
+# data within ~60s of a pipeline push without waiting out a 24h cache,
+# while still serving cached bytes instantly from the CDN edge. The
+# `must-revalidate` directive ensures we never serve stale beyond swr.
+#
+# Netlify hashes filenames for built JS/CSS, but our data files keep
+# stable names — hence we can't rely on cache-busting via filename.
 [[headers]]
   for = "/data/*.geojson"
   [headers.values]
-    Cache-Control = "public, max-age=86400, must-revalidate"
+    Cache-Control = "public, max-age=60, stale-while-revalidate=86400, must-revalidate"
 
 [[headers]]
   for = "/data/*.json"
   [headers.values]
-    Cache-Control = "public, max-age=86400, must-revalidate"
+    Cache-Control = "public, max-age=60, stale-while-revalidate=86400, must-revalidate"
 
 # Bun.lockb at the repo root isn't useful to Netlify (uses Node tools)
 # but the bun.lock IS — leave the package manager autodetection alone.
