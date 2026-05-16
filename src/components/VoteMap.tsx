@@ -33,10 +33,19 @@ interface Props {
   munisUrl?: string;
 }
 
-const DEFAULT_HOUSE_URL = "/data/pa_house_districts.geojson";
-const DEFAULT_SENATE_URL = "/data/pa_senate_districts.geojson";
-const DEFAULT_COUNTIES_URL = "/data/pa_counties.geojson";
-const DEFAULT_MUNIS_URL = "/data/pa_municipalities.geojson";
+// Append a build-time `?v=` cache-buster so every new deploy forces
+// MapLibre to fetch the fresh GeoJSON instead of replaying a copy that
+// the browser cached from a previous visit. The data filenames stay
+// stable (Netlify's filename-hash trick only applies to compiled
+// JS/CSS), so the query string is the cleanest cache-bust. Falls back
+// to empty when the constant isn't defined (e.g. test environments).
+const BUILD_QS =
+  typeof __BUILD_ID__ === "string" ? `?v=${__BUILD_ID__}` : "";
+
+const DEFAULT_HOUSE_URL = `/data/pa_house_districts.geojson${BUILD_QS}`;
+const DEFAULT_SENATE_URL = `/data/pa_senate_districts.geojson${BUILD_QS}`;
+const DEFAULT_COUNTIES_URL = `/data/pa_counties.geojson${BUILD_QS}`;
+const DEFAULT_MUNIS_URL = `/data/pa_municipalities.geojson${BUILD_QS}`;
 
 const PA_BOUNDS: [[number, number], [number, number]] = [
   [-80.6, 39.6],
