@@ -73,6 +73,17 @@ const formatPct = (n: number) => `${Math.round(n * 100)}%`;
 const formatPop = (n: number) =>
   new Intl.NumberFormat("en-US").format(Math.round(n));
 
+/** Compact USD: $385K, $1.2M, $90K. Null safe. */
+const fmtUsdShort = (n: number | null | undefined): string => {
+  if (n === null || n === undefined || Number.isNaN(n)) return "—";
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `$${Math.round(n / 1_000)}K`;
+  return `$${Math.round(n)}`;
+};
+
+const numFromProps = (v: unknown): number | null =>
+  v === null || v === undefined || v === "" ? null : Number(v);
+
 /** First sentence of a description, capped at ~180 chars. */
 const briefSentence = (description: string): string => {
   if (!description) return "";
@@ -151,6 +162,17 @@ export const DistrictPopup = ({
   const topMunis = parseList<TopMuniRow>(properties.topMunicipalities);
   const topCounties = parseList<TopCountyRow>(properties.topCounties);
   const classShares = parseClassShares(properties.classShares);
+  const medianIncome = numFromProps(properties.medianIncome);
+  const medianHomeValue = numFromProps(properties.medianHomeValue);
+  const rentBurdenedPct = numFromProps(properties.rentBurdenedPct);
+  const ownerBurdenedPct = numFromProps(properties.ownerBurdenedPct);
+  const permitsPer1kPerYear = numFromProps(properties.permitsPer1kPerYear);
+  const hasHousingFacts =
+    medianIncome !== null ||
+    medianHomeValue !== null ||
+    rentBurdenedPct !== null ||
+    ownerBurdenedPct !== null ||
+    permitsPer1kPerYear !== null;
   const nestedHouseDistricts = parseList<NestedDistrict>(
     properties.nestedHouseDistricts,
   );
@@ -464,6 +486,44 @@ export const DistrictPopup = ({
           </div>
         </dl>
       </div>
+
+      {hasHousingFacts && (
+        <div className="popup__section">
+          <div className="popup__section-title">Housing context</div>
+          <dl className="popup__facts popup__facts--housing">
+            {permitsPer1kPerYear !== null && (
+              <div>
+                <dt>Built (5-yr avg)</dt>
+                <dd>{permitsPer1kPerYear.toFixed(1)} per 1,000 residents/yr</dd>
+              </div>
+            )}
+            {medianHomeValue !== null && (
+              <div>
+                <dt>Median home value</dt>
+                <dd>{fmtUsdShort(medianHomeValue)}</dd>
+              </div>
+            )}
+            {medianIncome !== null && (
+              <div>
+                <dt>Median household income</dt>
+                <dd>{fmtUsdShort(medianIncome)}</dd>
+              </div>
+            )}
+            {rentBurdenedPct !== null && (
+              <div>
+                <dt>Rent-burdened</dt>
+                <dd>{Math.round(rentBurdenedPct)}%</dd>
+              </div>
+            )}
+            {ownerBurdenedPct !== null && (
+              <div>
+                <dt>Owner-burdened</dt>
+                <dd>{Math.round(ownerBurdenedPct)}%</dd>
+              </div>
+            )}
+          </dl>
+        </div>
+      )}
 
       {topCounties.length > 0 && (
         <div className="popup__section">

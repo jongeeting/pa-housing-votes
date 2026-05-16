@@ -477,6 +477,10 @@ export const VoteMap = ({
         const feature = e.features?.[0];
         if (!feature) return;
         const props = feature.properties ?? {};
+        // Nullable numeric helper — GeoJSON serializes JSON null as
+        // explicit null, but MapLibre may surface it as undefined.
+        const numOrNull = (v: unknown): number | null =>
+          v === null || v === undefined || v === "" ? null : Number(v);
         setHoveredMuni({
           x: e.point.x,
           y: e.point.y,
@@ -487,6 +491,11 @@ export const VoteMap = ({
             population: Number(props.population ?? 0),
             landAreaSqMi: Number(props.landAreaSqMi ?? 0),
             populationDensity: Number(props.populationDensity ?? 0),
+            medianIncome: numOrNull(props.medianIncome),
+            medianHomeValue: numOrNull(props.medianHomeValue),
+            rentBurdenedPct: numOrNull(props.rentBurdenedPct),
+            ownerBurdenedPct: numOrNull(props.ownerBurdenedPct),
+            permitsPer1kPerYear: numOrNull(props.permitsPer1kPerYear),
           },
         });
       });

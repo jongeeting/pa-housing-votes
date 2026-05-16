@@ -166,6 +166,26 @@ export interface DistrictProperties {
    */
   nestedHouseDistricts?: NestedDistrict[];
   parentSenateDistricts?: NestedDistrict[];
+
+  /**
+   * Housing-affordability aggregates (population-weighted across the
+   * district's munis). Nullable because ACS suppresses estimates for
+   * very small areas.
+   *
+   * - medianIncome: median household income, USD
+   * - medianHomeValue: median owner-occupied home value, USD
+   * - rentBurdenedPct: % of renter households paying 30%+ of HHI
+   * - ownerBurdenedPct: % of owner households paying 30%+ of HHI
+   * - permitsPer1kPerYear: housing units permitted per 1,000 residents
+   *   per year, averaged over 2020-2024 (Census BPS)
+   * - permits5yrTotal: total housing units permitted 2020-2024
+   */
+  medianIncome?: number | null;
+  medianHomeValue?: number | null;
+  rentBurdenedPct?: number | null;
+  ownerBurdenedPct?: number | null;
+  permitsPer1kPerYear?: number | null;
+  permits5yrTotal?: number;
 }
 
 export interface NestedDistrict {

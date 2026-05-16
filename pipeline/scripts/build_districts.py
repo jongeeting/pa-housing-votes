@@ -82,13 +82,39 @@ SLDU_URL = f"{TIGER_BASE}/SLDU/tl_2024_42_sldu.zip"  # PA State Senate
 COUSUB_URL = f"{TIGER_BASE}/COUSUB/tl_2024_42_cousub.zip"  # PA municipalities
 COUNTY_URL = f"{TIGER_BASE}/COUNTY/tl_2024_us_county.zip"  # All counties; filtered to PA
 
-# ACS 2023 5-year, total pop by county subdivision in PA (state FIPS 42)
+# ACS 2023 5-year. We pull these tables at county-subdivision level for PA
+# (state FIPS 42):
+#   B01003_001 — total population
+#   B19013_001 — median household income (past 12 months)
+#   B25077_001 — median value, owner-occupied
+#   B25070_001 + _007..010 — gross rent as % of HHI (total + 30%+ buckets)
+#   B25091_002, _008..011 (with mortgage) and _013, _019..022 (no mortgage) —
+#     selected monthly owner costs as % of HHI
+# Census API allows one call up to 50 variables; we fit comfortably.
+ACS_VARS = (
+    "NAME,"
+    "B01003_001E,"  # total population
+    "B19013_001E,"  # median household income
+    "B25077_001E,"  # median home value
+    # Rent-burdened (>=30% of HHI): gross rent buckets
+    "B25070_001E,B25070_007E,B25070_008E,B25070_009E,B25070_010E,"
+    # Owner cost burden with mortgage
+    "B25091_002E,B25091_008E,B25091_009E,B25091_010E,B25091_011E,"
+    # Owner cost burden without mortgage
+    "B25091_013E,B25091_019E,B25091_020E,B25091_021E,B25091_022E"
+)
 ACS_URL = (
     "https://api.census.gov/data/2023/acs/acs5"
-    "?get=NAME,B01003_001E"
+    f"?get={ACS_VARS}"
     "&for=county%20subdivision:*"
     "&in=state:42&in=county:*"
 )
+
+# Building Permits Survey — annual files by Place, organized by region.
+# PA is in the Northeast Region. Each file is a CSV with two header rows
+# and rows for places nationwide; we filter to State Code = 42 (PA).
+BPS_BASE = "https://www2.census.gov/econ/bps/Place/Northeast%20Region"
+BPS_YEARS = [2020, 2021, 2022, 2023, 2024]
 
 # Authoritative PA municipal classifications, maintained by DCED.
 # Includes CLASS column with PA legal designation (1st/2nd/2nd-A/3rd City,
@@ -341,23 +367,198 @@ def load_counties() -> gpd.GeoDataFrame:
     return gdf[["geoid", "name", "geometry"]].copy()
 
 
-def load_acs_population() -> pd.DataFrame:
-    """ACS 2023 5-year total pop by county subdivision."""
-    cache = CACHE_DIR / "acs_pa_cousub_pop.json"
+def load_acs_housing_facts() -> pd.DataFrame:
+    """ACS 2023 5-year — population + housing-affordability facts at
+    the county-subdivision level.
+
+    Returns a DataFrame keyed by 10-digit GEOID with columns:
+      population, medianIncome, medianHomeValue, rentBurdenedPct,
+      ownerBurdenedPct, ownerBurdenedTotal (count, used for weighting).
+
+    Census's negative sentinels (-666666666 etc., used for suppressed
+    estimates) are converted to NaN — handled at render time so the
+    UI shows "—" rather than a misleading number.
+
+    Requires a Census API key in the CENSUS_API_KEY environment
+    variable (free signup at https://api.census.gov/data/key_signup.html).
+    """
+    import os
+
+    cache = CACHE_DIR / "acs_pa_cousub_housing.json"
     if cache.exists():
         log.info("cached: %s", cache.name)
         rows = json.loads(cache.read_text())
     else:
-        log.info("fetching ACS")
-        r = requests.get(ACS_URL, timeout=60)
+        api_key = os.environ.get("CENSUS_API_KEY", "").strip()
+        if not api_key:
+            raise RuntimeError(
+                "ACS data requires a Census API key. Sign up at "
+                "https://api.census.gov/data/key_signup.html and export "
+                "CENSUS_API_KEY=<key> before running the pipeline."
+            )
+        log.info("fetching ACS housing facts")
+        r = requests.get(ACS_URL + f"&key={api_key}", timeout=90)
         r.raise_for_status()
+        # Census responds with HTML error pages (Invalid Key, Missing
+        # Key, etc.) instead of HTTP error codes — sniff for that here
+        # rather than crashing in json.decode().
+        if "text/html" in r.headers.get("content-type", "") or r.text.lstrip().startswith("<"):
+            raise RuntimeError(
+                "Census API returned an HTML error page instead of JSON. "
+                "Likely cause: the CENSUS_API_KEY is invalid or not yet "
+                "activated. Check your email for an activation link from "
+                "Census, then retry. First 200 chars of response: "
+                f"{r.text[:200]}"
+            )
         rows = r.json()
         cache.write_text(json.dumps(rows))
     header, *body = rows
     df = pd.DataFrame(body, columns=header)
-    df["population"] = pd.to_numeric(df["B01003_001E"], errors="coerce").fillna(0)
+
+    def numeric(col: str) -> "pd.Series":
+        v = pd.to_numeric(df[col], errors="coerce")
+        # Census suppression sentinels are large negative numbers.
+        return v.where(v >= 0)
+
+    df["population"] = numeric("B01003_001E").fillna(0).astype(int)
+    df["medianIncome"] = numeric("B19013_001E")
+    df["medianHomeValue"] = numeric("B25077_001E")
+
+    # Rent-burdened = households paying 30%+ of HHI in gross rent.
+    rent_total = numeric("B25070_001E")
+    rent_burdened = (
+        numeric("B25070_007E").fillna(0)
+        + numeric("B25070_008E").fillna(0)
+        + numeric("B25070_009E").fillna(0)
+        + numeric("B25070_010E").fillna(0)
+    )
+    df["rentBurdenedPct"] = (rent_burdened / rent_total).where(rent_total > 0)
+    df["rentHouseholds"] = rent_total.fillna(0).astype(int)
+
+    # Owner-burdened = owner-occupied units paying 30%+ of HHI in
+    # selected monthly owner costs. Combine with-mortgage + without-
+    # mortgage buckets so the metric covers all homeowners.
+    own_w_total = numeric("B25091_002E").fillna(0)
+    own_w_burdened = (
+        numeric("B25091_008E").fillna(0)
+        + numeric("B25091_009E").fillna(0)
+        + numeric("B25091_010E").fillna(0)
+        + numeric("B25091_011E").fillna(0)
+    )
+    own_n_total = numeric("B25091_013E").fillna(0)
+    own_n_burdened = (
+        numeric("B25091_019E").fillna(0)
+        + numeric("B25091_020E").fillna(0)
+        + numeric("B25091_021E").fillna(0)
+        + numeric("B25091_022E").fillna(0)
+    )
+    own_total = own_w_total + own_n_total
+    own_burdened = own_w_burdened + own_n_burdened
+    df["ownerBurdenedPct"] = (own_burdened / own_total).where(own_total > 0)
+    df["ownerHouseholds"] = own_total.astype(int)
+
     df["geoid"] = df["state"] + df["county"] + df["county subdivision"]
-    return df[["geoid", "population"]].copy()
+    return df[
+        [
+            "geoid",
+            "population",
+            "medianIncome",
+            "medianHomeValue",
+            "rentBurdenedPct",
+            "rentHouseholds",
+            "ownerBurdenedPct",
+            "ownerHouseholds",
+        ]
+    ].copy()
+
+
+def load_bps_permits(years: list[int] = BPS_YEARS) -> pd.DataFrame:
+    """Aggregate housing-unit permit counts per PA muni across the
+    given years from the Census Building Permits Survey Place files
+    (Northeast Region, one CSV per year).
+
+    Returns a DataFrame keyed by 10-digit GEOID with:
+      permitsUnits5yrTotal — sum of housing units permitted (1+2+3-4+5+ unit)
+      permitsYearsCovered  — how many years had any reported data (used to
+        flag jurisdictions where reporting is sparse)
+    """
+    import csv
+    import io
+
+    per_year_frames: list[pd.DataFrame] = []
+    for year in years:
+        cache = CACHE_DIR / f"bps_ne_{year}a.txt"
+        if cache.exists():
+            log.info("cached: %s", cache.name)
+            text = cache.read_text()
+        else:
+            url = f"{BPS_BASE}/ne{year}a.txt"
+            log.info("fetching BPS %s", url)
+            r = requests.get(url, timeout=60)
+            r.raise_for_status()
+            text = r.text
+            cache.write_text(text)
+
+        # BPS file has two header rows + a blank line, then CSV data.
+        # The columns we need are at fixed positions, but the file is
+        # comma-delimited so csv reader handles padding fine.
+        reader = csv.reader(io.StringIO(text))
+        rows = list(reader)
+        # Skip the two header rows + any blank rows at top.
+        data_rows = [r for r in rows[2:] if r and len(r) > 30 and r[1].strip()]
+
+        records = []
+        for row in data_rows:
+            # State Code is col 1 (0-indexed). PA = "42".
+            state_code = row[1].strip()
+            if state_code != "42":
+                continue
+            try:
+                county_code = row[3].strip().zfill(3)
+                fips_mcd = row[6].strip().zfill(5)
+                # If MCD is all zeros (place-only with no MCD), skip.
+                if fips_mcd == "00000":
+                    continue
+                geoid = "42" + county_code + fips_mcd
+                # Total housing units permitted = sum of 1-unit, 2-units,
+                # 3-4 units, 5+ units. Columns 18, 21, 24, 27 (0-indexed)
+                # for the "Units" sub-column of each unit-type block.
+                units = (
+                    int(row[18] or 0)
+                    + int(row[21] or 0)
+                    + int(row[24] or 0)
+                    + int(row[27] or 0)
+                )
+                records.append({"geoid": geoid, "units": units, "year": year})
+            except (ValueError, IndexError):
+                continue
+
+        year_df = pd.DataFrame(records)
+        if not year_df.empty:
+            # Sum across any duplicate rows for the same muni in a year
+            # (BPS occasionally splits reporting).
+            year_df = (
+                year_df.groupby("geoid", as_index=False)
+                .agg(units=("units", "sum"), year=("year", "first"))
+            )
+        per_year_frames.append(year_df)
+        log.info(
+            "BPS %d: %d PA muni rows, %d total units",
+            year,
+            len(year_df),
+            int(year_df["units"].sum()) if not year_df.empty else 0,
+        )
+
+    combined = pd.concat(per_year_frames, ignore_index=True)
+    if combined.empty:
+        return pd.DataFrame(
+            columns=["geoid", "permitsUnits5yrTotal", "permitsYearsCovered"]
+        )
+    grouped = combined.groupby("geoid").agg(
+        permitsUnits5yrTotal=("units", "sum"),
+        permitsYearsCovered=("year", "nunique"),
+    ).reset_index()
+    return grouped
 
 
 # ---------------------------------------------------------------------------
@@ -449,14 +650,49 @@ def compute_nesting(
 
 def aggregate_district_stats(
     inter: gpd.GeoDataFrame,
-    pop_df: pd.DataFrame,
+    acs_df: pd.DataFrame,
+    bps_df: pd.DataFrame,
     county_names: dict[str, str],
 ) -> pd.DataFrame:
     """For each district, compute total population, top-5 munis by
-    population share, top-5 counties by population share, and class shares."""
-    # Attach muni population
-    df = inter.merge(pop_df, on="geoid", how="left")
+    population share, top-5 counties by population share, class shares,
+    and population-weighted housing-affordability aggregates."""
+    # Attach muni-level ACS + BPS facts
+    df = inter.merge(acs_df, on="geoid", how="left")
+    df = df.merge(bps_df, on="geoid", how="left")
     df["population_in_intersection"] = df["population"].fillna(0) * df["area_share"]
+    # Counts that aggregate cleanly via area_share apportionment.
+    df["permits_in_intersection"] = (
+        df["permitsUnits5yrTotal"].fillna(0) * df["area_share"]
+    )
+    df["rent_households_in_intersection"] = (
+        df["rentHouseholds"].fillna(0) * df["area_share"]
+    )
+    df["rent_burdened_in_intersection"] = (
+        df["rentBurdenedPct"].fillna(0)
+        * df["rentHouseholds"].fillna(0)
+        * df["area_share"]
+    )
+    df["owner_households_in_intersection"] = (
+        df["ownerHouseholds"].fillna(0) * df["area_share"]
+    )
+    df["owner_burdened_in_intersection"] = (
+        df["ownerBurdenedPct"].fillna(0)
+        * df["ownerHouseholds"].fillna(0)
+        * df["area_share"]
+    )
+    # Median weighted by population-in-intersection. Mixing medians is
+    # approximate — but it's a useful district-level signal.
+    df["income_weighted"] = (
+        df["medianIncome"].fillna(0) * df["population_in_intersection"]
+    )
+    df["income_weight"] = df["medianIncome"].notna() * df["population_in_intersection"]
+    df["home_value_weighted"] = (
+        df["medianHomeValue"].fillna(0) * df["population_in_intersection"]
+    )
+    df["home_value_weight"] = (
+        df["medianHomeValue"].notna() * df["population_in_intersection"]
+    )
 
     # District total = sum of all intersection populations
     district_pop = df.groupby("district")["population_in_intersection"].sum()
@@ -515,12 +751,41 @@ def aggregate_district_stats(
         grp = sub.groupby("classCode")["population_in_intersection"].sum() / total
         class_shares[district] = {k: float(v) for k, v in grp.items() if v > 0}
 
+    # Per-district housing aggregates
+    grp = df.groupby("district")
+    permits_total = grp["permits_in_intersection"].sum()
+    rent_households = grp["rent_households_in_intersection"].sum()
+    rent_burdened = grp["rent_burdened_in_intersection"].sum()
+    owner_households = grp["owner_households_in_intersection"].sum()
+    owner_burdened = grp["owner_burdened_in_intersection"].sum()
+    income_w = grp["income_weighted"].sum()
+    income_wt = grp["income_weight"].sum()
+    home_value_w = grp["home_value_weighted"].sum()
+    home_value_wt = grp["home_value_weight"].sum()
+
+    def _maybe_div(num: "pd.Series", den: "pd.Series") -> "pd.Series":
+        # Avoid divide-by-zero; rows with den=0 produce NaN.
+        return (num / den.where(den > 0)).where(den > 0)
+
+    median_income = _maybe_div(income_w, income_wt)
+    median_home_value = _maybe_div(home_value_w, home_value_wt)
+    rent_burdened_pct = _maybe_div(rent_burdened, rent_households) * 100
+    owner_burdened_pct = _maybe_div(owner_burdened, owner_households) * 100
+    # Permits per 1,000 residents per year (5-year window)
+    permits_per_1k = _maybe_div(permits_total, district_pop) * (1000 / 5)
+
     out = pd.DataFrame(
         {
             "population": district_pop.round().astype(int),
             "topMunicipalities": pd.Series(top_munis),
             "topCounties": pd.Series(top_counties),
             "classShares": pd.Series(class_shares),
+            "medianIncome": median_income.round(),
+            "medianHomeValue": median_home_value.round(),
+            "rentBurdenedPct": rent_burdened_pct.round(1),
+            "ownerBurdenedPct": owner_burdened_pct.round(1),
+            "permitsPer1kPerYear": permits_per_1k.round(1),
+            "permits5yrTotal": permits_total.round().astype(int),
         }
     )
     out.index.name = "district"
@@ -556,6 +821,12 @@ def write_geojson(
             "topMunicipalities": row["topMunicipalities"],
             "topCounties": row["topCounties"],
             "classShares": row["classShares"],
+            "medianIncome": _round_or_none(row.get("medianIncome")),
+            "medianHomeValue": _round_or_none(row.get("medianHomeValue")),
+            "rentBurdenedPct": _nullable_float(row.get("rentBurdenedPct")),
+            "ownerBurdenedPct": _nullable_float(row.get("ownerBurdenedPct")),
+            "permitsPer1kPerYear": _nullable_float(row.get("permitsPer1kPerYear")),
+            "permits5yrTotal": int(row.get("permits5yrTotal") or 0),
         }
         if cross_chamber_data is not None:
             props[cross_chamber_key] = cross_chamber_data.get(str(row["district"]), [])
@@ -607,20 +878,71 @@ def write_counties_geojson(gdf: gpd.GeoDataFrame, path: Path) -> None:
     )
 
 
+def _round_or_none(v) -> int | None:
+    """Round a numeric to int, or return None for null/NaN/missing."""
+    if v is None:
+        return None
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    if f != f:  # NaN check
+        return None
+    return round(f)
+
+
+def _nullable_float(v) -> float | None:
+    """Pass through a non-null float (rounded sensibly) or return None
+    for NaN / missing. Used for percentages and rates we already
+    rounded upstream."""
+    if v is None:
+        return None
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    if f != f:
+        return None
+    return f
+
+
+def _round_pct(v) -> float | None:
+    """Convert a 0..1 share to a 0..100 pct rounded to 1 decimal, or None."""
+    if v is None:
+        return None
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    if f != f:  # NaN
+        return None
+    return round(f * 100, 1)
+
+
 def write_munis_geojson(
     gdf: gpd.GeoDataFrame,
-    pop: pd.DataFrame,
+    acs: pd.DataFrame,
+    bps: pd.DataFrame,
     county_names: dict[str, str],
     path: Path,
 ) -> None:
     """Write the PA municipalities GeoJSON layer (used for the map's
     municipal-boundaries overlay + class-highlight filter + hover
-    tooltip). Each feature carries the muni's name, class, county, ACS
-    population, land area in square miles, and population density."""
+    tooltip). Each feature carries the muni's name, class, county,
+    population + density + area, plus housing-affordability facts:
+    median income, median home value, % rent-burdened, % owner-burdened,
+    and 5-year housing-permits-per-1000-residents-per-year."""
     path.parent.mkdir(parents=True, exist_ok=True)
     enriched = gdf.copy()
-    enriched = enriched.merge(pop, on="geoid", how="left")
+    enriched = enriched.merge(acs, on="geoid", how="left")
+    enriched = enriched.merge(bps, on="geoid", how="left")
     enriched["population"] = enriched["population"].fillna(0).astype(int)
+    enriched["permitsUnits5yrTotal"] = (
+        enriched["permitsUnits5yrTotal"].fillna(0).astype(int)
+    )
+    enriched["permitsYearsCovered"] = (
+        enriched["permitsYearsCovered"].fillna(0).astype(int)
+    )
     # Equal-area CRS at this point (EPSG:5070) → area in m².
     enriched["landAreaSqMi"] = enriched.geometry.area / 2_589_988.110336
     enriched["countyName"] = enriched["countyGeoid"].map(county_names).fillna("")
@@ -634,6 +956,16 @@ def write_munis_geojson(
         land_area = float(props.get("landAreaSqMi") or 0)
         population = int(props.get("population") or 0)
         density = round(population / land_area) if land_area > 0 else 0
+        permits_total = int(props.get("permitsUnits5yrTotal") or 0)
+        years_covered = int(props.get("permitsYearsCovered") or 0)
+        # Annual permits per 1,000 residents, averaged over the 5-year
+        # window. If a muni has no population, leave the rate null so
+        # the UI shows "—" instead of dividing by zero.
+        permits_per_1k_per_yr = None
+        if population > 0 and years_covered > 0:
+            permits_per_1k_per_yr = round(
+                (permits_total / years_covered) / (population / 1000), 1
+            )
         feat["properties"] = {
             "geoid": props.get("geoid", ""),
             "name": props.get("name", ""),
@@ -642,6 +974,12 @@ def write_munis_geojson(
             "population": population,
             "landAreaSqMi": round(land_area, 1),
             "populationDensity": density,
+            "medianIncome": _round_or_none(props.get("medianIncome")),
+            "medianHomeValue": _round_or_none(props.get("medianHomeValue")),
+            "rentBurdenedPct": _round_pct(props.get("rentBurdenedPct")),
+            "ownerBurdenedPct": _round_pct(props.get("ownerBurdenedPct")),
+            "permitsPer1kPerYear": permits_per_1k_per_yr,
+            "permitsYearsCovered": years_covered,
         }
     fc["name"] = "pa_municipalities"
     fc["crs"] = {"type": "name", "properties": {"name": "EPSG:4326"}}
@@ -668,7 +1006,8 @@ def simplify_for_web(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 def build_chamber_geojson(
     districts: gpd.GeoDataFrame,
     munis: gpd.GeoDataFrame,
-    pop: pd.DataFrame,
+    acs: pd.DataFrame,
+    bps: pd.DataFrame,
     county_names: dict[str, str],
     output_path: Path,
     label: str,
@@ -678,7 +1017,7 @@ def build_chamber_geojson(
     """Intersect districts with munis, aggregate stats, simplify, write GeoJSON."""
     log.info("building %s GeoJSON...", label)
     inter = intersect_districts_x_munis(districts, munis)
-    stats = aggregate_district_stats(inter, pop, county_names)
+    stats = aggregate_district_stats(inter, acs, bps, county_names)
     enriched = districts.merge(stats, on="district", how="left")
     enriched = simplify_for_web(enriched)
     write_geojson(
@@ -690,7 +1029,28 @@ def build_chamber_geojson(
     )
 
 
+def _load_env_file() -> None:
+    """Best-effort load of pipeline/.env into os.environ. Only sets
+    variables that aren't already in the environment so an explicit
+    shell export still wins."""
+    import os
+
+    env_path = PIPELINE_DIR / ".env"
+    if not env_path.exists():
+        return
+    for line in env_path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+
 def main(argv: Iterable[str]) -> int:
+    _load_env_file()
     ensure_dirs()
     log.info("loading house districts...")
     house = load_districts()
@@ -703,25 +1063,27 @@ def main(argv: Iterable[str]) -> int:
     dced = load_dced_classes()
     log.info("loading municipalities...")
     munis = load_municipalities(dced, county_names)
-    log.info("loading ACS population...")
-    pop = load_acs_population()
+    log.info("loading ACS housing facts...")
+    acs = load_acs_housing_facts()
+    log.info("loading BPS housing permits...")
+    bps = load_bps_permits()
 
     sd_to_hd, hd_to_sd = compute_nesting(house, senate)
 
     build_chamber_geojson(
-        house, munis, pop, county_names, OUTPUT_PATH,
+        house, munis, acs, bps, county_names, OUTPUT_PATH,
         label="house",
         cross_chamber_key="parentSenateDistricts",
         cross_chamber_data=hd_to_sd,
     )
     build_chamber_geojson(
-        senate, munis, pop, county_names, SENATE_OUTPUT_PATH,
+        senate, munis, acs, bps, county_names, SENATE_OUTPUT_PATH,
         label="senate",
         cross_chamber_key="nestedHouseDistricts",
         cross_chamber_data=sd_to_hd,
     )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
-    write_munis_geojson(munis, pop, county_names, MUNIS_OUTPUT_PATH)
+    write_munis_geojson(munis, acs, bps, county_names, MUNIS_OUTPUT_PATH)
     return 0
 
 

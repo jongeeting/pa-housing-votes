@@ -764,6 +764,29 @@ code {
   gap: 6px;
   margin-top: 4px;
 }
+.muni-tooltip__stats--housing {
+  color: rgba(255, 255, 255, 0.92);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 5px;
+  margin-top: 6px;
+}
+/* Two-column housing facts in the district popup. */
+.popup__facts--housing > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+  font-size: 0.84rem;
+  padding: 2px 0;
+}
+.popup__facts--housing dt {
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+.popup__facts--housing dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
 
 /* Popup ------------------------------------------------------------------- */
 
