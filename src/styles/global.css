@@ -1320,6 +1320,16 @@ code {
   font-size: 0.9rem;
   color: var(--fg-muted);
 }
+/* Muni popups use the same .popup__member slot for the name but
+ * apply this modifier to bump the size + weight so the muni name
+ * reads as the anchor of the popup (whereas in a district popup
+ * the legislator name and the bills are roughly co-equal). */
+.popup__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+}
 .popup__party {
   display: inline-flex;
   align-items: center;

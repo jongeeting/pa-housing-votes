@@ -243,15 +243,15 @@ export const DistrictPopup = ({
 
   return (
     <div className="popup" role="dialog" aria-label={`District ${district}`}>
-      <button
-        type="button"
-        className="popup__close"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        ×
-      </button>
       <div className="popup__header">
+        <button
+          type="button"
+          className="popup__close"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          ×
+        </button>
         <div className="popup__district">
           {districtLabel} {district}
         </div>

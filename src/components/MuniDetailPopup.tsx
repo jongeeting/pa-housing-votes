@@ -83,19 +83,19 @@ export const MuniDetailPopup = ({
     MUNICIPAL_CLASS_LABELS[data.classCode as MunicipalClass] ?? data.classCode;
   return (
     <div className="popup" role="dialog" aria-label={`${data.name} stats`}>
-      <button
-        type="button"
-        className="popup__close"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        ×
-      </button>
       <div className="popup__header">
-        <div className="popup__district">{data.name}</div>
-        <div className="popup__member popup__member--unknown">
+        <button
+          type="button"
+          className="popup__close"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          ×
+        </button>
+        <div className="popup__district">
           {classLabel} · {data.countyName} County
         </div>
+        <div className="popup__member popup__title">{data.name}</div>
       </div>
 
       <div className="popup__section">
