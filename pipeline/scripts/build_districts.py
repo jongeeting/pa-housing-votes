@@ -1097,6 +1097,23 @@ def _round_pct(v) -> float | None:
     return round(f * 100, 1)
 
 
+def _load_pep_popchange() -> pd.DataFrame:
+    """Load the optional Census PEP sub-county popchange cache. If the
+    file is missing (the user hasn't run fetch_pep_subcounty.py yet),
+    return an empty frame so the merge no-ops and popChange comes out
+    null in the geojson — the front-end already renders that as "--"."""
+    path = CACHE_DIR / "pep_subcounty_pa.csv"
+    if not path.exists():
+        log.info("PEP popchange cache missing — populating geojson with nulls")
+        return pd.DataFrame(columns=["geoid", "popChange2020to2024Pct"])
+    df = pd.read_csv(path, dtype={"geoid": str})
+    out = df[["geoid", "pctChange2024"]].rename(
+        columns={"pctChange2024": "popChange2020to2024Pct"}
+    )
+    log.info("loaded PEP popchange (%d rows)", len(out))
+    return out
+
+
 def write_munis_geojson(
     gdf: gpd.GeoDataFrame,
     acs: pd.DataFrame,
@@ -1106,14 +1123,17 @@ def write_munis_geojson(
 ) -> None:
     """Write the PA municipalities GeoJSON layer (used for the map's
     municipal-boundaries overlay + class-highlight filter + hover
-    tooltip). Each feature carries the muni's name, class, county,
-    population + density + area, plus housing-affordability facts:
-    median income, median home value, % rent-burdened, % owner-burdened,
-    and 5-year housing-permits-per-1000-residents-per-year."""
+    tooltip + the /housing-stats choropleth). Each feature carries
+    the muni's name, class, county, population + density + area,
+    plus housing-affordability facts (median income, median home
+    value, % rent-burdened, % owner-burdened, permits/1k/yr) and
+    — when the PEP cache is present — 2020-2024 population change."""
     path.parent.mkdir(parents=True, exist_ok=True)
+    pep = _load_pep_popchange()
     enriched = gdf.copy()
     enriched = enriched.merge(acs, on="geoid", how="left")
     enriched = enriched.merge(bps, on="geoid", how="left")
+    enriched = enriched.merge(pep, on="geoid", how="left")
     enriched["population"] = enriched["population"].fillna(0).astype(int)
     # Keep permitsUnits5yrTotal as float — after cross-county
     # redistribution, slices carry fractional unit counts (e.g.
@@ -1164,6 +1184,14 @@ def write_munis_geojson(
             "ownerBurdenedPct": _round_pct(props.get("ownerBurdenedPct")),
             "permitsPer1kPerYear": permits_per_1k_per_yr,
             "permitsYearsCovered": years_covered,
+            # Census PEP vintage 2024 sub-county estimate change vs the
+            # 2020 Decennial-aligned base. Null when the muni isn't in
+            # the PEP cache (very small munis can be suppressed, or the
+            # operator hasn't run fetch_pep_subcounty.py yet). Powers
+            # the /housing-stats popchange choropleth.
+            "popChange2020to2024Pct": _nullable_float(
+                props.get("popChange2020to2024Pct")
+            ),
         }
     fc["name"] = "pa_municipalities"
     fc["crs"] = {"type": "name", "properties": {"name": "EPSG:4326"}}

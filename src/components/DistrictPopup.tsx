@@ -577,6 +577,12 @@ export const DistrictPopup = ({
                     </li>
                   ))}
                 </ul>
+                <div className="popup__cross-link">
+                  <a href="/housing-stats">
+                    See per-muni housing stats (permits, population
+                    change) →
+                  </a>
+                </div>
               </div>
             )}
 

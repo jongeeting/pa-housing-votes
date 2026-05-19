@@ -1339,6 +1339,22 @@ code {
   background: #cbd5e1;
 }
 
+/* Outbound link to the muni-level companion map. Renders under the
+   "Top municipalities" list as a small tertiary call-to-action so
+   users moving from a legislator-centric click to "but what's
+   actually being built in these places?" have a one-tap path. */
+.popup__cross-link {
+  margin-top: 8px;
+  font-size: 0.78rem;
+}
+.popup__cross-link a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.popup__cross-link a:hover {
+  text-decoration: underline;
+}
+
 /* Mobile-only disclosure wrapper around the geographic sub-sections
    (top counties / top munis / class breakdown). Saves about half
    the scroll height on a phone for a click-popup that already has
