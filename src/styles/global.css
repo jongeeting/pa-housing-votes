@@ -265,6 +265,73 @@ code {
 .stats-map__counties-toggle input[type="checkbox"] {
   margin: 0;
 }
+/* Active-filter chip — sits between the controls and the canvas
+   when a district filter is applied (via ?house=NNN or via a click
+   in a muni popup). Shows the member name + matching-muni count
+   plus a Clear button. */
+.stats-map__filter-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  background: #f0f9ff;
+  font-size: 0.8rem;
+  color: var(--fg);
+}
+.stats-map__filter-chip-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.stats-map__filter-chip-count {
+  color: var(--fg-muted);
+  font-size: 0.74rem;
+  margin-left: 4px;
+}
+.stats-map__filter-chip-clear {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--fg);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+.stats-map__filter-chip-clear:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+/* Clickable district row inside the muni popup. Reset the button's
+   default chrome so it looks like a plain list row, then add a soft
+   hover state to telegraph that it's a tap target. */
+.popup__nested-district-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 3px 6px;
+  margin: 0 -6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+.popup__nested-district-row:hover {
+  background: #f1f5f9;
+}
+.popup__nested-district-row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
 .stats-map__canvas-wrap {
   position: relative;
   height: clamp(420px, 65vh, 720px);
@@ -1191,6 +1258,43 @@ code {
 }
 .popup__nested-hd-state {
   justify-self: end;
+}
+/* Nested-districts list used on the /housing-stats muni popup.
+   Each row: HD/SD-NNN  ·  party pill  ·  member name  ·  optional %.
+   Single-district munis omit the %, multi-district munis show it
+   right-aligned (e.g. Allentown's HD-134 row reads "42%"). */
+.popup__nested-districts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.popup__nested-districts > li {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+.popup__nested-hd-share {
+  justify-self: end;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+}
+.popup__nested-districts-more {
+  grid-template-columns: 1fr !important;
+  color: var(--fg-muted);
+  font-style: italic;
+  font-size: 0.78rem;
+}
+.popup__nested-districts + .popup__nested-districts {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
 }
 .popup__vote-pill {
   display: inline-block;

@@ -1120,6 +1120,8 @@ def write_munis_geojson(
     bps: pd.DataFrame,
     county_names: dict[str, str],
     path: Path,
+    muni_to_house: dict[str, list[dict]] | None = None,
+    muni_to_senate: dict[str, list[dict]] | None = None,
 ) -> None:
     """Write the PA municipalities GeoJSON layer (used for the map's
     municipal-boundaries overlay + class-highlight filter + hover
@@ -1192,6 +1194,18 @@ def write_munis_geojson(
             "popChange2020to2024Pct": _nullable_float(
                 props.get("popChange2020to2024Pct")
             ),
+            # Inverse of the district-side topMunicipalities: for each
+            # muni, the legislative districts that overlap it (with the
+            # share of the MUNI's area in each). Sorted by share desc.
+            # Used by the /housing-stats muni popup ("This muni sits
+            # inside HD-X (Rep Name) and SD-Y (Sen Name)") and by the
+            # ?house=/?senate= URL filter.
+            "nestedHouseDistricts": (
+                (muni_to_house or {}).get(str(props.get("geoid", "")), [])
+            ),
+            "nestedSenateDistricts": (
+                (muni_to_senate or {}).get(str(props.get("geoid", "")), [])
+            ),
         }
     fc["name"] = "pa_municipalities"
     fc["crs"] = {"type": "name", "properties": {"name": "EPSG:4326"}}
@@ -1226,8 +1240,18 @@ def build_chamber_geojson(
     cross_chamber_key: str,
     cross_chamber_data: dict[str, list[dict]],
     parcel_overrides: dict[str, float] | None = None,
-) -> None:
-    """Intersect districts with munis, aggregate stats, simplify, write GeoJSON."""
+) -> dict[str, list[dict]]:
+    """Intersect districts with munis, aggregate stats, simplify, write GeoJSON.
+
+    Returns the per-muni → districts mapping derived from the same
+    intersection (one row per (district, muni) intersection). Used by
+    write_munis_geojson to expose the inverse "which districts overlap
+    this muni" question on the /housing-stats popup. Keyed by muni
+    geoid; each value is a sorted list of dicts with `district` and
+    `overlapShareOfMuni` (fraction of MUNI area in this district).
+    Slivers below 0.5% are dropped so a borough that barely clips a
+    neighbor district doesn't list it as a "nested" district.
+    """
     log.info("building %s GeoJSON...", label)
     inter = intersect_districts_x_munis(districts, munis)
     stats = aggregate_district_stats(
@@ -1242,6 +1266,24 @@ def build_chamber_geojson(
         cross_chamber_key=cross_chamber_key,
         cross_chamber_data=cross_chamber_data,
     )
+
+    # Build the per-muni district list. inter has one row per (district,
+    # muni) intersection with an area_share column representing the
+    # share of the MUNI's area inside that district. We just group by
+    # muni geoid, drop slivers, and emit a sorted list.
+    muni_to_districts: dict[str, list[dict]] = {}
+    SLIVER_THRESHOLD = 0.005
+    keep = inter[inter["area_share"] > SLIVER_THRESHOLD]
+    for muni_geoid, sub in keep.groupby("geoid"):
+        rows = sub.sort_values("area_share", ascending=False)
+        muni_to_districts[str(muni_geoid)] = [
+            {
+                "district": str(r["district"]),
+                "overlapShareOfMuni": round(float(r["area_share"]), 4),
+            }
+            for _, r in rows.iterrows()
+        ]
+    return muni_to_districts
 
 
 def _load_env_file() -> None:
@@ -1305,14 +1347,14 @@ def main(argv: Iterable[str]) -> int:
             sorted(override_geoids),
         )
 
-    build_chamber_geojson(
+    muni_to_house = build_chamber_geojson(
         house, munis, acs, bps_for_aggregation, county_names, OUTPUT_PATH,
         label="house",
         cross_chamber_key="parentSenateDistricts",
         cross_chamber_data=hd_to_sd,
         parcel_overrides=parcel_overrides.get("house"),
     )
-    build_chamber_geojson(
+    muni_to_senate = build_chamber_geojson(
         senate, munis, acs, bps_for_aggregation, county_names, SENATE_OUTPUT_PATH,
         label="senate",
         cross_chamber_key="nestedHouseDistricts",
@@ -1320,7 +1362,11 @@ def main(argv: Iterable[str]) -> int:
         parcel_overrides=parcel_overrides.get("senate"),
     )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
-    write_munis_geojson(munis, acs, bps, county_names, MUNIS_OUTPUT_PATH)
+    write_munis_geojson(
+        munis, acs, bps, county_names, MUNIS_OUTPUT_PATH,
+        muni_to_house=muni_to_house,
+        muni_to_senate=muni_to_senate,
+    )
     return 0
 
 

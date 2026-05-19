@@ -1,4 +1,13 @@
 import { MUNICIPAL_CLASS_LABELS, type MunicipalClass } from "@/lib/types";
+import { getMemberByDistrict } from "@/data/members";
+
+export interface NestedDistrictEntry {
+  district: string;
+  /** Fraction of the muni's area inside this district. ~1.0 for munis
+   *  fully contained in a single district; lower for split munis like
+   *  Philadelphia (which sits inside 26 House districts). */
+  overlapShareOfMuni: number;
+}
 
 export interface MuniDetailData {
   geoid: string;
@@ -17,10 +26,22 @@ export interface MuniDetailData {
    *  pipeline lands. Until then, the field is missing/null and the
    *  popup row simply renders as "—". */
   popChange2020to2024Pct: number | null;
+  /** Legislative districts this muni overlaps. Built by the pipeline
+   *  from the district × muni spatial overlay (slivers below 0.5%
+   *  area share are dropped). For most PA munis these are
+   *  single-element lists; cities like Allentown / Philly / Pittsburgh
+   *  fan out across many. */
+  nestedHouseDistricts: NestedDistrictEntry[];
+  nestedSenateDistricts: NestedDistrictEntry[];
 }
 
 interface Props {
   data: MuniDetailData;
+  /** When a user clicks a district number/name inside the popup,
+   *  the parent map applies it as a filter (dims un-matching munis,
+   *  updates the URL). Optional so the popup is reusable in
+   *  read-only contexts. */
+  onApplyDistrictFilter?: (chamber: "House" | "Senate", district: string) => void;
   onClose: () => void;
 }
 
@@ -53,7 +74,11 @@ const fmtRate = (n: number | null): string =>
  * scrollable, with a close button. Layout mirrors DistrictPopup so
  * users moving between maps have the same mental model.
  */
-export const MuniDetailPopup = ({ data, onClose }: Props) => {
+export const MuniDetailPopup = ({
+  data,
+  onApplyDistrictFilter,
+  onClose,
+}: Props) => {
   const classLabel =
     MUNICIPAL_CLASS_LABELS[data.classCode as MunicipalClass] ?? data.classCode;
   return (
@@ -121,14 +146,113 @@ export const MuniDetailPopup = ({ data, onClose }: Props) => {
         </dl>
       </div>
 
-      <div className="popup__section popup__nesting">
-        <div className="popup__section-title">Where this fits politically</div>
-        <div className="popup__nesting-body">
-          See <a href={`/#map`}>the main vote map</a> for the legislators
-          whose districts overlap {data.name} and how they voted on housing
-          bills.
+      {(data.nestedHouseDistricts.length > 0 ||
+        data.nestedSenateDistricts.length > 0) && (
+        <div className="popup__section popup__nesting">
+          <div className="popup__section-title">
+            Legislative districts that overlap this muni
+          </div>
+          {data.nestedHouseDistricts.length > 0 && (
+            <DistrictList
+              chamber="House"
+              entries={data.nestedHouseDistricts}
+              onApplyFilter={onApplyDistrictFilter}
+            />
+          )}
+          {data.nestedSenateDistricts.length > 0 && (
+            <DistrictList
+              chamber="Senate"
+              entries={data.nestedSenateDistricts}
+              onApplyFilter={onApplyDistrictFilter}
+            />
+          )}
+          <div className="popup__cross-link">
+            <a href={`/#map`}>
+              See how these legislators voted on housing bills →
+            </a>
+          </div>
         </div>
-      </div>
+      )}
     </div>
+  );
+};
+
+interface DistrictListProps {
+  chamber: "House" | "Senate";
+  entries: NestedDistrictEntry[];
+  onApplyFilter?: (chamber: "House" | "Senate", district: string) => void;
+}
+
+/**
+ * One row per nested district: chamber label + district number + member
+ * name + party pill + (when the muni is split) the % of muni area in
+ * that district. Looking the member up by district can yield no result
+ * for vacant seats; we render "Vacant" rather than skip the row. The
+ * list is bounded — Philly fans out across 26 House districts — so
+ * we cap at 8 and add a "+N more" tail.
+ *
+ * If onApplyFilter is provided, the row is a clickable button that
+ * applies the district as a map filter; otherwise the row is plain
+ * text. This lets the same component be used inside contexts that
+ * can't accept the filter (e.g. embedded read-only views).
+ */
+const DistrictList = ({ chamber, entries, onApplyFilter }: DistrictListProps) => {
+  const MAX_ROWS = 8;
+  const visible = entries.slice(0, MAX_ROWS);
+  const hidden = entries.length - visible.length;
+  const showShare = entries.length > 1; // single-district munis don't need 100%
+  return (
+    <ul className="popup__nested-districts">
+      {visible.map((entry) => {
+        const member = getMemberByDistrict(chamber, entry.district);
+        const shortChamber = chamber === "Senate" ? "SD" : "HD";
+        const rowBody = (
+          <>
+            <span className="popup__nested-hd-id">
+              {shortChamber}-{entry.district}
+            </span>
+            {member ? (
+              <>
+                <span
+                  className={`popup__party popup__party--${member.party.toLowerCase()}`}
+                >
+                  {member.party}
+                </span>
+                <span className="popup__nested-hd-name">{member.fullName}</span>
+              </>
+            ) : (
+              <span className="popup__nested-hd-name popup__member--unknown">
+                Vacant seat
+              </span>
+            )}
+            {showShare && (
+              <span className="popup__nested-hd-share">
+                {Math.round(entry.overlapShareOfMuni * 100)}%
+              </span>
+            )}
+          </>
+        );
+        if (onApplyFilter) {
+          return (
+            <li key={`${chamber}-${entry.district}`}>
+              <button
+                type="button"
+                className="popup__nested-district-row"
+                onClick={() => onApplyFilter(chamber, entry.district)}
+                title={`Filter the map to ${shortChamber}-${entry.district}`}
+              >
+                {rowBody}
+              </button>
+            </li>
+          );
+        }
+        return <li key={`${chamber}-${entry.district}`}>{rowBody}</li>;
+      })}
+      {hidden > 0 && (
+        <li className="popup__nested-districts-more">
+          +{hidden} more {chamber === "Senate" ? "Senate" : "House"} districts
+        </li>
+      )}
+    </ul>
   );
 };
