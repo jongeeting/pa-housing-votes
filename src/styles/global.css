@@ -448,26 +448,28 @@ code {
 
 /* Clickable district row inside the muni popup. Reset the button's
    default chrome so it looks like a plain list row, then add a soft
-   hover state to telegraph that it's a tap target. */
+   hover state to telegraph that it's a tap target. The grid lives
+   on the button itself (mirrors the read-only li's grid template)
+   so clickable + read-only rows look identical. */
 .popup__nested-district-row {
   display: grid;
   grid-template-columns: auto auto 1fr auto;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
   width: 100%;
   appearance: none;
   background: transparent;
   border: 0;
-  padding: 3px 6px;
+  padding: 5px 6px;
   margin: 0 -6px;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   font: inherit;
   text-align: left;
   color: inherit;
 }
 .popup__nested-district-row:hover {
-  background: #f1f5f9;
+  background: #eef2f6;
 }
 .popup__nested-district-row:focus-visible {
   outline: 2px solid var(--accent);
@@ -1189,17 +1191,32 @@ code {
   padding-top: 4px;
   border-top: 1px dashed rgba(255, 255, 255, 0.18);
 }
-/* Two-column housing facts in the district popup. */
+/* Housing-context facts in the popups. Single-column layout with
+ * label on left, value right-aligned + tabular for clean number
+ * stacks. Slight row padding gives breathing room; a hairline
+ * separator between rows makes it scan like a small table without
+ * the heaviness of borders. */
+.popup__facts--housing {
+  display: block !important;
+  grid-template-columns: none !important;
+}
 .popup__facts--housing > div {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 0.6rem;
-  font-size: 0.84rem;
-  padding: 2px 0;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 5px 0;
+  font-size: 0.86rem;
+}
+.popup__facts--housing > div + div {
+  border-top: 1px solid #eef2f6;
 }
 .popup__facts--housing dt {
   color: var(--fg-muted);
   font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.82rem;
 }
 .popup__facts--housing dd {
   margin: 0;
@@ -1209,28 +1226,39 @@ code {
 }
 .popup__facts-source {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 400;
   color: var(--fg-muted);
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
-/* Popup ------------------------------------------------------------------- */
+/* Popup ------------------------------------------------------------------- *
+ * The popup is the densest single chunk of UI on the site — legislator
+ * identity, bill votes, district facts, geographic context all stack
+ * here. Everything below uses a small set of consistent values:
+ *   - spacing rhythm:  0.35 / 0.55 / 0.85 / 1.1rem
+ *   - section dividers: 1px solid var(--border) with a small gap above
+ *   - cards (bill groups): subtle gray bg, 8px radius, inner padding
+ *   - pills: pill-shaped, 0.7rem bold, padding 1px 8px
+ * Tweaks should respect this scale so the popup stays readable.
+ */
 
 .popup {
   position: absolute;
   top: 12px;
   right: 12px;
-  width: min(340px, calc(100% - 24px));
+  width: min(360px, calc(100% - 24px));
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 10px;
   box-shadow: var(--shadow-md);
   /* Top padding lives inside the sticky header so the header can pin
    * flush to the top of the popup when the user scrolls — useful for
    * social-media screenshots of legislator + voting history together. */
-  padding: 0 1.1rem 1.1rem;
-  font-size: 0.88rem;
+  padding: 0 1rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--fg);
   max-height: calc(100% - 24px);
   overflow-y: auto;
   z-index: 11;
@@ -1240,53 +1268,69 @@ code {
    * corner regardless of scroll, sitting above the sticky header
    * so the X is always reachable. */
   position: absolute;
-  top: 6px;
-  right: 8px;
+  top: 7px;
+  right: 7px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
-  font-size: 1.4rem;
+  border-radius: 999px;
+  font-size: 1.3rem;
   line-height: 1;
   color: var(--fg-muted);
   cursor: pointer;
-  padding: 4px 8px;
   z-index: 3;
+  transition: background-color 120ms ease;
 }
 .popup__close:hover {
+  background: #f1f5f9;
   color: var(--fg);
 }
 .popup__header {
   position: sticky;
   top: 0;
   background: #fff;
-  margin: 0 -1.1rem 0.6rem;
-  padding: 0.9rem 2.5rem 0.55rem 1.1rem;
+  margin: 0 -1rem 0;
+  padding: 0.85rem 2.5rem 0.7rem 1rem;
   border-bottom: 1px solid var(--border);
   z-index: 2;
 }
 .popup__district {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--fg-muted);
 }
 .popup__member {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-top: 2px;
+  line-height: 1.25;
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
 }
 .popup__member--unknown {
-  font-weight: 400;
-  font-size: 0.8rem;
+  font-weight: 500;
+  font-size: 0.9rem;
   color: var(--fg-muted);
 }
 .popup__party {
-  display: inline-block;
-  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 7px;
+  font-size: 0.68rem;
   font-weight: 700;
-  padding: 0 6px;
-  border-radius: 3px;
-  vertical-align: 1px;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
   color: #fff;
+  flex: 0 0 auto;
 }
 .popup__party--d {
   background: #1d4ed8;
@@ -1298,15 +1342,27 @@ code {
   background: #6b7280;
 }
 
+/* Sections — each visual chunk in the popup. The first section sits
+ * flush under the header (no extra top divider) so the popup doesn't
+ * feel double-bordered. Subsequent sections get a thin divider plus
+ * a uniform vertical gap. */
 .popup__section {
   margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+.popup__section:first-of-type {
+  margin-top: 0.85rem;
+  padding-top: 0;
+  border-top: 0;
 }
 .popup__section-title {
-  font-size: 0.7rem;
+  font-size: 0.66rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
   color: var(--fg-muted);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.5rem;
 }
 
 .popup__votes {
@@ -1314,40 +1370,59 @@ code {
   border-collapse: collapse;
 }
 .popup__votes td {
-  padding: 3px 0;
+  padding: 2px 0;
+  vertical-align: middle;
 }
 .popup__bill-cell {
   font-weight: 600;
   width: 5em;
 }
+/* Each tracked bill renders as its own subtle card inside the bills
+ * section. The card treatment (background + padding + radius) makes
+ * the bill + its votes feel like one thing rather than a wall of
+ * stacked rows. */
 .popup__bill-group {
-  margin-bottom: 0.6rem;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
 }
 .popup__bill-group + .popup__bill-group {
-  border-top: 1px solid var(--border);
-  padding-top: 0.45rem;
+  margin-top: 0.5rem;
 }
 .popup__bill-label {
-  font-size: 0.85rem;
-  margin-bottom: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.88rem;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+.popup__bill-label > strong {
+  font-weight: 700;
 }
 .popup__bill-title {
   color: var(--fg-muted);
   font-weight: 500;
+  font-size: 0.84rem;
 }
 .popup__phase-cell {
-  padding-left: 0.5rem;
+  padding-left: 0;
+  padding-right: 0.5rem;
   color: var(--fg-muted);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
+  white-space: nowrap;
 }
 .popup__pill-cell {
   white-space: nowrap;
+  text-align: right;
 }
 .popup__flip-flag {
   display: inline-block;
   margin-left: 4px;
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.66rem;
+  font-weight: 700;
   color: #b45309; /* amber-700 — calls attention without being alarming */
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1359,18 +1434,18 @@ code {
   font-style: italic;
 }
 .popup__past-session-tag {
-  display: inline-block;
-  margin-left: 6px;
-  font-size: 0.68rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  height: 17px;
+  font-size: 0.65rem;
+  font-weight: 700;
   color: var(--fg-muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: #f1f5f9;
+  background: #fff;
   border: 1px solid var(--border);
   border-radius: 3px;
-  padding: 1px 5px;
-  vertical-align: middle;
+  padding: 0 5px;
 }
 .popup__predecessor {
   font-size: 0.72rem;
@@ -1381,8 +1456,8 @@ code {
 .popup__bill-brief {
   font-size: 0.78rem;
   color: var(--fg-muted);
-  line-height: 1.4;
-  margin: 2px 0 4px;
+  line-height: 1.45;
+  margin: 2px 0 6px;
 }
 .popup__bill-link {
   color: var(--accent, #2563eb);
@@ -1394,35 +1469,41 @@ code {
   text-decoration: underline;
 }
 
-/* Nesting context (cross-chamber popup sections) */
-.popup__nesting {
-  background: #f8fafc;
-  border-left: 3px solid #94a3b8;
-  padding-left: 0.5rem;
-  border-radius: 3px;
-}
+/* Nesting context (cross-chamber popup sections). Now styled as a
+ * normal section — the previous gray-with-left-border callout felt
+ * out of place next to the cleaner card treatment everywhere else. */
 .popup__nesting-body {
-  font-size: 0.82rem;
-  line-height: 1.4;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--fg);
 }
+/* Nested-house-districts list (shown on senate popup): for each HD
+ * inside this senate district, show district number + party pill +
+ * member name + their vote pill on the active bill. */
 .popup__nested-hds {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .popup__nested-hds li {
   display: grid;
   grid-template-columns: auto auto 1fr auto;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
-  font-size: 0.82rem;
+  padding: 5px 0;
+  font-size: 0.83rem;
   line-height: 1.3;
 }
+.popup__nested-hds li + li {
+  border-top: 1px solid #eef2f6;
+}
 .popup__nested-hd-id {
-  font-weight: 600;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  color: var(--fg);
 }
 .popup__nested-hd-name {
   color: var(--fg);
@@ -1432,7 +1513,7 @@ code {
      The grid row will just grow in height for those rows — cleaner
      than hiding half a name. */
   word-break: break-word;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 .popup__nested-hd-state {
   justify-self: end;
@@ -1440,22 +1521,34 @@ code {
 /* Nested-districts list used on the /housing-stats muni popup.
    Each row: HD/SD-NNN  ·  party pill  ·  member name  ·  optional %.
    Single-district munis omit the %, multi-district munis show it
-   right-aligned (e.g. Allentown's HD-134 row reads "42%"). */
+   right-aligned (e.g. Allentown's HD-134 row reads "42%"). The
+   <li> can wrap either a plain set of spans (read-only) or a
+   <button.popup__nested-district-row> (clickable, applies filter).
+   To keep both layouts identical, the grid lives on whichever
+   element directly holds the spans — for clickable rows that's
+   the button (see .popup__nested-district-row), for read-only
+   rows that's the li itself. */
 .popup__nested-districts {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 .popup__nested-districts > li {
+  font-size: 0.83rem;
+  line-height: 1.3;
+}
+.popup__nested-districts > li + li {
+  border-top: 1px solid #eef2f6;
+}
+/* Read-only row: the li directly contains the 4 spans. */
+.popup__nested-districts > li:not(:has(> .popup__nested-district-row)) {
   display: grid;
   grid-template-columns: auto auto 1fr auto;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
-  font-size: 0.82rem;
-  line-height: 1.3;
+  padding: 5px 0;
 }
 .popup__nested-hd-share {
   justify-self: end;
@@ -1468,61 +1561,85 @@ code {
   color: var(--fg-muted);
   font-style: italic;
   font-size: 0.78rem;
+  padding: 6px 0 2px !important;
+  border-top: 0 !important;
 }
 .popup__nested-districts + .popup__nested-districts {
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px dashed var(--border);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
 }
+/* Vote pill — the small colored chip showing Yea / Nay / Sponsor /
+ * Cosponsor. Used inside the bill cards (vote table) and inside the
+ * nested-house-delegation list on senate popups. */
 .popup__vote-pill {
-  display: inline-block;
-  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  height: 19px;
+  font-size: 0.68rem;
   font-weight: 700;
   color: #fff;
-  padding: 2px 8px;
+  padding: 0 8px;
   border-radius: 999px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 .popup__vote-pill--none {
-  background: #e5e7eb;
-  color: #475569;
+  background: #f1f5f9;
+  color: #64748b;
 }
 
+/* Top-level district facts (Population / Land area). Two short
+ * labels, two values — kept as a 2-column grid since each cell is
+ * narrow enough to read at a glance. Housing facts override this
+ * via .popup__facts--housing for the single-column treatment. */
 .popup__facts {
   margin: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px 0.75rem;
+  gap: 8px 1rem;
 }
 .popup__facts > div {
   display: flex;
   flex-direction: column;
+  gap: 1px;
 }
 .popup__facts dt {
-  font-size: 0.7rem;
+  font-size: 0.66rem;
+  font-weight: 600;
   color: var(--fg-muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 .popup__facts dd {
   margin: 0;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
 }
 
+/* "Top municipalities" + "Top counties" lists inside the district
+ * popup. Three columns: name + class label + pop-share %. The
+ * hairline separators between rows match the housing-facts and
+ * nested-districts patterns so all three list types feel related. */
 .popup__munis {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 3px;
+  display: flex;
+  flex-direction: column;
 }
 .popup__munis li {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 0.5rem;
+  column-gap: 0.6rem;
   align-items: baseline;
+  padding: 5px 0;
+  font-size: 0.85rem;
+}
+.popup__munis li + li {
+  border-top: 1px solid #eef2f6;
 }
 .popup__muni-name {
   font-weight: 600;
@@ -1577,11 +1694,13 @@ code {
 
 .popup__class-legend {
   list-style: none;
-  margin: 0.45rem 0 0;
+  margin: 0.55rem 0 0;
   padding: 0;
   display: grid;
-  gap: 2px;
-  font-size: 0.78rem;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.75rem;
+  row-gap: 3px;
+  font-size: 0.77rem;
   color: var(--fg-muted);
 }
 .popup__class-legend li {
@@ -1626,12 +1745,15 @@ code {
    users moving from a legislator-centric click to "but what's
    actually being built in these places?" have a one-tap path. */
 .popup__cross-link {
-  margin-top: 8px;
-  font-size: 0.78rem;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #eef2f6;
+  font-size: 0.8rem;
 }
 .popup__cross-link a {
   color: var(--accent);
   text-decoration: none;
+  font-weight: 600;
 }
 .popup__cross-link a:hover {
   text-decoration: underline;
@@ -1640,29 +1762,43 @@ code {
 /* Mobile-only disclosure wrapper around the geographic sub-sections
    (top counties / top munis / class breakdown). Saves about half
    the scroll height on a phone for a click-popup that already has
-   bills + housing context above it. */
+   bills + housing context above it. Mirrors .popup__section's top-
+   divider treatment so the disclosure feels like part of the same
+   visual rhythm. */
+.popup__geo-details {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+}
 .popup__geo-details > summary {
   cursor: pointer;
   list-style: none;
-  padding: 8px 0 6px;
-  font-size: 0.72rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.66rem;
+  font-weight: 700;
   color: var(--fg-muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  border-top: 1px solid var(--border);
-  margin-top: 6px;
+  letter-spacing: 0.07em;
 }
 .popup__geo-details > summary::-webkit-details-marker {
   display: none;
 }
 .popup__geo-details > summary::after {
-  content: " ▾";
-  font-size: 0.7rem;
-  margin-left: 4px;
+  content: "▾";
+  font-size: 0.72rem;
+  color: var(--fg-muted);
 }
 .popup__geo-details[open] > summary::after {
-  content: " ▴";
+  content: "▴";
+}
+/* When the disclosure is the parent of the standard sections, those
+   sections shouldn't redraw their own top divider — the disclosure
+   itself owns the dividing line. */
+.popup__geo-details .popup__section {
+  border-top: 0;
+  padding-top: 0.85rem;
 }
 
 /* Mobile ------------------------------------------------------------------ */
@@ -1678,7 +1814,24 @@ code {
     width: calc(100% - 16px);
     right: 8px;
     top: 8px;
-    max-height: 60%;
+    max-height: 65%;
+    font-size: 0.85rem;
+  }
+  .popup__header {
+    padding: 0.7rem 2.3rem 0.6rem 1rem;
+  }
+  .popup__member {
+    font-size: 1rem;
+  }
+  .popup__bill-group {
+    padding: 0.5rem 0.6rem;
+  }
+  /* Drop the 2-col layout for the top-line facts on phones — the
+     short labels still fit, but stacking them keeps both values
+     visible without the dense look. */
+  .popup__facts {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 0.6rem;
   }
   .vote-map__canvas-wrap {
     height: 70vh;
