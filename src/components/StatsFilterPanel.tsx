@@ -3,6 +3,8 @@ import type { MunicipalClass } from "@/lib/types";
 import { MUNICIPAL_CLASS_LABELS } from "@/lib/types";
 
 interface Props {
+  showCounties: boolean;
+  onShowCountiesChange: (v: boolean) => void;
   highlightedClasses: Set<MunicipalClass>;
   onHighlightedClassesChange: (next: Set<MunicipalClass>) => void;
   showHouseLines: boolean;
@@ -46,6 +48,8 @@ const CLASSES_IN_DISPLAY_ORDER: MunicipalClass[] = [
  * LayerPanel) since the eight checkboxes dominate on phone widths.
  */
 export const StatsFilterPanel = ({
+  showCounties,
+  onShowCountiesChange,
   highlightedClasses,
   onHighlightedClassesChange,
   showHouseLines,
@@ -64,8 +68,14 @@ export const StatsFilterPanel = ({
     onHighlightedClassesChange(next);
   };
 
+  // Count non-default overlay/filter states so the closed panel shows
+  // a small badge ("how many things have I changed?"). County lines
+  // default ON, so we only count them as "active" when toggled OFF.
   const activeBadge =
-    highlightedClasses.size + (showHouseLines ? 1 : 0) + (showSenateLines ? 1 : 0);
+    highlightedClasses.size +
+    (showHouseLines ? 1 : 0) +
+    (showSenateLines ? 1 : 0) +
+    (showCounties ? 0 : 1);
 
   return (
     <div className={`layer-panel${open ? " is-open" : ""}`}>
@@ -84,7 +94,15 @@ export const StatsFilterPanel = ({
       {open && (
         <div className="layer-panel__body">
           <div className="layer-panel__group">
-            <div className="layer-panel__group-title">District outlines</div>
+            <div className="layer-panel__group-title">Overlays</div>
+            <label className="layer-panel__row">
+              <input
+                type="checkbox"
+                checked={showCounties}
+                onChange={(e) => onShowCountiesChange(e.target.checked)}
+              />
+              County lines
+            </label>
             <label className="layer-panel__row">
               <input
                 type="checkbox"

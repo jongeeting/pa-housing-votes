@@ -609,14 +609,6 @@ export const StatsMap = ({
     <div className="stats-map">
       <div className="stats-map__controls">
         <MetricSelector value={metric} onChange={setMetric} compact={isCompact} />
-        <label className="stats-map__counties-toggle">
-          <input
-            type="checkbox"
-            checked={showCounties}
-            onChange={(e) => setShowCounties(e.target.checked)}
-          />
-          County lines
-        </label>
       </div>
       <div className="stats-map__picker-row">
         <DistrictPicker
@@ -690,6 +682,8 @@ export const StatsMap = ({
       <div className="stats-map__canvas-wrap">
         <div ref={containerRef} className="stats-map__canvas" />
         <StatsFilterPanel
+          showCounties={showCounties}
+          onShowCountiesChange={setShowCounties}
           highlightedClasses={highlightedClasses}
           onHighlightedClassesChange={setHighlightedClasses}
           showHouseLines={showHouseLines}

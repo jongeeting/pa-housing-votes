@@ -254,17 +254,6 @@ code {
   border-bottom: 1px solid var(--border);
   background: #fafafa;
 }
-.stats-map__counties-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.78rem;
-  color: var(--fg-muted);
-  cursor: pointer;
-}
-.stats-map__counties-toggle input[type="checkbox"] {
-  margin: 0;
-}
 /* District picker row — a chamber radio + a typeahead input that
    lets users land on a district without clicks-from-the-map or URL
    params. Sits in its own row below the metric/county controls so
