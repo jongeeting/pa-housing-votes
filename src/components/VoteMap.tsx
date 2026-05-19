@@ -19,6 +19,7 @@ import {
   type DistrictVoteSnapshot,
 } from "@/lib/voteAggregation";
 import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 import { DistrictPopup } from "./DistrictPopup";
 import { BillSelector } from "./BillSelector";
 import { Legend } from "./Legend";
@@ -104,10 +105,18 @@ export const VoteMap = ({
   const [showSenateLines, setShowSenateLines] = useState(false);
   const [showNestedSupport, setShowNestedSupport] = useState(false);
   // Cursor-following tooltip when hovering a muni (only when muni
-  // layer is on). Null = no hover.
+  // layer is on). Null = no hover. Suppressed entirely on touch-
+  // primary devices where hover semantics break down.
   const [hoveredMuni, setHoveredMuni] = useState<
     { x: number; y: number; data: MuniTooltipData } | null
   >(null);
+  // Touch-primary devices (phones, most tablets) — disable the
+  // muni hover tooltip which doesn't translate to tap UX.
+  const isTouch = useMediaQuery("(hover: none)");
+  // Compact viewport — used to fold rarely-needed controls in the
+  // layer panel (muni-class highlights) and to skip the muni hover
+  // listener entirely when there's no benefit on a small screen.
+  const isCompact = useMediaQuery("(max-width: 720px)");
   // Map<senate district id, full nested-support breakdown for active item>
   const [senateNestedSupport, setSenateNestedSupport] = useState<
     Map<string, import("@/lib/voteAggregation").NestedSupport>
@@ -800,9 +809,10 @@ export const VoteMap = ({
           onShowSenateLinesChange={setShowSenateLines}
           showNestedSupport={showNestedSupport}
           onShowNestedSupportChange={setShowNestedSupport}
+          isCompact={isCompact}
         />
         {selectedItem && <Legend item={selectedItem} />}
-        {hoveredMuni && (
+        {!isTouch && hoveredMuni && (
           <MuniTooltip
             x={hoveredMuni.x}
             y={hoveredMuni.y}

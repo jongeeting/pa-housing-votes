@@ -562,6 +562,29 @@ code {
 .layer-panel__row input[type="checkbox"] {
   margin: 0;
 }
+/* Compact-viewport secondary disclosure inside the panel (collapses
+   the muni-class highlight list on mobile so it stops dominating the
+   open panel). Renders as a button with the section-title inline +
+   a chevron. */
+.layer-panel__subtoggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0 0 4px;
+  cursor: pointer;
+  color: inherit;
+}
+.layer-panel__subtoggle .layer-panel__group-title {
+  margin-bottom: 0;
+}
+.layer-panel__subtoggle-chevron {
+  font-size: 0.7rem;
+  color: var(--fg-muted);
+}
 
 /* Bills index ------------------------------------------------------------- */
 
@@ -1170,6 +1193,34 @@ code {
 }
 .popup__class-swatch--other {
   background: #cbd5e1;
+}
+
+/* Mobile-only disclosure wrapper around the geographic sub-sections
+   (top counties / top munis / class breakdown). Saves about half
+   the scroll height on a phone for a click-popup that already has
+   bills + housing context above it. */
+.popup__geo-details > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 8px 0 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--border);
+  margin-top: 6px;
+}
+.popup__geo-details > summary::-webkit-details-marker {
+  display: none;
+}
+.popup__geo-details > summary::after {
+  content: " ▾";
+  font-size: 0.7rem;
+  margin-left: 4px;
+}
+.popup__geo-details[open] > summary::after {
+  content: " ▴";
 }
 
 /* Mobile ------------------------------------------------------------------ */

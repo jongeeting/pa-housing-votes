@@ -19,6 +19,11 @@ interface Props {
   onShowSenateLinesChange: (v: boolean) => void;
   showNestedSupport: boolean;
   onShowNestedSupportChange: (v: boolean) => void;
+  /** When true (narrow viewport) the panel hides niche controls
+   *  ("Highlight muni class") behind a disclosure that's collapsed
+   *  by default. Desktop stays as before — full panel always
+   *  accessible by one click. */
+  isCompact?: boolean;
 }
 
 const CLASSES_IN_DISPLAY_ORDER: MunicipalClass[] = [
@@ -60,8 +65,13 @@ export const LayerPanel = ({
   onShowSenateLinesChange,
   showNestedSupport,
   onShowNestedSupportChange,
+  isCompact = false,
 }: Props) => {
   const [open, setOpen] = useState(false);
+  // On narrow viewports the muni-class highlight section is folded
+  // behind a secondary disclosure (defaults closed) so it stops
+  // dominating the panel. Desktop shows it inline as before.
+  const [muniClassOpen, setMuniClassOpen] = useState(!isCompact);
 
   const toggleClass = (cls: MunicipalClass) => {
     const next = new Set(highlightClasses);
@@ -159,17 +169,34 @@ export const LayerPanel = ({
           )}
 
           <div className="layer-panel__group">
-            <div className="layer-panel__group-title">Highlight muni class</div>
-            {CLASSES_IN_DISPLAY_ORDER.map((cls) => (
-              <label key={cls} className="layer-panel__row">
-                <input
-                  type="checkbox"
-                  checked={highlightClasses.has(cls)}
-                  onChange={() => toggleClass(cls)}
-                />
-                {MUNICIPAL_CLASS_LABELS[cls]}
-              </label>
-            ))}
+            {isCompact ? (
+              <button
+                type="button"
+                className="layer-panel__subtoggle"
+                onClick={() => setMuniClassOpen((v) => !v)}
+                aria-expanded={muniClassOpen}
+              >
+                <span className="layer-panel__group-title">
+                  Highlight muni class
+                </span>
+                <span className="layer-panel__subtoggle-chevron">
+                  {muniClassOpen ? "▴" : "▾"}
+                </span>
+              </button>
+            ) : (
+              <div className="layer-panel__group-title">Highlight muni class</div>
+            )}
+            {muniClassOpen &&
+              CLASSES_IN_DISPLAY_ORDER.map((cls) => (
+                <label key={cls} className="layer-panel__row">
+                  <input
+                    type="checkbox"
+                    checked={highlightClasses.has(cls)}
+                    onChange={() => toggleClass(cls)}
+                  />
+                  {MUNICIPAL_CLASS_LABELS[cls]}
+                </label>
+              ))}
           </div>
         </div>
       )}

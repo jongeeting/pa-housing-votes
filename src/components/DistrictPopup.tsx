@@ -2,6 +2,7 @@ import type { Chamber, MapItem, MunicipalClass, NestedDistrict } from "@/lib/typ
 import { MUNICIPAL_CLASS_LABELS } from "@/lib/types";
 import { getMemberByDistrict } from "@/data/members";
 import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 import {
   findVote,
   getMapItemBill,
@@ -157,6 +158,12 @@ export const DistrictPopup = ({
   onClose,
 }: Props) => {
   const member = getMemberByDistrict(chamber, district);
+  // On narrow viewports the geographic sub-sections (top counties +
+  // top munis + class breakdown) collapse into a single <details>
+  // disclosure starting closed, so the popup fits comfortably on a
+  // phone without the user scrolling through tables they didn't ask
+  // for. Desktop keeps everything expanded inline.
+  const isCompact = useMediaQuery("(max-width: 720px)");
   const population = Number(properties.population ?? 0);
   const landAreaSqMi = Number(properties.landAreaSqMi ?? 0);
   const topMunis = parseList<TopMuniRow>(properties.topMunicipalities);
@@ -528,68 +535,90 @@ export const DistrictPopup = ({
         </div>
       )}
 
-      {topCounties.length > 0 && (
-        <div className="popup__section">
-          <div className="popup__section-title">
-            {topCounties.length === 1 ? "County" : "Top counties"}
-          </div>
-          <ul className="popup__munis">
-            {topCounties.slice(0, 5).map((c) => (
-              <li key={c.geoid}>
-                <span className="popup__muni-name">{c.name} County</span>
-                <span className="popup__muni-share">
-                  {formatPct(c.populationShare)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {(() => {
+        const hasGeoDetail =
+          topCounties.length > 0 ||
+          topMunis.length > 0 ||
+          sortedClasses.length > 0;
+        if (!hasGeoDetail) return null;
+        const geoBody = (
+          <>
+            {topCounties.length > 0 && (
+              <div className="popup__section">
+                <div className="popup__section-title">
+                  {topCounties.length === 1 ? "County" : "Top counties"}
+                </div>
+                <ul className="popup__munis">
+                  {topCounties.slice(0, 5).map((c) => (
+                    <li key={c.geoid}>
+                      <span className="popup__muni-name">{c.name} County</span>
+                      <span className="popup__muni-share">
+                        {formatPct(c.populationShare)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-      {topMunis.length > 0 && (
-        <div className="popup__section">
-          <div className="popup__section-title">Top municipalities</div>
-          <ul className="popup__munis">
-            {topMunis.slice(0, 5).map((m) => (
-              <li key={m.name}>
-                <span className="popup__muni-name">{m.name}</span>
-                <span className="popup__muni-class">
-                  {MUNICIPAL_CLASS_LABELS[m.classCode] ?? m.classCode}
-                </span>
-                <span className="popup__muni-share">
-                  {formatPct(m.populationShare)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+            {topMunis.length > 0 && (
+              <div className="popup__section">
+                <div className="popup__section-title">Top municipalities</div>
+                <ul className="popup__munis">
+                  {topMunis.slice(0, 5).map((m) => (
+                    <li key={m.name}>
+                      <span className="popup__muni-name">{m.name}</span>
+                      <span className="popup__muni-class">
+                        {MUNICIPAL_CLASS_LABELS[m.classCode] ?? m.classCode}
+                      </span>
+                      <span className="popup__muni-share">
+                        {formatPct(m.populationShare)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-      {sortedClasses.length > 0 && (
-        <div className="popup__section">
-          <div className="popup__section-title">By municipal class</div>
-          <div className="popup__class-bar">
-            {sortedClasses.map(([cls, share]) => (
-              <div
-                key={cls}
-                className={`popup__class-bar-segment popup__class-bar-segment--${cls}`}
-                style={{ width: `${share * 100}%` }}
-                title={`${MUNICIPAL_CLASS_LABELS[cls]}: ${formatPct(share)}`}
-              />
-            ))}
-          </div>
-          <ul className="popup__class-legend">
-            {sortedClasses.map(([cls, share]) => (
-              <li key={cls}>
-                <span
-                  className={`popup__class-swatch popup__class-swatch--${cls}`}
-                />
-                {MUNICIPAL_CLASS_LABELS[cls]} · {formatPct(share)}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+            {sortedClasses.length > 0 && (
+              <div className="popup__section">
+                <div className="popup__section-title">By municipal class</div>
+                <div className="popup__class-bar">
+                  {sortedClasses.map(([cls, share]) => (
+                    <div
+                      key={cls}
+                      className={`popup__class-bar-segment popup__class-bar-segment--${cls}`}
+                      style={{ width: `${share * 100}%` }}
+                      title={`${MUNICIPAL_CLASS_LABELS[cls]}: ${formatPct(share)}`}
+                    />
+                  ))}
+                </div>
+                <ul className="popup__class-legend">
+                  {sortedClasses.map(([cls, share]) => (
+                    <li key={cls}>
+                      <span
+                        className={`popup__class-swatch popup__class-swatch--${cls}`}
+                      />
+                      {MUNICIPAL_CLASS_LABELS[cls]} · {formatPct(share)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </>
+        );
+        if (isCompact) {
+          return (
+            <details className="popup__geo-details">
+              <summary className="popup__geo-summary">
+                Geographic detail
+              </summary>
+              {geoBody}
+            </details>
+          );
+        }
+        return geoBody;
+      })()}
     </div>
   );
 };
