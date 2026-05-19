@@ -4,13 +4,15 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import { getMemberByDistrict } from "@/data/members";
-import type { Chamber } from "@/lib/types";
+import type { Chamber, MunicipalClass } from "@/lib/types";
+import { MUNICIPAL_CLASS_LABELS } from "@/lib/types";
 import { MetricSelector, type MetricKey, METRICS } from "./MetricSelector";
 import {
   MuniDetailPopup,
   type MuniDetailData,
   type NestedDistrictEntry,
 } from "./MuniDetailPopup";
+import { StatsFilterPanel } from "./StatsFilterPanel";
 
 interface DistrictFilter {
   chamber: Chamber;
@@ -63,6 +65,8 @@ const parseDistrictList = (raw: unknown): NestedDistrictEntry[] => {
 interface Props {
   munisUrl?: string;
   countiesUrl?: string;
+  houseDistrictsUrl?: string;
+  senateDistrictsUrl?: string;
 }
 
 // Per-build cache-buster, mirroring VoteMap's approach. See
@@ -72,6 +76,8 @@ const BUILD_QS =
 
 const DEFAULT_MUNIS_URL = `/data/pa_municipalities.geojson${BUILD_QS}`;
 const DEFAULT_COUNTIES_URL = `/data/pa_counties.geojson${BUILD_QS}`;
+const DEFAULT_HOUSE_URL = `/data/pa_house_districts.geojson${BUILD_QS}`;
+const DEFAULT_SENATE_URL = `/data/pa_senate_districts.geojson${BUILD_QS}`;
 
 const PA_BOUNDS: [[number, number], [number, number]] = [
   [-80.6, 39.6],
@@ -92,6 +98,8 @@ const PA_BOUNDS: [[number, number], [number, number]] = [
 export const StatsMap = ({
   munisUrl = DEFAULT_MUNIS_URL,
   countiesUrl = DEFAULT_COUNTIES_URL,
+  houseDistrictsUrl = DEFAULT_HOUSE_URL,
+  senateDistrictsUrl = DEFAULT_SENATE_URL,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -100,13 +108,25 @@ export const StatsMap = ({
   const [showCounties, setShowCounties] = useState(true);
   const [selectedMuni, setSelectedMuni] = useState<MuniDetailData | null>(null);
   const isCompact = useMediaQuery("(max-width: 720px)");
-  // Filter state: when active, dims munis whose nestedHouseDistricts /
-  // nestedSenateDistricts don't include the selected district. Lifted
-  // from the URL on mount and persisted back as the user clicks
-  // around (so a filtered view is bookmarkable / shareable).
+  // District filter state: when active, dims munis whose
+  // nestedHouseDistricts / nestedSenateDistricts don't include the
+  // selected district. Lifted from the URL on mount and persisted back
+  // as the user clicks around (so a filtered view is bookmarkable /
+  // shareable).
   const [filter, setFilter] = useState<DistrictFilter | null>(() =>
     readFilterFromUrl(),
   );
+  // Muni-class filter — when one or more classes are selected, munis
+  // not in those classes get dimmed. Stacks multiplicatively with the
+  // district filter (a muni must satisfy BOTH to render at full
+  // opacity). Empty set = no class filter active.
+  const [highlightedClasses, setHighlightedClasses] = useState<
+    Set<MunicipalClass>
+  >(new Set());
+  // District-line overlays (chamber outlines drawn on top of the muni
+  // choropleth for orientation, independent of the district filter).
+  const [showHouseLines, setShowHouseLines] = useState(false);
+  const [showSenateLines, setShowSenateLines] = useState(false);
   // Parallel copy of the muni geojson features used to compute which
   // muni geoids match the current filter. MapLibre has its own copy
   // for rendering but doesn't expose `data` as the raw feature array
@@ -309,26 +329,107 @@ export const StatsMap = ({
     }
   }, [showCounties, mapReady]);
 
-  // Dim munis outside the active filter. When no filter is set, all
-  // munis render at 0.78 opacity; with a filter we keep matching
-  // munis at 0.85 (slightly brighter, to feel "spotlit") and drop
-  // everything else to 0.12 — visible enough to read the choropleth
-  // as context but unmistakably out of the selected district.
+  // Dim munis outside the active filters. Two filters combine
+  // multiplicatively — a muni must satisfy ALL active filters to
+  // render at full opacity. With no filters, all munis render at
+  // 0.78 baseline. Matching munis under any active filter brighten
+  // to 0.85 ("spotlit"); non-matching drop to 0.12 — visible enough
+  // to read the choropleth as context but unmistakably filtered out.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady) return;
     if (!map.getLayer("munis-fill")) return;
-    if (!filter) {
+    const hasDistrictFilter = filter !== null;
+    const hasClassFilter = highlightedClasses.size > 0;
+    if (!hasDistrictFilter && !hasClassFilter) {
       map.setPaintProperty("munis-fill", "fill-opacity", 0.78);
       return;
     }
+    // Build a combined `all` test. Each clause defaults to `true`
+    // when its filter isn't active, so we never have to special-case
+    // the half-active states in the expression itself.
+    const districtClause: unknown = hasDistrictFilter
+      ? ["in", ["get", "geoid"], ["literal", matchingGeoids]]
+      : true;
+    const classClause: unknown = hasClassFilter
+      ? [
+          "in",
+          ["get", "classCode"],
+          ["literal", Array.from(highlightedClasses)],
+        ]
+      : true;
     map.setPaintProperty("munis-fill", "fill-opacity", [
       "case",
-      ["in", ["get", "geoid"], ["literal", matchingGeoids]],
+      ["all", districtClause, classClause],
       0.85,
       0.12,
     ] as unknown as maplibregl.ExpressionSpecification);
-  }, [filter, matchingGeoids, mapReady]);
+  }, [filter, matchingGeoids, highlightedClasses, mapReady]);
+
+  // Lazy-load and toggle House district outlines on top of the muni
+  // choropleth. The source is added once on first enable; subsequent
+  // toggles flip layout visibility so we keep the GeoJSON parse cost
+  // out of the cold-start path.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    if (!showHouseLines) {
+      if (map.getLayer("hd-outline-overlay")) {
+        map.setLayoutProperty("hd-outline-overlay", "visibility", "none");
+      }
+      return;
+    }
+    if (!map.getSource("hd-overlay-src")) {
+      map.addSource("hd-overlay-src", {
+        type: "geojson",
+        data: houseDistrictsUrl,
+      });
+    }
+    if (!map.getLayer("hd-outline-overlay")) {
+      map.addLayer({
+        id: "hd-outline-overlay",
+        type: "line",
+        source: "hd-overlay-src",
+        paint: {
+          "line-color": "rgba(15, 23, 42, 0.7)",
+          "line-width": 1.1,
+          "line-dasharray": [3, 2],
+        },
+      });
+    } else {
+      map.setLayoutProperty("hd-outline-overlay", "visibility", "visible");
+    }
+  }, [showHouseLines, mapReady, houseDistrictsUrl]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    if (!showSenateLines) {
+      if (map.getLayer("sd-outline-overlay")) {
+        map.setLayoutProperty("sd-outline-overlay", "visibility", "none");
+      }
+      return;
+    }
+    if (!map.getSource("sd-overlay-src")) {
+      map.addSource("sd-overlay-src", {
+        type: "geojson",
+        data: senateDistrictsUrl,
+      });
+    }
+    if (!map.getLayer("sd-outline-overlay")) {
+      map.addLayer({
+        id: "sd-outline-overlay",
+        type: "line",
+        source: "sd-overlay-src",
+        paint: {
+          "line-color": "rgba(127, 29, 29, 0.7)",
+          "line-width": 1.4,
+        },
+      });
+    } else {
+      map.setLayoutProperty("sd-outline-overlay", "visibility", "visible");
+    }
+  }, [showSenateLines, mapReady, senateDistrictsUrl]);
 
   // Push filter changes back into the URL so reload preserves state.
   useEffect(() => {
@@ -339,6 +440,34 @@ export const StatsMap = ({
     if (!filter) return null;
     return getMemberByDistrict(filter.chamber, filter.district);
   }, [filter]);
+
+  // Count of munis that survive both filters — used in the active-
+  // filter chip ("2 munis"). When only a district filter is active
+  // this is matchingGeoids.length; when a class filter is also
+  // active we re-check class membership against muniFeatures.
+  const combinedMuniCount = useMemo<number | null>(() => {
+    const hasDistrictFilter = filter !== null;
+    const hasClassFilter = highlightedClasses.size > 0;
+    if (!hasDistrictFilter && !hasClassFilter) return null;
+    if (muniFeatures.length === 0) return null;
+    const matchSet = new Set(matchingGeoids);
+    let count = 0;
+    for (const f of muniFeatures) {
+      const p = f.properties ?? {};
+      const geoid = String(p.geoid ?? "");
+      if (hasDistrictFilter && !matchSet.has(geoid)) continue;
+      if (
+        hasClassFilter &&
+        !highlightedClasses.has(String(p.classCode ?? "") as MunicipalClass)
+      )
+        continue;
+      count += 1;
+    }
+    return count;
+  }, [filter, highlightedClasses, matchingGeoids, muniFeatures]);
+
+  // Whether any filter is active — drives whether we show the chip.
+  const hasAnyFilter = filter !== null || highlightedClasses.size > 0;
 
   const legend = useMemo(() => METRICS[metric].legend, [metric]);
 
@@ -355,36 +484,49 @@ export const StatsMap = ({
           County lines
         </label>
       </div>
-      {filter && (
+      {hasAnyFilter && (
         <div className="stats-map__filter-chip" role="status" aria-live="polite">
           <span className="stats-map__filter-chip-label">
-            Filtered to{" "}
-            <strong>
-              {filter.chamber === "Senate" ? "SD" : "HD"}-{filter.district}
-            </strong>
-            {filterMember ? (
+            <strong>Filtered:</strong>{" "}
+            {filter && (
               <>
-                {" — "}
-                <span
-                  className={`popup__party popup__party--${filterMember.party.toLowerCase()}`}
-                >
-                  {filterMember.party}
-                </span>{" "}
-                {filterMember.fullName}
+                {filter.chamber === "Senate" ? "SD" : "HD"}-{filter.district}
+                {filterMember ? (
+                  <>
+                    {" — "}
+                    <span
+                      className={`popup__party popup__party--${filterMember.party.toLowerCase()}`}
+                    >
+                      {filterMember.party}
+                    </span>{" "}
+                    {filterMember.fullName}
+                  </>
+                ) : (
+                  " — Vacant seat"
+                )}
               </>
-            ) : (
-              " — Vacant seat"
+            )}
+            {filter && highlightedClasses.size > 0 && " · "}
+            {highlightedClasses.size > 0 && (
+              <>
+                {Array.from(highlightedClasses)
+                  .map((c) => MUNICIPAL_CLASS_LABELS[c])
+                  .join(", ")}
+              </>
             )}{" "}
             <span className="stats-map__filter-chip-count">
-              ({matchingGeoids.length} muni
-              {matchingGeoids.length === 1 ? "" : "s"})
+              ({combinedMuniCount ?? "…"} muni
+              {combinedMuniCount === 1 ? "" : "s"})
             </span>
           </span>
           <button
             type="button"
             className="stats-map__filter-chip-clear"
-            onClick={() => setFilter(null)}
-            aria-label="Clear district filter"
+            onClick={() => {
+              setFilter(null);
+              setHighlightedClasses(new Set());
+            }}
+            aria-label="Clear all filters"
           >
             Clear ×
           </button>
@@ -392,6 +534,15 @@ export const StatsMap = ({
       )}
       <div className="stats-map__canvas-wrap">
         <div ref={containerRef} className="stats-map__canvas" />
+        <StatsFilterPanel
+          highlightedClasses={highlightedClasses}
+          onHighlightedClassesChange={setHighlightedClasses}
+          showHouseLines={showHouseLines}
+          onShowHouseLinesChange={setShowHouseLines}
+          showSenateLines={showSenateLines}
+          onShowSenateLinesChange={setShowSenateLines}
+          isCompact={isCompact}
+        />
         <div className="stats-map__legend">
           <div className="stats-map__legend-title">{METRICS[metric].label}</div>
           <div className="stats-map__legend-ramp">

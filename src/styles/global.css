@@ -796,6 +796,39 @@ code {
   font-size: 0.7rem;
   color: var(--fg-muted);
 }
+/* Count badge inside the "Layers & filters" toggle on /housing-stats,
+   indicating active filters / overlays without the user having to
+   open the panel. */
+.layer-panel__active-badge {
+  display: inline-block;
+  min-width: 18px;
+  padding: 0 5px;
+  margin: 0 4px 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+  vertical-align: 1px;
+}
+/* "Clear muni-class filter" link at the bottom of the muni-class
+   group when one or more classes are checked. Small, secondary. */
+.layer-panel__clear-link {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 4px 0 0;
+  margin-top: 2px;
+  font-size: 0.7rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.layer-panel__clear-link:hover {
+  color: #991b1b;
+}
 
 /* Bills index ------------------------------------------------------------- */
 
