@@ -65,8 +65,23 @@ import { StatsMap } from "@/components/StatsMap";
       </li>
       <li>
         <strong>Median home value</strong> and <strong>rent-burdened %</strong>
-        &mdash; ACS 2023 5-year estimates (B25077 and B25070 respectively).
-        ACS suppresses estimates for very small populations.
+        &mdash; ACS 2023 5-year estimates (B25077 and B25070
+        respectively). For the per-municipality choropleth above we
+        use the muni-level ACS pull; for the per-district snapshot
+        panel we re-aggregate the same tables at the census-tract
+        level (~3,400 PA tracts, ~380 of them in Philadelphia) so
+        each district inside a big city gets its own number rather
+        than the city-wide average. ACS suppresses estimates for very
+        small populations, which surface as &ldquo;&mdash;.&rdquo;
+      </li>
+      <li>
+        <strong>Per-district popchange limitation</strong> &mdash;
+        Census PEP only publishes population estimates down to the
+        municipality. For districts entirely inside a single muni
+        (e.g. every Philadelphia House district), the snapshot
+        popchange is the muni-wide figure. We don&rsquo;t synthesize
+        sub-muni popchange because the source data simply isn&rsquo;t
+        published at that level.
       </li>
     </ul>
 

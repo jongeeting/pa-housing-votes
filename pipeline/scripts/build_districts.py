@@ -81,6 +81,7 @@ SLDL_URL = f"{TIGER_BASE}/SLDL/tl_2024_42_sldl.zip"  # PA State House
 SLDU_URL = f"{TIGER_BASE}/SLDU/tl_2024_42_sldu.zip"  # PA State Senate
 COUSUB_URL = f"{TIGER_BASE}/COUSUB/tl_2024_42_cousub.zip"  # PA municipalities
 COUNTY_URL = f"{TIGER_BASE}/COUNTY/tl_2024_us_county.zip"  # All counties; filtered to PA
+TRACT_URL = f"{TIGER_BASE}/TRACT/tl_2024_42_tract.zip"  # PA census tracts
 
 # ACS 2023 5-year. We pull these tables at county-subdivision level for PA
 # (state FIPS 42):
@@ -107,6 +108,18 @@ ACS_URL = (
     "https://api.census.gov/data/2023/acs/acs5"
     f"?get={ACS_VARS}"
     "&for=county%20subdivision:*"
+    "&in=state:42&in=county:*"
+)
+# Same tables at tract level. Tracts are ~4,000 people each — gives us
+# enough resolution that Philadelphia's 380 tracts subdivide cleanly
+# across its 26 House districts (vs the muni-level pull which lumps
+# all 1.5M Philadelphians into one row). Used as an override for the
+# ACS housing aggregates so per-district stats actually vary inside
+# big cities. PA has ~3,400 tracts total, well under the API row cap.
+ACS_TRACT_URL = (
+    "https://api.census.gov/data/2023/acs/acs5"
+    f"?get={ACS_VARS}"
+    "&for=tract:*"
     "&in=state:42&in=county:*"
 )
 
@@ -482,6 +495,108 @@ def load_acs_housing_facts() -> pd.DataFrame:
     ].copy()
 
 
+def load_pa_tracts() -> gpd.GeoDataFrame:
+    """PA census tract shapefile (TIGER 2024). Returns a GeoDataFrame
+    keyed by tract GEOID (11 chars: state + county + tract) with
+    geometry in the equal-area CRS. Used as the apportionment unit
+    for tract-level ACS housing aggregates inside legislative
+    districts, in place of the muni-level apportionment for the
+    Philly + Pittsburgh case (where the muni is so big it's the
+    same as the city)."""
+    zip_path = download(TRACT_URL, RAW_DIR / "tl_2024_42_tract.zip")
+    gdf = read_zipped_shapefile(zip_path).to_crs(EQUAL_AREA_CRS)
+    # TIGER stores tract GEOID as STATE+COUNTY+TRACT (11 chars).
+    gdf["geoid"] = gdf["GEOID"].astype(str)
+    return gdf[["geoid", "geometry"]].copy()
+
+
+def load_acs_housing_facts_tract() -> pd.DataFrame:
+    """ACS 2023 5-year housing facts at the tract level. Same tables
+    as load_acs_housing_facts() (B19013 income, B25077 home value,
+    B25070 rent burden, B25091 owner burden, B01003 population), just
+    finer geography. Returns a DataFrame keyed by 11-digit tract
+    GEOID. PA has ~3,400 tracts; Philadelphia ~380 of those.
+    """
+    import os
+
+    cache = CACHE_DIR / "acs_pa_tract_housing.json"
+    if cache.exists():
+        log.info("cached: %s", cache.name)
+        rows = json.loads(cache.read_text())
+    else:
+        api_key = os.environ.get("CENSUS_API_KEY", "").strip()
+        if not api_key:
+            raise RuntimeError(
+                "Tract-level ACS data requires a Census API key. "
+                "Sign up at https://api.census.gov/data/key_signup.html "
+                "and export CENSUS_API_KEY=<key> before running the pipeline."
+            )
+        log.info("fetching ACS housing facts at tract level")
+        r = requests.get(ACS_TRACT_URL + f"&key={api_key}", timeout=120)
+        r.raise_for_status()
+        if "text/html" in r.headers.get("content-type", "") or r.text.lstrip().startswith("<"):
+            raise RuntimeError(
+                "Census API returned an HTML error page instead of JSON "
+                "(tract-level call). Check CENSUS_API_KEY validity. "
+                f"First 200 chars of response: {r.text[:200]}"
+            )
+        rows = r.json()
+        cache.write_text(json.dumps(rows))
+    header, *body = rows
+    df = pd.DataFrame(body, columns=header)
+
+    def numeric(col: str) -> "pd.Series":
+        v = pd.to_numeric(df[col], errors="coerce")
+        return v.where(v >= 0)
+
+    df["population"] = numeric("B01003_001E").fillna(0).astype(int)
+    df["medianIncome"] = numeric("B19013_001E")
+    df["medianHomeValue"] = numeric("B25077_001E")
+
+    rent_total = numeric("B25070_001E")
+    rent_burdened = (
+        numeric("B25070_007E").fillna(0)
+        + numeric("B25070_008E").fillna(0)
+        + numeric("B25070_009E").fillna(0)
+        + numeric("B25070_010E").fillna(0)
+    )
+    df["rentBurdenedPct"] = (rent_burdened / rent_total).where(rent_total > 0)
+    df["rentHouseholds"] = rent_total.fillna(0).astype(int)
+
+    own_w_total = numeric("B25091_002E").fillna(0)
+    own_w_burdened = (
+        numeric("B25091_008E").fillna(0)
+        + numeric("B25091_009E").fillna(0)
+        + numeric("B25091_010E").fillna(0)
+        + numeric("B25091_011E").fillna(0)
+    )
+    own_n_total = numeric("B25091_013E").fillna(0)
+    own_n_burdened = (
+        numeric("B25091_019E").fillna(0)
+        + numeric("B25091_020E").fillna(0)
+        + numeric("B25091_021E").fillna(0)
+        + numeric("B25091_022E").fillna(0)
+    )
+    own_total = own_w_total + own_n_total
+    own_burdened = own_w_burdened + own_n_burdened
+    df["ownerBurdenedPct"] = (own_burdened / own_total).where(own_total > 0)
+    df["ownerHouseholds"] = own_total.astype(int)
+
+    df["geoid"] = df["state"] + df["county"] + df["tract"]
+    return df[
+        [
+            "geoid",
+            "population",
+            "medianIncome",
+            "medianHomeValue",
+            "rentBurdenedPct",
+            "rentHouseholds",
+            "ownerBurdenedPct",
+            "ownerHouseholds",
+        ]
+    ].copy()
+
+
 def load_bps_permits(years: list[int] = BPS_YEARS) -> pd.DataFrame:
     """Aggregate housing-unit permit counts per PA muni across the
     given years from the Census Building Permits Survey Place files
@@ -646,6 +761,93 @@ def redistribute_bps_across_slices(
 # ---------------------------------------------------------------------------
 # Spatial intersection + apportionment
 # ---------------------------------------------------------------------------
+
+
+def aggregate_acs_at_district_level(
+    districts: gpd.GeoDataFrame,
+    tracts: gpd.GeoDataFrame,
+    acs_tract: pd.DataFrame,
+) -> pd.DataFrame:
+    """Per-district ACS housing aggregates using the tract × district
+    spatial overlay. Gives Philly + Pittsburgh districts real
+    variation in median home value / rent burden / income / owner
+    burden — values that would otherwise be muni-wide (Philly =
+    one ACS row, so every Philly HD would look identical).
+
+    Returns a DataFrame keyed by `district` with the four ACS-derived
+    columns (medianIncome, medianHomeValue, rentBurdenedPct,
+    ownerBurdenedPct) at tract-level resolution. Caller merges these
+    onto the district stats DataFrame, overwriting the cousub-level
+    aggregates so the snapshot panel shows real per-district numbers.
+    """
+    log.info(
+        "intersecting %d districts x %d tracts (ACS override)",
+        len(districts),
+        len(tracts),
+    )
+    tracts = tracts.copy()
+    tracts["tract_area"] = tracts.geometry.area
+    inter = gpd.overlay(districts, tracts, how="intersection", keep_geom_type=True)
+    inter["intersection_area"] = inter.geometry.area
+    inter["area_share"] = inter["intersection_area"] / inter["tract_area"]
+
+    df = inter.merge(acs_tract, on="geoid", how="left")
+    df["population_in_intersection"] = df["population"].fillna(0) * df["area_share"]
+    # All four aggregates use the same area-share weighting as the
+    # muni-level version: medians weighted by population, burdens
+    # weighted by the relevant household counts.
+    df["rent_households_in_intersection"] = (
+        df["rentHouseholds"].fillna(0) * df["area_share"]
+    )
+    df["rent_burdened_in_intersection"] = (
+        df["rentBurdenedPct"].fillna(0)
+        * df["rentHouseholds"].fillna(0)
+        * df["area_share"]
+    )
+    df["owner_households_in_intersection"] = (
+        df["ownerHouseholds"].fillna(0) * df["area_share"]
+    )
+    df["owner_burdened_in_intersection"] = (
+        df["ownerBurdenedPct"].fillna(0)
+        * df["ownerHouseholds"].fillna(0)
+        * df["area_share"]
+    )
+    df["income_weighted"] = (
+        df["medianIncome"].fillna(0) * df["population_in_intersection"]
+    )
+    df["income_weight"] = (
+        df["medianIncome"].notna() * df["population_in_intersection"]
+    )
+    df["home_value_weighted"] = (
+        df["medianHomeValue"].fillna(0) * df["population_in_intersection"]
+    )
+    df["home_value_weight"] = (
+        df["medianHomeValue"].notna() * df["population_in_intersection"]
+    )
+
+    grp = df.groupby("district")
+    rent_households = grp["rent_households_in_intersection"].sum()
+    rent_burdened = grp["rent_burdened_in_intersection"].sum()
+    owner_households = grp["owner_households_in_intersection"].sum()
+    owner_burdened = grp["owner_burdened_in_intersection"].sum()
+    income_w = grp["income_weighted"].sum()
+    income_wt = grp["income_weight"].sum()
+    home_value_w = grp["home_value_weighted"].sum()
+    home_value_wt = grp["home_value_weight"].sum()
+
+    def _safe_div(num: "pd.Series", den: "pd.Series") -> "pd.Series":
+        return (num / den.where(den > 0)).where(den > 0)
+
+    out = pd.DataFrame(
+        {
+            "medianIncome": _safe_div(income_w, income_wt).round(),
+            "medianHomeValue": _safe_div(home_value_w, home_value_wt).round(),
+            "rentBurdenedPct": (_safe_div(rent_burdened, rent_households) * 100).round(1),
+            "ownerBurdenedPct": (_safe_div(owner_burdened, owner_households) * 100).round(1),
+        }
+    )
+    out.index.name = "district"
+    return out.reset_index()
 
 
 def intersect_districts_x_munis(
@@ -1270,6 +1472,7 @@ def build_chamber_geojson(
     cross_chamber_key: str,
     cross_chamber_data: dict[str, list[dict]],
     parcel_overrides: dict[str, float] | None = None,
+    acs_tract_override: pd.DataFrame | None = None,
 ) -> dict[str, list[dict]]:
     """Intersect districts with munis, aggregate stats, simplify, write GeoJSON.
 
@@ -1287,6 +1490,28 @@ def build_chamber_geojson(
     stats = aggregate_district_stats(
         inter, acs, bps, county_names, parcel_overrides=parcel_overrides
     )
+    # Override the four ACS housing aggregates with their tract-level
+    # versions when available. The muni-level aggregation only varies
+    # district-to-district where districts span multiple munis — so
+    # Philadelphia's 26 HDs all looked identical for median home value,
+    # rent burden, etc. Tract-level overrides give each Philly HD a
+    # real number derived from the ~10-15 tracts inside it.
+    if acs_tract_override is not None and not acs_tract_override.empty:
+        merged = stats.merge(
+            acs_tract_override,
+            on="district",
+            how="left",
+            suffixes=("", "_tract"),
+        )
+        for col in ("medianIncome", "medianHomeValue", "rentBurdenedPct", "ownerBurdenedPct"):
+            tract_col = f"{col}_tract"
+            if tract_col in merged.columns:
+                # Prefer tract aggregate; fall back to muni-level only
+                # when tract data is missing (e.g. very small rural HDs
+                # with all-suppressed tract estimates).
+                merged[col] = merged[tract_col].combine_first(merged[col])
+                merged = merged.drop(columns=[tract_col])
+        stats = merged
     enriched = districts.merge(stats, on="district", how="left")
     enriched = simplify_for_web(enriched)
     write_geojson(
@@ -1352,9 +1577,19 @@ def main(argv: Iterable[str]) -> int:
     munis = load_municipalities(dced, county_names)
     log.info("loading ACS housing facts...")
     acs = load_acs_housing_facts()
+    log.info("loading PA tracts (for tract-level ACS override)...")
+    tracts = load_pa_tracts()
+    log.info("loading ACS housing facts at tract level...")
+    acs_tract = load_acs_housing_facts_tract()
     log.info("loading BPS housing permits...")
     bps = load_bps_permits()
     bps = redistribute_bps_across_slices(bps, acs)
+
+    # Tract-level ACS aggregates per district. Computed once per
+    # chamber; passed into each build_chamber_geojson call to
+    # override the (much coarser) muni-level ACS housing aggregates.
+    acs_tract_house = aggregate_acs_at_district_level(house, tracts, acs_tract)
+    acs_tract_senate = aggregate_acs_at_district_level(senate, tracts, acs_tract)
 
     sd_to_hd, hd_to_sd = compute_nesting(house, senate)
 
@@ -1383,6 +1618,7 @@ def main(argv: Iterable[str]) -> int:
         cross_chamber_key="parentSenateDistricts",
         cross_chamber_data=hd_to_sd,
         parcel_overrides=parcel_overrides.get("house"),
+        acs_tract_override=acs_tract_house,
     )
     muni_to_senate = build_chamber_geojson(
         senate, munis, acs, bps_for_aggregation, county_names, SENATE_OUTPUT_PATH,
@@ -1390,6 +1626,7 @@ def main(argv: Iterable[str]) -> int:
         cross_chamber_key="nestedHouseDistricts",
         cross_chamber_data=sd_to_hd,
         parcel_overrides=parcel_overrides.get("senate"),
+        acs_tract_override=acs_tract_senate,
     )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
     write_munis_geojson(
