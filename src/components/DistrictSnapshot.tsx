@@ -13,7 +13,22 @@ export interface DistrictRecord {
    *  define the "regional" peer group: every district that shares
    *  at least one county with this one. */
   topCounties: Array<{ geoid: string; name: string; populationShare: number }>;
+  /** Municipalities this district touches, sorted by pop share. Used
+   *  to flag the "popchange is muni-wide" case — Census PEP doesn't
+   *  publish below the muni, so HDs entirely inside Philadelphia
+   *  all share the same -1.9% number which is a muni statistic,
+   *  not a real district aggregate. */
+  topMunicipalities: Array<{
+    name: string;
+    classCode: string;
+    populationShare: number;
+  }>;
 }
+
+/** Threshold above which we treat the district as "entirely inside"
+ *  its top municipality — i.e. tiny slivers in neighboring munis
+ *  don't earn the district a real popchange aggregate. */
+const SINGLE_MUNI_THRESHOLD = 0.95;
 
 interface Props {
   chamber: Chamber;
@@ -155,6 +170,14 @@ export const DistrictSnapshot = ({
       ? `in ${target.topCounties[0].name} County`
       : `in ${target.topCounties[0].name} + neighbors`;
 
+  // If the district is essentially inside one muni, popchange is just
+  // that muni's number (Census PEP doesn't publish below the muni
+  // level). Surface the limitation in the cell instead of a fake rank.
+  const topMuni = target.topMunicipalities[0];
+  const popchangeIsMuniWide =
+    !!topMuni && topMuni.populationShare >= SINGLE_MUNI_THRESHOLD;
+  const muniWideLabel = topMuni?.name ?? "city";
+
   return (
     <div className="district-snapshot">
       <div className="district-snapshot__title">
@@ -174,6 +197,26 @@ export const DistrictSnapshot = ({
                 <div className="district-snapshot__cell-value">—</div>
                 <div className="district-snapshot__cell-rank">
                   no data
+                </div>
+              </div>
+            );
+          }
+          // Popchange special case: when the district sits ~entirely
+          // inside one muni, the value is just that muni's PEP figure
+          // (PEP doesn't publish below the muni). Don't show a
+          // rank — it would imply district-level comparability that
+          // isn't real. Surface the limitation instead.
+          if (m.key === "popChange2020to2024Pct" && popchangeIsMuniWide) {
+            return (
+              <div className="district-snapshot__cell" key={m.key}>
+                <div className="district-snapshot__cell-label">{m.label}</div>
+                <div className="district-snapshot__cell-value">
+                  {m.format(stateRank.value)}
+                </div>
+                <div className="district-snapshot__cell-rank">
+                  <span className="district-snapshot__rank-pill district-snapshot__rank-pill--caveat">
+                    citywide for {muniWideLabel}
+                  </span>
                 </div>
               </div>
             );

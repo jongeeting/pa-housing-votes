@@ -397,6 +397,14 @@ code {
   background: #fef3c7;
   color: #92400e;
 }
+/* Caveat pill — replaces the rank pill on the popchange cell when
+   the district is essentially one muni, so we don't fake a
+   district-level rank from what is really a muni-wide PEP figure. */
+.district-snapshot__rank-pill--caveat {
+  background: #f1f5f9;
+  color: #475569;
+  font-style: italic;
+}
 
 /* Active-filter chip — sits between the controls and the canvas
    when a district filter is applied (via ?house=NNN or via a click

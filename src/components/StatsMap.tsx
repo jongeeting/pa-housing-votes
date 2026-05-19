@@ -551,20 +551,22 @@ export const StatsMap = ({
                 v === null || v === undefined || v === ""
                   ? null
                   : Number(v);
-              // topCounties is stored as a real JSON array in the
-              // district geojsons (write_geojson embeds nested
-              // objects), but defensive parse just in case.
-              let topCounties: DistrictRecord["topCounties"] = [];
-              const raw = p.topCounties;
-              if (Array.isArray(raw))
-                topCounties = raw as DistrictRecord["topCounties"];
-              else if (typeof raw === "string") {
-                try {
-                  topCounties = JSON.parse(raw);
-                } catch {
-                  /* keep empty */
+              // topCounties + topMunicipalities are stored as real
+              // JSON arrays in the district geojsons (write_geojson
+              // embeds nested objects), but defensive parse just in
+              // case a future serializer layer stringifies them.
+              const parseListField = <T,>(raw: unknown): T[] => {
+                if (Array.isArray(raw)) return raw as T[];
+                if (typeof raw === "string") {
+                  try {
+                    const parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? (parsed as T[]) : [];
+                  } catch {
+                    return [];
+                  }
                 }
-              }
+                return [];
+              };
               return {
                 district: String(p.district ?? ""),
                 permitsPer1kPerYear: numOrNull(p.permitsPer1kPerYear),
@@ -573,7 +575,12 @@ export const StatsMap = ({
                 ),
                 medianHomeValue: numOrNull(p.medianHomeValue),
                 rentBurdenedPct: numOrNull(p.rentBurdenedPct),
-                topCounties,
+                topCounties: parseListField<
+                  DistrictRecord["topCounties"][number]
+                >(p.topCounties),
+                topMunicipalities: parseListField<
+                  DistrictRecord["topMunicipalities"][number]
+                >(p.topMunicipalities),
               };
             },
           );
