@@ -1,0 +1,84 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { StatsMap } from "@/components/StatsMap";
+---
+
+<Layout
+  title="PA Housing Stats — municipal permits, population, and burden"
+  description="Pennsylvania municipal-level housing stats: building permits per capita, population change, median home value, and rent burden across all 2,500+ PA municipalities."
+>
+  <header class="page-header">
+    <div class="page-header__inner">
+      <p class="page-header__eyebrow">PA Housing Stats</p>
+      <h1>
+        Where housing is getting built, where it isn&rsquo;t, and where
+        the pressure is highest
+      </h1>
+      <p class="page-header__lede">
+        A municipal-level companion to the <a href="/">vote map</a>. The vote
+        map shows how <em>legislators</em> have voted on housing bills. This
+        page shows what&rsquo;s actually happening on the ground in their
+        districts: how many permits each muni is issuing per capita, how
+        much population each muni has gained or lost since 2020, and how
+        burdened renters and owners are today.
+      </p>
+    </div>
+  </header>
+
+  <main id="stats-map" class="page-main">
+    <StatsMap client:only="react" />
+  </main>
+
+  <section class="page-notes">
+    <h2>Reading this map</h2>
+    <ul>
+      <li>
+        <strong>Pick a metric</strong> at the top of the map. The choropleth
+        re-colors all 2,500+ Pennsylvania municipalities to that metric.
+      </li>
+      <li>
+        <strong>Click any muni</strong> for the full per-muni stat sheet:
+        population, permits, median home value, rent / owner burden, and
+        (where available) population change since 2020.
+      </li>
+      <li>
+        <strong>County lines</strong> toggle on the top-left helps orient
+        you in less familiar regions.
+      </li>
+    </ul>
+
+    <h2>About the data</h2>
+    <ul>
+      <li>
+        <strong>Permits per 1k residents / year (2020-2024)</strong> &mdash; Census
+        Building Permits Survey (BPS) annual files, plus parcel-level
+        OpenDataPhilly + WPRDC permits for Philadelphia and Pittsburgh. The
+        muni-level rate shown here is the city-wide aggregate; the
+        legislative-district map slices Philadelphia and Pittsburgh further
+        using parcel coordinates.
+      </li>
+      <li>
+        <strong>Population change 2020 → 2024</strong> &mdash; Census Population
+        Estimates Program (PEP) sub-county vintage 2024 estimates compared
+        against 2020 Decennial counts. Where the PEP estimate is missing
+        (very small munis can be suppressed) the muni shows &ldquo;&mdash;.&rdquo;
+      </li>
+      <li>
+        <strong>Median home value</strong> and <strong>rent-burdened %</strong>
+        &mdash; ACS 2023 5-year estimates (B25077 and B25070 respectively).
+        ACS suppresses estimates for very small populations.
+      </li>
+    </ul>
+
+    <h2>Why a separate map?</h2>
+    <p>
+      The <a href="/">main map</a> is built for one job: showing where
+      legislators stand on housing bills. Stuffing muni-level housing
+      stats into the same view crowded the screen with two different
+      stories. This page is for the second story &mdash; where in the
+      Commonwealth is housing growing, stagnating, or shrinking, and
+      where the affordability pressure is highest &mdash; on its own
+      terms, with controls tuned for that question.
+    </p>
+  </section>
+</Layout>
