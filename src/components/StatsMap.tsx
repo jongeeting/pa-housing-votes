@@ -13,6 +13,11 @@ import {
   type NestedDistrictEntry,
 } from "./MuniDetailPopup";
 import { StatsFilterPanel } from "./StatsFilterPanel";
+import { DistrictPicker } from "./DistrictPicker";
+import {
+  DistrictSnapshot,
+  type DistrictRecord,
+} from "./DistrictSnapshot";
 
 interface DistrictFilter {
   chamber: Chamber;
@@ -366,17 +371,22 @@ export const StatsMap = ({
     ] as unknown as maplibregl.ExpressionSpecification);
   }, [filter, matchingGeoids, highlightedClasses, mapReady]);
 
-  // Lazy-load and toggle House district outlines on top of the muni
-  // choropleth. The source is added once on first enable; subsequent
-  // toggles flip layout visibility so we keep the GeoJSON parse cost
-  // out of the cold-start path.
+  // Lazy-load and toggle House district outlines + invisible-fill
+  // click hit area. We render a thin outline for visual reference
+  // and a 0-opacity fill layer above the muni choropleth so clicks
+  // inside any district apply that district as a filter (skipping
+  // the muni popup). The hit layer is gated to only intercept
+  // clicks when the outline is visible — otherwise users would lose
+  // the muni-click affordance unintentionally.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady) return;
     if (!showHouseLines) {
-      if (map.getLayer("hd-outline-overlay")) {
-        map.setLayoutProperty("hd-outline-overlay", "visibility", "none");
-      }
+      ["hd-outline-overlay", "hd-fill-hit"].forEach((id) => {
+        if (map.getLayer(id)) {
+          map.setLayoutProperty(id, "visibility", "none");
+        }
+      });
       return;
     }
     if (!map.getSource("hd-overlay-src")) {
@@ -384,6 +394,28 @@ export const StatsMap = ({
         type: "geojson",
         data: houseDistrictsUrl,
       });
+    }
+    if (!map.getLayer("hd-fill-hit")) {
+      map.addLayer({
+        id: "hd-fill-hit",
+        type: "fill",
+        source: "hd-overlay-src",
+        paint: {
+          "fill-color": "rgba(0,0,0,0)",
+          "fill-opacity": 0,
+        },
+      });
+      map.on("click", "hd-fill-hit", (e) => {
+        const f = e.features?.[0];
+        if (!f) return;
+        const d = String(f.properties?.district ?? "");
+        if (d) {
+          setDistrictsRequested(true);
+          setFilter({ chamber: "House", district: d });
+        }
+      });
+    } else {
+      map.setLayoutProperty("hd-fill-hit", "visibility", "visible");
     }
     if (!map.getLayer("hd-outline-overlay")) {
       map.addLayer({
@@ -405,9 +437,11 @@ export const StatsMap = ({
     const map = mapRef.current;
     if (!map || !mapReady) return;
     if (!showSenateLines) {
-      if (map.getLayer("sd-outline-overlay")) {
-        map.setLayoutProperty("sd-outline-overlay", "visibility", "none");
-      }
+      ["sd-outline-overlay", "sd-fill-hit"].forEach((id) => {
+        if (map.getLayer(id)) {
+          map.setLayoutProperty(id, "visibility", "none");
+        }
+      });
       return;
     }
     if (!map.getSource("sd-overlay-src")) {
@@ -415,6 +449,28 @@ export const StatsMap = ({
         type: "geojson",
         data: senateDistrictsUrl,
       });
+    }
+    if (!map.getLayer("sd-fill-hit")) {
+      map.addLayer({
+        id: "sd-fill-hit",
+        type: "fill",
+        source: "sd-overlay-src",
+        paint: {
+          "fill-color": "rgba(0,0,0,0)",
+          "fill-opacity": 0,
+        },
+      });
+      map.on("click", "sd-fill-hit", (e) => {
+        const f = e.features?.[0];
+        if (!f) return;
+        const d = String(f.properties?.district ?? "");
+        if (d) {
+          setDistrictsRequested(true);
+          setFilter({ chamber: "Senate", district: d });
+        }
+      });
+    } else {
+      map.setLayoutProperty("sd-fill-hit", "visibility", "visible");
     }
     if (!map.getLayer("sd-outline-overlay")) {
       map.addLayer({
@@ -469,6 +525,77 @@ export const StatsMap = ({
   // Whether any filter is active — drives whether we show the chip.
   const hasAnyFilter = filter !== null || highlightedClasses.size > 0;
 
+  // District records keyed by chamber, used by DistrictSnapshot to
+  // compute statewide + regional rankings. Lazy-loaded on first
+  // need (when a district filter is set OR when the user opens the
+  // picker — we load both chambers on first picker interaction so
+  // chamber-toggling is instant).
+  const [houseRecords, setHouseRecords] = useState<DistrictRecord[]>([]);
+  const [senateRecords, setSenateRecords] = useState<DistrictRecord[]>([]);
+  const [districtsRequested, setDistrictsRequested] = useState(false);
+  useEffect(() => {
+    if (!districtsRequested && filter === null) return;
+    let cancelled = false;
+    const loadRecords = (
+      url: string,
+      setter: (r: DistrictRecord[]) => void,
+    ) => {
+      fetch(url)
+        .then((r) => r.json())
+        .then((j) => {
+          if (cancelled) return;
+          const records: DistrictRecord[] = (j.features ?? []).map(
+            (f: { properties: Record<string, unknown> }) => {
+              const p = f.properties ?? {};
+              const numOrNull = (v: unknown): number | null =>
+                v === null || v === undefined || v === ""
+                  ? null
+                  : Number(v);
+              // topCounties is stored as a real JSON array in the
+              // district geojsons (write_geojson embeds nested
+              // objects), but defensive parse just in case.
+              let topCounties: DistrictRecord["topCounties"] = [];
+              const raw = p.topCounties;
+              if (Array.isArray(raw))
+                topCounties = raw as DistrictRecord["topCounties"];
+              else if (typeof raw === "string") {
+                try {
+                  topCounties = JSON.parse(raw);
+                } catch {
+                  /* keep empty */
+                }
+              }
+              return {
+                district: String(p.district ?? ""),
+                permitsPer1kPerYear: numOrNull(p.permitsPer1kPerYear),
+                popChange2020to2024Pct: numOrNull(
+                  p.popChange2020to2024Pct,
+                ),
+                medianHomeValue: numOrNull(p.medianHomeValue),
+                rentBurdenedPct: numOrNull(p.rentBurdenedPct),
+                topCounties,
+              };
+            },
+          );
+          setter(records);
+        })
+        .catch(() => {
+          /* leaves the snapshot empty; map keeps working */
+        });
+    };
+    if (houseRecords.length === 0) loadRecords(houseDistrictsUrl, setHouseRecords);
+    if (senateRecords.length === 0) loadRecords(senateDistrictsUrl, setSenateRecords);
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    districtsRequested,
+    filter,
+    houseDistrictsUrl,
+    senateDistrictsUrl,
+  ]);
+
   const legend = useMemo(() => METRICS[metric].legend, [metric]);
 
   return (
@@ -483,6 +610,18 @@ export const StatsMap = ({
           />
           County lines
         </label>
+      </div>
+      <div className="stats-map__picker-row">
+        <DistrictPicker
+          onSelect={(chamber, district) => {
+            // Mark district data as wanted so the snapshot can render
+            // immediately on the first pick (filter useEffect also
+            // triggers the load, but this covers the keyboard-only
+            // path too).
+            setDistrictsRequested(true);
+            setFilter({ chamber, district });
+          }}
+        />
       </div>
       {hasAnyFilter && (
         <div className="stats-map__filter-chip" role="status" aria-live="polite">
@@ -531,6 +670,15 @@ export const StatsMap = ({
             Clear ×
           </button>
         </div>
+      )}
+      {filter && (
+        <DistrictSnapshot
+          chamber={filter.chamber}
+          district={filter.district}
+          allDistricts={
+            filter.chamber === "House" ? houseRecords : senateRecords
+          }
+        />
       )}
       <div className="stats-map__canvas-wrap">
         <div ref={containerRef} className="stats-map__canvas" />

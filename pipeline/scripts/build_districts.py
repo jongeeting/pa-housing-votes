@@ -827,10 +827,26 @@ def aggregate_district_stats(
     """For each district, compute total population, top-5 munis by
     population share, top-5 counties by population share, class shares,
     and population-weighted housing-affordability aggregates."""
-    # Attach muni-level ACS + BPS facts
+    # Attach muni-level ACS + BPS + PEP facts. PEP pop2020/pop2024 lets
+    # us roll up a district-level population change figure that matches
+    # the muni-level popchange shown on /housing-stats — handy for
+    # asking "is this district keeping pace with regional growth?"
     df = inter.merge(acs_df, on="geoid", how="left")
     df = df.merge(bps_df, on="geoid", how="left")
+    pep_path = CACHE_DIR / "pep_subcounty_pa.csv"
+    if pep_path.exists():
+        pep = pd.read_csv(pep_path, dtype={"geoid": str})
+        pep = pep[["geoid", "pop2020", "pop2024"]].copy()
+        # PEP CSV writes ints as strings; coerce. Empty -> NaN.
+        for col in ("pop2020", "pop2024"):
+            pep[col] = pd.to_numeric(pep[col], errors="coerce")
+        df = df.merge(pep, on="geoid", how="left")
+    else:
+        df["pop2020"] = pd.NA
+        df["pop2024"] = pd.NA
     df["population_in_intersection"] = df["population"].fillna(0) * df["area_share"]
+    df["pop2020_in_intersection"] = df["pop2020"].fillna(0) * df["area_share"]
+    df["pop2024_in_intersection"] = df["pop2024"].fillna(0) * df["area_share"]
     # Counts that aggregate cleanly via area_share apportionment.
     df["permits_in_intersection"] = (
         df["permitsUnits5yrTotal"].fillna(0) * df["area_share"]
@@ -945,12 +961,22 @@ def aggregate_district_stats(
         # Avoid divide-by-zero; rows with den=0 produce NaN.
         return (num / den.where(den > 0)).where(den > 0)
 
+    pop2020_total = grp["pop2020_in_intersection"].sum()
+    pop2024_total = grp["pop2024_in_intersection"].sum()
     median_income = _maybe_div(income_w, income_wt)
     median_home_value = _maybe_div(home_value_w, home_value_wt)
     rent_burdened_pct = _maybe_div(rent_burdened, rent_households) * 100
     owner_burdened_pct = _maybe_div(owner_burdened, owner_households) * 100
     # Permits per 1,000 residents per year (5-year window)
     permits_per_1k = _maybe_div(permits_total, district_pop) * (1000 / 5)
+    # District-level 2020 -> 2024 popchange. Built from the muni-level
+    # PEP data weighted by each muni's area_share inside the district —
+    # so a split muni (Allentown across 3 HDs) contributes its
+    # proportional pop to each district. Districts where PEP data is
+    # missing get a NaN, which downstream serializes as null.
+    pop_change_pct = (
+        _maybe_div(pop2024_total - pop2020_total, pop2020_total) * 100
+    )
 
     out = pd.DataFrame(
         {
@@ -964,6 +990,7 @@ def aggregate_district_stats(
             "ownerBurdenedPct": owner_burdened_pct.round(1),
             "permitsPer1kPerYear": permits_per_1k.round(1),
             "permits5yrTotal": permits_total.round().astype(int),
+            "popChange2020to2024Pct": pop_change_pct.round(1),
         }
     )
     out.index.name = "district"
@@ -1005,6 +1032,9 @@ def write_geojson(
             "ownerBurdenedPct": _nullable_float(row.get("ownerBurdenedPct")),
             "permitsPer1kPerYear": _nullable_float(row.get("permitsPer1kPerYear")),
             "permits5yrTotal": int(row.get("permits5yrTotal") or 0),
+            "popChange2020to2024Pct": _nullable_float(
+                row.get("popChange2020to2024Pct")
+            ),
         }
         if cross_chamber_data is not None:
             props[cross_chamber_key] = cross_chamber_data.get(str(row["district"]), [])
