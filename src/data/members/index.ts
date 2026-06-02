@@ -56,3 +56,4 @@ export const MEMBERS_BY_DISTRICT = HOUSE_BY_DISTRICT;
 export const MEMBERS_BY_ID = new Map(MEMBERS.map((m) => [m.id, m]));
 
 export { HOUSING_COMMITTEE_MEMBERS_2025 };
+export { PA_HOUSE_MEMBERS_2025, PA_SENATE_MEMBERS_2025 };

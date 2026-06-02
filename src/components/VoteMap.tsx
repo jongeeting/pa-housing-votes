@@ -25,6 +25,7 @@ import { BillSelector } from "./BillSelector";
 import { Legend } from "./Legend";
 import { LayerPanel } from "./LayerPanel";
 import { MuniTooltip, type MuniTooltipData } from "./MuniTooltip";
+import { FullVoteList } from "./FullVoteList";
 
 interface Props {
   items: MapItem[];
@@ -848,6 +849,43 @@ export const VoteMap = ({
           />
         )}
       </div>
+      <FullVoteList
+        activeItem={selectedItem}
+        onSelectDistrict={(district, chamber) => {
+          const map = mapRef.current;
+          if (!map) return;
+          // Look up the district feature in the chamber's source.
+          // querySourceFeatures only returns features whose vector
+          // tiles are loaded for the current viewport, so we use
+          // an arbitrary point query against the source's geojson
+          // by setting the filter and reading rendered features in
+          // a separate pass — simpler to just load the geojson
+          // properties via the loaded source data via a paint-bound
+          // querySourceFeatures with a sourceLayer filter.
+          const source = chamber === "House" ? "districts-house" : "districts-senate";
+          const features = map.querySourceFeatures(source, {
+            filter: ["==", ["get", "district"], district],
+          });
+          if (features.length === 0) return;
+          setSelectedDistrict({
+            district,
+            properties: features[0].properties ?? {},
+            chamber,
+          });
+          // Outline the selected district.
+          if (map.getLayer(selectedLayerId(chamber))) {
+            map.setFilter(selectedLayerId(chamber), [
+              "==",
+              ["get", "district"],
+              district,
+            ]);
+          }
+          // Scroll the map back into view so the popup is visible.
+          document
+            .getElementById("map")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+      />
     </div>
   );
 };
