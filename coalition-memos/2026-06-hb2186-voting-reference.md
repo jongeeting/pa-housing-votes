@@ -453,7 +453,7 @@ All 62 Nay votes on Final Passage organized the same way. *Italic Y→N* = voted
 
 ## 5. Vote changes between 2nd Consideration and Final Passage
 
-Net change: +5 Yea. **21** members moved from Nay to Yea between the two votes; **16** moved from Yea to Nay. Every member who switched in either direction had previously voted in favor of HB 2186 at one stage or the other — see § 6 for the full "ever-Yea" House Republican list.
+Net change: +5 Yea. **21** members moved from Nay to Yea between the two votes; **16** moved from Yea to Nay. Every member who switched in either direction had previously voted in favor of HB 2186 at one stage or the other — see § 6 for the full reform-interested House Republican list.
 
 ### Nay on 2nd Consideration → Yea on Final Passage — 21 members, all Republican
 
@@ -483,7 +483,7 @@ Net change: +5 Yea. **21** members moved from Nay to Yea between the two votes; 
 
 ### Yea on 2nd Consideration → Nay on Final Passage — 16 members (15 R, 1 D)
 
-These members voted Yea on HB 2186 on 2nd Consideration (134-67 / rc 1054) and Nay on Final Passage (139-62 / rc 1075). Their Yea on the earlier vote established their willingness to support the underlying ADU framework; their Nay on Final Passage came after the per-lot cap and short-term-rental opt-out amendments produced PN 3373. For purposes of next-round outreach on subsequent ADU or by-right-housing bills, this group should be treated as part of the same ADU-curious universe as the 38 Republicans who voted Yea on Final Passage, not as durable opposition.
+These members voted Yea on HB 2186 on 2nd Consideration (134-67 / rc 1054) and Nay on Final Passage (139-62 / rc 1075). Their Yea on the earlier vote established their willingness to support the underlying ADU framework; their Nay on Final Passage came after the per-lot cap and short-term-rental opt-out amendments produced PN 3373. For purposes of next-round outreach on subsequent ADU or by-right-housing bills, this group belongs to the same reform-interested universe as the 38 Republicans who voted Yea on Final Passage, not to durable opposition.
 
 | HD | Member | Party | County | Top muni |
 |---|---|---|---|---|
@@ -504,13 +504,14 @@ These members voted Yea on HB 2186 on 2nd Consideration (134-67 / rc 1054) and N
 | HD-46 | Jason Ortitay | R | Washington | South Fayette |
 | HD-47 | Joseph D'Orsie | R | York | Manchester |
 
-## 6. House Republicans who voted Yea on HB 2186 at least once this session
+## 6. The reform-interested House Republican universe (53 members)
 
-**53 House Republicans** voted Yea on HB 2186 on at least one of the two floor votes:
+**53 House Republicans** voted Yea on HB 2186 on at least one of the two floor votes — the reform-interested universe of House Rs on ADU-by-right policy in the 2025–26 session:
+
 - **38** voted Yea on Final Passage (held position through PN 3373)
 - **15** voted Yea on 2nd Consideration only (switched to Nay on PN 3373)
 
-For purposes of identifying Republicans demographically and politically reachable on ADU-by-right policy in the 2025–26 session, both groups belong to the same universe. The table below covers all of them with district-level demographic + housing statistics, with the "Final" column indicating which subgroup each member belongs to.
+Both groups belong to the same reform-interested universe for purposes of next-round outreach. The table below covers all of them with district-level demographic + housing statistics, with the "Final" column indicating which subgroup each member belongs to.
 
 Column sources:
 
@@ -667,7 +668,7 @@ Two House Republican target sets the Coalition should prioritize for engagement 
 
 ### 8a. Recover the 15 Republicans who voted Yea on 2nd Consideration
 
-Every member listed below voted Yea on HB 2186 on 2nd Consideration (rc 1054). Their support on that earlier vote demonstrates baseline willingness to support the ADU-by-right framework. Their switch to Nay on Final Passage (rc 1075) followed the per-lot cap and short-term-rental opt-out amendments and may have responded to specific concerns about those provisions or to local pressure that built between the two votes. None of them are durably outside the ADU-curious universe.
+Every member listed below voted Yea on HB 2186 on 2nd Consideration (rc 1054). Their support on that earlier vote demonstrates baseline willingness to support the ADU-by-right framework. Their switch to Nay on Final Passage (rc 1075) followed the per-lot cap and short-term-rental opt-out amendments and may have responded to specific concerns about those provisions or to local pressure that built between the two votes. None of them are durably outside the reform-interested universe.
 
 The full district profile for each is in § 6; the summary below highlights the geographic distribution.
 
