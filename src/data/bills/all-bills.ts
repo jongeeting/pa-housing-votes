@@ -160,6 +160,8 @@ export const HB2155: Bill = {
   lastActionDate: "2026-01-26",
   lastActionNote: "Referred to Housing & Community Development.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2155",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2155/PN2789",
 };
 
 export const HB2192: Bill = {
@@ -179,6 +181,8 @@ export const HB2192: Bill = {
   lastActionDate: "2026-02-03",
   lastActionNote: "Referred to Housing & Community Development.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2192",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2192/PN2856",
 };
 
 export const HB2423: Bill = {
@@ -198,6 +202,8 @@ export const HB2423: Bill = {
   lastActionDate: "2026-04-18",
   lastActionNote: "Referred to Housing & Community Development.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2423",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2423/PN3224",
 };
 
 export const HB2428: Bill = {
@@ -216,6 +222,8 @@ export const HB2428: Bill = {
   lastActionDate: "2026-04-18",
   lastActionNote: "Introduced; printer's number pending.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2428",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2428/PN3234",
 };
 
 export const HB2430: Bill = {
@@ -234,6 +242,8 @@ export const HB2430: Bill = {
   lastActionDate: "2026-04-18",
   lastActionNote: "Introduced; printer's number pending.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2430",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2430/PN3235",
 };
 
 export const HR484: Bill = {
@@ -253,6 +263,8 @@ export const HR484: Bill = {
   lastActionDate: "2026-04-16",
   lastActionNote: "Referred to Housing & Community Development.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hr484",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HR0484/PN3222",
 };
 
 export const HB2367: Bill = {
@@ -300,6 +312,8 @@ export const HB1459: Bill = {
     "Referred to Local Government May 13, 2025. Prime sponsor Joshua Siegel resigned to run for Lehigh County Executive; Rep. John Inglis III is expected to take over prime sponsorship but the transfer is not yet recorded on palegis.",
   priorVersions: ["HB1976"],
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb1459",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB1459/PN1712",
 };
 
 export const HB2185: Bill = {
@@ -320,6 +334,8 @@ export const HB2185: Bill = {
   lastActionNote: "Referred to Local Government.",
   priorVersions: ["HB2045"],
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2185",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2185/PN2841",
 };
 
 /* -------------------------------------------------------------------------- */
@@ -462,20 +478,20 @@ export const SB1281: Bill = {
   session: "2025-2026",
   chamber: "Senate",
   kind: "bill",
-  shortTitle: "Pre-Approved Housing Plans",
+  shortTitle: "Expedited Approval for Residential Development",
   description:
-    "Amends the Municipalities Planning Code to allow municipalities to adopt pre-approved housing plans that streamline permitting and lower the cost of starter housing.",
+    "Creates an expedited land-use approval process for specified residential development types — ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. After the unanimously-adopted Langerholc amendment A-3426 (June 2, 2026), the expedited approval must operate in compliance with existing local comprehensive plans and zoning, preserving local control while streamlining permitting for these housing types where they are already allowed.",
   topics: ["governance"],
-  status: "passed_committee",
+  status: "passed_2nd_consideration",
   primeSponsorDistrict: "34", // Greg Rothman
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-14",
-  lastActionDate: "2026-05-06",
+  lastActionDate: "2026-06-02",
   lastActionNote:
-    "Passed Senate Urban Affairs and Housing committee with bipartisan votes May 6, 2026.",
+    "Re-reported as committed by Senate Appropriations 21–1 on June 1, 2026. On third consideration June 2, 2026, the Senate adopted Langerholc amendment A-3426 by a 50–0 unanimous vote (Senate rc 382), reprinting the bill as PN 1760. The amendment removed the original \"notwithstanding any comprehensive plan or land use regulations\" preemption clause and replaced it with \"in compliance with existing comprehensive plans or municipal land use regulations,\" softening the bill from a preemption mechanism to a process-streamlining tool. Final passage vote on the bill itself pending.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1281",
   billTextUrl:
-    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1281/PN1589",
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1281/PN1760",
 };
 
 export const SR211: Bill = {
