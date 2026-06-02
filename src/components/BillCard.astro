@@ -115,6 +115,6 @@ const anchorId = `bill-${bill.id.toLowerCase()}`;
       </>
     )}
     {" · "}
-    <a href="#map">View on the map &uarr;</a>
+    <a href={`?bill=${bill.id}#map`}>View on the map &uarr;</a>
   </p>
 </article>

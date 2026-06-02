@@ -85,8 +85,31 @@ export const VoteMap = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
 
-  const firstId = items[0] ? getMapItemId(items[0]) : null;
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(firstId);
+  // Default to the first item in the list, but honor a ?bill=<id>
+  // query param on first load — the BillCard "View on the map ↑"
+  // link lands on /?bill=<id>#map, and we want the bill selector
+  // already showing the requested bill (most recent MapItem for
+  // that bill — usually the latest floor vote, or the cosponsor-
+  // only entry if there's no roll call yet).
+  const initialItemId = (() => {
+    const fallback = items[0] ? getMapItemId(items[0]) : null;
+    if (typeof window === "undefined") return fallback;
+    const params = new URLSearchParams(window.location.search);
+    const billId = params.get("bill");
+    if (!billId) return fallback;
+    const matching = items.filter((i) => getMapItemBill(i).id === billId);
+    if (matching.length === 0) return fallback;
+    // Prefer the most recent roll-call item; fall back to the
+    // first matching MapItem (cosponsor-only items don't have
+    // dates, so this leaves them in declared order).
+    const sorted = [...matching].sort((a, b) => {
+      const ad = a.kind === "rollCall" ? a.rollCall.date : "";
+      const bd = b.kind === "rollCall" ? b.rollCall.date : "";
+      return bd.localeCompare(ad);
+    });
+    return getMapItemId(sorted[0]);
+  })();
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(initialItemId);
   const [selectedDistrict, setSelectedDistrict] = useState<{
     district: string;
     properties: Record<string, unknown>;
