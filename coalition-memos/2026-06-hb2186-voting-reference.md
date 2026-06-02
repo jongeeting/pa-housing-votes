@@ -661,7 +661,89 @@ Each Republican-held district binned by the share of district population in 2nd-
 | 75 – 100% | 34 | 12 | 22 | 35% |
 | **R baseline (all 99 Rs)** | **99** | **38** | **61** | **38%** |
 
-## 8. Senate companion: SB 1346
+## 8. Priority targets for next-round outreach
+
+Two House Republican target sets the Coalition should prioritize for engagement on the next ADU bill or related by-right housing legislation. Both groups represent expansion of the existing coalition rather than persuasion of durable opposition.
+
+### 8a. Recover the 15 Republicans who voted Yea on 2nd Consideration
+
+Every member listed below voted Yea on HB 2186 on 2nd Consideration (rc 1054). Their support on that earlier vote demonstrates baseline willingness to support the ADU-by-right framework. Their switch to Nay on Final Passage (rc 1075) followed the per-lot cap and short-term-rental opt-out amendments and may have responded to specific concerns about those provisions or to local pressure that built between the two votes. None of them are durably outside the ADU-curious universe.
+
+The full district profile for each is in § 6; the summary below highlights the geographic distribution.
+
+| HD | Member | County | Top muni | Median home | Pop change | Permits/1k/yr |
+|---|---|---|---|---:|---:|---:|
+| HD-39 | Andrew Kuzma | Allegheny | South Park | $210,318 | -1.5% | 2.1 |
+| HD-18 | Kathleen Tomlinson | Bucks | Bensalem | $361,496 | +0.6% | 1.3 |
+| HD-143 | Shelby Labs | Bucks | Hilltown | $453,681 | +1.9% | 2.5 |
+| HD-13 | John Lawrence | Chester | East Nottingham | $384,679 | +3.5% | 2.9 |
+| HD-88 | Sheryl Delozier | Cumberland | Hampden | $274,679 | +6.4% | 4.3 |
+| HD-89 | Rob Kauffman | Franklin | Chambersburg | $235,718 | +3.0% | 4.2 |
+| HD-90 | Chad Reichard | Franklin | Antrim | $245,472 | +1.8% | 2.7 |
+| HD-41 | Brett Miller | Lancaster | East Hempfield | $276,813 | +2.2% | 3.0 |
+| HD-176 | Jack Rader | Monroe | Chestnuthill | $256,686 | -0.9% | 1.8 |
+| HD-170 | Martina White | Philadelphia | Philadelphia | $300,771 | -1.9% | 0.1 |
+| HD-139 | Jeff Olsommer | Pike | Dingman | $257,964 | +5.1% | 4.8 |
+| HD-111 | Jonathan Fritz | Susquehanna | Honesdale | $215,736 | -0.5% | 1.8 |
+| HD-64 | R. Lee James | Venango | Oil City | $112,099 | -1.9% | 0.6 |
+| HD-46 | Jason Ortitay | Washington | South Fayette | $280,627 | +2.1% | 4.6 |
+| HD-47 | Joseph D'Orsie | York | Manchester | $233,727 | +2.7% | 2.1 |
+
+**Geographic concentration of the 15 R defectors:**
+
+- **Bucks County**: 2 (Labs, Tomlinson)
+- **Cumberland County**: 1 (Delozier)
+- **Chester County**: 1 (Lawrence)
+- **Allegheny County**: 1 (Kuzma) — Pittsburgh metro
+- **Washington County**: 1 (Ortitay) — Pittsburgh metro
+- **Franklin County**: 2 (Kauffman, Reichard)
+- **Lancaster County**: 1 (Miller)
+- **Pike County**: 1 (Olsommer)
+- **Monroe County**: 1 (Rader)
+- **Susquehanna County**: 1 (Fritz)
+- **Venango County**: 1 (James)
+- **York County**: 1 (D'Orsie)
+- **Philadelphia (NE)**: 1 (White)
+
+Outreach approach: members who flipped after the amendments may have specific concerns about either the per-lot cap (constituent letters about ADU stacking) or the 30-day STR carve-out (constituent letters about short-term rentals). Constituent outreach showing the actual scale of ADU activity in those districts is likely the most efficient lever — the median defector district has only 1.6 permits/1k/yr today, and the data in § 6 shows that even the highest-permit defector districts (Labs at 2.5, Lawrence at 2.9, Ortitay at 4.6) are well below the chamber-Yea distribution's top quartile.
+
+### 8b. Engage the Northern Tier and adjacent rural Republican bloc
+
+The 21 Republicans who came around between rc 1054 and rc 1075 (§ 5) are concentrated in rural / post-industrial Western and Central PA — declining or flat population, cheaper housing stock, low permitting rates. The Northern Tier counties (Bradford, Tioga, Lycoming, Susquehanna) plus adjacent rural Central PA (Northumberland, Mifflin, Snyder, etc.) contain a cluster of Republican-held districts that share the same demographic profile but did not vote Yea on either rc 1054 or rc 1075.
+
+The members below are the strongest single regional expansion target. None have been visibly engaged on ADU policy this session. Their districts look essentially identical to the 21 who came around — same housing stock, same population trajectory, same muni-class mix.
+
+| HD | Member | County | Top muni | Median home | Pop change | Permits/1k/yr | Rent-burdened |
+|---|---|---|---|---:|---:|---:|---:|
+| HD-110 | Tina Pickett | Bradford | Sayre | $194,366 | -0.8% | 1.2 | 33.5% |
+| HD-4 | Jacob Banta | Erie | North East | $179,940 | -0.0% | 1.0 | 36.1% |
+| HD-84 | Joe Hamm | Lycoming | Old Lycoming | $204,169 | -0.6% | 0.9 | 38.3% |
+| HD-17 | Timothy Bonner | Mercer | Grove City | $192,025 | +1.4% | 1.2 | 34.3% |
+| HD-108 | Michael Stender | Northumberland | Sunbury | $197,900 | -1.1% | 0.7 | 36.5% |
+| HD-68 | Clint Owlett | Tioga | Charleston | $176,826 | -0.6% | 1.0 | 35.0% |
+
+**Reference: rural / post-industrial Republicans who came around between rc 1054 and rc 1075** (drawn from § 5's Nay → Yea list). Same demographic profile as the targets above — used here to show the precedent for movement in this kind of district.
+
+| HD | Member | County | Median home | Pop change |
+|---|---|---|---:|---:|
+| HD-15 | Joshua Kail | Beaver | $202,982 | -0.9% |
+| HD-71 | Jim Rigby | Cambria | $141,715 | -2.3% |
+| HD-63 | Josh Bashline | Clarion | $146,348 | -1.7% |
+| HD-73 | Dallas Kephart | Clearfield | $118,383 | -3.3% |
+| HD-75 | Mike Armanini | Clearfield | $145,734 | -2.6% |
+| HD-76 | Stephanie Borowicz | Clinton | $191,281 | +0.3% |
+| HD-109 | Robert Leadbeter | Columbia | $200,687 | +2.0% |
+| HD-9 | Marla Brown | Lawrence | $134,809 | -2.1% |
+| HD-102 | Russ Diamond | Lebanon | $241,854 | +1.1% |
+| HD-7 | Parke Wentling | Mercer | $135,111 | -2.5% |
+| HD-171 | Kerry Benninghoff | Mifflin | $196,894 | +0.3% |
+| HD-86 | Perry A. Stambaugh | Perry | $217,268 | +1.4% |
+| HD-85 | David Rowe | Snyder | $225,308 | -0.3% |
+| HD-65 | Kathy Rapp | Warren | $131,372 | -3.2% |
+
+Outreach approach: the Northern Tier and adjacent rural Republican members were not specifically engaged on HB 2186, and there is no record of organized constituent communication on ADU policy in these districts. Direct engagement with these offices — both legislative briefings and local-official testimony from comparable counties where the 21 "came around" members operate — is the lowest-hanging-fruit pathway to broadening the rural Republican coalition that secured the +5 net swing on Final Passage.
+
+## 9. Senate companion: SB 1346
 
 On May 26, 2026, **SB 1346** (Rothman) was introduced as the Senate ADU bill and referred to Urban Affairs and Housing.
 
