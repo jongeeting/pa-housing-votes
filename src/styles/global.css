@@ -779,6 +779,14 @@ code {
 .bill-selector__option-phase {
   color: var(--fg-muted);
 }
+/* Bold phase label — applied to roll calls whose `stageEmphasis` is
+   "bold" (Final Passage on HB 2186, future final-passage votes,
+   etc.). Slightly darker color too so the bolded text doesn't fight
+   the surrounding row but clearly reads as the headline vote. */
+.bill-selector__option-phase--bold {
+  font-weight: 700;
+  color: var(--fg);
+}
 .bill-selector__option-tally {
   color: var(--fg-muted);
   font-variant-numeric: tabular-nums;
@@ -1412,6 +1420,12 @@ code {
   color: var(--fg-muted);
   font-size: 0.76rem;
   white-space: nowrap;
+}
+/* Mirrors .bill-selector__option-phase--bold — used on Final Passage
+   etc. so the popup's vote table calls out the definitive vote. */
+.popup__phase-cell--bold {
+  font-weight: 700;
+  color: var(--fg);
 }
 .popup__pill-cell {
   white-space: nowrap;

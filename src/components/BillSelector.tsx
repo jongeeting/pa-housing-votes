@@ -111,8 +111,20 @@ const buildTopicGroups = (items: MapItem[]): TopicGroup[] => {
 const phaseTag = (item: MapItem): string => {
   const rc = getMapItemRollCall(item);
   if (!rc) return "Cosponsors only";
+  // Custom stage label (e.g. "2nd Consideration", "Final Passage")
+  // takes precedence so multiple floor votes on one bill can be
+  // distinguished beyond their dates.
+  if (rc.stage) return `${rc.stage} · ${rc.date}`;
   if (rc.committee) return `Committee · ${rc.date}`;
   return `Floor · ${rc.date}`;
+};
+
+/** Whether the stage label should render with extra weight — used in
+ *  the BillSelector to make "Final Passage" stand out over earlier
+ *  procedural votes on the same bill. */
+const phaseBold = (item: MapItem): boolean => {
+  const rc = getMapItemRollCall(item);
+  return rc?.stageEmphasis === "bold";
 };
 
 const tally = (item: MapItem): string => {
@@ -295,7 +307,13 @@ export const BillSelector = ({ items, selectedId, onChange }: Props) => {
                         className={`bill-selector__option${active ? " is-active" : ""}`}
                         onClick={() => pick(id)}
                       >
-                        <span className="bill-selector__option-phase">
+                        <span
+                          className={`bill-selector__option-phase${
+                            phaseBold(item)
+                              ? " bill-selector__option-phase--bold"
+                              : ""
+                          }`}
+                        >
                           {phaseTag(item)}
                         </span>
                         <span className="bill-selector__option-tally">

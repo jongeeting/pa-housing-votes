@@ -35,6 +35,8 @@ export const ROLL_CALL_HB2186_FINAL_PASSAGE: RollCall = {
   outcome: "Passed",
   totals: { yea: 139, nay: 62, notVoting: 0 },
   sourceUrl: "https://www.palegis.us/house/roll-calls/summary?sessYr=2025&sessInd=0&rcNum=1075",
+  stage: "Final Passage",
+  stageEmphasis: "bold",
   votes: [
     // Democrats — 101 Yea, 1 Nay
     { memberId: "house-2025-aerion-abney", vote: "Yea" },

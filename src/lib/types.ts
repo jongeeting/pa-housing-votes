@@ -119,6 +119,18 @@ export interface RollCall {
   votes: MemberVote[];
   /** URL of the official palegis.us roll call page. */
   sourceUrl: string;
+  /** Optional procedural-stage label used by the UI in place of the
+   *  generic "Floor · {date}" / "Committee · {date}" string. Helpful
+   *  when a single bill produces multiple floor votes that the
+   *  audience needs to distinguish (e.g. 2nd consideration vs final
+   *  passage on HB 2186). Free-form; common values include
+   *  "2nd Consideration" and "Final Passage". */
+  stage?: string;
+  /** Visual emphasis for the stage label. "bold" weights the chip in
+   *  the BillSelector + the phase cell in the DistrictPopup so the
+   *  final / definitive vote stands out from earlier procedural
+   *  votes on the same bill. */
+  stageEmphasis?: "bold";
 }
 
 /**

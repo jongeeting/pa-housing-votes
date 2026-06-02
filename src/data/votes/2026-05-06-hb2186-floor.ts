@@ -25,6 +25,7 @@ export const ROLL_CALL_HB2186_FLOOR: RollCall = {
   outcome: "Passed",
   totals: { yea: 134, nay: 67, notVoting: 0 },
   sourceUrl: "https://www.palegis.us/house/roll-calls/summary?sessYr=2025&sessInd=0&rcNum=1054",
+  stage: "2nd Consideration",
   votes: [
     // Democrats — all 102 Yea, 0 Nay
     { memberId: "house-2025-aerion-abney", vote: "Yea" },

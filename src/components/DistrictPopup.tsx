@@ -237,8 +237,15 @@ export const DistrictPopup = ({
   const phaseLabel = (item: MapItem): string => {
     const rc = getMapItemRollCall(item);
     if (!rc) return "Cosponsors only";
+    // Honor a custom stage label (e.g. "Final Passage") when present
+    // so the per-bill vote table mirrors the BillSelector menu.
+    if (rc.stage) return `${rc.stage} (${formatShortDate(rc.date)})`;
     if (rc.committee) return `Committee (${formatShortDate(rc.date)})`;
     return `Floor (${formatShortDate(rc.date)})`;
+  };
+  const phaseIsBold = (item: MapItem): boolean => {
+    const rc = getMapItemRollCall(item);
+    return rc?.stageEmphasis === "bold";
   };
 
   return (
@@ -326,7 +333,15 @@ export const DistrictPopup = ({
                         cs.recordedName !== member.fullName;
                       return (
                         <tr key={getMapItemId(item)}>
-                          <td className="popup__phase-cell">{phaseLabel(item)}</td>
+                          <td
+                            className={`popup__phase-cell${
+                              phaseIsBold(item)
+                                ? " popup__phase-cell--bold"
+                                : ""
+                            }`}
+                          >
+                            {phaseLabel(item)}
+                          </td>
                           <td className="popup__pill-cell">
                             {v ? (
                               <>
