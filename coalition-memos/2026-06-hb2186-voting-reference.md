@@ -576,7 +576,92 @@ Column sources:
 | HD-59 | Leslie Rossi | Westmoreland | Unity | 65,695 | $196,099 | -1.7% | 0.9 | 38.2% | Yea |
 | HD-47 | Joseph D'Orsie | York | Manchester | 69,702 | $233,727 | +2.7% | 2.1 | 42.3% | *Nay (was Y on 2nd)* |
 
-## 7. Senate companion: SB 1346
+## 7. Muni-class composition of the Yea and Nay coalitions
+
+PA classifies its 2,573 municipalities into legal classes under various state statutes. The classes correspond loosely to muni size and density tier:
+
+| Class | Approx count | Examples |
+|---|---:|---|
+| 1st-class city | 1 | Philadelphia |
+| 2nd-class city | 1 | Pittsburgh |
+| 2nd-class A city | 3 | Scranton, New Castle, Easton |
+| 3rd-class city | ~53 | Allentown, Reading, Erie, Lancaster, York, Harrisburg, Bethlehem, etc. |
+| Borough | ~957 | small densely-developed towns |
+| 1st-class township | ~93 | older suburbs, mostly southeast PA |
+| 2nd-class township | ~1,450 | rural / exurban townships, the vast majority of PA land area |
+| Town | 1 | Bloomsburg |
+
+House district boundaries do not follow municipal lines, so most districts contain a mix of classes. For each district we compute the share of district population that lives in each muni class. "Dominant class" refers to the class with the largest population share in that district.
+
+### 7a. Yea and Nay coalitions by dominant muni class
+
+All 201 voting members categorized by which muni class is dominant in their district.
+
+| Dominant muni class | Yea districts | Yea share of coalition | Nay districts | Nay share of coalition |
+|---|---:|---:|---:|---:|
+| 1st-class city (Philadelphia) | 25 | 18% | 1 | 2% |
+| 2nd-class city (Pittsburgh) | 5 | 4% | 0 | 0% |
+| 2nd-class A city | 2 | 1% | 0 | 0% |
+| 3rd-class city | 17 | 12% | 2 | 3% |
+| Borough | 15 | 11% | 4 | 6% |
+| 1st-class township | 20 | 14% | 3 | 5% |
+| 2nd-class township | 55 | 40% | 52 | 84% |
+| **Total** | **139** | **100%** | **62** | **100%** |
+
+### 7b. Average share of district population by muni class
+
+For each coalition, the average share of district population in each muni class — i.e. the typical "muni mix" of a Yea district vs a Nay district.
+
+| Muni class | Avg share — Yea districts | Avg share — Nay districts |
+|---|---:|---:|
+| 1st-class city (Philadelphia) | 17.6% | 1.6% |
+| 2nd-class city (Pittsburgh) | 3.8% | 0.0% |
+| 2nd-class A city | 0.9% | 0.0% |
+| 3rd-class city | 10.3% | 6.6% |
+| Borough | 18.6% | 21.0% |
+| 1st-class township | 15.5% | 6.5% |
+| 2nd-class township | 33.1% | 64.3% |
+| Town | 0.1% | 0.0% |
+
+### 7c. Same breakdown — Republicans only
+
+Restricting to the 99 House Republicans who voted on rc 1075.
+
+**By dominant muni class:**
+
+| Dominant muni class | R Yea | R Yea share | R Nay | R Nay share |
+|---|---:|---:|---:|---:|
+| 1st-class city (Philadelphia) | 0 | 0% | 1 | 2% |
+| 3rd-class city | 1 | 3% | 2 | 3% |
+| Borough | 3 | 8% | 4 | 7% |
+| 1st-class township | 1 | 3% | 2 | 3% |
+| 2nd-class township | 33 | 87% | 52 | 85% |
+| **Total** | **38** | **100%** | **61** | **100%** |
+
+**Average share of district population:**
+
+| Muni class | Avg share — R Yea | Avg share — R Nay |
+|---|---:|---:|
+| 1st-class city (Philadelphia) | 0.0% | 1.6% |
+| 3rd-class city | 6.6% | 6.7% |
+| Borough | 21.7% | 21.4% |
+| 1st-class township | 6.6% | 5.7% |
+| 2nd-class township | 64.5% | 64.6% |
+| Town | 0.5% | 0.0% |
+
+### 7d. Republican Yea rate by 2nd-class township share band
+
+Each Republican-held district binned by the share of district population in 2nd-class townships.
+
+| 2nd-class township share | Districts | R Yea | R Nay | R Yea rate |
+|---|---:|---:|---:|---:|
+| 0 – 25% | 3 | 1 | 2 | 33% |
+| 25 – 50% | 17 | 4 | 13 | 24% |
+| 50 – 75% | 45 | 21 | 24 | 47% |
+| 75 – 100% | 34 | 12 | 22 | 35% |
+| **R baseline (all 99 Rs)** | **99** | **38** | **61** | **38%** |
+
+## 8. Senate companion: SB 1346
 
 On May 26, 2026, **SB 1346** (Rothman) was introduced as the Senate ADU bill and referred to Urban Affairs and Housing.
 
@@ -617,4 +702,5 @@ On the regulatory specifics SB 1346 is more permissive than HB 2186 for the muni
 
 - **House floor vote data:** palegis.us roll calls [1054](https://www.palegis.us/house/roll-calls/summary?sessYr=2025&sessInd=0&rcNum=1054) and [1075](https://www.palegis.us/house/roll-calls/summary?sessYr=2025&sessInd=0&rcNum=1075).
 - **District demographic data:** PA Housing Votes pipeline at <https://github.com/jongeeting/pa-housing-votes> builds per-district statistics from US Census TIGER/LINE 2024 (district boundaries), ACS 2023 5-year (tract-level for housing-affordability metrics), Census PEP vintage 2024 sub-county estimates (population change), and Census Building Permits Survey 2020–2024 (permits, with parcel-level overrides for Philadelphia and Pittsburgh).
+- **Muni-class data:** PA Department of Community & Economic Development (DCED) authoritative class assignments for all 2,573 PA municipalities; district class shares computed by population-weighting muni assignments using the district × muni spatial overlay.
 - **Senate companion bill text:** palegis.us PDF of SB 1346 PN 1747.
