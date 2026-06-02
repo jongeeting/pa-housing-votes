@@ -137,7 +137,7 @@ export const HB2186: Bill = {
   introducedDate: "2026-02-02",
   lastActionDate: "2026-06-01",
   lastActionNote:
-    "Passed the House on third consideration 139–62 on June 1, 2026 (PN 3373, which folds in a per-lot ADU cap and an opt-out allowing municipalities to bar short-term rentals under 30 days). Heads to the Senate.",
+    "Passed the House on third consideration 139–62 on June 1, 2026 (PN 3373, which folds in a per-lot ADU cap and an opt-out allowing municipalities to bar short-term rentals under 30 days). Heads to the Senate. Amends Title 53 directly, so unlike the Senate companion (SB 1346, which amends the MPC), this version applies to all PA municipalities including Philadelphia and Pittsburgh.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2186",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2186/PN3373",
@@ -323,6 +323,28 @@ export const SB1239: Bill = {
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1239",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1239/PN1548",
+};
+
+export const SB1346: Bill = {
+  id: "SB1346",
+  label: "SB 1346",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "bill",
+  shortTitle: "Accessory Dwelling Units (Senate)",
+  description:
+    "Senate companion to HB 2186 — requires municipalities to allow accessory dwelling units (ADUs) by right wherever single-family homes are allowed. Stronger on regulatory specifics than the House version (14-day ministerial approval with deemed-approved fallback, written denial reasons, utility-connection-fee shield, 150 sf minimum / 1,250 sf max). Amends the Municipalities Planning Code, which excludes Philadelphia (1st-class city) and Pittsburgh (2nd-class city) from coverage — the House version reaches both via a direct Title 53 amendment.",
+  topics: ["adu"],
+  status: "in_committee",
+  primeSponsorDistrict: "34", // Greg Rothman
+  committee: "Urban Affairs and Housing",
+  introducedDate: "2026-05-26",
+  lastActionDate: "2026-05-26",
+  lastActionNote:
+    "Referred to Senate Urban Affairs and Housing. Bipartisan 12-senator introducer list (7 D + 5 R).",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1346",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1346/PN1747",
 };
 
 /* -------------------------------------------------------------------------- */

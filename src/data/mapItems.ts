@@ -5,6 +5,7 @@ import { ROLL_CALL_HB2186_FINAL_PASSAGE } from "./votes/2026-06-01-hb2186-final"
 import { JUNE_5_2024_ROLL_CALLS } from "./votes/2024-06-05-local-government";
 import {
   SB1239,
+  SB1346,
   SENATE_MEMO_47956,
   SENATE_MEMO_48019,
   HB1459,
@@ -20,6 +21,7 @@ import {
 } from "./bills/all-bills";
 import { SB1126_COSPONSORSHIP } from "./cosponsors/sb1126-cosponsors";
 import { SB1239_COSPONSORSHIP } from "./cosponsors/sb1239-cosponsors";
+import { SB1346_COSPONSORSHIP } from "./cosponsors/sb1346-cosponsors";
 import { SENATE_MEMO_47956_COSPONSORSHIP } from "./cosponsors/senate-memo-47956-cosponsors";
 import { SENATE_MEMO_48019_COSPONSORSHIP } from "./cosponsors/senate-memo-48019-cosponsors";
 import { HB1459_COSPONSORSHIP } from "./cosponsors/hb1459-cosponsors";
@@ -77,6 +79,7 @@ export const ALL_MAP_ITEMS: MapItem[] = [
   { kind: "cosponsorOnly", bill: SB1126, cosponsorship: SB1126_COSPONSORSHIP },
 
   // ----- 2025-2026 Senate cosponsor-only items -----
+  { kind: "cosponsorOnly", bill: SB1346, cosponsorship: SB1346_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SB1239, cosponsorship: SB1239_COSPONSORSHIP },
   {
     kind: "cosponsorOnly",
