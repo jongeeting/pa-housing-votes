@@ -109,16 +109,16 @@ export const HB2109: Bill = {
   description:
     "Bars municipalities from capping the number of unrelated people who can live together, removing a common barrier to shared housing arrangements.",
   topics: ["occupancy"],
-  status: "laid_on_table",
+  status: "passed_2nd_consideration",
   primeSponsorDistrict: "194", // Tarik Khan
   committee: "Housing and Community Development",
   introducedDate: "2026-01-05",
-  lastActionDate: "2026-04-13",
+  lastActionDate: "2026-06-02",
   lastActionNote:
-    "Passed committee 19–7 April 13, 2026 (as amended); first consideration same day; laid on table pending floor scheduling.",
+    "Passed second consideration 145–56 on June 2, 2026 (as amended by A03389; reprinted as PN 3488). The amendment added a per-muni 5-person occupancy cap on unrelated adults (with student-housing and state-licensed-facility carve-outs), narrowing the bill from its original outright prohibition on familial-relationship-based caps. 5 Democrats voted Nay (Borowski, Inglis, Pielli, Probst, Vitali); 48 of 99 Republicans voted Yea. Third consideration / final passage expected later this week.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2109",
   billTextUrl:
-    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2109/PN3172",
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2109/PN3488",
 };
 
 export const HB2186: Bill = {
