@@ -480,7 +480,7 @@ export const SB1281: Bill = {
   kind: "bill",
   shortTitle: "Expedited Approval for Residential Development",
   description:
-    "Creates an expedited land-use approval process for specified residential development types — ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. After the unanimously-adopted Langerholc amendment A-3426 (June 2, 2026), the expedited approval must operate in compliance with existing local comprehensive plans and zoning, preserving local control while streamlining permitting for these housing types where they are already allowed.",
+    "Provides for expedited approval of specified residential development types — including ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. Amends the Pennsylvania Municipalities Planning Code.",
   topics: ["governance"],
   status: "passed_2nd_consideration",
   primeSponsorDistrict: "34", // Greg Rothman
@@ -488,7 +488,7 @@ export const SB1281: Bill = {
   introducedDate: "2026-04-14",
   lastActionDate: "2026-06-02",
   lastActionNote:
-    "Re-reported as committed by Senate Appropriations 21–1 on June 1, 2026. On third consideration June 2, 2026, the Senate adopted Langerholc amendment A-3426 by a 50–0 unanimous vote (Senate rc 382), reprinting the bill as PN 1760. The amendment removed the original \"notwithstanding any comprehensive plan or land use regulations\" preemption clause and replaced it with \"in compliance with existing comprehensive plans or municipal land use regulations,\" softening the bill from a preemption mechanism to a process-streamlining tool. Final passage vote on the bill itself pending.",
+    "Re-reported as committed by Senate Appropriations 21–1 on June 1, 2026. On third consideration June 2, 2026, the Senate adopted Langerholc amendment A-3426 by a 50–0 unanimous vote (Senate rc 382); bill reprinted as PN 1760. Final passage vote on the bill itself pending.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1281",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1281/PN1760",
