@@ -138,7 +138,13 @@ export const StatsMap = ({
   // synchronously. Loading once on mount via fetch (cache-hit on the
   // muni source) keeps things simple.
   const [muniFeatures, setMuniFeatures] = useState<
-    Array<{ properties: Record<string, unknown> }>
+    Array<{
+      properties: Record<string, unknown>;
+      geometry?: {
+        type: string;
+        coordinates: unknown;
+      };
+    }>
   >([]);
   useEffect(() => {
     let cancelled = false;
@@ -370,6 +376,48 @@ export const StatsMap = ({
       0.12,
     ] as unknown as maplibregl.ExpressionSpecification);
   }, [filter, matchingGeoids, highlightedClasses, mapReady]);
+
+  // Fly to the matching-muni bounding box whenever a district filter
+  // activates or changes. Triggered both by arriving via deep link
+  // (e.g. /housing-stats?house=190 from the main map's district
+  // popup) and by clicking a district row in a muni's detail popup
+  // on this page. Skipped when the filter clears so the user keeps
+  // their current view.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    if (!filter) return;
+    if (matchingGeoids.length === 0 || muniFeatures.length === 0) return;
+    const matchSet = new Set(matchingGeoids);
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    const visit = (pt: unknown) => {
+      if (!Array.isArray(pt)) return;
+      if (typeof pt[0] === "number" && typeof pt[1] === "number") {
+        const x = pt[0] as number;
+        const y = pt[1] as number;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+        return;
+      }
+      for (const inner of pt) visit(inner);
+    };
+    for (const f of muniFeatures) {
+      const geoid = String(f.properties?.geoid ?? "");
+      if (!matchSet.has(geoid)) continue;
+      if (f.geometry) visit(f.geometry.coordinates);
+    }
+    if (!Number.isFinite(minX)) return;
+    // Pad the bbox a little and cap zoom so very-narrow districts
+    // (e.g. a single Philly muni at HD-181) don't pop to wild
+    // zoom levels.
+    map.fitBounds([[minX, minY], [maxX, maxY]], {
+      padding: 50,
+      maxZoom: 11,
+      duration: 700,
+    });
+  }, [filter, matchingGeoids, muniFeatures, mapReady]);
 
   // Lazy-load and toggle House district outlines + invisible-fill
   // click hit area. We render a thin outline for visual reference

@@ -593,9 +593,11 @@ export const DistrictPopup = ({
                   ))}
                 </ul>
                 <div className="popup__cross-link">
-                  <a href="/housing-stats">
-                    See per-muni housing stats (permits, population
-                    change) →
+                  <a
+                    href={`/housing-stats?${chamber === "Senate" ? "senate" : "house"}=${district}`}
+                  >
+                    See per-muni housing stats for{" "}
+                    {chamber === "Senate" ? "SD" : "HD"}-{district} →
                   </a>
                 </div>
               </div>
