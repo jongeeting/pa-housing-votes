@@ -174,14 +174,21 @@ def parse_header(soup: BeautifulSoup) -> dict:
         parent_text = date_anchor.parent.get_text(" ", strip=True) if date_anchor.parent else ""
         dm = VOTE_DATE_RE.search(parent_text)
         if dm:
-            try:
-                dt = datetime.strptime(
-                    f"{dm.group('month')} {dm.group('day')} {dm.group('year')}",
-                    "%B %d %Y",
-                )
-                out["voteDate"] = dt.strftime("%Y-%m-%d")
-            except ValueError:
-                pass
+            # palegis switched (mid-2026?) from "Wednesday May 6, 2026"
+            # to "Monday Jun 1, 2026" — try full month name first, fall
+            # back to abbreviated. If both fail, leave voteDate unset
+            # rather than crash; the downstream MapItem registration
+            # can fill it from the operator's known date.
+            for fmt in ("%B %d %Y", "%b %d %Y"):
+                try:
+                    dt = datetime.strptime(
+                        f"{dm.group('month')} {dm.group('day')} {dm.group('year')}",
+                        fmt,
+                    )
+                    out["voteDate"] = dt.strftime("%Y-%m-%d")
+                    break
+                except ValueError:
+                    continue
         tm = TIME_RE.search(parent_text)
         if tm:
             out["voteTime"] = tm.group(1)

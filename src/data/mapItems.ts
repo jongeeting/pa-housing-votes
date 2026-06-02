@@ -1,6 +1,7 @@
 import type { MapItem } from "@/lib/types";
 import { APRIL_13_2026_ROLL_CALLS } from "./votes/2026-04-13-housing";
 import { ROLL_CALL_HB2186_FLOOR } from "./votes/2026-05-06-hb2186-floor";
+import { ROLL_CALL_HB2186_FINAL_PASSAGE } from "./votes/2026-06-01-hb2186-final";
 import { JUNE_5_2024_ROLL_CALLS } from "./votes/2024-06-05-local-government";
 import {
   SB1239,
@@ -47,7 +48,14 @@ import { HR484_COSPONSORSHIP } from "./cosponsors/hr484-cosponsors";
 export const ALL_MAP_ITEMS: MapItem[] = [
   // ----- 2025-2026 House roll calls -----
   ...APRIL_13_2026_ROLL_CALLS.map((rc) => ({ kind: "rollCall" as const, rollCall: rc })),
+  // HB 2186 has two House floor votes: the May 6 second-consideration
+  // pass-through (134-67) and the June 1 third-consideration final
+  // passage (139-62, with 5 net votes flipping toward Yea). Both are
+  // surfaced as separate items so the popup can show the procedural
+  // arc — and so we can pivot the map between "early vote" and
+  // "final vote" choropleths.
   { kind: "rollCall", rollCall: ROLL_CALL_HB2186_FLOOR },
+  { kind: "rollCall", rollCall: ROLL_CALL_HB2186_FINAL_PASSAGE },
 
   // ----- 2025-2026 House cosponsor-only items (no roll call yet) -----
   { kind: "cosponsorOnly", bill: HB1459, cosponsorship: HB1459_COSPONSORSHIP },
