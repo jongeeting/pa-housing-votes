@@ -90,8 +90,16 @@ export interface Bill {
   lastActionDate?: string;
   /** Free-text describing latest action, e.g. "Laid on the table, April 13, 2026". */
   lastActionNote?: string;
-  /** Prior bill IDs this is a successor to (e.g. HB 2185 → ["HB2045","HB1976"]). */
+  /** Prior bill IDs this is a successor to (e.g. HB 2185 → ["HB2045","HB1976"]).
+   *  Also used when a bill supersedes a cosponsorship memo
+   *  (e.g. SB 1346 → ["senate-memo-48019"]). */
   priorVersions?: string[];
+  /** Forward pointer: if this entry has been superseded by a later
+   *  bill (typical case: a cosponsorship memo that was introduced as
+   *  an actual bill), set this to the successor's id. The bills index
+   *  and bill cards use this to label the superseded entry and route
+   *  the reader to the live legislative vehicle. */
+  succeededBy?: string;
   /** Canonical palegis.us bill info page. */
   sourceUrl?: string;
   /** Direct PDF of the bill text. */

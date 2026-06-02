@@ -1,11 +1,13 @@
 ---
 import type { Bill, BillStatus } from "@/lib/types";
 import { COSPONSORSHIPS_BY_BILL } from "@/data/cosponsors";
+import { BILLS_BY_ID } from "@/data/bills/all-bills";
 
 interface Props {
   bill: Bill;
 }
 const { bill } = Astro.props;
+const successor = bill.succeededBy ? BILLS_BY_ID.get(bill.succeededBy) : null;
 
 const STATUS_LABEL: Record<BillStatus, string> = {
   memo: "Cosponsorship memo",
@@ -45,7 +47,7 @@ const anchorId = `bill-${bill.id.toLowerCase()}`;
 
 <article
   id={anchorId}
-  class={`bill-card bill-card--${tone}${isHistorical ? " bill-card--historical" : ""}`}
+  class={`bill-card bill-card--${tone}${isHistorical ? " bill-card--historical" : ""}${successor ? " bill-card--superseded" : ""}`}
 >
   <header class="bill-card__header">
     <div class="bill-card__title">
@@ -55,6 +57,12 @@ const anchorId = `bill-${bill.id.toLowerCase()}`;
       >
         {bill.shortTitle}
       </span>
+      {successor && (
+        <span class="bill-card__superseded-tag">
+          Introduced as{" "}
+          <a href={`#bill-${successor.id.toLowerCase()}`}>{successor.label} ↓</a>
+        </span>
+      )}
     </div>
     <div class="bill-card__chips">
       <span class={`bill-card__status bill-card__status--${tone}`}>

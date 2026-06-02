@@ -1030,6 +1030,36 @@ code {
 .bill-card--historical {
   background: #f8fafc;
 }
+/* When a memo has been introduced as a bill, the memo's card carries
+   a "Introduced as <id> ↓" tag pointing the reader at the live
+   legislative vehicle. The card is de-emphasized but still visible
+   so the original cosponsor signal stays auditable (e.g. SB 1346's
+   memo had Laughlin as a cosponsor, who is not on the bill). */
+.bill-card--superseded {
+  opacity: 0.78;
+}
+.bill-card__superseded-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  vertical-align: 2px;
+}
+.bill-card__superseded-tag a {
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: 2px;
+  font-weight: 700;
+}
+.bill-card__superseded-tag a:hover {
+  text-decoration: underline;
+}
 .bill-card__header {
   display: grid;
   gap: 0.3rem;

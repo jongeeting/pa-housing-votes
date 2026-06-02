@@ -380,6 +380,7 @@ export const SB1346: Bill = {
   lastActionDate: "2026-05-26",
   lastActionNote:
     "Referred to Senate Urban Affairs and Housing. Bipartisan 12-senator introducer list (7 D + 5 R).",
+  priorVersions: ["senate-memo-48019"],
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1346",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1346/PN1747",
@@ -561,12 +562,13 @@ export const SENATE_MEMO_48019: Bill = {
   kind: "memo",
   shortTitle: "Rothman/Saval ADU Reform",
   description:
-    "A cosponsorship memo from Sen. Rothman proposing legislation to legalize accessory dwelling units statewide while reducing regulatory obstacles to their construction. Senate companion to HB 2186.",
+    "A cosponsorship memo from Sen. Rothman proposing legislation to legalize accessory dwelling units statewide while reducing regulatory obstacles to their construction. Senate companion to HB 2186. Introduced May 26, 2026 as SB 1346; this memo entry preserves the original cosponsor signal — notably Sen. Laughlin signed the memo but is not on the introduced bill.",
   topics: ["adu"],
   status: "memo",
   primeSponsorDistrict: "34", // Greg Rothman
   introducedDate: "2026-01-30",
-  lastActionNote: "Cosponsorship memo circulated; bill not yet introduced.",
+  lastActionNote: "Superseded by SB 1346 (introduced May 26, 2026).",
+  succeededBy: "SB1346",
   sourceUrl: "https://www.palegis.us/senate/co-sponsorship/memo?memoID=48019",
 };
 
