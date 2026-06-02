@@ -255,6 +255,28 @@ export const HR484: Bill = {
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hr484",
 };
 
+export const HB2367: Bill = {
+  id: "HB2367",
+  label: "HB 2367",
+  session: "2025-2026",
+  chamber: "House",
+  kind: "bill",
+  shortTitle: "RACP for Housing Development",
+  description:
+    "Authorizes the use of Redevelopment Assistance Capital Program (RACP) funds for housing development projects, expanding a state capital program to support housing construction. Amends the Capital Facilities Debt Enabling Act (Act 1 of 1999).",
+  topics: ["governance"],
+  status: "laid_on_table",
+  primeSponsorDistrict: "163", // Heather Boyd
+  committee: "Housing and Community Development",
+  introducedDate: "2026-04-08",
+  lastActionDate: "2026-04-13",
+  lastActionNote:
+    "Passed Housing and Community Development committee on a party-line vote April 13, 2026; laid on the table pending floor scheduling.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2367",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2367/PN3148",
+};
+
 /* -------------------------------------------------------------------------- */
 /*  2025–2026 session — Local Government (House)                              */
 /* -------------------------------------------------------------------------- */
@@ -345,6 +367,136 @@ export const SB1346: Bill = {
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1346",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1346/PN1747",
+};
+
+export const SB1263: Bill = {
+  id: "SB1263",
+  label: "SB 1263",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "bill",
+  shortTitle: "Municipal Occupancy Reform (Golden Girls Law, Senate)",
+  description:
+    "Senate companion to HB 2109. Bars municipalities from capping the number of unrelated people who can live together — preempts local \"family\" definitions in zoning that have functioned as occupancy caps on shared housing arrangements.",
+  topics: ["occupancy"],
+  status: "in_committee",
+  primeSponsorDistrict: "1", // Nikil Saval
+  committee: "Urban Affairs and Housing",
+  introducedDate: "2026-04-23",
+  lastActionDate: "2026-04-23",
+  lastActionNote: "Referred to Urban Affairs and Housing.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1263",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1263/PN1629",
+};
+
+export const SB1277: Bill = {
+  id: "SB1277",
+  label: "SB 1277",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "bill",
+  shortTitle: "Property Tax Abatement for Housing Redevelopment",
+  description:
+    "Amends the Local Economic Revitalization Tax Assistance Act (LERTA, Act 76 of 1977) to expand municipal authority to grant property tax abatements for housing construction and redevelopment.",
+  topics: ["governance"],
+  status: "passed_committee",
+  primeSponsorDistrict: "32", // Patrick Stefano
+  committee: "Urban Affairs and Housing",
+  introducedDate: "2026-04-23",
+  lastActionDate: "2026-05-06",
+  lastActionNote:
+    "Passed Senate Urban Affairs and Housing committee with bipartisan votes May 6, 2026.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1277",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1277/PN1632",
+};
+
+export const SB1278: Bill = {
+  id: "SB1278",
+  label: "SB 1278",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "bill",
+  shortTitle: "Residential Economic Development District Grant Program (Senate)",
+  description:
+    "Senate companion to HB 2423. Establishes a state grant program — the Residential Economic Development District Grant Program — to help municipalities develop and maintain residential economic development districts that catalyze housing construction.",
+  topics: ["governance"],
+  status: "passed_committee",
+  primeSponsorDistrict: "5", // Joe Picozzi
+  committee: "Urban Affairs and Housing",
+  introducedDate: "2026-04-14",
+  lastActionDate: "2026-05-06",
+  lastActionNote:
+    "Passed Senate Urban Affairs and Housing committee 9–2 May 6, 2026; first consideration same day.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1278",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1278/PN1587",
+};
+
+export const SB1279: Bill = {
+  id: "SB1279",
+  label: "SB 1279",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "bill",
+  shortTitle: "Regulatory Compliance Officer for Housing",
+  description:
+    "Creates a Commonwealth Housing Regulatory Compliance Officer position to streamline housing-construction permitting across state executive agencies.",
+  topics: ["governance"],
+  status: "passed_committee",
+  primeSponsorDistrict: "28", // Kristin Phillips-Hill
+  committee: "Urban Affairs and Housing",
+  introducedDate: "2026-04-14",
+  lastActionDate: "2026-05-06",
+  lastActionNote:
+    "Passed Senate Urban Affairs and Housing committee on a party-line vote May 6, 2026 (re-reported as amended).",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1279",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1279/PN1756",
+};
+
+export const SB1281: Bill = {
+  id: "SB1281",
+  label: "SB 1281",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "bill",
+  shortTitle: "Pre-Approved Housing Plans",
+  description:
+    "Amends the Municipalities Planning Code to allow municipalities to adopt pre-approved housing plans that streamline permitting and lower the cost of starter housing.",
+  topics: ["governance"],
+  status: "passed_committee",
+  primeSponsorDistrict: "34", // Greg Rothman
+  committee: "Urban Affairs and Housing",
+  introducedDate: "2026-04-14",
+  lastActionDate: "2026-05-06",
+  lastActionNote:
+    "Passed Senate Urban Affairs and Housing committee with bipartisan votes May 6, 2026.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1281",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1281/PN1589",
+};
+
+export const SR211: Bill = {
+  id: "SR211",
+  label: "SR 211",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "resolution",
+  shortTitle: "Study of the Municipalities Planning Code",
+  description:
+    "Directs the Legislative Budget and Finance Committee to conduct a study and issue a report on the effectiveness of the Municipalities Planning Code (MPC) in addressing housing supply and affordability.",
+  topics: ["study"],
+  status: "enacted",
+  primeSponsorDistrict: "11", // Judith Schwank
+  committee: "Local Government",
+  introducedDate: "2026-01-23",
+  lastActionDate: "2026-04-21",
+  lastActionNote: "Resolution adopted April 21, 2026.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sr211",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SR0211/PN1507",
 };
 
 /* -------------------------------------------------------------------------- */

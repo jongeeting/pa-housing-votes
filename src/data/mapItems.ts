@@ -6,6 +6,12 @@ import { JUNE_5_2024_ROLL_CALLS } from "./votes/2024-06-05-local-government";
 import {
   SB1239,
   SB1346,
+  SB1263,
+  SB1277,
+  SB1278,
+  SB1279,
+  SB1281,
+  SR211,
   SENATE_MEMO_47956,
   SENATE_MEMO_48019,
   HB1459,
@@ -13,6 +19,7 @@ import {
   HB2185,
   HB2155,
   HB2192,
+  HB2367,
   HB2423,
   HB2428,
   HB2430,
@@ -22,6 +29,13 @@ import {
 import { SB1126_COSPONSORSHIP } from "./cosponsors/sb1126-cosponsors";
 import { SB1239_COSPONSORSHIP } from "./cosponsors/sb1239-cosponsors";
 import { SB1346_COSPONSORSHIP } from "./cosponsors/sb1346-cosponsors";
+import { SB1263_COSPONSORSHIP } from "./cosponsors/sb1263-cosponsors";
+import { SB1277_COSPONSORSHIP } from "./cosponsors/sb1277-cosponsors";
+import { SB1278_COSPONSORSHIP } from "./cosponsors/sb1278-cosponsors";
+import { SB1279_COSPONSORSHIP } from "./cosponsors/sb1279-cosponsors";
+import { SB1281_COSPONSORSHIP } from "./cosponsors/sb1281-cosponsors";
+import { SR211_COSPONSORSHIP } from "./cosponsors/sr211-cosponsors";
+import { HB2367_COSPONSORSHIP } from "./cosponsors/hb2367-cosponsors";
 import { SENATE_MEMO_47956_COSPONSORSHIP } from "./cosponsors/senate-memo-47956-cosponsors";
 import { SENATE_MEMO_48019_COSPONSORSHIP } from "./cosponsors/senate-memo-48019-cosponsors";
 import { HB1459_COSPONSORSHIP } from "./cosponsors/hb1459-cosponsors";
@@ -64,6 +78,7 @@ export const ALL_MAP_ITEMS: MapItem[] = [
   { kind: "cosponsorOnly", bill: HB2185, cosponsorship: HB2185_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2155, cosponsorship: HB2155_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2192, cosponsorship: HB2192_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: HB2367, cosponsorship: HB2367_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2423, cosponsorship: HB2423_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2428, cosponsorship: HB2428_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: HB2430, cosponsorship: HB2430_COSPONSORSHIP },
@@ -80,6 +95,12 @@ export const ALL_MAP_ITEMS: MapItem[] = [
 
   // ----- 2025-2026 Senate cosponsor-only items -----
   { kind: "cosponsorOnly", bill: SB1346, cosponsorship: SB1346_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: SB1263, cosponsorship: SB1263_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: SB1277, cosponsorship: SB1277_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: SB1278, cosponsorship: SB1278_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: SB1279, cosponsorship: SB1279_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: SB1281, cosponsorship: SB1281_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: SR211, cosponsorship: SR211_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SB1239, cosponsorship: SB1239_COSPONSORSHIP },
   {
     kind: "cosponsorOnly",
