@@ -12,5 +12,6 @@ pipeline/.venv/
 pipeline/__pycache__/
 pipeline/data/raw/
 pipeline/data/cache/
+pipeline/data/scan-results/
 pipeline/uv.lock
 *.pyc
