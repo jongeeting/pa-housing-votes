@@ -41,7 +41,7 @@ The lone Democratic Nay was **Rep. Lisa Borowski (D, HD-168, Delaware County)**.
 
 ## 3. Final Passage Yea coalition — by region
 
-All 139 Yea votes organized by the largest county of each district. 
+All 139 Yea votes on Final Passage organized by the largest county of each district. 
 "Top muni" is the municipality with the largest share of the district's population. 
 "rc1054 → rc1075" tracks the 2nd Consideration vote → Final Passage vote 
 for each member. **Bold N→Y** = came around between the two votes.
@@ -287,7 +287,7 @@ for each member. **Bold N→Y** = came around between the two votes.
 
 ## 4. Final Passage Nay coalition — by region
 
-All 62 Nay votes organized the same way. *Italic Y→N* = defected between the two votes.
+All 62 Nay votes on Final Passage organized the same way. *Italic Y→N* = voted Yea on 2nd Consideration before switching to Nay on Final Passage.
 
 ### Philadelphia — 1 Nay
 
@@ -453,9 +453,9 @@ All 62 Nay votes organized the same way. *Italic Y→N* = defected between the t
 
 ## 5. Vote changes between 2nd Consideration and Final Passage
 
-Net change: +5 Yea. **21** members moved from Nay to Yea; **16** moved from Yea to Nay.
+Net change: +5 Yea. **21** members moved from Nay to Yea between the two votes; **16** moved from Yea to Nay. Every member who switched in either direction had previously voted in favor of HB 2186 at one stage or the other — see § 6 for the full "ever-Yea" House Republican list.
 
-### Nay → Yea (came around) — 21 members, all Republican
+### Nay on 2nd Consideration → Yea on Final Passage — 21 members, all Republican
 
 | HD | Member | Party | County | Top muni |
 |---|---|---|---|---|
@@ -481,7 +481,9 @@ Net change: +5 Yea. **21** members moved from Nay to Yea; **16** moved from Yea 
 | HD-57 | Eric Nelson | R | Westmoreland | Hempfield |
 | HD-59 | Leslie Rossi | R | Westmoreland | Unity |
 
-### Yea → Nay (defected) — 16 members (15 R, 1 D)
+### Yea on 2nd Consideration → Nay on Final Passage — 16 members (15 R, 1 D)
+
+These members voted Yea on HB 2186 on 2nd Consideration (134-67 / rc 1054) and Nay on Final Passage (139-62 / rc 1075). Their Yea on the earlier vote established their willingness to support the underlying ADU framework; their Nay on Final Passage came after the per-lot cap and short-term-rental opt-out amendments produced PN 3373. For purposes of next-round outreach on subsequent ADU or by-right-housing bills, this group should be treated as part of the same ADU-curious universe as the 38 Republicans who voted Yea on Final Passage, not as durable opposition.
 
 | HD | Member | Party | County | Top muni |
 |---|---|---|---|---|
@@ -502,10 +504,13 @@ Net change: +5 Yea. **21** members moved from Nay to Yea; **16** moved from Yea 
 | HD-46 | Jason Ortitay | R | Washington | South Fayette |
 | HD-47 | Joseph D'Orsie | R | York | Manchester |
 
-## 6. Republican Yea coalition — district profile
+## 6. House Republicans who voted Yea on HB 2186 at least once this session
 
-38 Republicans voted Yea on Final Passage. 
-Below: each member's district along with district-level demographic + housing statistics.
+**53 House Republicans** voted Yea on HB 2186 on at least one of the two floor votes:
+- **38** voted Yea on Final Passage (held position through PN 3373)
+- **15** voted Yea on 2nd Consideration only (switched to Nay on PN 3373)
+
+For purposes of identifying Republicans demographically and politically reachable on ADU-by-right policy in the 2025–26 session, both groups belong to the same universe. The table below covers all of them with district-level demographic + housing statistics, with the "Final" column indicating which subgroup each member belongs to.
 
 Column sources:
 
@@ -513,47 +518,63 @@ Column sources:
 - **Median home value**, **Rent-burdened %**: ACS 2023 5-year, aggregated tract-level into the district.
 - **Pop change 2020→24**: Census PEP vintage 2024 sub-county estimates, area-share-weighted.
 - **Permits/1k/yr**: Census Building Permits Survey 2020–2024, with parcel-level overrides for Philadelphia (L&I) and Pittsburgh (PLI).
+- **Final**: Yea (stayed) vs Nay (Yea-then-Nay between the two votes).
 
-| HD | Member | County | Top muni | Population | Median home | Pop change | Permits/1k/yr | Rent-burdened | rc1054 → rc1075 |
+| HD | Member | County | Top muni | Population | Median home | Pop change | Permits/1k/yr | Rent-burdened | Final |
 |---|---|---|---|---:|---:|---:|---:|---:|---|
-| HD-193 | Catherine Wallen | Adams | Southampton | 64,464 | $249,802 | +3.7% | 1.6 | 41.6% | **N → Y** |
-| HD-40 | Natalie Mihalek | Allegheny | Bethel Park | 66,354 | $353,405 | -1.7% | 1.2 | 42.0% | **N → Y** |
-| HD-44 | Valerie Gaydos | Allegheny | Moon | 65,529 | $303,348 | -0.1% | 3.9 | 34.1% | Y → Y |
-| HD-60 | Abby Major | Armstrong | Allegheny | 61,085 | $161,691 | -2.6% | 0.5 | 35.3% | Y → Y |
-| HD-15 | Joshua Kail | Beaver | Brighton | 66,167 | $202,982 | -0.9% | 1.6 | 27.0% | **N → Y** |
-| HD-78 | Jesse Topper | Bedford | Bedford | 62,048 | $180,146 | -0.1% | 1.5 | 35.7% | Y → Y |
-| HD-128 | Mark Gillen | Berks | Exeter | 69,328 | $288,476 | +2.5% | 1.3 | 43.3% | Y → Y |
-| HD-130 | David Maloney | Berks | Maidencreek | 65,370 | $259,919 | +2.0% | 0.8 | 38.5% | Y → Y |
-| HD-142 | Joe Hogan | Bucks | Middletown | 68,672 | $428,297 | -0.3% | 0.4 | 52.7% | Y → Y |
-| HD-71 | Jim Rigby | Cambria | Richland | 62,423 | $141,715 | -2.3% | 0.8 | 39.9% | **N → Y** |
-| HD-63 | Josh Bashline | Clarion | Clarion | 64,860 | $146,348 | -1.7% | 0.9 | 38.3% | **N → Y** |
-| HD-73 | Dallas Kephart | Clearfield | Lawrence | 61,300 | $118,383 | -3.3% | 0.8 | 33.6% | **N → Y** |
-| HD-75 | Mike Armanini | Clearfield | St. Marys | 63,025 | $145,734 | -2.6% | 1.0 | 41.6% | **N → Y** |
-| HD-76 | Stephanie Borowicz | Clinton | Lock Haven | 62,470 | $191,281 | +0.3% | 1.0 | 42.4% | **N → Y** |
-| HD-109 | Robert Leadbeter | Columbia | Bloomsburg | 65,055 | $200,687 | +2.0% | 1.4 | 37.9% | **N → Y** |
-| HD-87 | Thomas Kutz | Cumberland | Upper Allen | 72,666 | $313,019 | +7.2% | 5.6 | 33.4% | **N → Y** |
-| HD-106 | Thomas Mehaffie | Dauphin | Derry | 67,060 | $284,371 | +2.0% | 1.8 | 41.3% | Y → Y |
-| HD-125 | Joe Kerwin | Dauphin | Lower Paxton | 72,515 | $234,539 | +2.7% | 2.7 | 32.3% | **N → Y** |
-| HD-81 | Rich Irvin | Huntingdon | Southampton | 66,158 | $191,374 | -0.8% | 1.6 | 30.9% | Y → Y |
-| HD-98 | Tom Jones | Lancaster | Elizabethtown | 67,148 | $272,328 | +1.9% | 2.2 | 48.4% | Y → Y |
-| HD-99 | David Zimmerman | Lancaster | Spring | 76,754 | $295,122 | +1.6% | 1.4 | 25.6% | Y → Y |
-| HD-9 | Marla Brown | Lawrence | New Castle | 63,470 | $134,809 | -2.1% | 0.7 | 47.5% | **N → Y** |
-| HD-102 | Russ Diamond | Lebanon | Jackson | 65,658 | $241,854 | +1.1% | 0.9 | 47.3% | **N → Y** |
-| HD-119 | Alec Ryncavage | Luzerne | Hanover | 61,231 | $154,033 | +1.7% | 0.8 | 41.8% | **N → Y** |
-| HD-7 | Parke Wentling | Mercer | Hermitage | 65,849 | $135,111 | -2.5% | 0.4 | 40.7% | **N → Y** |
-| HD-171 | Kerry Benninghoff | Mifflin | Lewistown | 65,646 | $196,894 | +0.3% | 2.5 | 35.8% | **N → Y** |
-| HD-137 | Joe Emrick | Northampton | Bethlehem | 68,985 | $339,450 | +2.8% | 3.1 | 42.5% | Y → Y |
-| HD-138 | Ann Flood | Northampton | Forks | 66,415 | $294,057 | +2.4% | 3.2 | 42.7% | Y → Y |
-| HD-183 | Zachary Mako | Northampton | North Whitehall | 66,366 | $281,325 | +2.4% | 2.8 | 45.3% | Y → Y |
-| HD-86 | Perry A. Stambaugh | Perry | Carroll | 64,314 | $217,268 | +1.4% | 0.7 | 32.6% | **N → Y** |
-| HD-123 | Tim Twardzik | Schuylkill | Pottsville | 65,373 | $122,604 | +1.3% | 0.5 | 36.5% | Y → Y |
-| HD-124 | Jamie Barton | Schuylkill | Maxatawny | 66,461 | $206,965 | +3.6% | 1.6 | 38.1% | Y → Y |
-| HD-85 | David Rowe | Snyder | East Buffalo | 65,684 | $225,308 | -0.3% | 1.4 | 37.0% | **N → Y** |
-| HD-65 | Kathy Rapp | Warren | Warren | 63,380 | $131,372 | -3.2% | 0.7 | 28.6% | **N → Y** |
-| HD-48 | Timothy J. O'Neal | Washington | North Strabane | 70,670 | $224,349 | +1.4% | 3.1 | 38.4% | Y → Y |
-| HD-56 | Brian Rasel | Westmoreland | North Huntingdon | 65,469 | $219,140 | +0.5% | 2.5 | 35.9% | Y → Y |
-| HD-57 | Eric Nelson | Westmoreland | Hempfield | 66,590 | $205,635 | -0.7% | 1.5 | 39.8% | **N → Y** |
-| HD-59 | Leslie Rossi | Westmoreland | Unity | 65,695 | $196,099 | -1.7% | 0.9 | 38.2% | **N → Y** |
+| HD-193 | Catherine Wallen | Adams | Southampton | 64,464 | $249,802 | +3.7% | 1.6 | 41.6% | Yea |
+| HD-39 | Andrew Kuzma | Allegheny | South Park | 65,811 | $210,318 | -1.5% | 2.1 | 39.0% | *Nay (was Y on 2nd)* |
+| HD-40 | Natalie Mihalek | Allegheny | Bethel Park | 66,354 | $353,405 | -1.7% | 1.2 | 42.0% | Yea |
+| HD-44 | Valerie Gaydos | Allegheny | Moon | 65,529 | $303,348 | -0.1% | 3.9 | 34.1% | Yea |
+| HD-60 | Abby Major | Armstrong | Allegheny | 61,085 | $161,691 | -2.6% | 0.5 | 35.3% | Yea |
+| HD-15 | Joshua Kail | Beaver | Brighton | 66,167 | $202,982 | -0.9% | 1.6 | 27.0% | Yea |
+| HD-78 | Jesse Topper | Bedford | Bedford | 62,048 | $180,146 | -0.1% | 1.5 | 35.7% | Yea |
+| HD-128 | Mark Gillen | Berks | Exeter | 69,328 | $288,476 | +2.5% | 1.3 | 43.3% | Yea |
+| HD-130 | David Maloney | Berks | Maidencreek | 65,370 | $259,919 | +2.0% | 0.8 | 38.5% | Yea |
+| HD-18 | Kathleen Tomlinson | Bucks | Bensalem | 63,650 | $361,496 | +0.6% | 1.3 | 46.1% | *Nay (was Y on 2nd)* |
+| HD-142 | Joe Hogan | Bucks | Middletown | 68,672 | $428,297 | -0.3% | 0.4 | 52.7% | Yea |
+| HD-143 | Shelby Labs | Bucks | Hilltown | 69,512 | $453,681 | +1.9% | 2.5 | 41.0% | *Nay (was Y on 2nd)* |
+| HD-71 | Jim Rigby | Cambria | Richland | 62,423 | $141,715 | -2.3% | 0.8 | 39.9% | Yea |
+| HD-13 | John Lawrence | Chester | East Nottingham | 64,398 | $384,679 | +3.5% | 2.9 | 52.1% | *Nay (was Y on 2nd)* |
+| HD-63 | Josh Bashline | Clarion | Clarion | 64,860 | $146,348 | -1.7% | 0.9 | 38.3% | Yea |
+| HD-73 | Dallas Kephart | Clearfield | Lawrence | 61,300 | $118,383 | -3.3% | 0.8 | 33.6% | Yea |
+| HD-75 | Mike Armanini | Clearfield | St. Marys | 63,025 | $145,734 | -2.6% | 1.0 | 41.6% | Yea |
+| HD-76 | Stephanie Borowicz | Clinton | Lock Haven | 62,470 | $191,281 | +0.3% | 1.0 | 42.4% | Yea |
+| HD-109 | Robert Leadbeter | Columbia | Bloomsburg | 65,055 | $200,687 | +2.0% | 1.4 | 37.9% | Yea |
+| HD-87 | Thomas Kutz | Cumberland | Upper Allen | 72,666 | $313,019 | +7.2% | 5.6 | 33.4% | Yea |
+| HD-88 | Sheryl Delozier | Cumberland | Hampden | 64,255 | $274,679 | +6.4% | 4.3 | 38.4% | *Nay (was Y on 2nd)* |
+| HD-106 | Thomas Mehaffie | Dauphin | Derry | 67,060 | $284,371 | +2.0% | 1.8 | 41.3% | Yea |
+| HD-125 | Joe Kerwin | Dauphin | Lower Paxton | 72,515 | $234,539 | +2.7% | 2.7 | 32.3% | Yea |
+| HD-89 | Rob Kauffman | Franklin | Chambersburg | 66,656 | $235,718 | +3.0% | 4.2 | 37.2% | *Nay (was Y on 2nd)* |
+| HD-90 | Chad Reichard | Franklin | Antrim | 65,562 | $245,472 | +1.8% | 2.7 | 37.3% | *Nay (was Y on 2nd)* |
+| HD-81 | Rich Irvin | Huntingdon | Southampton | 66,158 | $191,374 | -0.8% | 1.6 | 30.9% | Yea |
+| HD-41 | Brett Miller | Lancaster | East Hempfield | 58,410 | $276,813 | +2.2% | 3.0 | 47.5% | *Nay (was Y on 2nd)* |
+| HD-98 | Tom Jones | Lancaster | Elizabethtown | 67,148 | $272,328 | +1.9% | 2.2 | 48.4% | Yea |
+| HD-99 | David Zimmerman | Lancaster | Spring | 76,754 | $295,122 | +1.6% | 1.4 | 25.6% | Yea |
+| HD-9 | Marla Brown | Lawrence | New Castle | 63,470 | $134,809 | -2.1% | 0.7 | 47.5% | Yea |
+| HD-102 | Russ Diamond | Lebanon | Jackson | 65,658 | $241,854 | +1.1% | 0.9 | 47.3% | Yea |
+| HD-119 | Alec Ryncavage | Luzerne | Hanover | 61,231 | $154,033 | +1.7% | 0.8 | 41.8% | Yea |
+| HD-7 | Parke Wentling | Mercer | Hermitage | 65,849 | $135,111 | -2.5% | 0.4 | 40.7% | Yea |
+| HD-171 | Kerry Benninghoff | Mifflin | Lewistown | 65,646 | $196,894 | +0.3% | 2.5 | 35.8% | Yea |
+| HD-176 | Jack Rader | Monroe | Chestnuthill | 62,813 | $256,686 | -0.9% | 1.8 | 45.7% | *Nay (was Y on 2nd)* |
+| HD-137 | Joe Emrick | Northampton | Bethlehem | 68,985 | $339,450 | +2.8% | 3.1 | 42.5% | Yea |
+| HD-138 | Ann Flood | Northampton | Forks | 66,415 | $294,057 | +2.4% | 3.2 | 42.7% | Yea |
+| HD-183 | Zachary Mako | Northampton | North Whitehall | 66,366 | $281,325 | +2.4% | 2.8 | 45.3% | Yea |
+| HD-86 | Perry A. Stambaugh | Perry | Carroll | 64,314 | $217,268 | +1.4% | 0.7 | 32.6% | Yea |
+| HD-170 | Martina White | Philadelphia | Philadelphia | 121,170 | $300,771 | -1.9% | 0.1 | 49.4% | *Nay (was Y on 2nd)* |
+| HD-139 | Jeff Olsommer | Pike | Dingman | 64,076 | $257,964 | +5.1% | 4.8 | 40.0% | *Nay (was Y on 2nd)* |
+| HD-123 | Tim Twardzik | Schuylkill | Pottsville | 65,373 | $122,604 | +1.3% | 0.5 | 36.5% | Yea |
+| HD-124 | Jamie Barton | Schuylkill | Maxatawny | 66,461 | $206,965 | +3.6% | 1.6 | 38.1% | Yea |
+| HD-85 | David Rowe | Snyder | East Buffalo | 65,684 | $225,308 | -0.3% | 1.4 | 37.0% | Yea |
+| HD-111 | Jonathan Fritz | Susquehanna | Honesdale | 66,198 | $215,736 | -0.5% | 1.8 | 37.8% | *Nay (was Y on 2nd)* |
+| HD-64 | R. Lee James | Venango | Oil City | 61,711 | $112,099 | -1.9% | 0.6 | 39.0% | *Nay (was Y on 2nd)* |
+| HD-65 | Kathy Rapp | Warren | Warren | 63,380 | $131,372 | -3.2% | 0.7 | 28.6% | Yea |
+| HD-46 | Jason Ortitay | Washington | South Fayette | 62,080 | $280,627 | +2.1% | 4.6 | 37.7% | *Nay (was Y on 2nd)* |
+| HD-48 | Timothy J. O'Neal | Washington | North Strabane | 70,670 | $224,349 | +1.4% | 3.1 | 38.4% | Yea |
+| HD-56 | Brian Rasel | Westmoreland | North Huntingdon | 65,469 | $219,140 | +0.5% | 2.5 | 35.9% | Yea |
+| HD-57 | Eric Nelson | Westmoreland | Hempfield | 66,590 | $205,635 | -0.7% | 1.5 | 39.8% | Yea |
+| HD-59 | Leslie Rossi | Westmoreland | Unity | 65,695 | $196,099 | -1.7% | 0.9 | 38.2% | Yea |
+| HD-47 | Joseph D'Orsie | York | Manchester | 69,702 | $233,727 | +2.7% | 2.1 | 42.3% | *Nay (was Y on 2nd)* |
 
 ## 7. Senate companion: SB 1346
 
