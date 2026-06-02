@@ -564,11 +564,12 @@ export const ALL_BILLS: Bill[] = [
   HB1988,
   HB2045,
   SB1126,
-  // 2025–2026 Housing & Community Development
+  // 2025–2026 Housing & Community Development (House)
   HB2109,
   HB2186,
   HB2155,
   HB2192,
+  HB2367,
   HB2423,
   HB2428,
   HB2430,
@@ -578,6 +579,13 @@ export const ALL_BILLS: Bill[] = [
   HB2185,
   // 2025–2026 Senate
   SB1239,
+  SB1346,
+  SB1263,
+  SB1277,
+  SB1278,
+  SB1279,
+  SB1281,
+  SR211,
   // Memos
   HOUSE_MEMO_47776,
   SENATE_MEMO_47956,
