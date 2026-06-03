@@ -12,6 +12,7 @@ import { HB2423_COSPONSORSHIP } from "./hb2423-cosponsors";
 import { HB2428_COSPONSORSHIP } from "./hb2428-cosponsors";
 import { HB2430_COSPONSORSHIP } from "./hb2430-cosponsors";
 import { HB2434_COSPONSORSHIP } from "./hb2434-cosponsors";
+import { HB2445_COSPONSORSHIP } from "./hb2445-cosponsors";
 import { HR484_COSPONSORSHIP } from "./hr484-cosponsors";
 
 // 2025–2026 Senate bills
@@ -52,6 +53,7 @@ export const COSPONSORSHIPS: Cosponsorship[] = [
   HB2428_COSPONSORSHIP,
   HB2430_COSPONSORSHIP,
   HB2434_COSPONSORSHIP,
+  HB2445_COSPONSORSHIP,
   HR484_COSPONSORSHIP,
 
   // 2025–2026 Senate

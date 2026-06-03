@@ -503,7 +503,7 @@ export const HB2434: Bill = {
   kind: "bill",
   shortTitle: "Expedited High Density Housing Approval",
   description:
-    "Amends the Pennsylvania Municipalities Planning Code (planned residential development article) to provide for expedited approval of high-density housing. House companion in spirit to SB 1281 — both bills came out of the Solomon/Hogan/Major Memo 47700 housing-shortage package.",
+    "Amends the Pennsylvania Municipalities Planning Code (zoning article, new §603.2) to require DCED to write rules forcing municipalities to fast-track land-use decisions on residential developments in designated growth areas, limited to housing types already permitted by-right under existing zoning. The Solomon/Hogan/Major Memo 47700 frames this as the package's \"preapproved housing plans\" bill, but as introduced (PN 3239) the text is a procedural fast-track framework only — it does not establish a centralized preapproved-drawings mechanism the way the Senate companion SB 1281 does.",
   topics: ["governance"],
   status: "in_committee",
   primeSponsorDistrict: "202", // Jared Solomon
@@ -514,6 +514,27 @@ export const HB2434: Bill = {
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2434",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2434/PN3239",
+};
+
+export const HB2445: Bill = {
+  id: "HB2445",
+  label: "HB 2445",
+  session: "2025-2026",
+  chamber: "House",
+  kind: "bill",
+  shortTitle: "Office of Housing Opportunity",
+  description:
+    "Amends the Community and Economic Development Enhancement Act (Act 58 of 1996) to establish an Office of Housing Opportunity within DCED. Fourth bill in the Solomon/Hogan/Major Memo 47700 housing-shortage package, alongside HB 2423 (REDD grants), HB 2430 (housing ombudsman), and HB 2434 (expedited approval). Parallel concept to Smith-Wade-El's HB 2192 (Commonwealth Housing Council) — both are state-level housing coordination/data bodies, but housed under different statutory frameworks and structurally different.",
+  topics: ["governance"],
+  status: "in_committee",
+  primeSponsorDistrict: "202", // Jared Solomon
+  committee: "Housing and Community Development",
+  introducedDate: "2026-04-22",
+  lastActionDate: "2026-04-22",
+  lastActionNote: "Referred to Housing & Community Development April 22, 2026.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2445",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2445/PN3255",
 };
 
 export const SR211: Bill = {
@@ -613,6 +634,7 @@ export const ALL_BILLS: Bill[] = [
   HB2428,
   HB2430,
   HB2434,
+  HB2445,
   HR484,
   // 2025–2026 Local Government (House)
   HB1459,
