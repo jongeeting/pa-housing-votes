@@ -479,9 +479,9 @@ export const SB1281: Bill = {
   session: "2025-2026",
   chamber: "Senate",
   kind: "bill",
-  shortTitle: "Expedited Approval for Residential Development",
+  shortTitle: "Pre-Approved Housing Plans",
   description:
-    "Provides for expedited approval of specified residential development types — including ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. Amends the Pennsylvania Municipalities Planning Code.",
+    "Provides for expedited approval of specified residential development types — including ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. Original Rothman memo title: \"Lowering Housing Costs: Pre-Approved Housing Plans.\" Amends the Pennsylvania Municipalities Planning Code.",
   topics: ["governance"],
   status: "passed_2nd_consideration",
   primeSponsorDistrict: "34", // Greg Rothman
@@ -493,6 +493,27 @@ export const SB1281: Bill = {
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1281",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1281/PN1760",
+};
+
+export const HB2434: Bill = {
+  id: "HB2434",
+  label: "HB 2434",
+  session: "2025-2026",
+  chamber: "House",
+  kind: "bill",
+  shortTitle: "Expedited High Density Housing Approval",
+  description:
+    "Amends the Pennsylvania Municipalities Planning Code (planned residential development article) to provide for expedited approval of high-density housing. House companion in spirit to SB 1281 — both bills came out of the Solomon/Hogan/Major Memo 47700 housing-shortage package.",
+  topics: ["governance"],
+  status: "in_committee",
+  primeSponsorDistrict: "202", // Jared Solomon
+  committee: "Housing and Community Development",
+  introducedDate: "2026-04-21",
+  lastActionDate: "2026-04-21",
+  lastActionNote: "Referred to Housing & Community Development April 21, 2026.",
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2434",
+  billTextUrl:
+    "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2434/PN3239",
 };
 
 export const SR211: Bill = {
@@ -591,6 +612,7 @@ export const ALL_BILLS: Bill[] = [
   HB2423,
   HB2428,
   HB2430,
+  HB2434,
   HR484,
   // 2025–2026 Local Government (House)
   HB1459,
