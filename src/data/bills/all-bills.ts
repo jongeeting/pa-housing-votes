@@ -438,7 +438,7 @@ export const SB1278: Bill = {
   shortTitle: "Residential Economic Development District Grant Program (Senate)",
   description:
     "Senate companion to HB 2423. Establishes a state grant program — the Residential Economic Development District Grant Program — to help municipalities develop and maintain residential economic development districts that catalyze housing construction.",
-  topics: ["governance"],
+  topics: ["funding"],
   status: "passed_committee",
   primeSponsorDistrict: "5", // Joe Picozzi
   committee: "Urban Affairs and Housing",
