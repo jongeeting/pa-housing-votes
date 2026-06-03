@@ -482,7 +482,7 @@ export const SB1281: Bill = {
   shortTitle: "Pre-Approved Housing Plans",
   description:
     "Provides for expedited approval of specified residential development types — including ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. Original Rothman memo title: \"Lowering Housing Costs: Pre-Approved Housing Plans.\" Amends the Pennsylvania Municipalities Planning Code.",
-  topics: ["governance"],
+  topics: ["missing_middle"],
   status: "passed_2nd_consideration",
   primeSponsorDistrict: "34", // Greg Rothman
   committee: "Urban Affairs and Housing",
