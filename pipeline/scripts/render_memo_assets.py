@@ -112,17 +112,40 @@ def _base_ax(fig_w=8, fig_h=5.5):
     return fig, ax
 
 def _label(ax, title: str, subtitle: str | None = None):
+    """Render title (and optional subtitle) above the map. Subtitle is
+    placed between the map and the legend area below."""
     ax.set_title(title, loc="left", pad=8, fontsize=13)
     if subtitle:
-        ax.text(0, -0.03, subtitle, transform=ax.transAxes,
-                fontsize=9, color="#52525b", va="top")
+        # Subtitle sits just below the axes, ABOVE where _legend_below
+        # will place the legend.
+        ax.text(0, -0.04, subtitle, transform=ax.transAxes,
+                fontsize=9, color="#52525b", va="top", ha="left")
 
 def _legend(ax, entries: list[tuple[str, str]], loc="lower right"):
-    """entries = [(color, label), ...]. Renders a clean swatch legend."""
+    """entries = [(color, label), ...]. Legacy in-axes legend."""
     handles = [mpatches.Patch(color=c, label=l, ec=COLORS["outline_thin"], lw=0.4)
                for c, l in entries]
     ax.legend(handles=handles, loc=loc, fontsize=8, frameon=True,
               framealpha=0.92, edgecolor=COLORS["outline_thin"])
+
+def _legend_below(ax, entries: list[tuple[str, str]], ncol: int | None = None):
+    """Horizontal legend placed below the map, so it never overlaps PA
+    geography. `ncol` defaults to len(entries) — one row across."""
+    handles = [mpatches.Patch(color=c, label=l, ec=COLORS["outline_thin"], lw=0.4)
+               for c, l in entries]
+    if ncol is None:
+        ncol = len(entries)
+    ax.legend(
+        handles=handles,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.10),
+        ncol=ncol,
+        fontsize=8,
+        frameon=False,
+        handlelength=1.4,
+        handleheight=0.9,
+        columnspacing=1.6,
+    )
 
 # ---------------------------------------------------------------------------
 # MAP 1: Final Passage choropleth
@@ -137,8 +160,8 @@ def map_final_passage():
         f"June 1, 2026 · 139 Yea / 62 Nay (Roll Call 1075) · "
         f"{(hd['rc75']=='Yea').sum()} green, {(hd['rc75']=='Nay').sum()} terracotta",
     )
-    _legend(ax, [(COLORS["yea"], "Yea"), (COLORS["nay"], "Nay"),
-                  (COLORS["muted"], "No record")])
+    _legend_below(ax, [(COLORS["yea"], "Yea"), (COLORS["nay"], "Nay"),
+                       (COLORS["muted"], "No record")])
     fig.savefig(OUT_DIR / "map-final-passage.png")
     plt.close(fig)
     print(f"  wrote {OUT_DIR/'map-final-passage.png'}")
@@ -164,12 +187,12 @@ def map_vote_change():
         "Vote shifts between 2nd Consideration and Final Passage",
         f"21 districts moved Nay → Yea; 16 moved Yea → Nay. Net +5 Yea on Final Passage.",
     )
-    _legend(ax, [
+    _legend_below(ax, [
         (COLORS["flip_to_yea"], "Nay → Yea (came around)"),
         (COLORS["flip_to_nay"], "Yea → Nay (defected on PN 3373)"),
         ("#cfe1d6", "Stayed Yea"),
         ("#efd9cb", "Stayed Nay"),
-    ], loc="lower left")
+    ], ncol=2)
     fig.savefig(OUT_DIR / "map-vote-change.png")
     plt.close(fig)
     print(f"  wrote {OUT_DIR/'map-vote-change.png'}")
@@ -203,11 +226,11 @@ def map_reform_interested():
         "Reform-interested House Republicans (53 members)",
         f"{stayed} held Yea on Final Passage; {switched} voted Yea on 2nd Consideration only.",
     )
-    _legend(ax, [
+    _legend_below(ax, [
         (COLORS["yea"], f"Yea on Final Passage ({stayed})"),
         ("#a6c5a4", f"Yea on 2nd Consideration only ({switched})"),
         (COLORS["muted"], "Other districts"),
-    ], loc="lower right")
+    ])
     fig.savefig(OUT_DIR / "map-reform-interested.png")
     plt.close(fig)
     print(f"  wrote {OUT_DIR/'map-reform-interested.png'}")
@@ -240,11 +263,11 @@ def map_northern_tier():
         "Northern Tier expansion target districts (6) + rural R peers who came around (14)",
         "Demographic profile of NT targets matches that of the 14 came-around peers between rc 1054 and rc 1075.",
     )
-    _legend(ax, [
+    _legend_below(ax, [
         (COLORS["target"], "Target district (R Nay both votes)"),
         (COLORS["peer"], "Peer district (R Nay → Yea between votes)"),
         (COLORS["muted"], "Other districts"),
-    ], loc="lower right")
+    ])
     fig.savefig(OUT_DIR / "map-northern-tier.png")
     plt.close(fig)
     print(f"  wrote {OUT_DIR/'map-northern-tier.png'}")

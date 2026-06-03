@@ -374,6 +374,71 @@ const today = new Date().toLocaleDateString("en-US", {
       }
 
       /* ---------------------------------------------------------------- *
+       * Mobile / narrow-viewport cleanup.
+       * The default layout above is letter-portrait tuned (0.7in side
+       * padding, 11pt body). On narrow screens that becomes cramped
+       * and the doc header wraps awkwardly. These tweaks ease the
+       * padding, bump the body font to a comfortable reading size,
+       * stack the header, and let wide tables scroll horizontally
+       * instead of crushing into the viewport.
+       * ---------------------------------------------------------------- */
+
+      @media (max-width: 720px) {
+        body.memo {
+          font-size: 16px;
+          line-height: 1.5;
+        }
+        .memo__wrap {
+          padding: 18px 16px 24px;
+          box-shadow: none;
+        }
+        .memo__doc-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.2rem;
+          padding-bottom: 0.5rem;
+          margin-bottom: 1rem;
+        }
+        .memo__wordmark { font-size: 0.85rem; }
+        .memo__doc-meta { font-size: 0.78rem; }
+
+        .memo__body h1 { font-size: 1.5rem; }
+        .memo__body h2 { font-size: 1.1rem; margin: 1.3rem 0 0.5rem; }
+        .memo__body h3 { font-size: 1rem; }
+        .memo__body p,
+        .memo__body li {
+          font-size: 1rem;
+          line-height: 1.55;
+        }
+
+        /* Let wide tables scroll horizontally instead of overflowing
+           the viewport. Wrap them in a scroll container via the parent
+           rule below. */
+        .memo__body table {
+          font-size: 0.85rem;
+          display: block;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          white-space: nowrap;
+        }
+        .memo__body thead th,
+        .memo__body tbody td {
+          padding: 6px 10px;
+        }
+
+        .memo__figure { margin: 0.9rem -2px 1.2rem; }
+        .memo__figure figcaption {
+          font-size: 0.78rem;
+          padding: 0 2px;
+        }
+
+        .memo__doc-footer {
+          margin-top: 1.5rem;
+          font-size: 0.72rem;
+        }
+      }
+
+      /* ---------------------------------------------------------------- *
        * Print stylesheet — browser print-to-PDF on letter paper.
        * ---------------------------------------------------------------- */
 
