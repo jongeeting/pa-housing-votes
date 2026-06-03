@@ -2018,45 +2018,50 @@ code {
 
 /* Mobile ------------------------------------------------------------------ */
 
+/* =====================================================================
+ * Mobile / narrow-viewport cleanup
+ * ---------------------------------------------------------------------
+ * Two breakpoints: 720px (tablet-portrait & most phones in landscape)
+ * and 480px (phone portrait). Both override the desktop defaults
+ * above; 480px sits inside 720px's range so its rules cascade on top.
+ * ===================================================================== */
+
 @media (max-width: 720px) {
-  .legend {
-    font-size: 0.72rem;
-    padding: 0.55rem 0.7rem;
-    max-width: 160px;
-    bottom: 32px;
+  /* ---- Page chrome ---------------------------------------------- */
+  .page-header {
+    padding: 1.5rem 1rem 1.25rem;
   }
-  .popup {
-    width: calc(100% - 16px);
-    right: 8px;
-    top: 8px;
-    max-height: 65%;
-    font-size: 0.85rem;
+  .page-header h1 {
+    margin-bottom: 0.5rem;
   }
-  .popup__header {
-    padding: 0.7rem 2.3rem 0.6rem 1rem;
+  .page-header__lede {
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
-  .popup__member {
+  .page-main {
+    margin: 1rem auto;
+    padding: 0 0.75rem;
+  }
+  .page-notes {
+    padding: 0 1rem;
+    margin: 1.25rem auto 2.5rem;
+  }
+  .page-notes h2 {
     font-size: 1rem;
   }
-  .popup__bill-group {
-    padding: 0.5rem 0.6rem;
-  }
-  /* Drop the 2-col layout for the top-line facts on phones — the
-     short labels still fit, but stacking them keeps both values
-     visible without the dense look. */
-  .popup__facts {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px 0.6rem;
-  }
+
+  /* ---- Vote map canvas + bill selector + map controls ----------- */
   .vote-map__canvas-wrap {
-    height: 70vh;
+    height: 65vh;
+    min-height: 360px;
   }
+
   .bill-selector__label {
     padding: 0.4rem 0.75rem 0.2rem;
     font-size: 0.65rem;
   }
   .bill-selector__current {
-    padding: 0.55rem 0.75rem;
+    padding: 0.6rem 0.75rem;
     grid-template-columns: 1fr;
     grid-template-areas:
       "topic"
@@ -2064,6 +2069,7 @@ code {
       "phase"
       "chevron";
     gap: 2px;
+    min-height: 44px;
   }
   .bill-selector__chevron {
     justify-self: start;
@@ -2073,8 +2079,21 @@ code {
   .bill-selector__current-bill {
     font-size: 0.95rem;
   }
+  /* Cap the dropdown panel below half-viewport so the user can still
+     see the map state behind it without losing context. */
   .bill-selector__menu {
-    max-height: 70vh;
+    max-height: min(55vh, 460px);
+  }
+
+  /* In-map overlays. Both controls live on top of the canvas; on small
+     screens they crowd against each other and against MapLibre's
+     built-in zoom + attribution. Tighten + shrink so the map stays
+     legible. */
+  .legend {
+    font-size: 0.72rem;
+    padding: 0.5rem 0.65rem;
+    max-width: 160px;
+    bottom: 32px;
   }
   .layer-panel {
     top: 8px;
@@ -2083,6 +2102,231 @@ code {
     font-size: 0.72rem;
   }
   .layer-panel__body {
-    max-height: 60vh;
+    max-height: 55vh;
+  }
+
+  /* ---- District popup (vote map + housing-stats both use this) -- */
+  .popup {
+    width: calc(100% - 16px);
+    right: 8px;
+    top: 8px;
+    max-height: calc(100% - 80px);
+    font-size: 0.85rem;
+  }
+  .popup__header {
+    padding: 0.75rem 2.5rem 0.6rem 0.95rem;
+  }
+  .popup__member {
+    font-size: 1rem;
+  }
+  .popup__bill-group {
+    padding: 0.5rem 0.6rem;
+  }
+  /* Drop the 2-col layout for top-line facts so labels and values
+     stay readable. */
+  .popup__facts {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 0.6rem;
+  }
+
+  /* ---- Full vote list (below-map disclosure) -------------------- */
+  /* Default desktop grid is auto-fill minmax(290px, 1fr), which on a
+     375px viewport forces 290px minimum and triggers horizontal
+     overflow. Collapse to single column. */
+  .full-vote__rows {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+  .full-vote__row {
+    padding: 8px 6px;
+    min-height: 44px;
+    font-size: 0.86rem;
+  }
+  .full-vote__header {
+    padding: 0.65rem 0.9rem 0.4rem;
+    flex-wrap: wrap;
+  }
+  .full-vote__summary {
+    font-size: 0.88rem;
+    flex: 1 1 100%;
+  }
+  .full-vote__controls {
+    padding: 0.55rem 0.9rem 0.6rem;
+    gap: 10px;
+  }
+  /* Search input had min-width: 200px which overflowed when sitting
+     next to two selects on a narrow row. Let it grow naturally. */
+  .full-vote__control--search {
+    flex: 1 1 100%;
+  }
+  .full-vote__control--search input {
+    min-width: 0;
+    width: 100%;
+  }
+  .full-vote__count {
+    margin-left: 0;
+    flex: 1 1 100%;
+    align-self: start;
+    padding-bottom: 0;
+    padding-top: 2px;
+  }
+  .full-vote__groups {
+    padding: 0.6rem 0.9rem 1rem;
+  }
+
+  /* ---- Bill cards section --------------------------------------- */
+  .bills-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .bill-card {
+    padding: 0.85rem 0.9rem 0.9rem;
+  }
+  .bill-card__title {
+    font-size: 1rem;
+  }
+  /* Desktop forces dt to min-width 6.5em which makes dd wrap into a
+     ribbon on narrow cards. Stack the dt label above the dd value. */
+  .bill-card__meta > div {
+    flex-direction: column;
+    gap: 0;
+  }
+  .bill-card__meta dt {
+    min-width: 0;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .bill-card__meta dd {
+    margin: 0 0 0.15rem;
+  }
+
+  /* ---- Housing-stats controls ---------------------------------- */
+  .stats-map__controls {
+    padding: 0.6rem 0.75rem;
+    gap: 10px;
+  }
+  .stats-map__picker-row {
+    padding: 0.5rem 0.75rem;
+  }
+  .district-picker {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .district-picker__input {
+    flex: 1 1 160px;
+  }
+
+  /* ---- District snapshot panel rank pill etc. ------------------- */
+  .district-snapshot {
+    padding: 0.7rem 0.85rem;
+  }
+  .district-snapshot__cell {
+    padding: 8px 10px;
+  }
+
+  /* ---- Status / data tables become horizontally scrollable ----- */
+  .status-table-wrap,
+  .page-notes table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .status-table {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* ---- Tighter padding everywhere ------------------------------- */
+  .page-header {
+    padding: 1.1rem 0.85rem 1rem;
+  }
+  .page-header h1 {
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+  .page-header__eyebrow {
+    font-size: 0.7rem;
+  }
+  .page-header__lede {
+    font-size: 0.92rem;
+  }
+  .page-main {
+    padding: 0 0.65rem;
+  }
+  .page-notes {
+    padding: 0 0.85rem;
+  }
+
+  /* ---- Vote map canvas: leave room for selector + below-map -- */
+  .vote-map__canvas-wrap {
+    height: 60vh;
+    min-height: 320px;
+  }
+
+  /* ---- Bill selector: keep dropdown smaller still ------------- */
+  .bill-selector__menu {
+    max-height: min(50vh, 400px);
+  }
+  .bill-selector__option {
+    padding: 0.4rem 0.85rem 0.4rem 1.5rem;
+    min-height: 44px;
+  }
+
+  /* ---- Map overlays: shrink legend + layer panel further ------- */
+  .legend {
+    font-size: 0.68rem;
+    padding: 0.45rem 0.6rem;
+    max-width: 140px;
+  }
+  .layer-panel {
+    min-width: 140px;
+    font-size: 0.68rem;
+  }
+
+  /* ---- District popup full-screen-ish sheet on tiny screens ---- */
+  .popup {
+    width: calc(100% - 12px);
+    right: 6px;
+    top: 6px;
+    max-height: calc(100vh - 24px);
+    font-size: 0.82rem;
+  }
+  .popup__header {
+    padding: 0.75rem 2.4rem 0.55rem 0.85rem;
+  }
+  .popup__member {
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+  .popup__close {
+    width: 32px;
+    height: 32px;
+    top: 6px;
+    right: 6px;
+  }
+  /* Even tighter — single column for facts on the narrowest screens
+     because labels like "Population change" wrap otherwise. */
+  .popup__facts {
+    grid-template-columns: 1fr;
+    gap: 4px 0;
+  }
+
+  /* ---- Bill cards: tighter pills + descriptions ---------------- */
+  .bill-card {
+    padding: 0.75rem 0.8rem 0.85rem;
+  }
+  .bill-card__description {
+    font-size: 0.85rem;
+  }
+  .bill-card__chips {
+    gap: 0.3rem;
+  }
+
+  /* ---- Page footer ---------------------------------------------- */
+  .page-footer {
+    padding: 1.25rem 0.85rem 1.5rem;
+    font-size: 0.8rem;
   }
 }
