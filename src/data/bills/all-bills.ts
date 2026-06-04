@@ -113,9 +113,9 @@ export const HB2109: Bill = {
   primeSponsorDistrict: "194", // Tarik Khan
   committee: "Housing and Community Development",
   introducedDate: "2026-01-05",
-  lastActionDate: "2026-06-02",
+  lastActionDate: "2026-06-03",
   lastActionNote:
-    "Passed second consideration 145–56 on June 2, 2026 (as amended by A03389; reprinted as PN 3488). The amendment reorganized the operative section into three parts: an authorization allowing municipalities to cap occupancy at five unrelated individuals where the cap is based on demonstrated health and safety standards or on whether the residents are matriculated students at a college or university; a prohibition — carried over from PN 3172 — on muni caps based on familial relationship; and a construction clause preserving muni authority over facilities licensed by the Commonwealth. Five Democrats voted Nay (Borowski, Inglis, Pielli, Probst, Vitali); 48 of 99 Republicans voted Yea. Third consideration / final passage expected later this week.",
+    "Re-reported as committed by House Appropriations 37–0 on June 3, 2026, teeing up third consideration. Passed second consideration 145–56 on June 2 (as amended by A03389; reprinted as PN 3488). The amendment reorganized the operative section into three parts: an authorization allowing municipalities to cap occupancy at five unrelated individuals where the cap is based on demonstrated health and safety standards or on whether the residents are matriculated students at a college or university; a prohibition — carried over from PN 3172 — on muni caps based on familial relationship; and a construction clause preserving muni authority over facilities licensed by the Commonwealth. Five Democrats voted Nay (Borowski, Inglis, Pielli, Probst, Vitali); 48 of 99 Republicans voted Yea. Final passage expected next House session day.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2109",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2109/PN3488",
