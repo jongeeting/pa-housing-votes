@@ -439,13 +439,13 @@ export const SB1278: Bill = {
   description:
     "Senate companion to HB 2423. Establishes a state grant program — the Residential Economic Development District Grant Program — to help municipalities develop and maintain residential economic development districts that catalyze housing construction.",
   topics: ["funding"],
-  status: "passed_committee",
+  status: "passed_2nd_consideration",
   primeSponsorDistrict: "5", // Joe Picozzi
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-14",
-  lastActionDate: "2026-05-06",
+  lastActionDate: "2026-06-03",
   lastActionNote:
-    "Passed Senate Urban Affairs and Housing committee 9–2 May 6, 2026; first consideration same day.",
+    "Passed Senate second consideration June 3, 2026 and re-referred to Senate Appropriations the same day (fiscal-note step before Final Passage). Originally reported by Senate Urban Affairs and Housing committee 9–2 on May 6 (first consideration same day). House companion HB 2423 remains in House Housing & Community Development committee.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1278",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1278/PN1587",
