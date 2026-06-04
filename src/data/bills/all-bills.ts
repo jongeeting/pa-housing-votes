@@ -461,13 +461,13 @@ export const SB1279: Bill = {
   description:
     "Creates a Commonwealth Housing Regulatory Compliance Officer position to streamline housing-construction permitting across state executive agencies.",
   topics: ["governance"],
-  status: "passed_committee",
+  status: "passed_chamber",
   primeSponsorDistrict: "28", // Kristin Phillips-Hill
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-14",
-  lastActionDate: "2026-05-06",
+  lastActionDate: "2026-06-03",
   lastActionNote:
-    "Passed Senate Urban Affairs and Housing committee on a party-line vote May 6, 2026 (re-reported as amended).",
+    "Passed Senate on third consideration & Final Passage 30–20 on June 3, 2026 at 12:22 PM (Senate rc 388). Re-reported as amended by Senate Appropriations on June 1 (no PN change). Originally reported by Senate Urban Affairs and Housing committee on a party-line vote May 6. Now goes to the House.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1279",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1279/PN1756",
