@@ -216,11 +216,12 @@ export const HB2428: Bill = {
   description:
     "Amends the Pennsylvania Construction Code Act to establish inspector training and certification requirements and a Residential Construction Workforce Training Grant Program.",
   topics: ["workforce", "funding"],
-  status: "introduced",
+  status: "in_committee",
   primeSponsorDistrict: "202", // Jared Solomon
+  committee: "Housing and Community Development",
   introducedDate: "2026-04-18",
-  lastActionDate: "2026-04-18",
-  lastActionNote: "Introduced; printer's number pending.",
+  lastActionDate: "2026-04-21",
+  lastActionNote: "Referred to House Housing & Community Development committee April 21, 2026.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2428",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2428/PN3234",
