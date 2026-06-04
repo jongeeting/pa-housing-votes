@@ -483,13 +483,13 @@ export const SB1281: Bill = {
   description:
     "Provides for expedited approval of specified residential development types — including ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. Original Rothman memo title: \"Lowering Housing Costs: Pre-Approved Housing Plans.\" Amends the Pennsylvania Municipalities Planning Code.",
   topics: ["missing_middle"],
-  status: "passed_2nd_consideration",
+  status: "passed_chamber",
   primeSponsorDistrict: "34", // Greg Rothman
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-14",
-  lastActionDate: "2026-06-02",
+  lastActionDate: "2026-06-03",
   lastActionNote:
-    "Re-reported as committed by Senate Appropriations 21–1 on June 1, 2026. On third consideration June 2, 2026, the Senate adopted Langerholc amendment A-3426 by a 50–0 unanimous vote (Senate rc 382); bill reprinted as PN 1760. Final passage vote on the bill itself pending.",
+    "Passed Senate on third consideration & Final Passage 50–0 unanimously on June 3, 2026 at 12:37 PM (Senate rc 389), one day after the Langerholc amendment A-3426 was adopted on the bill (June 2, Senate rc 382, also 50–0; reprinted as PN 1760). Originally reported by Senate Urban Affairs and Housing committee, then re-reported as committed by Senate Appropriations 21–1 on June 1. Now goes to the House.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1281",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1281/PN1760",
