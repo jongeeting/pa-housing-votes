@@ -417,13 +417,13 @@ export const SB1277: Bill = {
   description:
     "Amends the Local Economic Revitalization Tax Assistance Act (LERTA, Act 76 of 1977) to expand municipal authority to grant property tax abatements for housing construction and redevelopment.",
   topics: ["governance"],
-  status: "passed_committee",
+  status: "passed_2nd_consideration",
   primeSponsorDistrict: "32", // Patrick Stefano
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-23",
-  lastActionDate: "2026-05-06",
+  lastActionDate: "2026-06-03",
   lastActionNote:
-    "Passed Senate Urban Affairs and Housing committee with bipartisan votes May 6, 2026.",
+    "On third consideration calendar June 3, 2026, but Final Passage vote not yet taken (Senate Journal placeholder, no roll call assigned). Passed Senate second consideration June 1; re-referred to Appropriations and re-reported as committed the same day. Originally reported by Senate Urban Affairs and Housing committee with bipartisan votes May 6.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1277",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1277/PN1632",
