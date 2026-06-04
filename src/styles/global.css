@@ -1036,7 +1036,13 @@ code {
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
   font-size: 0.78rem;
-  min-width: 180px;
+}
+/* When the panel is collapsed the button alone shouldn't reserve a
+   wide chrome bar across the top-left of the map. Only stretch to a
+   full-width row when the body is expanded — then 200px keeps the
+   muni-class checkbox labels legible. */
+.layer-panel.is-open {
+  min-width: 200px;
 }
 .layer-panel__toggle {
   display: block;
@@ -1045,11 +1051,12 @@ code {
   background: transparent;
   border: 0;
   border-radius: var(--radius);
-  padding: 8px 12px;
+  padding: 7px 11px;
   text-align: left;
   font-weight: 600;
   color: var(--fg);
   cursor: pointer;
+  white-space: nowrap;
 }
 .layer-panel.is-open .layer-panel__toggle {
   border-bottom: 1px solid var(--border);
@@ -2098,8 +2105,10 @@ code {
   .layer-panel {
     top: 8px;
     left: 8px;
-    min-width: 160px;
     font-size: 0.72rem;
+  }
+  .layer-panel.is-open {
+    min-width: 180px;
   }
   .layer-panel__body {
     max-height: 55vh;
@@ -2281,8 +2290,10 @@ code {
     max-width: 140px;
   }
   .layer-panel {
-    min-width: 140px;
     font-size: 0.68rem;
+  }
+  .layer-panel.is-open {
+    min-width: 160px;
   }
 
   /* ---- District popup full-screen-ish sheet on tiny screens ---- */

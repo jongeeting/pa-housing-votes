@@ -753,6 +753,14 @@ export const VoteMap = ({
       return;
     }
 
+    // On roll-call items the choropleth shows Yea / Nay / no-record
+    // only. Cosponsorship for a roll-call bill still surfaces in the
+    // district popup and the FullVoteList below the map — it just
+    // doesn't compete with the vote signal as a third fill color on
+    // the map itself. On cosponsor-only items (no roll call yet) the
+    // cosponsor purple stays as the headline signal since there's
+    // no Yea/Nay to render.
+    const isCosponsorOnly = selectedItem.kind === "cosponsorOnly";
     const matchExpression: (string | string[] | number[])[] = [
       "match",
       ["get", "district"],
@@ -760,7 +768,8 @@ export const VoteMap = ({
     for (const [district, snap] of districtSnapshots) {
       matchExpression.push(district);
       if (snap.vote) matchExpression.push(VOTE_COLORS[snap.vote]);
-      else if (snap.isCosponsor) matchExpression.push(COSPONSOR_FILL);
+      else if (snap.isCosponsor && isCosponsorOnly)
+        matchExpression.push(COSPONSOR_FILL);
       else matchExpression.push(NO_VOTE_FILL);
     }
     matchExpression.push(NO_VOTE_FILL);

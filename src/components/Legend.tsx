@@ -40,13 +40,19 @@ export const Legend = ({ item }: Props) => {
             </li>
           </>
         )}
-        <li>
-          <span
-            className="legend__swatch"
-            style={{ background: COSPONSOR_FILL }}
-          />
-          {rc ? "Cosponsor" : "Cosponsor / sponsor"}
-        </li>
+        {/* Cosponsor swatch is only relevant when there's no vote to
+            show. On roll-call items, cosponsorship lives in the popup
+            and the FullVoteList below the map instead of competing
+            with Yea/Nay as a fill color. */}
+        {!rc && (
+          <li>
+            <span
+              className="legend__swatch"
+              style={{ background: COSPONSOR_FILL }}
+            />
+            Cosponsor / sponsor
+          </li>
+        )}
         <li>
           <span
             className="legend__swatch"
