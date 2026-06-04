@@ -35,6 +35,34 @@ interface TopicGroup {
 const itemDate = (item: MapItem) =>
   item.kind === "rollCall" ? item.rollCall.date : "0";
 
+/**
+ * Rank used to sort + style items inside a bill's row stack. Higher
+ * = more prominent. The dropdown lists items in rank order (Final
+ * Passage at the top, then other floor votes, then committee, then
+ * cosponsor-only) so the headline action shows first, not last.
+ *
+ *   4 — Final Passage / 3rd-consideration final
+ *   3 — Other floor activity (2nd consideration, amendment, etc.)
+ *   2 — Committee vote
+ *   1 — Cosponsor-only (memo or bill that hasn't been voted on)
+ */
+const itemRank = (item: MapItem): number => {
+  const rc = getMapItemRollCall(item);
+  if (!rc) return 1;
+  const stage = (rc.stage ?? "").toLowerCase();
+  if (
+    stage.includes("final passage") ||
+    stage.includes("third consideration") ||
+    stage.includes("3rd consideration")
+  ) {
+    return 4;
+  }
+  if (rc.committee) return 2;
+  // Anything else with a roll call is some floor action (2nd cons,
+  // amendment, motion). Treat as rank 3.
+  return 3;
+};
+
 const buildTopicGroups = (items: MapItem[]): TopicGroup[] => {
   // Bill bucketing — collapse procedural votes under the same bill.
   const billMap = new Map<string, BillBucket>();
@@ -53,8 +81,16 @@ const buildTopicGroups = (items: MapItem[]): TopicGroup[] => {
     }
     billMap.get(billId)!.items.push(item);
   }
+  // Sort items within a bill by rank (desc), then by date (desc). So
+  // Final Passage shows above 2nd Consideration shows above Committee
+  // shows above any cosponsor-only entry. Date breaks ties within a
+  // single rank (e.g. two committee votes on different dates).
   for (const b of billMap.values()) {
-    b.items.sort((a, b) => itemDate(a).localeCompare(itemDate(b)));
+    b.items.sort((a, b) => {
+      const rankDelta = itemRank(b) - itemRank(a);
+      if (rankDelta !== 0) return rankDelta;
+      return itemDate(b).localeCompare(itemDate(a));
+    });
   }
 
   // Group bills by their first topic (each bill goes in exactly one
@@ -117,14 +153,6 @@ const phaseTag = (item: MapItem): string => {
   if (rc.stage) return `${rc.stage} · ${rc.date}`;
   if (rc.committee) return `Committee · ${rc.date}`;
   return `Floor · ${rc.date}`;
-};
-
-/** Whether the stage label should render with extra weight — used in
- *  the BillSelector to make "Final Passage" stand out over earlier
- *  procedural votes on the same bill. */
-const phaseBold = (item: MapItem): boolean => {
-  const rc = getMapItemRollCall(item);
-  return rc?.stageEmphasis === "bold";
 };
 
 const tally = (item: MapItem): string => {
@@ -208,12 +236,6 @@ export const BillSelector = ({ items, selectedId, onChange }: Props) => {
 
   return (
     <div className="bill-selector" ref={rootRef}>
-      <div className="bill-selector__label">
-        <span>Bill on the map</span>
-        <span className="bill-selector__label-hint">
-          {open ? "Click an option below" : "Click to switch"}
-        </span>
-      </div>
       <button
         type="button"
         className="bill-selector__current"
@@ -224,8 +246,11 @@ export const BillSelector = ({ items, selectedId, onChange }: Props) => {
       >
         {selected ? (
           <>
-            <span className="bill-selector__current-topic">
-              {selected.topicLabel} · {selected.chamber}
+            <span className="bill-selector__current-caption">
+              {selected.topicLabel} · {selected.chamber} ·{" "}
+              <span className="bill-selector__current-phase">
+                {selected.phase} · {selected.tally}
+              </span>
               {selected.isHistorical && " · Past session"}
             </span>
             <span
@@ -233,18 +258,14 @@ export const BillSelector = ({ items, selectedId, onChange }: Props) => {
             >
               <strong>{selected.bill.label}</strong> {selected.bill.shortTitle}
             </span>
-            <span className="bill-selector__current-phase">
-              {selected.phase} · {selected.tally}
-            </span>
           </>
         ) : (
           <>
-            <span className="bill-selector__current-topic">Explore mode</span>
-            <span className="bill-selector__current-bill">
-              No bill — just explore the map
+            <span className="bill-selector__current-caption">
+              Explore mode · click to pick a bill
             </span>
-            <span className="bill-selector__current-phase">
-              Click to pick a bill
+            <span className="bill-selector__current-bill">
+              No bill selected — just exploring the map
             </span>
           </>
         )}
@@ -298,22 +319,17 @@ export const BillSelector = ({ items, selectedId, onChange }: Props) => {
                   {bucket.items.map((item) => {
                     const id = getMapItemId(item);
                     const active = id === selectedId;
+                    const rank = itemRank(item);
                     return (
                       <button
                         key={id}
                         type="button"
                         role="option"
                         aria-selected={active}
-                        className={`bill-selector__option${active ? " is-active" : ""}`}
+                        className={`bill-selector__option bill-selector__option--rank-${rank}${active ? " is-active" : ""}`}
                         onClick={() => pick(id)}
                       >
-                        <span
-                          className={`bill-selector__option-phase${
-                            phaseBold(item)
-                              ? " bill-selector__option-phase--bold"
-                              : ""
-                          }`}
-                        >
+                        <span className="bill-selector__option-phase">
                           {phaseTag(item)}
                         </span>
                         <span className="bill-selector__option-tally">

@@ -764,40 +764,18 @@ code {
   border-bottom: 1px solid var(--border);
   background: #fafbfc;
 }
-.bill-selector__label {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 0.5rem 1rem 0.25rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  background: #f1f5f9;
-  border-bottom: 1px solid var(--border);
-}
-.bill-selector__label-hint {
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  font-size: 0.72rem;
-  color: var(--fg-muted);
-  opacity: 0.85;
-}
 .bill-selector__current {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-areas:
-    "topic chevron"
-    "bill  chevron"
-    "phase chevron";
+    "caption chevron"
+    "bill    chevron";
   align-items: center;
   width: 100%;
   background: #fff;
   border: 0;
   border-bottom: 1px solid var(--border);
-  padding: 0.75rem 1rem;
+  padding: 0.55rem 1rem;
   cursor: pointer;
   font: inherit;
   text-align: left;
@@ -810,27 +788,31 @@ code {
   outline: 2px solid var(--accent, #2563eb);
   outline-offset: -2px;
 }
-.bill-selector__current-topic {
-  grid-area: topic;
-  font-size: 0.7rem;
-  font-weight: 600;
+/* Single caption line above the bill: topic · chamber · phase · tally.
+   The inline .bill-selector__current-phase span gets a slightly
+   stronger color than the surrounding caption so the headline phase
+   ("Final Passage 50-0") visually pops out of the metadata. */
+.bill-selector__current-caption {
+  grid-area: caption;
+  font-size: 0.72rem;
   color: var(--fg-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.bill-selector__current-caption .bill-selector__current-phase {
+  color: var(--fg);
+  font-weight: 700;
 }
 .bill-selector__current-bill {
   grid-area: bill;
   font-size: 1.05rem;
-  margin-top: 1px;
+  margin-top: 2px;
+  line-height: 1.25;
 }
 .bill-selector__current-bill strong {
   margin-right: 6px;
-}
-.bill-selector__current-phase {
-  grid-area: phase;
-  font-size: 0.8rem;
-  color: var(--fg-muted);
-  margin-top: 2px;
 }
 .bill-selector__chevron {
   grid-area: chevron;
@@ -951,14 +933,6 @@ code {
 .bill-selector__option-phase {
   color: var(--fg-muted);
 }
-/* Bold phase label — applied to roll calls whose `stageEmphasis` is
-   "bold" (Final Passage on HB 2186, future final-passage votes,
-   etc.). Slightly darker color too so the bolded text doesn't fight
-   the surrounding row but clearly reads as the headline vote. */
-.bill-selector__option-phase--bold {
-  font-weight: 700;
-  color: var(--fg);
-}
 .bill-selector__option-tally {
   color: var(--fg-muted);
   font-variant-numeric: tabular-nums;
@@ -967,6 +941,55 @@ code {
 .bill-selector__option-meta {
   color: var(--fg-muted);
   font-size: 0.78rem;
+}
+
+/* Rank-aware row styling — drives the legislative-hierarchy hint:
+   Final Passage is the headline, then other floor activity, then
+   committee, then cosponsor-only. Higher rank = more visual weight.
+   See BillSelector.itemRank() for the rank assignment. */
+
+/* Rank 4 — Final Passage / 3rd-consideration final. Most prominent. */
+.bill-selector__option--rank-4 .bill-selector__option-phase {
+  font-weight: 700;
+  color: var(--fg);
+}
+.bill-selector__option--rank-4 .bill-selector__option-tally {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Rank 3 — other floor activity (2nd cons, amendment, motion). Normal
+   weight, normal size. */
+.bill-selector__option--rank-3 .bill-selector__option-phase {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+/* Rank 2 — committee vote. Demoted: smaller font, dimmer color,
+   indented further with a small leading dot to read as a sub-row of
+   the bill's floor activity. */
+.bill-selector__option--rank-2 {
+  padding-left: 2.4rem;
+  font-size: 0.78rem;
+}
+.bill-selector__option--rank-2 .bill-selector__option-phase::before {
+  content: "·";
+  margin-right: 0.45rem;
+  color: var(--fg-faint, #9ca3af);
+}
+
+/* Rank 1 — cosponsor-only (memo or bill with no vote yet). Smallest,
+   italic, indented like committee. */
+.bill-selector__option--rank-1 {
+  padding-left: 2.4rem;
+  font-size: 0.78rem;
+  font-style: italic;
+}
+.bill-selector__option--rank-1 .bill-selector__option-phase::before {
+  content: "·";
+  margin-right: 0.45rem;
+  color: var(--fg-faint, #9ca3af);
+  font-style: normal;
 }
 
 /* Legend ------------------------------------------------------------------ */
@@ -2063,20 +2086,18 @@ code {
     min-height: 360px;
   }
 
-  .bill-selector__label {
-    padding: 0.4rem 0.75rem 0.2rem;
-    font-size: 0.65rem;
-  }
   .bill-selector__current {
-    padding: 0.6rem 0.75rem;
+    padding: 0.55rem 0.75rem;
     grid-template-columns: 1fr;
     grid-template-areas:
-      "topic"
+      "caption"
       "bill"
-      "phase"
       "chevron";
     gap: 2px;
     min-height: 44px;
+  }
+  .bill-selector__current-caption {
+    font-size: 0.65rem;
   }
   .bill-selector__chevron {
     justify-self: start;
