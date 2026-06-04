@@ -162,13 +162,36 @@ def parse_palegis_info(html: str) -> dict[str, Any]:
     chunks = text.split("\n")
 
     info: dict[str, Any] = {"pns": [], "rcs": [], "last_action_text": None,
-                            "last_action_date": None}
+                            "last_action_date": None, "last_action_chamber": None,
+                            "last_action_tally": None}
 
-    # Last Action: usually a line followed by date + chamber + flags
+    # Last Action: BeautifulSoup splits the action text across multiple
+    # chunks because the rendered HTML interleaves verb, inline committee
+    # link, date, and chamber tag. Concatenate up to ~8 following lines
+    # until we hit a chamber word ("House"/"Senate") on its own line —
+    # that's the terminator. The committee-link line is in the middle.
+    # palegis also uses non-breaking spaces (\xa0) inside dates, so
+    # normalize those before regexing.
     for i, ln in enumerate(chunks):
         if ln == "Last Action:" and i + 1 < len(chunks):
-            la = chunks[i + 1]
+            parts: list[str] = []
+            chamber: str | None = None
+            for j in range(1, 8):
+                if i + j >= len(chunks):
+                    break
+                c = chunks[i + j].strip()
+                if not c:
+                    break
+                # Chamber tag on its own line terminates the action text
+                if c in ("House", "Senate") and parts:
+                    chamber = c
+                    break
+                parts.append(c)
+            la = " ".join(parts).replace("\xa0", " ")
+            # Clean up the "verb , date" comma-leading-space artifact
+            la = re.sub(r"\s+,\s+", ", ", la)
             info["last_action_text"] = la
+            info["last_action_chamber"] = chamber
             # Parse date out
             dm = re.search(r"(\w+)\s+(\d{1,2}),\s+(\d{4})", la)
             if dm:
@@ -180,6 +203,15 @@ def parse_palegis_info(html: str) -> dict[str, Any]:
                     month_idx = MONTH_SHORT.index(mon)
                 if month_idx is not None:
                     info["last_action_date"] = f"{yr}-{month_idx + 1:02d}-{int(day):02d}"
+            # Extract inline floor-vote tally if present, e.g.
+            # "Third consideration and final passage, June 3, 2026 [(50-0)]"
+            # Must be parenthesized so we don't match dates or other ints.
+            vote_m = re.search(r"\[?\((\d+)\s*[-–]\s*(\d+)\)\]?", la)
+            if vote_m:
+                info["last_action_tally"] = {
+                    "yea": int(vote_m.group(1)),
+                    "nay": int(vote_m.group(2)),
+                }
             break
 
     # Printer's numbers — palegis shows them newest first
