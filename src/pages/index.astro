@@ -10,8 +10,23 @@ import { groupBillsByTopic } from "@/lib/billGroups";
 // actually moving. Past-session bills live in their own section at the
 // bottom — they're useful as geographic context for where coalitions
 // can be rebuilt, not as bills to track.
-const currentBills = ALL_BILLS.filter((b) => b.session === "2025-2026");
-const pastBills = ALL_BILLS.filter((b) => b.session === "2023-2024");
+//
+// Memos that have been succeeded by an introduced bill (succeededBy
+// points to a tracked bill) don't get their own card — the lineage
+// shows up inside the successor bill's card instead. The memo is
+// still in ALL_BILLS so it remains in the map dropdown.
+const trackedBillIds = new Set(ALL_BILLS.map((b) => b.id));
+const isSucceededMemo = (b: typeof ALL_BILLS[number]) =>
+  b.kind === "memo"
+  && !!b.succeededBy
+  && trackedBillIds.has(b.succeededBy);
+
+const currentBills = ALL_BILLS.filter(
+  (b) => b.session === "2025-2026" && !isSucceededMemo(b),
+);
+const pastBills = ALL_BILLS.filter(
+  (b) => b.session === "2023-2024" && !isSucceededMemo(b),
+);
 const currentGroups = groupBillsByTopic(currentBills);
 const pastGroups = groupBillsByTopic(pastBills);
 ---

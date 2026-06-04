@@ -9,18 +9,32 @@ interface Props {
 const { bill } = Astro.props;
 const successor = bill.succeededBy ? BILLS_BY_ID.get(bill.succeededBy) : null;
 
-const STATUS_LABEL: Record<BillStatus, string> = {
-  memo: "Cosponsorship memo",
-  introduced: "Introduced",
-  in_committee: "In committee",
-  passed_committee: "Passed committee",
-  laid_on_table: "Laid on the table",
-  passed_2nd_consideration: "Passed 2nd consideration",
-  passed_chamber: "Passed chamber",
-  other_chamber: "In other chamber",
-  conference: "In conference",
-  enacted: "Enacted",
-  dead: "Dead (last session)",
+// Originating memos that the card should credit ("Originally circulated
+// as Senate Memo 48019"). We pull these from the bill's priorVersions
+// list and keep only the entries that are memos in our tracked set —
+// because succeeded memos no longer get their own bill card on the
+// index, this is where their lineage is preserved.
+const priorMemos = (bill.priorVersions ?? [])
+  .map((id) => BILLS_BY_ID.get(id))
+  .filter((b): b is NonNullable<typeof b> => !!b && b.kind === "memo");
+
+/** Chamber-aware status label so "Passed Senate" reads clearly
+ *  instead of the ambiguous "Passed chamber". */
+const statusLabel = (status: BillStatus, chamber: "House" | "Senate"): string => {
+  const otherChamber = chamber === "Senate" ? "House" : "Senate";
+  switch (status) {
+    case "memo": return "Cosponsorship memo";
+    case "introduced": return "Introduced";
+    case "in_committee": return `In ${chamber} committee`;
+    case "passed_committee": return `Out of ${chamber} committee`;
+    case "laid_on_table": return "Laid on the table";
+    case "passed_2nd_consideration": return `Passed ${chamber} 2nd consideration`;
+    case "passed_chamber": return `Passed ${chamber}`;
+    case "other_chamber": return `In ${otherChamber}`;
+    case "conference": return "In conference";
+    case "enacted": return "Enacted";
+    case "dead": return "Dead (last session)";
+  }
 };
 
 const STATUS_TONE: Record<BillStatus, "active" | "warm" | "stalled" | "dead"> = {
@@ -66,7 +80,7 @@ const anchorId = `bill-${bill.id.toLowerCase()}`;
     </div>
     <div class="bill-card__chips">
       <span class={`bill-card__status bill-card__status--${tone}`}>
-        {STATUS_LABEL[bill.status]}
+        {statusLabel(bill.status, bill.chamber)}
       </span>
       <span class="bill-card__chamber">
         {bill.chamber}
@@ -75,6 +89,24 @@ const anchorId = `bill-${bill.id.toLowerCase()}`;
     </div>
   </header>
   <p class="bill-card__description">{bill.description}</p>
+  {priorMemos.length > 0 && (
+    <p class="bill-card__lineage">
+      Originally circulated as{" "}
+      {priorMemos.map((m, i) => (
+        <>
+          {i > 0 && ", "}
+          {m.sourceUrl ? (
+            <a href={m.sourceUrl} target="_blank" rel="noopener">
+              {m.label}
+            </a>
+          ) : (
+            m.label
+          )}
+        </>
+      ))}
+      .
+    </p>
+  )}
   <dl class="bill-card__meta">
     {sponsor && (
       <div>

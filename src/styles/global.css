@@ -1330,6 +1330,24 @@ code {
   line-height: 1.45;
   margin: 0.4rem 0 0.55rem;
 }
+/* Lineage line — shown when a bill was originally circulated as a
+   cosponsorship memo (e.g. SB 1346 ← Senate Memo 48019). The memo's
+   own card is suppressed from the index in that case (see
+   src/pages/index.astro), so this line carries the lineage. */
+.bill-card__lineage {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+.bill-card__lineage a {
+  color: var(--fg-muted);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+.bill-card__lineage a:hover {
+  color: var(--fg);
+}
 .bill-card__meta {
   display: grid;
   gap: 0.2rem;
