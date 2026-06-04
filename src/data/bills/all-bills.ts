@@ -237,11 +237,12 @@ export const HB2430: Bill = {
   description:
     "Establishes the Office of Transformation and Opportunity and a Commonwealth Housing Ombudsman to serve as a direct point of contact for Pennsylvanians navigating state and local housing programs.",
   topics: ["governance"],
-  status: "introduced",
+  status: "in_committee",
   primeSponsorDistrict: "202", // Jared Solomon
+  committee: "Housing and Community Development",
   introducedDate: "2026-04-18",
-  lastActionDate: "2026-04-18",
-  lastActionNote: "Introduced; printer's number pending.",
+  lastActionDate: "2026-04-21",
+  lastActionNote: "Referred to House Housing & Community Development committee April 21, 2026.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2430",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2430/PN3235",
