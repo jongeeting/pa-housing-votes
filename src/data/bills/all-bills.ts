@@ -423,9 +423,9 @@ export const SB1277: Bill = {
   primeSponsorDistrict: "32", // Patrick Stefano
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-23",
-  lastActionDate: "2026-06-03",
+  lastActionDate: "2026-06-08",
   lastActionNote:
-    "On third consideration calendar June 3, 2026, but Final Passage vote not yet taken (Senate Journal placeholder, no roll call assigned). Passed Senate second consideration June 1; re-referred to Appropriations and re-reported as committed the same day. Originally reported by Senate Urban Affairs and Housing committee with bipartisan votes May 6.",
+    "Re-referred to Senate Rules & Executive Nominations June 8, 2026 — taken off the third-consideration calendar where it had been placed June 3 without a Final Passage vote. Passed Senate second consideration June 1; re-referred to Appropriations and re-reported as committed the same day. Originally reported by Senate Urban Affairs and Housing committee with bipartisan votes May 6.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1277",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SB1277/PN1632",
