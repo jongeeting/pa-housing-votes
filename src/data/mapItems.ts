@@ -3,6 +3,7 @@ import { APRIL_13_2026_ROLL_CALLS } from "./votes/2026-04-13-housing";
 import { ROLL_CALL_HB2186_FLOOR } from "./votes/2026-05-06-hb2186-floor";
 import { ROLL_CALL_HB2186_FINAL_PASSAGE } from "./votes/2026-06-01-hb2186-final";
 import { ROLL_CALL_HB2109_2ND_CONS } from "./votes/2026-06-02-hb2109-2nd";
+import { ROLL_CALL_HB2109_FINAL_PASSAGE } from "./votes/2026-06-08-hb2109-final";
 import { JUNE_5_2024_ROLL_CALLS } from "./votes/2024-06-05-local-government";
 import {
   SB1239,
@@ -79,10 +80,12 @@ export const ALL_MAP_ITEMS: MapItem[] = [
   // "final vote" choropleths.
   { kind: "rollCall", rollCall: ROLL_CALL_HB2186_FLOOR },
   { kind: "rollCall", rollCall: ROLL_CALL_HB2186_FINAL_PASSAGE },
-  // HB 2109 Golden Girls Law 2nd Consideration — June 2, 2026.
-  // The April 13 committee vote is also wired in via the
-  // APRIL_13_2026_ROLL_CALLS spread above.
+  // HB 2109 Golden Girls Law has two floor votes: 2nd Consideration
+  // June 2 (145-56) and Final Passage June 8 (123-78, with 22 net
+  // votes flipping toward Nay). The April 13 committee vote is also
+  // wired in via the APRIL_13_2026_ROLL_CALLS spread above.
   { kind: "rollCall", rollCall: ROLL_CALL_HB2109_2ND_CONS },
+  { kind: "rollCall", rollCall: ROLL_CALL_HB2109_FINAL_PASSAGE },
 
   // ----- 2025-2026 House cosponsor-only items (no roll call yet) -----
   { kind: "cosponsorOnly", bill: HB1459, cosponsorship: HB1459_COSPONSORSHIP },

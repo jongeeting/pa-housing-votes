@@ -109,13 +109,13 @@ export const HB2109: Bill = {
   description:
     "Bars municipalities from capping the number of unrelated people who can live together, removing a common barrier to shared housing arrangements.",
   topics: ["occupancy"],
-  status: "passed_2nd_consideration",
+  status: "passed_chamber",
   primeSponsorDistrict: "194", // Tarik Khan
   committee: "Housing and Community Development",
   introducedDate: "2026-01-05",
-  lastActionDate: "2026-06-03",
+  lastActionDate: "2026-06-08",
   lastActionNote:
-    "Re-reported as committed by House Appropriations 37–0 on June 3, 2026, teeing up third consideration. Passed second consideration 145–56 on June 2 (as amended by A03389; reprinted as PN 3488). The amendment reorganized the operative section into three parts: an authorization allowing municipalities to cap occupancy at five unrelated individuals where the cap is based on demonstrated health and safety standards or on whether the residents are matriculated students at a college or university; a prohibition — carried over from PN 3172 — on muni caps based on familial relationship; and a construction clause preserving muni authority over facilities licensed by the Commonwealth. Five Democrats voted Nay (Borowski, Inglis, Pielli, Probst, Vitali); 48 of 99 Republicans voted Yea. Final passage expected next House session day.",
+    "Passed the House on third consideration & Final Passage 123–78 on June 8, 2026 at 3:38 PM (rc 1119). D: 84 Yea / 18 Nay; R: 39 Yea / 60 Nay. Net change of −22 Yea vs the 2nd-consideration vote (145–56 on June 2 with A03389 adopted): 43 districts flipped Yea → Nay and 21 flipped Nay → Yea; Rep. Inglis (HD-38, prime sponsor of HB 2186) flipped from Nay on 2nd cons back to Yea on Final Passage. PN 3488 (post-A03389). The amended bill authorizes municipalities to cap occupancy at five unrelated individuals where the cap is based on demonstrated health-and-safety standards or matriculated-student status, prohibits muni caps based on familial relationship, and preserves muni authority over Commonwealth-licensed facilities. Now heads to the Senate.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2109",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2109/PN3488",
