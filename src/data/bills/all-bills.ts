@@ -131,13 +131,13 @@ export const HB2186: Bill = {
   description:
     "Requires municipalities to allow accessory dwelling units (ADUs) — small secondary homes on single-family lots — statewide.",
   topics: ["adu"],
-  status: "passed_chamber",
+  status: "other_chamber",
   primeSponsorDistrict: "38", // John Inglis III
   committee: "Housing and Community Development",
   introducedDate: "2026-02-02",
-  lastActionDate: "2026-06-01",
+  lastActionDate: "2026-06-05",
   lastActionNote:
-    "Passed the House on third consideration 139–62 on June 1, 2026 (PN 3373, which folds in a per-lot ADU cap and an opt-out allowing municipalities to bar short-term rentals under 30 days). Heads to the Senate. Amends Title 53 directly, so unlike the Senate companion (SB 1346, which amends the MPC), this version applies to all PA municipalities including Philadelphia and Pittsburgh.",
+    "Referred to Senate Urban Affairs & Housing committee June 5, 2026 after House passage. Passed the House on third consideration 139–62 on June 1, 2026 (PN 3373, which folds in a per-lot ADU cap and an opt-out allowing municipalities to bar short-term rentals under 30 days). Amends Title 53 directly, so unlike the Senate companion (SB 1346, which amends the MPC), this version applies to all PA municipalities including Philadelphia and Pittsburgh.",
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/hb2186",
   billTextUrl:
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/HB2186/PN3373",
