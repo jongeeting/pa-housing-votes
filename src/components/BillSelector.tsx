@@ -41,26 +41,53 @@ const itemDate = (item: MapItem) =>
  * Passage at the top, then other floor votes, then committee, then
  * cosponsor-only) so the headline action shows first, not last.
  *
- *   4 — Final Passage / 3rd-consideration final
- *   3 — Other floor activity (2nd consideration, amendment, etc.)
- *   2 — Committee vote
- *   1 — Cosponsor-only (memo or bill that hasn't been voted on)
+ *   4 — Final Passage / 3rd-consideration final, or any bill whose
+ *       site-record status is past chamber (passed_chamber,
+ *       other_chamber, conference, enacted) — these are the
+ *       headline-action items even when we don't have a TS file
+ *       for the floor vote itself.
+ *   3 — Other floor activity (2nd consideration, amendment, etc.),
+ *       or a bill whose status is passed_2nd_consideration but
+ *       has no detailed floor-vote file.
+ *   2 — Committee vote, or a bill that's in_committee / out of
+ *       committee without a more recent floor vote on file.
+ *   1 — Cosponsor-only — bill is in memo/introduced state, or this
+ *       is a memo with no successor bill.
  */
 const itemRank = (item: MapItem): number => {
   const rc = getMapItemRollCall(item);
-  if (!rc) return 1;
-  const stage = (rc.stage ?? "").toLowerCase();
+  if (rc) {
+    const stage = (rc.stage ?? "").toLowerCase();
+    if (
+      stage.includes("final passage") ||
+      stage.includes("third consideration") ||
+      stage.includes("3rd consideration")
+    ) {
+      return 4;
+    }
+    if (rc.committee) return 2;
+    // Anything else with a roll call is some floor action (2nd cons,
+    // amendment, motion). Treat as rank 3.
+    return 3;
+  }
+  // Cosponsor-only item: rank by the bill's site-record status so the
+  // dropdown stays in sync with the bill cards. A bill that the
+  // tracker shows as "Passed Senate" should look like a headline
+  // item in the dropdown even if we never created a TS file for the
+  // Senate floor vote (per skill convention, Senate floor votes are
+  // informational and don't get per-vote files).
+  const status = getMapItemBill(item).status;
   if (
-    stage.includes("final passage") ||
-    stage.includes("third consideration") ||
-    stage.includes("3rd consideration")
+    status === "passed_chamber" ||
+    status === "other_chamber" ||
+    status === "conference" ||
+    status === "enacted"
   ) {
     return 4;
   }
-  if (rc.committee) return 2;
-  // Anything else with a roll call is some floor action (2nd cons,
-  // amendment, motion). Treat as rank 3.
-  return 3;
+  if (status === "passed_2nd_consideration") return 3;
+  if (status === "passed_committee" || status === "in_committee") return 2;
+  return 1;
 };
 
 const buildTopicGroups = (items: MapItem[]): TopicGroup[] => {
@@ -146,13 +173,38 @@ const buildTopicGroups = (items: MapItem[]): TopicGroup[] => {
 
 const phaseTag = (item: MapItem): string => {
   const rc = getMapItemRollCall(item);
-  if (!rc) return "Cosponsors only";
-  // Custom stage label (e.g. "2nd Consideration", "Final Passage")
-  // takes precedence so multiple floor votes on one bill can be
-  // distinguished beyond their dates.
-  if (rc.stage) return `${rc.stage} · ${rc.date}`;
-  if (rc.committee) return `Committee · ${rc.date}`;
-  return `Floor · ${rc.date}`;
+  if (rc) {
+    // Custom stage label (e.g. "2nd Consideration", "Final Passage")
+    // takes precedence so multiple floor votes on one bill can be
+    // distinguished beyond their dates.
+    if (rc.stage) return `${rc.stage} · ${rc.date}`;
+    if (rc.committee) return `Committee · ${rc.date}`;
+    return `Floor · ${rc.date}`;
+  }
+  // Cosponsor-only item: derive the label from the bill's site-record
+  // status so the dropdown matches the bill card. Mirrors the
+  // chamber-aware label logic in BillCard.astro::statusLabel().
+  const bill = getMapItemBill(item);
+  const chamber = bill.chamber;
+  const otherChamber = chamber === "Senate" ? "House" : "Senate";
+  switch (bill.status) {
+    case "passed_chamber": return `Passed ${chamber}`;
+    case "other_chamber": return `In ${otherChamber}`;
+    case "conference": return "In conference";
+    case "enacted": return "Enacted";
+    case "passed_2nd_consideration": return `Passed ${chamber} 2nd cons`;
+    case "passed_committee": return `Out of ${chamber} committee`;
+    case "in_committee": return `In ${chamber} committee`;
+    case "laid_on_table": return "Laid on the table";
+    case "dead": return "Dead (last session)";
+    // memo, introduced — fall through to the generic label, which is
+    // the right phrasing for a memo or freshly-introduced bill where
+    // cosponsorship is the only signal we have.
+    case "memo":
+    case "introduced":
+    default:
+      return "Cosponsors only";
+  }
 };
 
 const tally = (item: MapItem): string => {
