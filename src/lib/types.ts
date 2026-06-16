@@ -104,6 +104,19 @@ export interface Bill {
   sourceUrl?: string;
   /** Direct PDF of the bill text. */
   billTextUrl?: string;
+  /** Tally on the originating-chamber-passing vote, for bills that
+   *  have status `passed_chamber` (or further) but for which we don't
+   *  carry a detailed per-member roll-call TS file. The Senate
+   *  floor-vote case in particular: per skill convention we don't
+   *  create per-vote TS files for Senate Final Passage roll calls,
+   *  but the headline tally is still worth surfacing in the dropdown
+   *  + bill card. Date is ISO YYYY-MM-DD. */
+  chamberPassageVote?: {
+    date: string;
+    yea: number;
+    nay: number;
+    rcNumber?: string;
+  };
 }
 
 export interface RollCall {

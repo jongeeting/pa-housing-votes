@@ -179,12 +179,30 @@ const buildTopicGroups = (items: MapItem[]): TopicGroup[] => {
     }));
 };
 
+/** Detect a Final Passage / third-consideration stage label so we
+ *  can swap it for the more generalist-friendly "Passed [Chamber]"
+ *  phrasing in the dropdown. */
+const isFinalPassageStage = (stage: string | undefined): boolean => {
+  const s = (stage ?? "").toLowerCase();
+  return (
+    s.includes("final passage") ||
+    s.includes("third consideration") ||
+    s.includes("3rd consideration")
+  );
+};
+
 const phaseTag = (item: MapItem): string => {
   const rc = getMapItemRollCall(item);
   if (rc) {
-    // Custom stage label (e.g. "2nd Consideration", "Final Passage")
-    // takes precedence so multiple floor votes on one bill can be
-    // distinguished beyond their dates.
+    const chamber = getMapItemBill(item).chamber;
+    // Final Passage votes get rendered as "Passed House" / "Passed
+    // Senate" instead of the legislative-jargon "Final Passage" so
+    // the dropdown reads naturally to a generalist audience.
+    if (isFinalPassageStage(rc.stage)) {
+      return `Passed ${chamber} · ${rc.date}`;
+    }
+    // Custom stage label (e.g. "2nd Consideration") takes precedence
+    // so multiple floor votes on one bill stay distinguishable.
     if (rc.stage) return `${rc.stage} · ${rc.date}`;
     if (rc.committee) return `Committee · ${rc.date}`;
     return `Floor · ${rc.date}`;
@@ -192,12 +210,19 @@ const phaseTag = (item: MapItem): string => {
   // Cosponsor-only item: derive the label from the bill's site-record
   // status so the dropdown matches the bill card. Mirrors the
   // chamber-aware label logic in BillCard.astro::statusLabel().
+  // If the bill carries a chamberPassageVote (the Senate-passed case
+  // where there's no per-vote TS file), append the date so the
+  // dropdown row reads like the rollCall version: "Passed Senate ·
+  // 2026-06-03" paired with the "50-0" tally below.
   const bill = getMapItemBill(item);
   const chamber = bill.chamber;
   const otherChamber = chamber === "Senate" ? "House" : "Senate";
+  const cpv = bill.chamberPassageVote;
   switch (bill.status) {
-    case "passed_chamber": return `Passed ${chamber}`;
-    case "other_chamber": return `In ${otherChamber}`;
+    case "passed_chamber":
+      return cpv ? `Passed ${chamber} · ${cpv.date}` : `Passed ${chamber}`;
+    case "other_chamber":
+      return cpv ? `Passed ${chamber} · ${cpv.date}` : `In ${otherChamber}`;
     case "conference": return "In conference";
     case "enacted": return "Enacted";
     case "passed_2nd_consideration": return `Passed ${chamber} 2nd cons`;
@@ -223,6 +248,13 @@ const tally = (item: MapItem): string => {
     }`;
   }
   if (item.kind === "cosponsorOnly") {
+    // If the bill has a recorded chamber-passage tally (e.g. the
+    // Senate Final Passage roll call we tracked without a TS file),
+    // surface that as the headline number. Otherwise fall back to
+    // the cosponsor count, which is the only signal for a bill that
+    // hasn't yet moved.
+    const cpv = item.bill.chamberPassageVote;
+    if (cpv) return `${cpv.yea}-${cpv.nay}`;
     const n = item.cosponsorship.cosponsors.length + 1;
     return `${n} sponsor${n === 1 ? "" : "s"}`;
   }

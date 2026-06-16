@@ -464,6 +464,7 @@ export const SB1279: Bill = {
     "Creates a Commonwealth Housing Regulatory Compliance Officer position to streamline housing-construction permitting across state executive agencies.",
   topics: ["governance"],
   status: "passed_chamber",
+  chamberPassageVote: { date: "2026-06-03", yea: 30, nay: 20, rcNumber: "388" },
   primeSponsorDistrict: "28", // Kristin Phillips-Hill
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-14",
@@ -486,6 +487,7 @@ export const SB1281: Bill = {
     "Provides for expedited approval of specified residential development types — including ADUs, attached or detached single-family, prefabricated/modular housing, mixed-use with residential, missing-middle housing (duplexes, triplexes, quadplexes, townhouses), cottage clusters, and multi-unit dwellings under 50 units — on residential lots served by public utilities. Original Rothman memo title: \"Lowering Housing Costs: Pre-Approved Housing Plans.\" Amends the Pennsylvania Municipalities Planning Code.",
   topics: ["missing_middle"],
   status: "passed_chamber",
+  chamberPassageVote: { date: "2026-06-03", yea: 50, nay: 0, rcNumber: "389" },
   primeSponsorDistrict: "34", // Greg Rothman
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-04-14",
