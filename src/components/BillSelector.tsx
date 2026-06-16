@@ -86,7 +86,15 @@ const itemRank = (item: MapItem): number => {
     return 4;
   }
   if (status === "passed_2nd_consideration") return 3;
-  if (status === "passed_committee" || status === "in_committee") return 2;
+  if (
+    status === "passed_committee" ||
+    status === "in_committee" ||
+    // Laid on the table = past committee but stalled. Past activity
+    // > cosponsor-stage, so rank 2 (matches BillCard "warm" tone).
+    status === "laid_on_table"
+  ) {
+    return 2;
+  }
   return 1;
 };
 
