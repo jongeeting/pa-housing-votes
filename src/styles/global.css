@@ -217,6 +217,41 @@ code {
   overflow: hidden;
 }
 
+/* Share-link row: sits between the bill selector and the map canvas,
+   gives users a one-click way to copy the current ?bill=/?item=/
+   ?house=/?senate= URL. Right-aligned so it doesn't crowd the
+   selector caption. */
+.vote-map__share-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 8px;
+  background: #fafbfc;
+  border-bottom: 1px solid var(--border);
+}
+.vote-map__share-button {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.vote-map__share-button:hover {
+  background: #e0e7ff;
+  border-color: #c7d2fe;
+  color: var(--fg);
+}
+.vote-map__share-button.is-copied {
+  background: #d1fae5;
+  border-color: #6ee7b7;
+  color: #065f46;
+  font-weight: 600;
+}
+
 .vote-map__canvas-wrap {
   position: relative;
   height: clamp(420px, 65vh, 720px);

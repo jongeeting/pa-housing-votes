@@ -126,9 +126,20 @@ export const VoteMap = ({
     return items[0] ? getMapItemId(items[0]) : null;
   })();
 
+  // Read deep-link URL params:
+  //   ?item=<roll-call-id>  → land on a specific vote stage
+  //   ?bill=<bill-id>       → land on that bill's headline vote
+  //   ?house=<N> / ?senate=<N> → also open that district's popup
+  // ?item wins over ?bill when both are present. Bare visits land
+  // on the headline default (HB 2186 Final Passage).
   const initialItemId = (() => {
     if (typeof window === "undefined") return defaultLandingId;
     const params = new URLSearchParams(window.location.search);
+    const itemId = params.get("item");
+    if (itemId) {
+      const found = items.find((i) => getMapItemId(i) === itemId);
+      if (found) return getMapItemId(found);
+    }
     const billId = params.get("bill");
     if (!billId) return defaultLandingId;
     const matching = items.filter((i) => getMapItemBill(i).id === billId);
@@ -143,6 +154,17 @@ export const VoteMap = ({
     });
     return getMapItemId(sorted[0]);
   })();
+  // ?house=N or ?senate=N → open that district's popup after the
+  // map source loads. Applied via the mapReady effect below.
+  const initialDistrictFromUrl = (() => {
+    if (typeof window === "undefined") return null;
+    const params = new URLSearchParams(window.location.search);
+    const h = params.get("house");
+    if (h) return { district: h, chamber: "House" as Chamber };
+    const s = params.get("senate");
+    if (s) return { district: s, chamber: "Senate" as Chamber };
+    return null;
+  })();
   const [selectedItemId, setSelectedItemId] = useState<string | null>(initialItemId);
   const [selectedDistrict, setSelectedDistrict] = useState<{
     district: string;
@@ -150,6 +172,12 @@ export const VoteMap = ({
     chamber: Chamber;
   } | null>(null);
   const [mapReady, setMapReady] = useState(false);
+  // Tracks whether we've already applied the initial ?house=/?senate=
+  // URL param. Without this, hot-reloads + late source loads would
+  // re-trigger the popup after the user closed it.
+  const urlDistrictAppliedRef = useRef(false);
+  // "Copy link" affordance status. Briefly shows "Copied!" after click.
+  const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
   const [showCounties, setShowCounties] = useState(false);
   const [showMunis, setShowMunis] = useState(false);
   const [highlightClasses, setHighlightClasses] = useState<Set<MunicipalClass>>(
@@ -198,6 +226,92 @@ export const VoteMap = ({
   useEffect(() => {
     setSelectedDistrict(null);
   }, [activeChamber]);
+
+  // Deep link: if the URL had ?house=N / ?senate=N on initial load,
+  // open that district's popup once the map source has loaded.
+  // querySourceFeatures only returns features whose tiles are in
+  // memory, so we wait for mapReady. Tracked via a ref so it only
+  // fires once per mount.
+  useEffect(() => {
+    if (!mapReady || urlDistrictAppliedRef.current || !initialDistrictFromUrl) return;
+    urlDistrictAppliedRef.current = true;
+    const map = mapRef.current;
+    if (!map) return;
+    const source =
+      initialDistrictFromUrl.chamber === "House"
+        ? "districts-house"
+        : "districts-senate";
+    const features = map.querySourceFeatures(source, {
+      filter: ["==", ["get", "district"], initialDistrictFromUrl.district],
+    });
+    if (features.length === 0) return;
+    setSelectedDistrict({
+      district: initialDistrictFromUrl.district,
+      properties: features[0].properties ?? {},
+      chamber: initialDistrictFromUrl.chamber,
+    });
+  }, [mapReady]);
+
+  // State → URL sync. Replace (not push) so the browser back button
+  // doesn't fill up with every dropdown twiddle. Encodes the current
+  // view as:
+  //   - ?item=<id>  when a non-default vote stage is selected
+  //   - ?bill=<id>  when the bill's default (headline) stage is selected
+  //   - ?house=N / ?senate=N when a district popup is open
+  // A bare visit (default landing, no district) clears all params.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams();
+    if (selectedItemId) {
+      const item = items.find((i) => getMapItemId(i) === selectedItemId);
+      if (item) {
+        const billId = getMapItemBill(item).id;
+        // Find the bill's "headline" item (highest-ranked floor vote
+        // or most recent). If the current selection IS the headline,
+        // emit ?bill= (cleaner URL). Otherwise emit ?item= to pin a
+        // specific stage like the April 13 committee vote.
+        const billItems = items.filter((i) => getMapItemBill(i).id === billId);
+        const sortedByDate = [...billItems].sort((a, b) => {
+          const ad = a.kind === "rollCall" ? a.rollCall.date : "";
+          const bd = b.kind === "rollCall" ? b.rollCall.date : "";
+          return bd.localeCompare(ad);
+        });
+        const headlineId =
+          sortedByDate.length > 0 ? getMapItemId(sortedByDate[0]) : null;
+        if (selectedItemId === headlineId) {
+          params.set("bill", billId);
+        } else {
+          params.set("item", selectedItemId);
+        }
+      }
+    }
+    if (selectedDistrict) {
+      const key = selectedDistrict.chamber === "House" ? "house" : "senate";
+      params.set(key, selectedDistrict.district);
+    }
+    const query = params.toString();
+    const newSearch = query ? `?${query}` : "";
+    const newUrl =
+      window.location.pathname + newSearch + window.location.hash;
+    const currentUrl =
+      window.location.pathname + window.location.search + window.location.hash;
+    if (newUrl !== currentUrl) {
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [selectedItemId, selectedDistrict, items]);
+
+  // Copy current URL to clipboard for the "Share this view" button.
+  const handleCopyLink = async () => {
+    if (typeof window === "undefined") return;
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopyState("copied");
+      setTimeout(() => setCopyState("idle"), 1800);
+    } catch {
+      // Older browsers / non-secure context — silent no-op. The URL
+      // is still grabbable from the address bar.
+    }
+  };
 
   // Snapshots keyed off the selected MapItem.
   const districtSnapshots = useMemo<Map<string, DistrictVoteSnapshot>>(
@@ -859,6 +973,16 @@ export const VoteMap = ({
         selectedId={selectedItemId}
         onChange={setSelectedItemId}
       />
+      <div className="vote-map__share-row">
+        <button
+          type="button"
+          className={`vote-map__share-button${copyState === "copied" ? " is-copied" : ""}`}
+          onClick={handleCopyLink}
+          aria-label="Copy a shareable link to the current view"
+        >
+          {copyState === "copied" ? "✓ Link copied" : "🔗 Copy link to this view"}
+        </button>
+      </div>
       <div className="vote-map__canvas-wrap">
         <div ref={containerRef} className="vote-map__canvas" />
         <LayerPanel
