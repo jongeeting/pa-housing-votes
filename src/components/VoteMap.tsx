@@ -91,14 +91,48 @@ export const VoteMap = ({
   // already showing the requested bill (most recent MapItem for
   // that bill — usually the latest floor vote, or the cosponsor-
   // only entry if there's no roll call yet).
+  // Default landing item — the headline vote we want first-time
+  // visitors to see. We explicitly land on the HB 2186 Final
+  // Passage roll call (June 1, 2026) because the ADU vote is the
+  // coalition's headline win. If that's ever removed, pick the
+  // most recent Final Passage in the dataset as a fallback; if
+  // nothing matches, fall back to items[0].
+  //
+  // To change the default, edit DEFAULT_LANDING_BILL_ID below.
+  const DEFAULT_LANDING_BILL_ID = "HB2186";
+  const isFinalPassage = (i: MapItem): boolean => {
+    if (i.kind !== "rollCall") return false;
+    const stage = (i.rollCall.stage ?? "").toLowerCase();
+    return (
+      stage.includes("final passage") ||
+      stage.includes("third consideration") ||
+      stage.includes("3rd consideration")
+    );
+  };
+  const defaultLandingId = (() => {
+    const explicit = items.find(
+      (i) => getMapItemBill(i).id === DEFAULT_LANDING_BILL_ID && isFinalPassage(i),
+    );
+    if (explicit) return getMapItemId(explicit);
+    // Fallback: most recent Final Passage anywhere in the data
+    const fps = items
+      .filter(isFinalPassage)
+      .sort((a, b) => {
+        const ad = a.kind === "rollCall" ? a.rollCall.date : "";
+        const bd = b.kind === "rollCall" ? b.rollCall.date : "";
+        return bd.localeCompare(ad);
+      });
+    if (fps[0]) return getMapItemId(fps[0]);
+    return items[0] ? getMapItemId(items[0]) : null;
+  })();
+
   const initialItemId = (() => {
-    const fallback = items[0] ? getMapItemId(items[0]) : null;
-    if (typeof window === "undefined") return fallback;
+    if (typeof window === "undefined") return defaultLandingId;
     const params = new URLSearchParams(window.location.search);
     const billId = params.get("bill");
-    if (!billId) return fallback;
+    if (!billId) return defaultLandingId;
     const matching = items.filter((i) => getMapItemBill(i).id === billId);
-    if (matching.length === 0) return fallback;
+    if (matching.length === 0) return defaultLandingId;
     // Prefer the most recent roll-call item; fall back to the
     // first matching MapItem (cosponsor-only items don't have
     // dates, so this leaves them in declared order).
