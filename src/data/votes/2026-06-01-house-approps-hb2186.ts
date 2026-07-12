@@ -1,0 +1,72 @@
+import type { RollCall } from "@/lib/types";
+import { HB2186 } from "@/data/bills/all-bills";
+
+/**
+ * House Appropriations committee — June 1, 2026.
+ *
+ * HB 2186 (Inglis, ADU) Re-report Bill As Committed: 34-3.
+ * Fiscal-note re-report teeing up Final Passage on the House floor
+ * later the same day (rc 1075, 139-62).
+ *
+ * All 22 Democrats voted Yea. Of 15 Republicans, 12 Yea and 3 Nay:
+ *   Marcell, Olsommer, Reichard.
+ *
+ * Source: palegis.us committee rollcallid=2201
+ *   https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=62&rollcallid=2201&sessYr=2025&sessInd=0
+ * Parsed via pipeline/scripts/fetch_rollcall.py --committee-code 62
+ *   --committee-rc-id 2201.
+ */
+export const ROLL_CALL_HB2186_HOUSE_APPROPS: RollCall = {
+  id: "2026-06-01-house-approps-hb2186-reported",
+  date: "2026-06-01",
+  chamber: "House",
+  committee: "Appropriations",
+  bill: HB2186,
+  motion: "That HB 2186 be re-reported as committed.",
+  outcome: "Passed",
+  totals: { yea: 34, nay: 3, notVoting: 0 },
+  sourceUrl:
+    "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=62&rollcallid=2201&sessYr=2025&sessInd=0",
+  votes: [
+    // Democrats — 22 Yea, 0 Nay
+    { memberId: "house-2025-aerion-abney", vote: "Yea" },
+    { memberId: "house-2025-anthony-bellmon", vote: "Yea" },
+    { memberId: "house-2025-tim-brennan", vote: "Yea" },
+    { memberId: "house-2025-gina-curry", vote: "Yea" },
+    { memberId: "house-2025-kyle-donahue", vote: "Yea" },
+    { memberId: "house-2025-justin-fleming", vote: "Yea" },
+    { memberId: "house-2025-paul-friel", vote: "Yea" },
+    { memberId: "house-2025-pat-gallagher", vote: "Yea" },
+    { memberId: "house-2025-manuel-guzman", vote: "Yea" },
+    { memberId: "house-2025-jordan-harris", vote: "Yea" },
+    { memberId: "house-2025-tarik-khan", vote: "Yea" },
+    { memberId: "house-2025-emily-kinkead", vote: "Yea" },
+    { memberId: "house-2025-bridget-kosierowski", vote: "Yea" },
+    { memberId: "house-2025-dave-madsen", vote: "Yea" },
+    { memberId: "house-2025-steven-malagari", vote: "Yea" },
+    { memberId: "house-2025-la-tasha-mayes", vote: "Yea" },
+    { memberId: "house-2025-kyle-mullins", vote: "Yea" },
+    { memberId: "house-2025-abigail-salisbury", vote: "Yea" },
+    { memberId: "house-2025-benjamin-sanchez", vote: "Yea" },
+    { memberId: "house-2025-ben-waxman", vote: "Yea" },
+    { memberId: "house-2025-joe-webster", vote: "Yea" },
+    { memberId: "house-2025-regina-g-young", vote: "Yea" },
+
+    // Republicans — 12 Yea, 3 Nay (Marcell, Olsommer, Reichard)
+    { memberId: "house-2025-jamie-barton", vote: "Yea" },
+    { memberId: "house-2025-marla-brown", vote: "Yea" },
+    { memberId: "house-2025-eric-davanzo", vote: "Yea" },
+    { memberId: "house-2025-ann-flood", vote: "Yea" },
+    { memberId: "house-2025-joshua-kail", vote: "Yea" },
+    { memberId: "house-2025-charity-krupa", vote: "Yea" },
+    { memberId: "house-2025-thomas-kutz", vote: "Yea" },
+    { memberId: "house-2025-zachary-mako", vote: "Yea" },
+    { memberId: "house-2025-kristin-marcell", vote: "Nay" },
+    { memberId: "house-2025-marci-mustello", vote: "Yea" },
+    { memberId: "house-2025-eric-nelson", vote: "Yea" },
+    { memberId: "house-2025-jeff-olsommer", vote: "Nay" },
+    { memberId: "house-2025-chad-reichard", vote: "Nay" },
+    { memberId: "house-2025-jim-rigby", vote: "Yea" },
+    { memberId: "house-2025-james-struzzi", vote: "Yea" },
+  ],
+};

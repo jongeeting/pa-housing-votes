@@ -1,9 +1,14 @@
 import type { MapItem } from "@/lib/types";
 import { APRIL_13_2026_ROLL_CALLS } from "./votes/2026-04-13-housing";
+import { MAY_6_2026_SUAH_ROLL_CALLS } from "./votes/2026-05-06-senate-suah";
 import { ROLL_CALL_HB2186_FLOOR } from "./votes/2026-05-06-hb2186-floor";
+import { JUNE_1_2026_SENATE_APPROPS_ROLL_CALLS } from "./votes/2026-06-01-senate-approps";
+import { ROLL_CALL_HB2186_HOUSE_APPROPS } from "./votes/2026-06-01-house-approps-hb2186";
 import { ROLL_CALL_HB2186_FINAL_PASSAGE } from "./votes/2026-06-01-hb2186-final";
 import { ROLL_CALL_HB2109_2ND_CONS } from "./votes/2026-06-02-hb2109-2nd";
+import { ROLL_CALL_HB2109_HOUSE_APPROPS } from "./votes/2026-06-03-house-approps-hb2109";
 import { ROLL_CALL_HB2109_FINAL_PASSAGE } from "./votes/2026-06-08-hb2109-final";
+import { ROLL_CALL_SB1346_SUAH } from "./votes/2026-07-12-senate-suah-sb1346";
 import { JUNE_5_2024_ROLL_CALLS } from "./votes/2024-06-05-local-government";
 import {
   SB1239,
@@ -74,19 +79,18 @@ import { HR484_COSPONSORSHIP } from "./cosponsors/hr484-cosponsors";
 export const ALL_MAP_ITEMS: MapItem[] = [
   // ----- 2025-2026 House roll calls -----
   ...APRIL_13_2026_ROLL_CALLS.map((rc) => ({ kind: "rollCall" as const, rollCall: rc })),
-  // HB 2186 has two House floor votes: the May 6 second-consideration
-  // pass-through (134-67) and the June 1 third-consideration final
-  // passage (139-62, with 5 net votes flipping toward Yea). Both are
-  // surfaced as separate items so the popup can show the procedural
-  // arc — and so we can pivot the map between "early vote" and
-  // "final vote" choropleths.
+  // HB 2186 procedural arc: HCD April 13 (in APRIL_13 spread above,
+  // reported + A02831 amendment) -> 2nd Consideration May 6 -> House
+  // Appropriations re-report June 1 -> Final Passage June 1. Each
+  // stage its own MapItem so the map can pivot between them.
   { kind: "rollCall", rollCall: ROLL_CALL_HB2186_FLOOR },
+  { kind: "rollCall", rollCall: ROLL_CALL_HB2186_HOUSE_APPROPS },
   { kind: "rollCall", rollCall: ROLL_CALL_HB2186_FINAL_PASSAGE },
-  // HB 2109 Golden Girls Law has two floor votes: 2nd Consideration
-  // June 2 (145-56) and Final Passage June 8 (123-78, with 22 net
-  // votes flipping toward Nay). The April 13 committee vote is also
-  // wired in via the APRIL_13_2026_ROLL_CALLS spread above.
+  // HB 2109 Golden Girls Law: HCD April 13 (in APRIL_13 spread,
+  // reported + A02848 amendment) -> 2nd Consideration June 2 ->
+  // House Appropriations re-report June 3 -> Final Passage June 8.
   { kind: "rollCall", rollCall: ROLL_CALL_HB2109_2ND_CONS },
+  { kind: "rollCall", rollCall: ROLL_CALL_HB2109_HOUSE_APPROPS },
   { kind: "rollCall", rollCall: ROLL_CALL_HB2109_FINAL_PASSAGE },
 
   // ----- 2025-2026 House cosponsor-only items (no roll call yet) -----
@@ -116,6 +120,20 @@ export const ALL_MAP_ITEMS: MapItem[] = [
 
   // ----- 2023-2024 Senate cosponsor-only items (historical) -----
   { kind: "cosponsorOnly", bill: SB1126, cosponsorship: SB1126_COSPONSORSHIP },
+
+  // ----- 2025-2026 Senate committee votes -----
+  // Senate Urban Affairs & Housing May 6 batch (SB 1277, SB 1278,
+  // SB 1279, SB 1281 reported as committed) and Senate Appropriations
+  // June 1 batch (SB 1277 reported, SB 1279 reported as amended +
+  // A03366 amendment vote, SB 1281 reported) — 8 items total. The
+  // SB 1346 SUAH July 12 vote follows as a single item.
+  ...MAY_6_2026_SUAH_ROLL_CALLS.map(
+    (rc) => ({ kind: "rollCall" as const, rollCall: rc }),
+  ),
+  ...JUNE_1_2026_SENATE_APPROPS_ROLL_CALLS.map(
+    (rc) => ({ kind: "rollCall" as const, rollCall: rc }),
+  ),
+  { kind: "rollCall", rollCall: ROLL_CALL_SB1346_SUAH },
 
   // ----- 2025-2026 Senate cosponsor-only items -----
   { kind: "cosponsorOnly", bill: SB1346, cosponsorship: SB1346_COSPONSORSHIP },
