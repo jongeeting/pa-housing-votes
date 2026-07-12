@@ -375,13 +375,13 @@ export const SB1346: Bill = {
   description:
     "Senate companion to HB 2186 — requires municipalities to allow accessory dwelling units (ADUs) by right wherever single-family homes are allowed. Stronger on regulatory specifics than the House version (14-day ministerial approval with deemed-approved fallback, written denial reasons, utility-connection-fee shield, 150 sf minimum / 1,250 sf max). Amends the Municipalities Planning Code, which excludes Philadelphia (1st-class city) and Pittsburgh (2nd-class city) from coverage — the House version reaches both via a direct Title 53 amendment.",
   topics: ["adu"],
-  status: "in_committee",
+  status: "passed_committee",
   primeSponsorDistrict: "34", // Greg Rothman
   committee: "Urban Affairs and Housing",
   introducedDate: "2026-05-26",
-  lastActionDate: "2026-05-26",
+  lastActionDate: "2026-07-12",
   lastActionNote:
-    "Referred to Senate Urban Affairs and Housing. Bipartisan 12-senator introducer list (7 D + 5 R).",
+    "Passed Senate Urban Affairs and Housing committee 10–1 on July 12, 2026 (Senate rc 997); first consideration same day. Sole Nay: Sen. Farry (R). Yea: 6 R (Argall, Coleman, Keefer, Vogel, Picozzi (Chair), Ward ex-officio) + 4 D (Fontana, Miller, Saval, Street).",
   priorVersions: ["senate-memo-48019"],
   sourceUrl: "https://www.palegis.us/legislation/bills/2025/sb1346",
   billTextUrl:
