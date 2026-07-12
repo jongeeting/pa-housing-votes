@@ -12,6 +12,7 @@ import {
 } from "@/lib/colors";
 import {
   computeNestedSupport,
+  getMapItemBill,
   getMapItemChamber,
   getMapItemCosponsorship,
   getMapItemId,
