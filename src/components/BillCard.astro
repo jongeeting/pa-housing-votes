@@ -26,7 +26,7 @@ const statusLabel = (status: BillStatus, chamber: "House" | "Senate"): string =>
     case "memo": return "Cosponsorship memo";
     case "introduced": return "Introduced";
     case "in_committee": return `In ${chamber} committee`;
-    case "passed_committee": return `Out of ${chamber} committee`;
+    case "passed_committee": return `Passed ${chamber} committee`;
     case "laid_on_table": return "Laid on the table";
     case "passed_2nd_consideration": return `Passed ${chamber} 2nd consideration`;
     case "passed_chamber": return `Passed ${chamber}`;

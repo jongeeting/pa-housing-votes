@@ -226,7 +226,13 @@ const phaseTag = (item: MapItem): string => {
     case "conference": return "In conference";
     case "enacted": return "Enacted";
     case "passed_2nd_consideration": return `Passed ${chamber} 2nd cons`;
-    case "passed_committee": return `Out of ${chamber} committee`;
+    case "passed_committee":
+      // If we have the committee-vote tally + date, mirror the
+      // "Passed Senate · 2026-06-03" pattern used for chamber
+      // passage so the dropdown reads naturally.
+      return bill.committeePassageVote
+        ? `Passed ${chamber} committee · ${bill.committeePassageVote.date}`
+        : `Passed ${chamber} committee`;
     case "in_committee": return `In ${chamber} committee`;
     case "laid_on_table": return "Laid on the table";
     case "dead": return "Dead (last session)";
@@ -248,13 +254,14 @@ const tally = (item: MapItem): string => {
     }`;
   }
   if (item.kind === "cosponsorOnly") {
-    // If the bill has a recorded chamber-passage tally (e.g. the
-    // Senate Final Passage roll call we tracked without a TS file),
-    // surface that as the headline number. Otherwise fall back to
-    // the cosponsor count, which is the only signal for a bill that
-    // hasn't yet moved.
+    // Prefer the headline tally we have on record:
+    //   1. chamber-passage vote (bill passed its originating chamber)
+    //   2. committee-passage vote (bill passed its referring committee)
+    // Fall back to the sponsor count for bills that haven't moved.
     const cpv = item.bill.chamberPassageVote;
     if (cpv) return `${cpv.yea}-${cpv.nay}`;
+    const cmte = item.bill.committeePassageVote;
+    if (cmte) return `${cmte.yea}-${cmte.nay}`;
     const n = item.cosponsorship.cosponsors.length + 1;
     return `${n} sponsor${n === 1 ? "" : "s"}`;
   }

@@ -117,6 +117,18 @@ export interface Bill {
     nay: number;
     rcNumber?: string;
   };
+  /** Tally on the originating-chamber committee vote that moved the
+   *  bill out of the referring committee. Used for the dropdown +
+   *  bill card so a "Passed Senate committee" label can carry the
+   *  concrete tally (e.g. "10-1") the way chamberPassageVote does
+   *  for floor passage. Date is ISO YYYY-MM-DD. */
+  committeePassageVote?: {
+    date: string;
+    yea: number;
+    nay: number;
+    committee?: string;
+    rcNumber?: string;
+  };
 }
 
 export interface RollCall {
