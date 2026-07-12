@@ -18,15 +18,33 @@ const priorMemos = (bill.priorVersions ?? [])
   .map((id) => BILLS_BY_ID.get(id))
   .filter((b): b is NonNullable<typeof b> => !!b && b.kind === "memo");
 
+/** Committee names use "and" in palegis / statute. Swap for "&" so the
+ *  full name fits comfortably next to the chamber prefix ("Passed Senate
+ *  Urban Affairs & Housing" vs the wordier "and Housing"). */
+const shortCommittee = (name: string | undefined): string | null =>
+  name ? name.replace(/ and /g, " & ") : null;
+
 /** Chamber-aware status label so "Passed Senate" reads clearly
- *  instead of the ambiguous "Passed chamber". */
-const statusLabel = (status: BillStatus, chamber: "House" | "Senate"): string => {
+ *  instead of the ambiguous "Passed chamber". Names the specific
+ *  committee when we know it (in_committee / passed_committee). */
+const statusLabel = (
+  status: BillStatus,
+  chamber: "House" | "Senate",
+  committee?: string,
+): string => {
   const otherChamber = chamber === "Senate" ? "House" : "Senate";
+  const cmte = shortCommittee(committee);
   switch (status) {
     case "memo": return "Cosponsorship memo";
     case "introduced": return "Introduced";
-    case "in_committee": return `In ${chamber} committee`;
-    case "passed_committee": return `Passed ${chamber} committee`;
+    case "in_committee":
+      return cmte
+        ? `In ${chamber} ${cmte}`
+        : `In ${chamber} committee`;
+    case "passed_committee":
+      return cmte
+        ? `Passed ${chamber} ${cmte}`
+        : `Passed ${chamber} committee`;
     case "laid_on_table": return "Laid on the table";
     case "passed_2nd_consideration": return `Passed ${chamber} 2nd consideration`;
     case "passed_chamber": return `Passed ${chamber}`;
@@ -80,7 +98,7 @@ const anchorId = `bill-${bill.id.toLowerCase()}`;
     </div>
     <div class="bill-card__chips">
       <span class={`bill-card__status bill-card__status--${tone}`}>
-        {statusLabel(bill.status, bill.chamber)}
+        {statusLabel(bill.status, bill.chamber, bill.committee)}
       </span>
       <span class="bill-card__chamber">
         {bill.chamber}

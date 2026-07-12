@@ -218,6 +218,10 @@ const phaseTag = (item: MapItem): string => {
   const chamber = bill.chamber;
   const otherChamber = chamber === "Senate" ? "House" : "Senate";
   const cpv = bill.chamberPassageVote;
+  // Committee names use "and" in statute; shorten to "&" so the
+  // full name fits ("Passed Senate Urban Affairs & Housing"
+  // vs the longer "and Housing").
+  const cmte = bill.committee ? bill.committee.replace(/ and /g, " & ") : null;
   switch (bill.status) {
     case "passed_chamber":
       return cpv ? `Passed ${chamber} · ${cpv.date}` : `Passed ${chamber}`;
@@ -226,14 +230,16 @@ const phaseTag = (item: MapItem): string => {
     case "conference": return "In conference";
     case "enacted": return "Enacted";
     case "passed_2nd_consideration": return `Passed ${chamber} 2nd cons`;
-    case "passed_committee":
-      // If we have the committee-vote tally + date, mirror the
-      // "Passed Senate · 2026-06-03" pattern used for chamber
-      // passage so the dropdown reads naturally.
+    case "passed_committee": {
+      // Prefer specific committee name; append tally date if we have it
+      // (mirrors the "Passed Senate · 2026-06-03" chamber pattern).
+      const base = cmte ? `Passed ${chamber} ${cmte}` : `Passed ${chamber} committee`;
       return bill.committeePassageVote
-        ? `Passed ${chamber} committee · ${bill.committeePassageVote.date}`
-        : `Passed ${chamber} committee`;
-    case "in_committee": return `In ${chamber} committee`;
+        ? `${base} · ${bill.committeePassageVote.date}`
+        : base;
+    }
+    case "in_committee":
+      return cmte ? `In ${chamber} ${cmte}` : `In ${chamber} committee`;
     case "laid_on_table": return "Laid on the table";
     case "dead": return "Dead (last session)";
     // memo, introduced — fall through to the generic label, which is
