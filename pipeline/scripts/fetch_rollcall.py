@@ -1,18 +1,28 @@
 """Fetch a roll call vote from palegis.us and parse it to JSON.
 
-Usage:
-    cd pipeline
-    uv run python scripts/fetch_rollcall.py --session 2025 --chamber house --rc-num 1054
+Two modes:
 
-Outputs:
-    pipeline/data/raw/rollcalls/{session}-{chamber}-rc{rcnum}.html
-    pipeline/data/rollcalls/{session}-{chamber}-rc{rcnum}.json
+* Floor votes:
+    uv run python scripts/fetch_rollcall.py --session 2025 --chamber house --rc-num 1054
+  URL: /{chamber}/roll-calls/summary?sessYr=X&sessInd=0&rcNum=Y
+  Output: pipeline/data/rollcalls/{session}-{chamber}-rc{rcnum}.json
+
+* Committee votes:
+    uv run python scripts/fetch_rollcall.py --session 2025 --chamber senate \\
+        --committee-code 35 --committee-rc-id 997
+  URL: /{chamber}/committees/roll-call-votes/vote-list/vote-summary
+          ?committeecode=X&rollcallid=Y&sessYr=Z&sessInd=0
+  Output: pipeline/data/rollcalls/{session}-{chamber}-cmte{code}-rc{id}.json
 
 The JSON captures the full member-by-member roll plus bill metadata.
 palegis.us rejects requests without a browser-style User-Agent, so we
 send a Chrome UA. Raw HTML is committed alongside the JSON so the parser
 can be re-run without re-fetching, and so palegis structure changes are
 visible in git diffs.
+
+Committee-vote pages don't display district or party inline. This
+script looks those up against the Senate + House member rosters in
+src/data/members/, keyed by the bio-id parsed from the member link.
 """
 
 from __future__ import annotations
@@ -113,6 +123,88 @@ def fetch_html(session: str, chamber: str, rc_num: int, refetch: bool) -> Path:
     raw_path.write_text(resp.text, encoding="utf-8")
     log.info("Saved raw HTML to %s (%d bytes)", raw_path, len(resp.text))
     return raw_path
+
+
+def fetch_committee_html(
+    session: str, chamber: str, committee_code: int, rollcall_id: int, refetch: bool
+) -> Path:
+    """Fetch a committee roll-call vote page.
+
+    URL pattern differs from floor votes:
+      /{chamber}/committees/roll-call-votes/vote-list/vote-summary
+          ?committeecode=X&rollcallid=Y&sessYr=Z&sessInd=0
+    """
+    url = (
+        f"https://www.palegis.us/{chamber}/committees/roll-call-votes"
+        f"/vote-list/vote-summary?committeecode={committee_code}"
+        f"&rollcallid={rollcall_id}&sessYr={session}&sessInd=0"
+    )
+    raw_path = (
+        RAW_DIR
+        / f"{session}-{chamber}-cmte{committee_code}-rc{rollcall_id}.html"
+    )
+    raw_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if raw_path.exists() and not refetch:
+        log.info("Raw HTML cached at %s (use --refetch to re-download)", raw_path)
+        return raw_path
+
+    log.info("Fetching %s", url)
+    resp = requests.get(url, headers={"User-Agent": CHROME_UA}, timeout=30)
+    resp.raise_for_status()
+    raw_path.write_text(resp.text, encoding="utf-8")
+    log.info("Saved raw HTML to %s (%d bytes)", raw_path, len(resp.text))
+    return raw_path
+
+
+# --- Roster lookup ---------------------------------------------------------
+# Committee-vote pages don't display district or party inline. We look those
+# up from the canonical rosters in src/data/members/pa-*.ts, matching by
+# bio-id (the numeric ID palegis embeds in every member link).
+
+ROSTER_TS_FILES = {
+    "senate": PIPELINE_DIR.parent / "src" / "data" / "members" / "pa-senate-2025.ts",
+    "house": PIPELINE_DIR.parent / "src" / "data" / "members" / "pa-house-2025.ts",
+}
+
+
+def _load_roster_by_bioid(chamber: str) -> dict[str, dict]:
+    """Parse a TS roster file into a bioId -> member dict.
+
+    Returns {}: bio-id -> {"id", "district", "party", "displayName",
+                           "lastName", "slug"}
+    """
+    path = ROSTER_TS_FILES[chamber]
+    text = path.read_text(encoding="utf-8")
+
+    # Members are declared as consecutive object literals inside an array.
+    # Grab each { ... } block that contains an id/bioUrl pair.
+    member_re = re.compile(r"\{[^{}]*id:\s*\"([^\"]+)\"[^{}]*\}", re.DOTALL)
+    field_re = re.compile(r'(\w+):\s*"([^"]*)"')
+    bio_id_re = re.compile(r"/members/bio/(\d+)/")
+
+    out: dict[str, dict] = {}
+    for m in member_re.finditer(text):
+        block = m.group(0)
+        fields = dict(field_re.findall(block))
+        bio_url = fields.get("bioUrl", "")
+        bm = bio_id_re.search(bio_url)
+        if not bm:
+            continue
+        bio_id = bm.group(1)
+        # Reconstruct the palegis-slug from the id field
+        # (e.g. "senate-2025-david-g-argall" -> "david-g-argall")
+        member_id = fields.get("id", "")
+        slug = re.sub(r"^(senate|house)-\d+-", "", member_id)
+        out[bio_id] = {
+            "id": member_id,
+            "district": fields.get("district"),
+            "party": fields.get("party"),
+            "displayName": fields.get("fullName"),
+            "lastName": fields.get("lastName"),
+            "slug": slug,
+        }
+    return out
 
 
 def parse_member(block) -> dict | None:
@@ -226,6 +318,126 @@ def parse_header(soup: BeautifulSoup) -> dict:
     return out
 
 
+def parse_committee(
+    raw_path: Path,
+    session: str,
+    chamber: str,
+    committee_code: int,
+    rollcall_id: int,
+) -> dict:
+    """Parse a committee vote page.
+
+    HTML structure is different from floor votes:
+      <li class="list-group-item ...">
+        <div class="row ... voteRow ...">
+          <div class="col-auto fw-medium memberVote flex-grow-1">
+            <a href="/senate/members/bio/{bioId}/sen-{slug}">
+              Sen. Firstname Lastname
+            </a>
+          </div>
+          <div class="col-auto">
+            <span class="badge text-bg-success" title="Yea">...</span>
+            OR
+            <span class="badge text-bg-danger" title="Nay">...</span>
+          </div>
+        </div>
+      </li>
+
+    District + party don't appear on the page; we look them up against
+    the roster by bio-id.
+    """
+    html = raw_path.read_text(encoding="utf-8")
+    soup = BeautifulSoup(html, "html.parser")
+
+    roster_by_bioid = _load_roster_by_bioid(chamber)
+
+    members: list[dict] = []
+    seen: set[str] = set()
+    for row in soup.select("div.voteRow"):
+        anchor = row.select_one("a[href*='/members/bio/']")
+        if not anchor:
+            continue
+        href = anchor.get("href", "").strip()
+        bm = BIO_RE.search(href)
+        if not bm:
+            continue
+        bio_id = bm.group(2)
+        if bio_id in seen:
+            continue
+        seen.add(bio_id)
+
+        display = re.sub(
+            r"^Rep\.\s+|^Sen\.\s+", "", anchor.get_text(" ", strip=True)
+        )
+
+        # Vote badge sits in a sibling column of the row.
+        vote_badge = row.select_one(
+            "span.badge[title='Yea'], span.badge[title='Nay'], "
+            "span.badge[title='Not Voting'], span.badge[title='Leave'], "
+            "span.badge[title='Absent']"
+        )
+        vote = vote_badge.get("title") if vote_badge else None
+
+        roster = roster_by_bioid.get(bio_id, {})
+        members.append(
+            {
+                "bioId": bio_id,
+                # Prefer the roster's canonical id if we have it (keeps
+                # memberId aligned with the roster + downstream lookups);
+                # otherwise fall back to a slug synthesized from the row.
+                "slug": roster.get("slug") or _slugify(display),
+                "displayName": roster.get("displayName") or display,
+                "lastName": roster.get("lastName") or _natural_surname(display),
+                "party": roster.get("party"),
+                "district": roster.get("district"),
+                "vote": vote,
+            }
+        )
+        if not roster:
+            log.warning(
+                "  no roster match for bioId=%s (%s) — district/party left null",
+                bio_id,
+                display,
+            )
+
+    # Compute tallies from member rows.
+    tallies = {"yea": 0, "nay": 0, "notVoting": 0, "leave": 0, "missing": 0}
+    for m in members:
+        v = m["vote"]
+        if v == "Yea":
+            tallies["yea"] += 1
+        elif v == "Nay":
+            tallies["nay"] += 1
+        elif v == "Not Voting":
+            tallies["notVoting"] += 1
+        elif v == "Leave":
+            tallies["leave"] += 1
+        else:
+            tallies["missing"] += 1
+
+    # Header info — committee pages have a different layout, but a lot of
+    # the same primitives (bill anchor, date, PN). Try the shared parser
+    # first and fill in whatever comes back.
+    header = parse_header(soup)
+
+    return {
+        "session": f"{session}-0",
+        "chamber": chamber,
+        "kind": "committee",
+        "committeeCode": committee_code,
+        "rollCallId": rollcall_id,
+        "sourceUrl": (
+            f"https://www.palegis.us/{chamber}/committees/roll-call-votes"
+            f"/vote-list/vote-summary?committeecode={committee_code}"
+            f"&rollcallid={rollcall_id}&sessYr={session}&sessInd=0"
+        ),
+        "fetchedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        **header,
+        "tallies": tallies,
+        "members": members,
+    }
+
+
 def parse(raw_path: Path, session: str, chamber: str, rc_num: int) -> dict:
     html = raw_path.read_text(encoding="utf-8")
     soup = BeautifulSoup(html, "html.parser")
@@ -277,14 +489,41 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--session", required=True, help="e.g. 2025 (start year of 2-year session)")
     ap.add_argument("--chamber", required=True, choices=["house", "senate"])
-    ap.add_argument("--rc-num", required=True, type=int, help="palegis roll call number")
+    ap.add_argument("--rc-num", type=int, help="palegis floor roll-call number")
+    ap.add_argument("--committee-code", type=int, help="committee code (e.g. 35 for Senate Urban Affairs & Housing)")
+    ap.add_argument("--committee-rc-id", type=int, help="committee rollcallid")
     ap.add_argument("--refetch", action="store_true", help="bypass cached raw HTML")
     args = ap.parse_args()
 
-    raw_path = fetch_html(args.session, args.chamber, args.rc_num, args.refetch)
-    parsed = parse(raw_path, args.session, args.chamber, args.rc_num)
+    is_committee = args.committee_code is not None or args.committee_rc_id is not None
+    if is_committee:
+        if args.committee_code is None or args.committee_rc_id is None:
+            ap.error("--committee-code and --committee-rc-id must be used together")
+        raw_path = fetch_committee_html(
+            args.session,
+            args.chamber,
+            args.committee_code,
+            args.committee_rc_id,
+            args.refetch,
+        )
+        parsed = parse_committee(
+            raw_path,
+            args.session,
+            args.chamber,
+            args.committee_code,
+            args.committee_rc_id,
+        )
+        out_path = (
+            OUT_DIR
+            / f"{args.session}-{args.chamber}-cmte{args.committee_code}-rc{args.committee_rc_id}.json"
+        )
+    else:
+        if args.rc_num is None:
+            ap.error("--rc-num is required for floor votes")
+        raw_path = fetch_html(args.session, args.chamber, args.rc_num, args.refetch)
+        parsed = parse(raw_path, args.session, args.chamber, args.rc_num)
+        out_path = OUT_DIR / f"{args.session}-{args.chamber}-rc{args.rc_num}.json"
 
-    out_path = OUT_DIR / f"{args.session}-{args.chamber}-rc{args.rc_num}.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(parsed, indent=2) + "\n", encoding="utf-8")
 
