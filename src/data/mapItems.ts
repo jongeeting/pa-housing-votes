@@ -14,6 +14,7 @@ import {
   SB1279,
   SB1281,
   SR211,
+  SR348,
   HOUSE_MEMO_47776,
   SENATE_MEMO_47956,
   SENATE_MEMO_48019,
@@ -40,6 +41,7 @@ import { SB1278_COSPONSORSHIP } from "./cosponsors/sb1278-cosponsors";
 import { SB1279_COSPONSORSHIP } from "./cosponsors/sb1279-cosponsors";
 import { SB1281_COSPONSORSHIP } from "./cosponsors/sb1281-cosponsors";
 import { SR211_COSPONSORSHIP } from "./cosponsors/sr211-cosponsors";
+import { SR348_COSPONSORSHIP } from "./cosponsors/sr348-cosponsors";
 import { HB2367_COSPONSORSHIP } from "./cosponsors/hb2367-cosponsors";
 import { HB2434_COSPONSORSHIP } from "./cosponsors/hb2434-cosponsors";
 import { HB2445_COSPONSORSHIP } from "./cosponsors/hb2445-cosponsors";
@@ -123,6 +125,7 @@ export const ALL_MAP_ITEMS: MapItem[] = [
   { kind: "cosponsorOnly", bill: SB1279, cosponsorship: SB1279_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SB1281, cosponsorship: SB1281_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SR211, cosponsorship: SR211_COSPONSORSHIP },
+  { kind: "cosponsorOnly", bill: SR348, cosponsorship: SR348_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SB1239, cosponsorship: SB1239_COSPONSORSHIP },
   {
     kind: "cosponsorOnly",

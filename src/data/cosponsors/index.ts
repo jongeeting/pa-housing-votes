@@ -24,6 +24,7 @@ import { SB1279_COSPONSORSHIP } from "./sb1279-cosponsors";
 import { SB1281_COSPONSORSHIP } from "./sb1281-cosponsors";
 import { SB1346_COSPONSORSHIP } from "./sb1346-cosponsors";
 import { SR211_COSPONSORSHIP } from "./sr211-cosponsors";
+import { SR348_COSPONSORSHIP } from "./sr348-cosponsors";
 
 // 2025–2026 cosponsorship memos
 import { HOUSE_MEMO_47776_COSPONSORSHIP } from "./house-memo-47776-cosponsors";
@@ -65,6 +66,7 @@ export const COSPONSORSHIPS: Cosponsorship[] = [
   SB1281_COSPONSORSHIP,
   SB1346_COSPONSORSHIP,
   SR211_COSPONSORSHIP,
+  SR348_COSPONSORSHIP,
 
   // 2025–2026 memos
   HOUSE_MEMO_47776_COSPONSORSHIP,

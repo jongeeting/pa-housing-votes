@@ -562,6 +562,28 @@ export const SR211: Bill = {
     "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SR0211/PN1507",
 };
 
+export const SR348: Bill = {
+  id: "SR348",
+  label: "SR 348",
+  session: "2025-2026",
+  chamber: "Senate",
+  kind: "resolution",
+  shortTitle: "Single-Exit Stairwell Study",
+  description:
+    "Directs the Pennsylvania Uniform Construction Code Review and Advisory Council to conduct a study and issue a report recommending modifications and limitations to the International Building Code that would allow for a single-exit stairway to serve multifamily residential structures up to six stories above grade plane. Introduced version of Senate Memo 47956 (Street). Concept previously introduced in the 2023–2024 session as HB 1988 (Siegel) but that bill died in committee.",
+  topics: ["single_stair", "study"],
+  status: "in_committee",
+  primeSponsorDistrict: "3", // Sharif Street
+  committee: "Labor and Industry",
+  introducedDate: "2026-06-26",
+  lastActionDate: "2026-06-26",
+  lastActionNote:
+    "Referred to Senate Labor & Industry committee June 26, 2026. Bipartisan 15-senator coalition (11 D + 4 R).",
+  priorVersions: ["senate-memo-47956", "HB1988"],
+  sourceUrl: "https://www.palegis.us/legislation/bills/2025/sr348",
+  billTextUrl: "https://www.palegis.us/legislation/bills/text/PDF/2025/0/SR0348/PN1856",
+};
+
 /* -------------------------------------------------------------------------- */
 /*  2025–2026 session — Cosponsorship memos (not yet bills)                   */
 /* -------------------------------------------------------------------------- */
@@ -596,7 +618,8 @@ export const SENATE_MEMO_47956: Bill = {
   status: "memo",
   primeSponsorDistrict: "3", // Sharif Street
   introducedDate: "2026-01-23",
-  lastActionNote: "Cosponsorship memo circulated; bill not yet introduced.",
+  lastActionNote: "Superseded by SR 348 (introduced June 26, 2026).",
+  succeededBy: "SR348",
   sourceUrl: "https://www.palegis.us/senate/co-sponsorship/memo?memoID=47956",
 };
 
@@ -652,6 +675,7 @@ export const ALL_BILLS: Bill[] = [
   SB1279,
   SB1281,
   SR211,
+  SR348,
   // Memos
   HOUSE_MEMO_47776,
   SENATE_MEMO_47956,
