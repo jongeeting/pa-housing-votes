@@ -1,0 +1,121 @@
+{
+  "session": "2025-0",
+  "chamber": "senate",
+  "kind": "committee",
+  "committeeCode": 35,
+  "rollCallId": 759,
+  "sourceUrl": "https://www.palegis.us/senate/committees/roll-call-votes/vote-list/vote-summary?committeecode=35&rollcallid=759&sessYr=2025&sessInd=0",
+  "fetchedAt": "2026-07-12T20:16:26+00:00",
+  "bill": {
+    "id": "SB1277",
+    "label": "SB 1277"
+  },
+  "tallies": {
+    "yea": 9,
+    "nay": 2,
+    "notVoting": 0,
+    "leave": 0,
+    "missing": 0
+  },
+  "members": [
+    {
+      "bioId": "69",
+      "slug": "david-g-argall",
+      "displayName": "David G. Argall",
+      "lastName": "Argall",
+      "party": "R",
+      "district": "29",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2008",
+      "slug": "jarrett-coleman",
+      "displayName": "Jarrett Coleman",
+      "lastName": "Coleman",
+      "party": "R",
+      "district": "16",
+      "vote": "Nay"
+    },
+    {
+      "bioId": "1169",
+      "slug": "frank-a-farry",
+      "displayName": "Frank A. Farry",
+      "lastName": "Farry",
+      "party": "R",
+      "district": "6",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1041",
+      "slug": "wayne-d-fontana",
+      "displayName": "Wayne D. Fontana",
+      "lastName": "Fontana",
+      "party": "D",
+      "district": "42",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1748",
+      "slug": "dawn-w-keefer",
+      "displayName": "Dawn W. Keefer",
+      "lastName": "Keefer",
+      "party": "R",
+      "district": "31",
+      "vote": "Nay"
+    },
+    {
+      "bioId": "2009",
+      "slug": "nick-miller",
+      "displayName": "Nick Miller",
+      "lastName": "Miller",
+      "party": "D",
+      "district": "14",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1921",
+      "slug": "nikil-saval",
+      "displayName": "Nikil Saval",
+      "lastName": "Saval",
+      "party": "D",
+      "district": "1",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1767",
+      "slug": "sharif-street",
+      "displayName": "Sharif Street",
+      "lastName": "Street",
+      "party": "D",
+      "district": "3",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1189",
+      "slug": "elder-a-vogel",
+      "displayName": "Elder A. Vogel",
+      "lastName": "Vogel",
+      "party": "R",
+      "district": "47",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1188",
+      "slug": "kim-l-ward",
+      "displayName": "Kim L. Ward",
+      "lastName": "Ward",
+      "party": "R",
+      "district": "39",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2036",
+      "slug": "joe-picozzi",
+      "displayName": "Joe Picozzi",
+      "lastName": "Picozzi",
+      "party": "R",
+      "district": "5",
+      "vote": "Yea"
+    }
+  ]
+}

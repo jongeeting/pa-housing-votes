@@ -1,0 +1,256 @@
+{
+  "session": "2025-0",
+  "chamber": "house",
+  "kind": "committee",
+  "committeeCode": 64,
+  "rollCallId": 1914,
+  "sourceUrl": "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=64&rollcallid=1914&sessYr=2025&sessInd=0",
+  "fetchedAt": "2026-07-12T20:17:31+00:00",
+  "bill": {
+    "id": "HB2186",
+    "label": "HB 2186"
+  },
+  "tallies": {
+    "yea": 26,
+    "nay": 0,
+    "notVoting": 0,
+    "leave": 0,
+    "missing": 0
+  },
+  "members": [
+    {
+      "bioId": "1825",
+      "slug": "brandon-markosek",
+      "displayName": "Brandon Markosek",
+      "lastName": "Markosek",
+      "party": "D",
+      "district": "25",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1933",
+      "slug": "aerion-abney",
+      "displayName": "Aerion Abney",
+      "lastName": "Abney",
+      "party": "D",
+      "district": "19",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2015",
+      "slug": "heather-boyd",
+      "displayName": "Heather Boyd",
+      "lastName": "Boyd",
+      "party": "D",
+      "district": "163",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1919",
+      "slug": "amen-brown",
+      "displayName": "Amen Brown",
+      "lastName": "Brown",
+      "party": "D",
+      "district": "10",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1759",
+      "slug": "morgan-cephas",
+      "displayName": "Morgan Cephas",
+      "lastName": "Cephas",
+      "party": "D",
+      "district": "192",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1874",
+      "slug": "g-roni-green",
+      "displayName": "G. Roni Green",
+      "lastName": "Green",
+      "party": "D",
+      "district": "190",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1918",
+      "slug": "rick-krajewski",
+      "displayName": "Rick Krajewski",
+      "lastName": "Krajewski",
+      "party": "D",
+      "district": "188",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1959",
+      "slug": "dave-madsen",
+      "displayName": "Dave Madsen",
+      "lastName": "Madsen",
+      "party": "D",
+      "district": "104",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1941",
+      "slug": "la-tasha-mayes",
+      "displayName": "La'Tasha Mayes",
+      "lastName": "Mayes",
+      "party": "D",
+      "district": "24",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2016",
+      "slug": "lindsay-powell",
+      "displayName": "Lindsay Powell",
+      "lastName": "Powell",
+      "party": "D",
+      "district": "21",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1982",
+      "slug": "tarah-probst",
+      "displayName": "Tarah Probst",
+      "lastName": "Probst",
+      "party": "D",
+      "district": "189",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1948",
+      "slug": "ismail-smith-wade-el",
+      "displayName": "Ismail Smith-Wade-El",
+      "lastName": "Smith-Wade-El",
+      "party": "D",
+      "district": "49",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2062",
+      "slug": "ana-tiburcio",
+      "displayName": "Ana Tiburcio",
+      "lastName": "Tiburcio",
+      "party": "D",
+      "district": "22",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1981",
+      "slug": "ben-waxman",
+      "displayName": "Ben Waxman",
+      "lastName": "Waxman",
+      "party": "D",
+      "district": "182",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1691",
+      "slug": "rich-irvin",
+      "displayName": "Rich Irvin",
+      "lastName": "Irvin",
+      "party": "R",
+      "district": "81",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2026",
+      "slug": "josh-bashline",
+      "displayName": "Josh Bashline",
+      "lastName": "Bashline",
+      "party": "R",
+      "district": "63",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1957",
+      "slug": "tom-jones",
+      "displayName": "Tom Jones",
+      "lastName": "Jones",
+      "party": "R",
+      "district": "98",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1952",
+      "slug": "dallas-kephart",
+      "displayName": "Dallas Kephart",
+      "lastName": "Kephart",
+      "party": "R",
+      "district": "73",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1909",
+      "slug": "milou-mackenzie",
+      "displayName": "Milou Mackenzie",
+      "lastName": "Mackenzie",
+      "party": "R",
+      "district": "131",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1926",
+      "slug": "abby-major",
+      "displayName": "Abby Major",
+      "lastName": "Major",
+      "party": "R",
+      "district": "60",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2025",
+      "slug": "brian-rasel",
+      "displayName": "Brian Rasel",
+      "lastName": "Rasel",
+      "party": "R",
+      "district": "56",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1927",
+      "slug": "leslie-rossi",
+      "displayName": "Leslie Rossi",
+      "lastName": "Rossi",
+      "party": "R",
+      "district": "59",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2023",
+      "slug": "jeremy-shaffer",
+      "displayName": "Jeremy Shaffer",
+      "lastName": "Shaffer",
+      "party": "R",
+      "district": "28",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "1906",
+      "slug": "tim-twardzik",
+      "displayName": "Tim Twardzik",
+      "lastName": "Twardzik",
+      "party": "R",
+      "district": "123",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2032",
+      "slug": "jamie-walsh",
+      "displayName": "Jamie Walsh",
+      "lastName": "Walsh",
+      "party": "R",
+      "district": "117",
+      "vote": "Yea"
+    },
+    {
+      "bioId": "2021",
+      "slug": "eric-weaknecht",
+      "displayName": "Eric Weaknecht",
+      "lastName": "Weaknecht",
+      "party": "R",
+      "district": "5",
+      "vote": "Yea"
+    }
+  ]
+}
