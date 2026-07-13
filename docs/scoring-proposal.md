@@ -47,6 +47,14 @@ methodology below.
 | Cosponsor of a tracked housing bill | **+2** per bill |
 | Cosponsor of a cosponsorship memo (pre-bill) | **+1** |
 
+**Design note (added 2026-07-12).** User directive: cosponsorship
+should count clearly less than a Yea on Final Passage, but it should
+"add up" — repeated cosponsoring across many bills is a real signal
+of a champion. That's what this dimension captures. A member who
+cosponsors 8 tracked bills scores +16 here; someone who cosponsors
+1 and votes Yea on 3 Final Passages scores +2 (cosponsor) + +15
+(votes) = +17. Both read as engaged, ranked appropriately.
+
 ### 3. Committee score — advancing bills out of committee
 
 | Action | Points |

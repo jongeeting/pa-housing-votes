@@ -12,17 +12,10 @@ import { ROLL_CALL_SB1346_SUAH } from "./votes/2026-07-12-senate-suah-sb1346";
 import { JUNE_5_2024_ROLL_CALLS } from "./votes/2024-06-05-local-government";
 import {
   SB1239,
-  SB1346,
   SB1263,
-  SB1277,
-  SB1278,
-  SB1279,
-  SB1281,
   SR211,
   SR348,
   HOUSE_MEMO_47776,
-  SENATE_MEMO_47956,
-  SENATE_MEMO_48019,
   HB1459,
   HB1988,
   HB2185,
@@ -37,22 +30,25 @@ import {
   HR484,
   SB1126,
 } from "./bills/all-bills";
+// Cosponsorship imports for MapItems. We only need these for bills
+// that ONLY appear as cosponsor-overlay items — bills with vote
+// data (roll-call MapItems) don't need a separate cosponsor-only
+// entry, matching the House pattern (HB 2186 has no cosponsorOnly
+// entry once its votes started landing). Memos succeeded by tracked
+// bills also fold out; their content lives on the successor bill's
+// card via the "Originally circulated as..." lineage line.
+// Cosponsor data itself is always available via COSPONSORSHIPS_BY_BILL
+// (used by the bill cards + DistrictPopup); this list is scoped to
+// what the dropdown surfaces as its own MapItem.
 import { SB1126_COSPONSORSHIP } from "./cosponsors/sb1126-cosponsors";
 import { SB1239_COSPONSORSHIP } from "./cosponsors/sb1239-cosponsors";
-import { SB1346_COSPONSORSHIP } from "./cosponsors/sb1346-cosponsors";
 import { SB1263_COSPONSORSHIP } from "./cosponsors/sb1263-cosponsors";
-import { SB1277_COSPONSORSHIP } from "./cosponsors/sb1277-cosponsors";
-import { SB1278_COSPONSORSHIP } from "./cosponsors/sb1278-cosponsors";
-import { SB1279_COSPONSORSHIP } from "./cosponsors/sb1279-cosponsors";
-import { SB1281_COSPONSORSHIP } from "./cosponsors/sb1281-cosponsors";
 import { SR211_COSPONSORSHIP } from "./cosponsors/sr211-cosponsors";
 import { SR348_COSPONSORSHIP } from "./cosponsors/sr348-cosponsors";
 import { HB2367_COSPONSORSHIP } from "./cosponsors/hb2367-cosponsors";
 import { HB2434_COSPONSORSHIP } from "./cosponsors/hb2434-cosponsors";
 import { HB2445_COSPONSORSHIP } from "./cosponsors/hb2445-cosponsors";
 import { HOUSE_MEMO_47776_COSPONSORSHIP } from "./cosponsors/house-memo-47776-cosponsors";
-import { SENATE_MEMO_47956_COSPONSORSHIP } from "./cosponsors/senate-memo-47956-cosponsors";
-import { SENATE_MEMO_48019_COSPONSORSHIP } from "./cosponsors/senate-memo-48019-cosponsors";
 import { HB1459_COSPONSORSHIP } from "./cosponsors/hb1459-cosponsors";
 import { HB1988_COSPONSORSHIP } from "./cosponsors/hb1988-cosponsors";
 import { HB2185_COSPONSORSHIP } from "./cosponsors/hb2185-cosponsors";
@@ -136,23 +132,19 @@ export const ALL_MAP_ITEMS: MapItem[] = [
   { kind: "rollCall", rollCall: ROLL_CALL_SB1346_SUAH },
 
   // ----- 2025-2026 Senate cosponsor-only items -----
-  { kind: "cosponsorOnly", bill: SB1346, cosponsorship: SB1346_COSPONSORSHIP },
+  // Only bills that don't have any roll-call data yet get their own
+  // cosponsor-overlay MapItem, mirroring the House convention
+  // (HB 2186 lost its cosponsor-only item once vote data landed).
+  // SB 1346, SB 1277, SB 1278, SB 1279, SB 1281 all have committee
+  // rollCalls now, so their cosponsor overlays fold out — cosponsor
+  // count still shows on the bill card + the district popup.
+  //
+  // Memos succeeded by tracked bills (SENATE_MEMO_48019 → SB 1346,
+  // SENATE_MEMO_47956 → SR 348) fold out the same way; their content
+  // lives on the successor bill/resolution's card via the
+  // "Originally circulated as..." lineage line.
   { kind: "cosponsorOnly", bill: SB1263, cosponsorship: SB1263_COSPONSORSHIP },
-  { kind: "cosponsorOnly", bill: SB1277, cosponsorship: SB1277_COSPONSORSHIP },
-  { kind: "cosponsorOnly", bill: SB1278, cosponsorship: SB1278_COSPONSORSHIP },
-  { kind: "cosponsorOnly", bill: SB1279, cosponsorship: SB1279_COSPONSORSHIP },
-  { kind: "cosponsorOnly", bill: SB1281, cosponsorship: SB1281_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SR211, cosponsorship: SR211_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SR348, cosponsorship: SR348_COSPONSORSHIP },
   { kind: "cosponsorOnly", bill: SB1239, cosponsorship: SB1239_COSPONSORSHIP },
-  {
-    kind: "cosponsorOnly",
-    bill: SENATE_MEMO_48019,
-    cosponsorship: SENATE_MEMO_48019_COSPONSORSHIP,
-  },
-  {
-    kind: "cosponsorOnly",
-    bill: SENATE_MEMO_47956,
-    cosponsorship: SENATE_MEMO_47956_COSPONSORSHIP,
-  },
 ];
