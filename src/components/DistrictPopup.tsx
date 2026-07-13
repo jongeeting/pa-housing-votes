@@ -240,7 +240,12 @@ export const DistrictPopup = ({
     // Honor a custom stage label (e.g. "Final Passage") when present
     // so the per-bill vote table mirrors the BillSelector menu.
     if (rc.stage) return `${rc.stage} (${formatShortDate(rc.date)})`;
-    if (rc.committee) return `Committee (${formatShortDate(rc.date)})`;
+    // Name the specific committee ("Urban Affairs & Housing" etc.)
+    // instead of generic "Committee", matching the dropdown.
+    if (rc.committee) {
+      const short = rc.committee.replace(/ and /g, " & ");
+      return `${short} (${formatShortDate(rc.date)})`;
+    }
     return `Floor (${formatShortDate(rc.date)})`;
   };
   const phaseIsBold = (item: MapItem): boolean => {

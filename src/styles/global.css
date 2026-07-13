@@ -1704,7 +1704,10 @@ code {
   padding-right: 0.5rem;
   color: var(--fg-muted);
   font-size: 0.76rem;
-  white-space: nowrap;
+  /* Allow long committee names + amendment labels (e.g. "Housing &
+     Community Development – A02831 amendment") to wrap instead of
+     forcing the 360px popup table to overflow horizontally. */
+  line-height: 1.35;
 }
 /* Mirrors .bill-selector__option-phase--bold — used on Final Passage
    etc. so the popup's vote table calls out the definitive vote. */
@@ -1713,8 +1716,13 @@ code {
   color: var(--fg);
 }
 .popup__pill-cell {
+  /* Keep the vote pill on a single line, top-aligned so it sits
+     next to the first line of a wrapped phase label rather than
+     drifting vertically centered against a 2-line label. */
   white-space: nowrap;
   text-align: right;
+  vertical-align: top;
+  padding-top: 3px;
 }
 .popup__flip-flag {
   display: inline-block;
