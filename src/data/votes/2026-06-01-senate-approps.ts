@@ -87,7 +87,7 @@ export const ROLL_CALL_SB1279_APPROPS_REPORTED: RollCall = {
   outcome: "Passed",
   totals: { yea: 14, nay: 8, notVoting: 0 },
   sourceUrl: APPROPS_URL(781),
-  stage: "Approps – Reported as Amended",
+  stage: "Appropriations – Reported as Amended",
   votes: [
     // All 8 D voted Nay
     ...APPROPS_D_YEA.map((id) => ({ memberId: id, vote: "Nay" as const })),
@@ -106,7 +106,7 @@ export const ROLL_CALL_SB1279_APPROPS_A03366: RollCall = {
   outcome: "Passed",
   totals: { yea: 15, nay: 7, notVoting: 0 },
   sourceUrl: APPROPS_URL(782),
-  stage: "Approps – A03366 amendment",
+  stage: "Appropriations – A03366 amendment",
   votes: [
     // Cappelletti crossed over on the amendment; other 7 D voted Nay
     { memberId: "senate-2025-amanda-m-cappelletti", vote: "Yea" },

@@ -204,7 +204,13 @@ const phaseTag = (item: MapItem): string => {
     // Custom stage label (e.g. "2nd Consideration") takes precedence
     // so multiple floor votes on one bill stay distinguishable.
     if (rc.stage) return `${rc.stage} · ${rc.date}`;
-    if (rc.committee) return `Committee · ${rc.date}`;
+    // Committee vote: name the specific committee ("Urban Affairs &
+    // Housing", "Appropriations", "Housing & Community Development")
+    // instead of the generic "Committee".
+    if (rc.committee) {
+      const short = rc.committee.replace(/ and /g, " & ");
+      return `${short} · ${rc.date}`;
+    }
     return `Floor · ${rc.date}`;
   }
   // Cosponsor-only item: derive the label from the bill's site-record

@@ -124,7 +124,7 @@ export const ROLL_CALL_HB2186_A02831: RollCall = {
   totals: { yea: 26, nay: 0, notVoting: 0 },
   sourceUrl:
     "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=64&rollcallid=1914&sessYr=2025&sessInd=0",
-  stage: "HCD – A02831 amendment",
+  stage: "Housing & Community Development – A02831 amendment",
   votes: [
     // Democrats — 14 Yea, 0 Nay
     { memberId: "house-2025-aerion-abney", vote: "Yea" },
@@ -172,7 +172,7 @@ export const ROLL_CALL_HB2109_A02848: RollCall = {
   totals: { yea: 25, nay: 1, notVoting: 0 },
   sourceUrl:
     "https://www.palegis.us/house/committees/roll-call-votes/vote-list/vote-summary?committeecode=64&rollcallid=1908&sessYr=2025&sessInd=0",
-  stage: "HCD – A02848 amendment",
+  stage: "Housing & Community Development – A02848 amendment",
   votes: [
     // Democrats — 14 Yea, 0 Nay
     { memberId: "house-2025-aerion-abney", vote: "Yea" },
