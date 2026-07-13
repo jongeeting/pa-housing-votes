@@ -444,6 +444,15 @@ def parse(raw_path: Path, session: str, chamber: str, rc_num: int) -> dict:
 
     header = parse_header(soup)
 
+    # Cross-reference roster so the memberId in the JSON matches the
+    # canonical id in src/data/members/pa-*.ts. This matters for
+    # Senate: the Senate roster uses middle-initial slugs
+    # ("david-g-argall") but the floor vote display names don't
+    # ("David Argall" -> "david-argall"). Without this, downstream
+    # MEMBERS_BY_ID lookups (DistrictPopup, FullVoteList) would miss
+    # senators on Senate floor votes.
+    roster_by_bioid = _load_roster_by_bioid(chamber)
+
     members: list[dict] = []
     seen: set[str] = set()
     for block in soup.select("div.rc-member"):
@@ -453,6 +462,12 @@ def parse(raw_path: Path, session: str, chamber: str, rc_num: int) -> dict:
         if m["bioId"] in seen:
             continue
         seen.add(m["bioId"])
+        # Prefer the roster's canonical slug when we have a match.
+        # Falls back to the display-name-derived slug otherwise
+        # (e.g. a new member not yet in the roster).
+        r = roster_by_bioid.get(m["bioId"])
+        if r and r.get("slug"):
+            m["slug"] = r["slug"]
         members.append(m)
 
     # Compute tallies from member rows (more reliable than scraping the summary card).

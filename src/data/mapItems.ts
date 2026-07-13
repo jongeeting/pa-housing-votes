@@ -8,6 +8,8 @@ import { ROLL_CALL_HB2186_FINAL_PASSAGE } from "./votes/2026-06-01-hb2186-final"
 import { ROLL_CALL_HB2109_2ND_CONS } from "./votes/2026-06-02-hb2109-2nd";
 import { ROLL_CALL_HB2109_HOUSE_APPROPS } from "./votes/2026-06-03-house-approps-hb2109";
 import { ROLL_CALL_HB2109_FINAL_PASSAGE } from "./votes/2026-06-08-hb2109-final";
+import { ROLL_CALL_SB1279_FINAL_PASSAGE } from "./votes/2026-06-03-sb1279-final";
+import { ROLL_CALL_SB1281_FINAL_PASSAGE } from "./votes/2026-06-03-sb1281-final";
 import { ROLL_CALL_SB1346_SUAH } from "./votes/2026-07-12-senate-suah-sb1346";
 import { JUNE_5_2024_ROLL_CALLS } from "./votes/2024-06-05-local-government";
 import {
@@ -129,6 +131,10 @@ export const ALL_MAP_ITEMS: MapItem[] = [
   ...JUNE_1_2026_SENATE_APPROPS_ROLL_CALLS.map(
     (rc) => ({ kind: "rollCall" as const, rollCall: rc }),
   ),
+  // Senate Final Passage votes — June 3. SB 1281 (50-0 unanimous)
+  // + SB 1279 (30-20, 4 D crossovers + Coleman sole R Nay).
+  { kind: "rollCall", rollCall: ROLL_CALL_SB1279_FINAL_PASSAGE },
+  { kind: "rollCall", rollCall: ROLL_CALL_SB1281_FINAL_PASSAGE },
   { kind: "rollCall", rollCall: ROLL_CALL_SB1346_SUAH },
 
   // ----- 2025-2026 Senate cosponsor-only items -----
