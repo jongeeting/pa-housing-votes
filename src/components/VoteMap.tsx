@@ -910,6 +910,16 @@ export const VoteMap = ({
     // cosponsor purple stays as the headline signal since there's
     // no Yea/Nay to render.
     const isCosponsorOnly = selectedItem.kind === "cosponsorOnly";
+    // "Highlighted" = districts that get a colored fill AND party
+    // outline. For roll-call items that's the vote roster (committee
+    // members on a committee vote, the whole chamber on a floor
+    // vote). For cosponsor-only items it's the sponsor + cosponsors.
+    // Every other district gets a neutral gray fill + thin gray
+    // outline — no residual "this district is somebody" signal.
+    const isHighlighted = (
+      snap: (typeof districtSnapshots) extends Map<string, infer V> ? V : never,
+    ): boolean => (isCosponsorOnly ? snap.isCosponsor : snap.vote != null);
+
     const matchExpression: (string | string[] | number[])[] = [
       "match",
       ["get", "district"],
@@ -923,11 +933,17 @@ export const VoteMap = ({
     }
     matchExpression.push(NO_VOTE_FILL);
 
+    // Only put party-outline entries in the match expression for
+    // highlighted districts. Non-highlighted districts fall through
+    // to the neutral gray fallback — matching their gray fill.
     const strokeExpression: (string | string[])[] = [
       "match",
       ["get", "district"],
     ];
+    const highlightedDistricts = new Set<string>();
     for (const [district, snap] of districtSnapshots) {
+      if (!isHighlighted(snap)) continue;
+      highlightedDistricts.add(district);
       strokeExpression.push(district);
       strokeExpression.push(snap.party ? PARTY_STROKE[snap.party] : "#374151");
     }
@@ -946,12 +962,18 @@ export const VoteMap = ({
       "line-color",
       strokeExpression as unknown as maplibregl.ExpressionSpecification,
     );
+    // Thick outline only on highlighted districts so the eye is
+    // drawn to the ones with a story. Everyone else gets a thin
+    // gray stroke — visible enough to preserve district boundaries
+    // but not visually competitive with the highlighted set.
     map.setPaintProperty(outlineLayer, "line-width", [
       "case",
       [
         "has",
         ["to-string", ["get", "district"]],
-        ["literal", Object.fromEntries(Array.from(districtSnapshots.entries()).map(([d]) => [d, true]))],
+        ["literal", Object.fromEntries(
+          Array.from(highlightedDistricts).map((d) => [d, true]),
+        )],
       ],
       1.6,
       0.6,
