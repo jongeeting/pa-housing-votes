@@ -234,6 +234,18 @@ export const DistrictPopup = ({
     arr.sort((a, b) => itemDate(a).localeCompare(itemDate(b)));
   }
 
+  // Push past-session bills to the bottom of the popup — the current
+  // session's activity is the headline. Insertion order otherwise
+  // reflects ALL_MAP_ITEMS which puts SB 1126 (2023-24 historical)
+  // above all the 2025-26 Senate bills.
+  const orderedBillEntries = Array.from(itemsByBill.entries()).sort(
+    ([, aItems], [, bItems]) => {
+      const aHist = getMapItemBill(aItems[0]).session === "2023-2024" ? 1 : 0;
+      const bHist = getMapItemBill(bItems[0]).session === "2023-2024" ? 1 : 0;
+      return aHist - bHist;
+    },
+  );
+
   const phaseLabel = (item: MapItem): string => {
     const rc = getMapItemRollCall(item);
     if (!rc) return "Cosponsors only";
@@ -288,7 +300,7 @@ export const DistrictPopup = ({
           <div className="popup__section-title">
             {chamber === "Senate" ? "Senate bills" : "Bills tracked"}
           </div>
-          {Array.from(itemsByBill.entries()).map(([billId, billItems]) => {
+          {orderedBillEntries.map(([billId, billItems]) => {
             const bill = getMapItemBill(billItems[0]);
             const isHistorical = bill.session === "2023-2024";
             // Track prior vote within the bill to flag flips

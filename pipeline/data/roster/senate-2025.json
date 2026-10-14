@@ -1,0 +1,458 @@
+{
+  "chamber": "senate",
+  "fetchedAt": "2026-05-10T22:41:48+00:00",
+  "sourceUrl": "https://www.palegis.us/senate/members",
+  "count": 50,
+  "members": [
+    {
+      "bioId": "69",
+      "slug": "david-g-argall",
+      "displayName": "David G. Argall",
+      "lastName": "Argall",
+      "party": "R",
+      "district": "29",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1077",
+      "slug": "lisa-baker",
+      "displayName": "Lisa Baker",
+      "lastName": "Baker",
+      "party": "R",
+      "district": "20",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1698",
+      "slug": "camera-bartolotta",
+      "displayName": "Camera Bartolotta",
+      "lastName": "Bartolotta",
+      "party": "R",
+      "district": "46",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "179",
+      "slug": "lisa-m-boscola",
+      "displayName": "Lisa M. Boscola",
+      "lastName": "Boscola",
+      "party": "D",
+      "district": "18",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1087",
+      "slug": "michele-brooks",
+      "displayName": "Michele Brooks",
+      "lastName": "Brooks",
+      "party": "R",
+      "district": "50",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1200",
+      "slug": "rosemary-m-brown",
+      "displayName": "Rosemary M. Brown",
+      "lastName": "Brown",
+      "party": "R",
+      "district": "40",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1923",
+      "slug": "amanda-m-cappelletti",
+      "displayName": "Amanda M. Cappelletti",
+      "lastName": "Cappelletti",
+      "party": "D",
+      "district": "17",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "2008",
+      "slug": "jarrett-coleman",
+      "displayName": "Jarrett Coleman",
+      "lastName": "Coleman",
+      "party": "R",
+      "district": "16",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1799",
+      "slug": "maria-collett",
+      "displayName": "Maria Collett",
+      "lastName": "Collett",
+      "party": "D",
+      "district": "12",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1790",
+      "slug": "carolyn-t-comitta",
+      "displayName": "Carolyn T. Comitta",
+      "lastName": "Comitta",
+      "party": "D",
+      "district": "19",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "254",
+      "slug": "jay-costa",
+      "displayName": "Jay Costa",
+      "lastName": "Costa",
+      "party": "D",
+      "district": "43",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1202",
+      "slug": "lynda-schlegel-culver",
+      "displayName": "Lynda Schlegel Culver",
+      "lastName": "Culver",
+      "party": "R",
+      "district": "27",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1687",
+      "slug": "cris-dush",
+      "displayName": "Cris Dush",
+      "lastName": "Dush",
+      "party": "R",
+      "district": "25",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1169",
+      "slug": "frank-a-farry",
+      "displayName": "Frank A. Farry",
+      "lastName": "Farry",
+      "party": "R",
+      "district": "6",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1626",
+      "slug": "marty-flynn",
+      "displayName": "Marty Flynn",
+      "lastName": "Flynn",
+      "party": "D",
+      "district": "22",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1041",
+      "slug": "wayne-d-fontana",
+      "displayName": "Wayne D. Fontana",
+      "lastName": "Fontana",
+      "party": "D",
+      "district": "42",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1928",
+      "slug": "chris-gebhard",
+      "displayName": "Chris Gebhard",
+      "lastName": "Gebhard",
+      "party": "R",
+      "district": "48",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1689",
+      "slug": "art-haywood",
+      "displayName": "Art Haywood",
+      "lastName": "Haywood",
+      "party": "D",
+      "district": "4",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "152",
+      "slug": "vincent-j-hughes",
+      "displayName": "Vincent J. Hughes",
+      "lastName": "Hughes",
+      "party": "D",
+      "district": "7",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1629",
+      "slug": "scott-e-hutchinson",
+      "displayName": "Scott E. Hutchinson",
+      "lastName": "Hutchinson",
+      "party": "R",
+      "district": "21",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1925",
+      "slug": "john-i-kane",
+      "displayName": "John I. Kane",
+      "lastName": "Kane",
+      "party": "D",
+      "district": "9",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1800",
+      "slug": "timothy-p-kearney",
+      "displayName": "Timothy P. Kearney",
+      "lastName": "Kearney",
+      "party": "D",
+      "district": "26",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1748",
+      "slug": "dawn-w-keefer",
+      "displayName": "Dawn W. Keefer",
+      "lastName": "Keefer",
+      "party": "R",
+      "district": "31",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1636",
+      "slug": "patty-kim",
+      "displayName": "Patty Kim",
+      "lastName": "Kim",
+      "party": "D",
+      "district": "15",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1764",
+      "slug": "wayne-langerholc",
+      "displayName": "Wayne Langerholc",
+      "lastName": "Langerholc",
+      "party": "R",
+      "district": "35",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1766",
+      "slug": "daniel-laughlin",
+      "displayName": "Daniel Laughlin",
+      "lastName": "Laughlin",
+      "party": "R",
+      "district": "49",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "2061",
+      "slug": "james-andrew-malone",
+      "displayName": "James Andrew Malone",
+      "lastName": "Malone",
+      "party": "D",
+      "district": "36",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1763",
+      "slug": "scott-martin",
+      "displayName": "Scott Martin",
+      "lastName": "Martin",
+      "party": "R",
+      "district": "13",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1869",
+      "slug": "doug-mastriano",
+      "displayName": "Doug Mastriano",
+      "lastName": "Mastriano",
+      "party": "R",
+      "district": "33",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "2009",
+      "slug": "nick-miller",
+      "displayName": "Nick Miller",
+      "lastName": "Miller",
+      "party": "D",
+      "district": "14",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1802",
+      "slug": "katie-j-muth",
+      "displayName": "Katie J. Muth",
+      "lastName": "Muth",
+      "party": "D",
+      "district": "44",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1912",
+      "slug": "tracy-pennycuick",
+      "displayName": "Tracy Pennycuick",
+      "lastName": "Pennycuick",
+      "party": "R",
+      "district": "24",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1801",
+      "slug": "kristin-phillips-hill",
+      "displayName": "Kristin Phillips-Hill",
+      "lastName": "Phillips-Hill",
+      "party": "R",
+      "district": "28",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "2036",
+      "slug": "joe-picozzi",
+      "displayName": "Joe Picozzi",
+      "lastName": "Picozzi",
+      "party": "R",
+      "district": "5",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1900",
+      "slug": "nick-pisciottano",
+      "displayName": "Nick Pisciottano",
+      "lastName": "Pisciottano",
+      "party": "D",
+      "district": "45",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1870",
+      "slug": "joe-pittman",
+      "displayName": "Joe Pittman",
+      "lastName": "Pittman",
+      "party": "R",
+      "district": "41",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1924",
+      "slug": "devlin-j-robinson",
+      "displayName": "Devlin J. Robinson",
+      "lastName": "Robinson",
+      "party": "R",
+      "district": "37",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1733",
+      "slug": "greg-rothman",
+      "displayName": "Greg Rothman",
+      "lastName": "Rothman",
+      "party": "R",
+      "district": "34",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1179",
+      "slug": "steven-j-santarsiero",
+      "displayName": "Steven J. Santarsiero",
+      "lastName": "Santarsiero",
+      "party": "D",
+      "district": "10",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1921",
+      "slug": "nikil-saval",
+      "displayName": "Nikil Saval",
+      "lastName": "Saval",
+      "party": "D",
+      "district": "1",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1234",
+      "slug": "judith-l-schwank",
+      "displayName": "Judith L. Schwank",
+      "lastName": "Schwank",
+      "party": "D",
+      "district": "11",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1697",
+      "slug": "patrick-j-stefano",
+      "displayName": "Patrick J. Stefano",
+      "lastName": "Stefano",
+      "party": "R",
+      "district": "32",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1767",
+      "slug": "sharif-street",
+      "displayName": "Sharif Street",
+      "lastName": "Street",
+      "party": "D",
+      "district": "3",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "277",
+      "slug": "christine-m-tartaglione",
+      "displayName": "Christine M. Tartaglione",
+      "lastName": "Tartaglione",
+      "party": "D",
+      "district": "2",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1189",
+      "slug": "elder-a-vogel",
+      "displayName": "Elder A. Vogel",
+      "lastName": "Vogel",
+      "party": "R",
+      "district": "47",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1683",
+      "slug": "judy-ward",
+      "displayName": "Judy Ward",
+      "lastName": "Ward",
+      "party": "R",
+      "district": "30",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1188",
+      "slug": "kim-l-ward",
+      "displayName": "Kim L. Ward",
+      "lastName": "Ward",
+      "party": "R",
+      "district": "39",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "153",
+      "slug": "anthony-h-williams",
+      "displayName": "Anthony H. Williams",
+      "lastName": "Williams",
+      "party": "D",
+      "district": "8",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1803",
+      "slug": "lindsey-m-williams",
+      "displayName": "Lindsey M. Williams",
+      "lastName": "Williams",
+      "party": "D",
+      "district": "38",
+      "chamber": "Senate"
+    },
+    {
+      "bioId": "1186",
+      "slug": "gene-yaw",
+      "displayName": "Gene Yaw",
+      "lastName": "Yaw",
+      "party": "R",
+      "district": "23",
+      "chamber": "Senate"
+    }
+  ]
+}
