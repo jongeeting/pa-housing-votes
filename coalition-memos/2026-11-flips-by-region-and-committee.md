@@ -17,6 +17,14 @@ committee rosters from `committee-assignments-2025.csv`.
 Daily Voice, PublicSource (Pittsburgh), Ballotpedia/PoliticsPA
 (HD-88 open seat).
 
+> **Correction (do not assume the new members).** A flipped seat is
+> **not** a new Yea — the incoming member is unproven on these bills.
+> We can only infer from recorded votes. One exception: a member who
+> moved up from the House carries their House record — e.g. **Tom Jones
+> (new SD-36, R)**, the former HD-98 rep, voted **Yea on HB 2186 (ADU)**
+> at both readings (slipped only on HB 2109 occupancy final). See the
+> nesting retarget memo.
+
 ---
 
 ## Top line
@@ -69,18 +77,21 @@ is exactly where our gettable/anchor Republicans lived:
   and SD-16 (Coleman, pending).
 - **Outliers:** one western flip (Allegheny HD-44) and one Harrisburg-
   metro open seat (Cumberland HD-88, Delozier retirement).
-- **The one seat against us** is outside the collar entirely:
+- **The one D→R flip** is outside the collar entirely:
   **Lancaster SD-36**, where D freshman Malone (won a 2025 special)
-  lost to R Tom Jones. Only flip that subtracts a reliable Yea.
+  lost to R Tom Jones. But Jones is the former HD-98 rep and was a
+  **reliable ADU (HB 2186) Yea** in the House — so on housing this may
+  be a wash or even a **potential Senate champion** pickup, not a loss.
 - **The deep-R-No rural regions didn't move** (North Central, Central,
   South Central, Southwest rural, Northwest). No opponents converted;
   the gains are entirely suburban.
 
 **Coalition cost:** we lost **both** anchors that were on the ballot in
-flip districts — **Hogan (HD-142)** and **Emrick (HD-137)**. Raw Yea
-count holds (D successors vote Yea), but two of the 14 rock-solid R
-champions are gone, and Delozier (a reliable GG-Yea) retired. Bipartisan
-cover is thinner.
+flip districts — **Hogan (HD-142)** and **Emrick (HD-137)**. Their
+Democratic successors are unproven on these bills, so this is a loss of
+two rock-solid R champions, not a swap for new Yeas — and Delozier (a
+GG-Yea) retired. Bipartisan cover is thinner until the newcomers have a
+record.
 
 ---
 

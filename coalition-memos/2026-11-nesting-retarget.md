@@ -1,105 +1,124 @@
 # Senate nesting math — post-election retarget (Nov 2026)
 
-> **PRELIMINARY.** Uses this term's recorded House votes (kept intact) and
-> applies the unofficial, morning-after election results. SD-16 and SD-40
-> are still uncalled. Re-verify before acting.
+> **PRELIMINARY.** Unofficial results; SD-16 and SD-40 uncalled.
 
 **Status:** internal working note. Companion to
 `2026-11-flips-by-region-and-committee.md`. See [[project_nesting_strategy]].
 
-## Method (unchanged — we keep this term's data)
+## Ground rule: no assuming the new members
+
+We **cannot** assume the newly-elected Democrats (or any new member) will
+vote for housing reform. They have not spoken on these bills or cast a vote.
+The only thing we can legitimately work from is the **nesting math built on
+this term's recorded votes.** So:
+
+- A House seat that flipped is **not** a new Yea. It is a seat we can no
+  longer score — the member who voted is gone, and the new member is
+  **unproven** (no record).
+- A new Democratic senator is **not** an ally on our ledger. The most we can
+  say is what their district's *sitting* House delegation did on record —
+  that is an inference about the **district**, not a prediction of the
+  **member**.
+- Party is, at most, a weak prior. The nesting is the signal; the member is a
+  conversation we have not yet had.
+- **Exception — members who moved up carry a record.** A newcomer who was
+  a *House* member has recorded votes on these bills. **Tom Jones (new SD-36,
+  R)** is the former **HD-98** rep and voted **Yea on HB 2186 (ADU)** at both
+  readings (slipped only on HB 2109 occupancy final). He is *proven* on ADUs,
+  not unknown — the only incoming senator we can already score.
+
+(An earlier draft recoded the flipped seats as Yea. That was wrong and is
+corrected throughout. Where an earlier memo or the PDF says a Democratic
+successor "votes Yea" or the "Yea base grows," read that as *unproven*.)
+
+## Method (we keep this term's data)
 
 Nesting support = share of a Senate district's **primary-nested** House
-districts (land overlap ≥ 0.5, per `computeNestedSupport` /
-`nestedHouseDistricts`) that voted **Yea** on a bill's final passage. The
-base data is this term's recorded roll calls — **HB 2186** (ADU, rc 1075)
-and **HB 2109** (occupancy, rc 1119). We keep those.
+districts (overlap ≥ 0.5) that voted **Yea** on final passage — **HB 2186**
+(ADU, rc 1075) and **HB 2109** (occupancy, rc 1119). Flipped seats are
+scored as **no record / unproven**, not Yea.
 
-The **post-election** column recomputes the same thing after recoding the
-six called House flips (HD-18, 44, 88, 137, 142, 160) — all now Democratic —
-as Yea. Everything else is held at its recorded vote. So each senator gets a
-"this term → post-election" nested-support reading.
+## The recorded terrain (this term) — surviving-R senators
 
-## What the House flips did to the nesting
+Their districts' demonstrated House support did not change on election night.
+These are the people whose own delegations already back ADUs — the real
+bipartisan-margin targets:
 
-Only three Senate districts' nested support actually moved — the flips that
-turned a *Nay* House seat into a *Yea* one (HD-18, HD-88, HD-160), and only
-where that seat is primary-nested:
-
-| SD | Senator (now) | HB 2186 this term → post-election | Driver |
+| SD | Senator (R) | HB 2186 | HB 2109 |
 |---|---|---|---|
-| SD-9 | Kane (D) | 67% → **100%** (+33) | HD-160 flip |
-| SD-6 | Albillar (D) | 50% → **75%** (+25) | HD-18 flip (flipped SD) |
-| SD-34 | Rothman (R) | 67% → **83%** (+17) | HD-88 flip |
+| SD-35 | Langerholc | **100%** (4/4) | 50% |
+| SD-37 | Robinson | **100%** (3/3) | 67% |
+| SD-49 | Laughlin | 75% (3/4) | 25% |
+| SD-5 | Picozzi | 75% (3/4) | 75% |
+| SD-25 | Dush | 75% (3/4) | 25% |
+| SD-39 | Ward, Kim | 67% (2/3) | 33% |
+| SD-34 | Rothman | 67% (4/6) | 50% |
+| SD-46 | Bartolotta | 60% (3/5) | 60% |
+| SD-29 | Argall | 60% (3/5) | 80% |
 
-The other three flips (HD-44, 137, 142) were already Yea, so they don't move
-the math — but they do mean those Yea votes now come from Democrats who will
-hold, not Republicans who might wobble.
+Prior targets (Ward SD-30, Langerholc SD-35, Picozzi SD-5) all **held** —
+the chamber flipped on *other* seats — so this list is intact.
 
-## Prior targets — all three survived, all still nest well
+## What the election actually did to the nesting: lost data points
 
-Our pre-election targets (Ward SD-30, Langerholc SD-35, Picozzi SD-5) all
-**held their seats** — the Senate flipped on *other* districts. They remain
-valid, but the ask changes (see below).
+Five districts now have a nested House seat that is **unproven** (flipped).
+We did not gain Yea votes here — we lost the ability to score these seats:
 
-| SD | Senator | HB 2186 | HB 2109 | Note |
-|---|---|---|---|---|
-| SD-35 | Langerholc (R) | 100% | 50% | Held. Full ADU delegation. |
-| SD-5 | Picozzi (R) | 75% | 75% | Held. **Loses the Urban Affairs & Housing gavel** to Saval. |
-| SD-30 | Ward, Judy (R) | 50% | 75% | Held. Stronger on occupancy than ADU. |
-
-## Retargeted lists
-
-### A. Surviving Republicans on pro-reform delegations — "don't block / vote yes"
-Under a Democratic majority the ask shifts from *"move the bill"* to *"don't
-obstruct it, and give it a bipartisan margin."* These R senators' own House
-delegations back ADUs, which is the cover to pitch them:
-
-| SD | Senator | HB 2186 nest | HB 2109 nest |
+| SD | Senator (now) | HB 2186 recorded | Newly unproven |
 |---|---|---|---|
-| SD-35 | Langerholc | **100%** | 50% |
-| SD-37 | Robinson | **100%** | 67% |
-| SD-34 | Rothman | **83%** (rose) | 50% |
-| SD-5 | Picozzi | 75% | 75% |
-| SD-49 | Laughlin | 75% | 25% |
-| SD-25 | Dush | 75% | 25% |
-| SD-39 | Ward, Kim | 67% | 33% |
-| SD-30 | Ward, Judy | 50% | 75% |
+| SD-37 | Robinson (R) | 100% (3/3) | HD-44 (1 of 3) |
+| SD-18 | Boscola (D) | 100% (4/4) | HD-137 (1 of 4) |
+| SD-9 | Kane (D) | 67% (2/3) | HD-160 (1 of 3) |
+| SD-34 | Rothman (R) | 67% (4/6) | HD-88 (1 of 6) |
+| SD-6 | *(new senator)* | 50% (2/4) | HD-142, HD-18 (2 of 4) |
 
-### B. New Democratic allies from the flips (the Yea base grows)
-| SD | New senator | HB 2186 | HB 2109 | Status |
-|---|---|---|---|---|
-| SD-40 | Wrightson (D) | 75% | 75% | uncalled — strong nest |
-| SD-6 | Albillar (D) | 75% | 50% | called — rose from flip |
-| SD-24 | Thomas (D) | 67% | 67% | called |
+The recorded percentages are the terrain; the "newly unproven" column is the
+uncertainty the election introduced.
 
-### C. Weak-nest Democrat — arm, don't assume
-| SD | Senator | HB 2186 | HB 2109 | Note |
-|---|---|---|---|---|
-| SD-16 | Pinsley (D) | 20% | 40% | uncalled. A Democrat in R-leaning House turf — his delegation mostly voted Nay, so he gets the least "your district backs this" cover of any D. Give him the member-by-member breakdown. |
+## New people we have to talk to now
 
-### D. The one loss
-**SD-36 (Lancaster)** flipped D→R (Malone → Tom Jones). Nest is weak anyway
-(HB 2186 40%, HB 2109 20%), so we lose a reliable Yea but not a nesting
-argument.
+Everyone below is **unproven** — which is exactly why they're the live
+conversations. Sorted by how much their district's recorded nesting gives us
+to open with.
 
-## Retarget summary
+### Incoming senators (the chamber that flipped — highest leverage)
+| SD | New senator | District's recorded nesting | Pitch / read |
+|---|---|---|---|
+| SD-40 | Wrightson (D) | HB 2186 **75%**, HB 2109 75% | uncalled. Strongest district terrain of any newcomer — lead here. "Your House delegation already backs this." |
+| SD-24 | Thomas (D) | HB 2186 67%, HB 2109 67% | called. Solid terrain; warm intro. |
+| SD-6 | Albillar (D) | HB 2186 50%, HB 2109 50% | called, Bucks. Mixed terrain **and** 2 of her 4 nested House seats are themselves now new — low hard data, real conversation. |
+| SD-16 | Pinsley (D) | HB 2186 **20%**, HB 2109 40% | uncalled. A Democrat in R-leaning House turf — the *least* district cover of any newcomer. Talk early, expect to educate, don't assume. |
+| SD-36 | **Jones (R)** | HB 2186 40%, HB 2109 20% | the D→R flip (Lancaster) — but **not unproven**: Jones is the former HD-98 rep who voted **Yea on HB 2186 (ADU)** both readings (Nay on HB 2109 occupancy final). A **potential Senate champion on ADUs** — a priority conversation, *not* a hold-the-line. His district's nesting is low, so lead with his own record, not the delegation. |
 
-- **The chokepoint is gone.** With a Democratic majority and Saval chairing
-  Urban Affairs & Housing, nesting is no longer about prying a bill out of a
-  hostile committee. It's about (1) a durable bipartisan floor margin and
-  (2) protecting the new, thin majority.
-- **Bipartisan margin:** lead with Langerholc (35), Robinson (37), Rothman
-  (34 — now 83%), Picozzi (5). Their delegations give them cover; Rothman and
-  Picozzi especially, as the two highest-nest Rs outside leadership.
-- **Protect the majority:** Pinsley (SD-16, if he holds) is the one Democrat
-  with a hostile delegation — he needs arming, not assuming.
-- **ADU vs occupancy still diverge.** HB 2109 nests are consistently lower
-  than HB 2186 — occupancy reform remains the harder sell even where ADUs
-  poll the delegation well (Langerholc 100%/50%, Laughlin & Dush 75%/25%).
+### Incoming House members (all six flipped seats — none has voted)
+Prioritize by whether the seat's *prior* occupant voted Nay (genuinely
+unknown territory) vs. Yea (ask them to continue what the district showed):
+
+- **Previously Nay/mixed — truly unknown, engage first:** Allen (HD-18, Bucks),
+  Agerton (HD-88, Cumberland), Moro (HD-160, Delaware/Chester). Their districts
+  leaned Nay on ADUs; the new D could go either way.
+- **Previously Yea — ask them to hold it:** Egan (HD-142), Warren (HD-137),
+  Haas (HD-44). They replace Republicans who voted Yea on both bills; the goal
+  is continuity.
+
+## Retarget summary (honest version)
+
+- **Demonstrated support** (bank on record): surviving Republicans with strong
+  nests — Langerholc (35), Robinson (37), Picozzi (5), Laughlin (49), Dush
+  (25), Rothman (34). These haven't changed.
+- **The one newcomer we can already score — and a possible pickup:** **Tom
+  Jones (SD-36, R)**, up from HD-98, is a proven ADU Yea. SD-36 reads as the
+  "D→R loss," but on housing he's a potential Senate champion. Make him an
+  early, warm R conversation.
+- **Unproven, must engage:** every other newcomer above. The nesting tells us
+  which districts are favorable terrain, not how the new member will vote.
+  Wrightson (40) and Thomas (24) open warmest; Pinsley (16) coldest.
+- **ADU vs occupancy still diverge** — HB 2109 nests run lower than HB 2186
+  across the board; occupancy stays the harder ask.
 
 ## To-dos
-1. Resolve SD-16 and SD-40; both change the D majority and the lists above.
-2. Re-run with cosponsor data folded in (method supports yea + cosponsor);
-   this note uses floor votes only.
-3. Rebuild the SD-nesting choropleth with the post-election House delegation.
+1. Resolve SD-16 and SD-40; both are uncalled and both change the list.
+2. Build an intro-meeting list for the newcomers above once seated.
+3. Re-run with cosponsor data folded in (floor votes only here).
+4. Scrub the same "D successor = Yea" assumption from the PDF and the
+   flips-by-region memo (flagged, pending).
