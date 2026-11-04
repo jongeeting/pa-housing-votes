@@ -36,5 +36,9 @@ vendored here.
 - Loser vote records: House roll calls rc 1075 (HB 2186 Final) and
   rc 1119 (HB 2109 Final) in `pipeline/data/rollcalls/`.
 - Committee rosters: `committee-assignments-2025.csv`.
+- Transit votes (HB 1788, HB 257 Saval-amendment table motion): the
+  companion project at vote-transit.netlify.app (`/data/data.json`).
+  Committee chairs are the **likely** incoming Democratic chairs — the
+  caucus doesn't finalize assignments until it organizes in the new year.
 - Senate Dem committee chairs + leadership: pasenate.com / pahouse.com
   (2025–26 session).
