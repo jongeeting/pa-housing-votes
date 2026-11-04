@@ -167,6 +167,46 @@ have to move, and which R relationships (Farry, Coleman) are gone.
 
 ---
 
+## Transit funding — the parallel fight (HB 1788)
+
+Same structure as zoning, same wall. **HB 1788** (transit + roads
+funding — ~$292M/yr to the Public Transportation Trust Fund plus $325M
+in bonding) passed the House **108–95**, then died because the R Senate
+**tabled Sen. Nikil Saval's funding amendment (A-1617) 27–22** on a
+party line. (Data: vote-transit.netlify.app.)
+
+**Anti-transit votes going away.** All four defeated R senators voted
+**to table** the Saval amendment — i.e., against funding transit:
+- Farry (SD-6), Pennycuick (SD-24), Coleman (SD-16), Brown (SD-40).
+
+Plus three House Republicans who voted **No on HB 1788** are gone:
+Gaydos (HD-44), Emrick (HD-137), Delozier (HD-88, retired).
+
+**Housing ≠ transit — the coalitions differ.** Each departing / incoming
+member's stance on the two fights:
+
+| Member | Housing (HB 2186/2109) | Transit (HB 1788) |
+|---|---|---|
+| **Hogan (HD-142)** | Pro (anchor) | **Pro** — pro-both, biggest combined loss |
+| Emrick (HD-137) | Pro (anchor) | Anti |
+| Gaydos (HD-44) | Pro | Anti |
+| Williams (HD-160) | Anti | Pro (mirror image) |
+| Tomlinson (HD-18) | Split | Pro |
+| **Tom Jones (→SD-36, incoming)** | Pro (ADU) | **Anti** (beat pro-transit Malone) |
+
+**Committee angle.** HB 1788 was referred to **Senate Transportation**,
+chaired by **Judy Ward (SD-30, R)** — who *held* her seat. Under D
+control the likely incoming chair is **Marty Flynn (SD-22)** (not final
+— caucus organizes in the new year). Saval, the tabled amendment's
+author, is the likely Urban Affairs & Housing chair. Same senators, same
+committee structure gated both housing and transit.
+
+**Net for transit:** the Senate that tabled funding loses 4 of its 27
+tabling votes and flips 26–24 D. Soft spot: **SD-36**, where pro-transit
+Malone (D) lost to Jones (R), who voted against HB 1788.
+
+---
+
 ## To-dos once called / certified
 
 1. Resolve the 7 uncalled House races; update the House "pending" rows.

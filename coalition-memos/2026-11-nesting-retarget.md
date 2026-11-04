@@ -39,6 +39,10 @@ districts (overlap ≥ 0.5) that voted **Yea** on final passage — **HB 2186**
 (ADU, rc 1075) and **HB 2109** (occupancy, rc 1119). Flipped seats are
 scored as **no record / unproven**, not Yea.
 
+*Scope: this is housing-bill nesting (HB 2186/2109). For the transit
+fight (HB 1788) and the housing-vs-transit cross-tab, see
+`2026-11-flips-by-region-and-committee.md`.*
+
 ## The recorded terrain (this term) — surviving-R senators
 
 Their districts' demonstrated House support did not change on election night.

@@ -89,6 +89,19 @@ target next.
 
 ---
 
+## Transit: the same wall, now gone
+
+Housing wasn't the only built-environment fight in this bind. **HB 1788**
+(transit + roads funding) passed the House **108–95**, then died when the
+R Senate **tabled Saval's funding amendment 27–22**. All four defeated R
+senators — Farry (SD-6), Pennycuick (SD-24), Coleman (SD-16), Brown
+(SD-40) — voted to table it, so the Senate that blocked transit loses
+four of its votes and is now 26–24 D. But housing and transit aren't the
+same coalition: Hogan was pro-both, Emrick/Gaydos pro-housing but
+anti-transit, Williams the reverse, and incoming **Tom Jones (SD-36) is
+pro-ADU but anti-transit** (he beat pro-transit Malone). Full cross-tab
+in `2026-11-flips-by-region-and-committee.md`. (Data: vote-transit.netlify.app.)
+
 ## Net read
 
 Better, mostly because of the Senate.
