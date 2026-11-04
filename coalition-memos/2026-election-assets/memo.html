@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PA 2026 Election — Housing Reform Impact Brief</title>
+<style>
+@font-face{font-family:"Brother1816";src:url("fonts/Brother1816-Bold.otf") format("opentype");font-weight:700;font-style:normal;}
+@font-face{font-family:"Plus Jakarta Sans";src:url("fonts/PlusJakartaSans-Variable-latin.woff2") format("woff2");font-weight:200 800;font-style:normal;}
+
+:root{
+  --green:#00844D; --cream:#EAE7E4; --white:#fff; --dark:#1a1a1a;
+  --teal:#3D918C; --sienna:#A0785A; --slate:#5B8DB8; --ochre:#C99B2E; --stone:#8B8178;
+  --ink:#1a1a1a; --mut:#5c5852; --line:#d9d5d0; --creamln:#cfc9c2;
+}
+*{box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+html,body{margin:0;padding:0;}
+body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink);font-size:10.4px;line-height:1.5;}
+h1,h2,h3,.bro{font-family:"Brother1816","Plus Jakarta Sans",sans-serif;font-weight:700;letter-spacing:-0.01em;}
+
+.page{position:relative;width:8.5in;min-height:11in;background:var(--white);page-break-after:always;overflow:hidden;}
+.page:last-child{page-break-after:auto;}
+.pad{padding:26px 48px 40px 48px;}
+
+/* header band */
+.band{background:var(--green);color:#fff;padding:26px 48px 22px 48px;}
+.band .top{display:flex;justify-content:space-between;align-items:flex-start;}
+.band img{height:30px;}
+.kicker{font-family:"Brother1816";font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#bfe6d4;margin:0 0 6px;}
+.band h1{font-size:30px;line-height:1.04;text-transform:uppercase;margin:0;max-width:85%;}
+.band .meta{margin-top:12px;font-size:10px;color:#d6efe3;letter-spacing:.02em;}
+.prelim{display:inline-block;background:#ffffff22;border:1px solid #ffffff55;color:#fff;font-size:8.6px;
+  text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:3px;margin-top:12px;}
+
+h2.sec{font-size:15px;text-transform:uppercase;color:var(--green);margin:26px 0 3px;}
+.page:first-child h2.sec:first-of-type{margin-top:22px;}
+.sec-rule{height:3px;background:var(--green);width:46px;margin:0 0 12px;}
+.lead{font-size:11px;color:var(--ink);margin:0 0 14px;max-width:95%;}
+.mut{color:var(--mut);}
+.sm{font-size:9px;} .xs{font-size:8.4px;}
+
+/* stat tiles */
+.tiles{display:flex;gap:12px;margin:6px 0 20px;}
+.tile{flex:1;background:var(--cream);border-radius:6px;padding:14px 14px 13px;}
+.tile .n{font-family:"Brother1816";font-size:30px;color:var(--green);line-height:1;}
+.tile .n small{font-size:14px;}
+.tile .l{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-top:7px;font-weight:700;}
+.tile .d{font-size:9.2px;color:var(--ink);margin-top:5px;line-height:1.4;}
+
+/* before/after bars */
+.ba{margin:4px 0 8px;}
+.ba .row{display:flex;align-items:center;gap:12px;margin:7px 0;}
+.ba .cap{width:96px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);text-align:right;}
+.bar{position:relative;flex:1;height:26px;border-radius:4px;overflow:hidden;background:var(--stone);display:flex;}
+.bar .d{background:var(--green);height:100%;display:flex;align-items:center;}
+.bar .r{background:var(--stone);height:100%;display:flex;align-items:center;}
+.bar span{font-size:9.4px;font-weight:700;color:#fff;padding:0 8px;white-space:nowrap;}
+.maj{position:absolute;top:-3px;bottom:-3px;width:0;border-left:2px dashed var(--dark);}
+.baleg{font-size:8.6px;color:var(--mut);margin-top:4px;}
+.dot{display:inline-block;width:8px;height:8px;border-radius:2px;vertical-align:middle;margin:0 3px 0 10px;}
+
+/* callout */
+.call{background:var(--green);color:#fff;border-radius:7px;padding:16px 18px;margin:18px 0 4px;}
+.call .h{font-family:"Brother1816";text-transform:uppercase;font-size:13px;margin-bottom:5px;letter-spacing:.01em;}
+.call p{margin:0;font-size:10px;color:#eafff5;line-height:1.5;}
+
+/* figures */
+figure{margin:0 0 6px;page-break-inside:avoid;}
+figure img{display:block;margin:0 auto;width:6.2in;height:auto;border:1px solid var(--line);border-radius:5px;}
+figcaption{font-size:9px;color:var(--mut);margin-top:4px;margin-bottom:2px;}
+.fcap-h{font-family:"Brother1816";text-transform:uppercase;font-size:11px;color:var(--ink);letter-spacing:.02em;}
+
+/* tables */
+table{width:100%;border-collapse:collapse;margin:6px 0 10px;font-size:9.3px;}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{background:var(--cream);font-family:"Brother1816";text-transform:uppercase;font-size:8.4px;letter-spacing:.04em;color:var(--ink);border-bottom:2px solid var(--creamln);}
+tbody tr:nth-child(even){background:#faf9f7;}
+td.c,th.c{text-align:center;}
+.hd{font-weight:700;color:var(--green);white-space:nowrap;}
+
+/* vote chips */
+.chip{display:inline-block;min-width:34px;text-align:center;font-size:8.6px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;}
+.yea{background:var(--green);} .nay{background:var(--sienna);}
+.tag{display:inline-block;font-size:7.8px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:1px 6px;border-radius:3px;}
+.tag.anchor{background:#00844D22;color:var(--green);border:1px solid #00844D55;}
+.tag.lost{background:#A0785A22;color:#7a5a40;border:1px solid #A0785A55;}
+.tag.pend{background:#C99B2E22;color:#8a6a15;border:1px solid #C99B2E66;}
+.tag.ret{background:#8B817822;color:#5c5852;border:1px solid #8B817855;}
+
+/* gavel cards */
+.gav{display:flex;gap:10px;margin:8px 0 6px;}
+.gcard{flex:1;background:var(--cream);border-radius:6px;padding:12px 13px;border-left:4px solid var(--green);}
+.gcard .cm{font-family:"Brother1816";text-transform:uppercase;font-size:9.6px;color:var(--ink);margin-bottom:6px;line-height:1.15;}
+.gcard .from{font-size:8.8px;color:var(--mut);}
+.gcard .to{font-size:11px;font-weight:700;color:var(--green);margin-top:2px;}
+.gcard .arrow{color:var(--mut);font-size:9px;margin:2px 0;}
+
+.two{display:flex;gap:22px;}
+.two>div{flex:1;}
+
+ul.tight{margin:4px 0 10px;padding-left:16px;}
+ul.tight li{margin:3px 0;}
+
+/* footer */
+.foot{border-top:2px solid var(--green);margin-top:22px;padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;}
+.foot .src{font-size:8px;color:var(--mut);max-width:78%;line-height:1.5;}
+.foot img{height:22px;opacity:.9;}
+.note{background:#faf6ee;border:1px solid #e7dcc2;border-radius:5px;padding:9px 12px;font-size:8.8px;color:#6b5a30;margin:10px 0;}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<section class="page">
+  <div class="band">
+    <div class="top">
+      <div>
+        <p class="kicker">Housing Reform Impact Brief</p>
+        <h1>What the 2026 Election Did to Pennsylvania's Housing Vote Math</h1>
+      </div>
+      <img src="bpn-logo-white.svg" alt="Build Philly Now">
+    </div>
+    <div class="meta">November 4, 2026 &nbsp;·&nbsp; Build Philly Now &nbsp;·&nbsp; PA Housing Choices coalition analysis</div>
+    <span class="prelim">Preliminary — unofficial returns, several races uncalled</span>
+  </div>
+
+  <div class="pad">
+    <h2 class="sec">Statewide: a Democratic trifecta</h2>
+    <div class="sec-rule"></div>
+    <p class="lead">Democrats expanded their state House majority and <strong>flipped the state Senate for the
+      first time since 1994</strong>, while Gov. Shapiro won re-election. For housing reform, control of the
+      Senate is the whole story: it is the chamber where House-passed zoning bills went to die.</p>
+
+    <div class="tiles">
+      <div class="tile">
+        <div class="n">~108<small> / 203</small></div>
+        <div class="l">State House — Democratic</div>
+        <div class="d">Up from 103. Net <strong>≈ +5</strong>. Six R→D flips called; 7 races still uncalled.</div>
+      </div>
+      <div class="tile">
+        <div class="n">~26<small> / 50</small></div>
+        <div class="l">State Senate — Democratic</div>
+        <div class="d">Up from 23 (was R 27–23). Net <strong>+3</strong>. First D majority in 30+ years.</div>
+      </div>
+      <div class="tile">
+        <div class="n">3</div>
+        <div class="l">Branches aligned</div>
+        <div class="d">House + Senate + Governor. Bills can now move through <strong>both</strong> chambers.</div>
+      </div>
+    </div>
+
+    <h2 class="sec">Chamber control, before and after</h2>
+    <div class="sec-rule"></div>
+    <div class="ba">
+      <div class="row">
+        <div class="cap">House<br>before</div>
+        <div class="bar">
+          <div class="d" style="width:50.7%"><span>103 D</span></div>
+          <div class="r" style="width:49.3%"><span>100 R</span></div>
+          <div class="maj" style="left:50.25%"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cap">House<br>after*</div>
+        <div class="bar">
+          <div class="d" style="width:53.2%"><span>~108 D</span></div>
+          <div class="r" style="width:46.8%"><span>~95 R</span></div>
+          <div class="maj" style="left:50.25%"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cap">Senate<br>before</div>
+        <div class="bar">
+          <div class="d" style="width:46%"><span>23 D</span></div>
+          <div class="r" style="width:54%"><span>27 R</span></div>
+          <div class="maj" style="left:51%"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cap">Senate<br>after*</div>
+        <div class="bar">
+          <div class="d" style="width:52%"><span>~26 D</span></div>
+          <div class="r" style="width:48%"><span>~24 R</span></div>
+          <div class="maj" style="left:51%"></div>
+        </div>
+      </div>
+      <div class="baleg">
+        <span class="dot" style="background:var(--green)"></span>Democratic
+        <span class="dot" style="background:var(--stone)"></span>Republican
+        &nbsp;·&nbsp; dashed line = majority threshold &nbsp;·&nbsp; *projected; 7 House + 2 Senate races uncalled.
+      </div>
+    </div>
+
+    <div class="call">
+      <div class="h">Bottom line</div>
+      <p>The House never killed these bills — HB 2186 passed 139–62 and HB 2109 passed 123–78. They died in a
+      Republican Senate. A Democratic Senate, House, and Governor turns "passes the House, dies in the Senate"
+      into a bill that can actually reach Shapiro's desk. The cost: the bipartisan Republican bench thinned —
+      two of the reform coalition's most reliable Republicans lost (see p. 3).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE 2 ============ -->
+<section class="page">
+  <div class="pad">
+    <h2 class="sec">Where the seats changed hands</h2>
+    <div class="sec-rule"></div>
+    <p class="lead">Nearly every flip is in the <strong>southeast suburban collar</strong> — our softest,
+      most-gettable Republican tier — plus the <strong>Lehigh Valley</strong>. The deep-red rural regions did
+      not move. No opponents were converted; the gains came from suburban seats changing party outright.</p>
+
+    <figure>
+      <img src="map-house-flips.png" alt="PA House flip map">
+      <figcaption><span class="fcap-h">State House — 6 flips, all R→D.</span>
+        Bucks (HD-18, HD-142), Delaware/Chester (HD-160), Lehigh Valley/Northampton (HD-137),
+        Harrisburg metro/Cumberland (HD-88, open seat), and Allegheny (HD-44). Amber = 7 uncalled races
+        (including one Democratic seat, HD-12, that could still flip R).</figcaption>
+    </figure>
+
+    <figure>
+      <img src="map-senate-flips.png" alt="PA Senate flip map">
+      <figcaption><span class="fcap-h">State Senate — the chamber flips.</span>
+        SD-6 (Bucks) and SD-24 (Montgomery/Berks) called R→D; SD-16 (Lehigh/Bucks) and SD-40 (NEPA)
+        Democratic-leading but uncalled. SD-36 (Lancaster) is the lone seat lost — a Democrat replaced by a
+        Republican.</figcaption>
+    </figure>
+
+    <div class="note">
+      All figures unofficial as of the morning of Nov. 4, 2026. Seat counts are projections; 7 House and
+      2 Senate races remained uncalled and were still moving. Verify against certified PA Department of State
+      returns before publishing.
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE 3 ============ -->
+<section class="page">
+  <div class="pad">
+    <h2 class="sec">How the members who lost voted on last year's housing bills</h2>
+    <div class="sec-rule"></div>
+    <p class="lead">Every House member who lost (or whose open seat flipped) was a Republican. Their records on
+      the two 2026 House zoning bills — <strong>HB 2186</strong> (accessory dwelling units) and
+      <strong>HB 2109</strong> (occupancy reform) — on <em>final passage</em>:</p>
+
+    <table>
+      <thead>
+        <tr><th>District / region</th><th>Member (lost)</th><th class="c">HB 2186<br>ADU</th>
+          <th class="c">HB 2109<br>Occupancy</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="hd">HD-142</span> Bucks</td><td>Joe Hogan</td>
+          <td class="c"><span class="chip yea">Yea</span></td><td class="c"><span class="chip yea">Yea</span></td>
+          <td><span class="tag anchor">Anchor — Yea on both</span></td></tr>
+        <tr><td><span class="hd">HD-137</span> Lehigh Valley</td><td>Joe Emrick</td>
+          <td class="c"><span class="chip yea">Yea</span></td><td class="c"><span class="chip yea">Yea</span></td>
+          <td><span class="tag anchor">Anchor — Yea on both</span></td></tr>
+        <tr><td><span class="hd">HD-44</span> Allegheny</td><td>Valerie Gaydos</td>
+          <td class="c"><span class="chip yea">Yea</span></td><td class="c"><span class="chip yea">Yea</span></td>
+          <td><span class="tag anchor">Yea on both</span></td></tr>
+        <tr><td><span class="hd">HD-18</span> Bucks</td><td>K.C. Tomlinson</td>
+          <td class="c"><span class="chip nay">Nay</span></td><td class="c"><span class="chip yea">Yea</span></td>
+          <td><span class="tag pend">Split</span></td></tr>
+        <tr><td><span class="hd">HD-88</span> Cumberland</td><td>Sheryl Delozier</td>
+          <td class="c"><span class="chip nay">Nay</span></td><td class="c"><span class="chip yea">Yea</span></td>
+          <td><span class="tag ret">Retired — open seat</span></td></tr>
+        <tr><td><span class="hd">HD-160</span> Delaware/Chester</td><td>Craig Williams</td>
+          <td class="c"><span class="chip nay">Nay</span></td><td class="c"><span class="chip nay">Nay</span></td>
+          <td><span class="tag lost">Nay on both</span></td></tr>
+      </tbody>
+    </table>
+    <p class="sm mut">Final-passage roll calls (HB 2186 rc 1075; HB 2109 rc 1119). Note: this differs from the
+      June crosstab, which used HB 2109 <em>2nd Consideration</em> — Gaydos and Williams both moved between
+      the two readings. Senators who lost do not appear here; they don't vote on House bills.</p>
+
+    <p class="lead" style="margin-top:6px"><strong>Read:</strong> three reliable reform Republicans were
+      removed by voters — Hogan, Emrick, Gaydos (Yea on both). Williams was a No on both, so replacing him
+      with a Democrat is a net gain. The raw Yea count holds or improves, but two of the coalition's rock-solid
+      Republican <em>champions</em> (Hogan, Emrick) are gone.</p>
+
+    <h2 class="sec">Impact on the housing &amp; transportation committees</h2>
+    <div class="sec-rule"></div>
+    <table>
+      <thead><tr><th>Committee</th><th>Off the committee — lost (unelected)</th><th>Pending (uncalled, trailing)</th></tr></thead>
+      <tbody>
+        <tr><td class="hd">Senate Urban Affairs &amp; Housing</td>
+          <td><strong>Frank Farry</strong> (SD-6, R) — defeated</td>
+          <td>Jarrett Coleman (SD-16, R) — a rare R cosponsor</td></tr>
+        <tr><td class="hd">House Housing &amp; Community Dev.</td>
+          <td><strong>K.C. Tomlinson</strong> (HD-18, R) — defeated</td>
+          <td>Milou Mackenzie (HD-131, R)</td></tr>
+        <tr><td class="hd">House Transportation</td>
+          <td><strong>K.C. Tomlinson</strong> (HD-18, R) — defeated</td>
+          <td>Shelby Labs (HD-143), Donna Scheuren (HD-147)</td></tr>
+        <tr><td class="hd">Senate Local Government</td>
+          <td class="mut">none called</td>
+          <td>Rosemary Brown (SD-40, R)</td></tr>
+        <tr><td class="hd">Senate Transportation</td>
+          <td class="mut">none called</td>
+          <td>Rosemary Brown (SD-40, R)</td></tr>
+        <tr><td class="hd">House Local Government</td>
+          <td class="mut">none called</td>
+          <td>Brett Miller (HD-41, R)</td></tr>
+      </tbody>
+    </table>
+    <p class="sm mut">Delozier (HD-88) also left, but by <strong>retiring</strong>, not losing — and she sat on
+      none of these committees. Rosters are rebuilt next session; under Democratic control both chambers'
+      committees get new Democratic chairs (next page).</p>
+  </div>
+</section>
+
+<!-- ============ PAGE 4 ============ -->
+<section class="page">
+  <div class="pad">
+    <h2 class="sec">New gavels: who chairs the housing &amp; transportation committees</h2>
+    <div class="sec-rule"></div>
+    <p class="lead">Because the <strong>Senate</strong> flipped, its current Democratic "minority chairs" take the
+      gavel. The House was already Democratic, so those chairs are unchanged. The highest-leverage change for
+      housing: <strong>Nikil Saval</strong> — a leading pro-housing voice — would chair Senate Urban Affairs &amp;
+      Housing, the committee that gated these bills.</p>
+
+    <div class="gav">
+      <div class="gcard">
+        <div class="cm">Senate Urban Affairs &amp; Housing</div>
+        <div class="from">from Joe Picozzi (R, SD-5)</div>
+        <div class="arrow">▼ gavel to</div>
+        <div class="to">Nikil Saval (D, SD-1)</div>
+      </div>
+      <div class="gcard">
+        <div class="cm">Senate Local Government</div>
+        <div class="from">from Dawn Keefer (R, SD-31)</div>
+        <div class="arrow">▼ gavel to</div>
+        <div class="to">Patty Kim (D, SD-15)</div>
+      </div>
+      <div class="gcard">
+        <div class="cm">Senate Transportation</div>
+        <div class="from">from Judy Ward (R, SD-30)</div>
+        <div class="arrow">▼ gavel to</div>
+        <div class="to">Marty Flynn (D, SD-22)</div>
+      </div>
+    </div>
+    <p class="sm mut">House chairs (unchanged, already Democratic): <strong>Housing &amp; Community Development</strong>
+      — Brandon Markosek (HD-25); <strong>Local Government</strong> — Bob Freeman (HD-136);
+      <strong>Transportation</strong> — Ed Neilson (HD-174).</p>
+
+    <h2 class="sec">Likely Senate Democratic leadership</h2>
+    <div class="sec-rule"></div>
+    <div class="two">
+      <div>
+        <table>
+          <thead><tr><th>Role (current minority → majority)</th><th>Senator</th></tr></thead>
+          <tbody>
+            <tr><td>Democratic Leader</td><td><strong>Jay Costa</strong> (SD-43)</td></tr>
+            <tr><td>Whip</td><td>Tina Tartaglione (SD-2)</td></tr>
+            <tr><td>Caucus Chair</td><td>Maria Collett (SD-12)</td></tr>
+            <tr><td>Appropriations Chair</td><td>Vincent Hughes (SD-7)</td></tr>
+            <tr><td>Policy Chair</td><td>Nick Miller (SD-14)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="note" style="margin-top:0">
+          <strong>Unresolved:</strong> the caucus has not held its organizational vote. Jay Costa, Democratic
+          Leader since 2010, is the presumptive pick for <strong>President Pro Tempore</strong> or
+          <strong>Majority Leader</strong>, but no reporting yet confirms who takes which post. Treat specific
+          leadership claims as speculative until the caucus votes.
+        </div>
+        <p class="sm">Current Republican holders being displaced: Kim Ward (President Pro Tempore) and
+          Joe Pittman (Majority Leader).</p>
+      </div>
+    </div>
+
+    <h2 class="sec">What to watch</h2>
+    <div class="sec-rule"></div>
+    <ul class="tight sm">
+      <li><strong>The 2 uncalled Senate races (SD-16, SD-40)</strong> decide whether the Senate committee
+        losses are one Republican (Farry) or three (Farry, Coleman, Brown) — and firm up the majority.</li>
+      <li><strong>HD-12</strong> (the one Democratic House seat that could still flip R) sets whether the
+        House net is +5 or +4.</li>
+      <li><strong>Re-target the Senate nesting map.</strong> Our prior targets — Ward (SD-30), Langerholc
+        (SD-35), Picozzi (SD-5) — all survived; the chamber turned on other seats, so targeting logic
+        changes under Democratic control.</li>
+    </ul>
+
+    <div class="foot">
+      <div class="src"><strong>Sources (all unofficial):</strong> MultiState PA-2026 results; Spotlight PA;
+        Philadelphia Inquirer live results; WHYY; Daily Voice; PublicSource; Ballotpedia/PoliticsPA.
+        Committee rosters and leadership from pasenate.com / pahouse.com (2025–26 session). Vote records from
+        PA House roll calls rc 1075 &amp; rc 1119. &nbsp;Figures subject to change until counties certify.</div>
+      <img src="bpn-logo-green.svg" alt="Build Philly Now">
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
