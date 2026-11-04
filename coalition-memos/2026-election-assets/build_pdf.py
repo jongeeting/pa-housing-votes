@@ -1,10 +1,12 @@
-"""Render memo.html to the branded BPN PDF.
+"""Render memo.html to the branded BPN PDF with WeasyPrint.
 
-Stages the BPN brand fonts + logos (from the bpn-social-graphics skill)
-and the map PNGs into a temp build dir next to memo.html, then prints to
-PDF via headless Chromium.
+WeasyPrint embeds images as plain DeviceRGB (no ICC color-profile wrapper),
+which renders in lightweight/inline PDF viewers that choke on the
+ICC-tagged images a headless-Chromium print produces. Brand fonts + logos
+are staged from the bpn-social-graphics skill into a temp build dir next to
+memo.html, then rendered.
 
-Run with a Python that has Playwright (Chromium installed), e.g.:
+Run with a Python that has WeasyPrint, e.g.:
     /opt/homebrew/bin/python3.14 coalition-memos/2026-election-assets/build_pdf.py
 
 Prereqs:
@@ -15,7 +17,7 @@ Output: coalition-memos/BPN-PA-2026-election-housing-impact.pdf
 import shutil
 import tempfile
 from pathlib import Path
-from playwright.sync_api import sync_playwright
+from weasyprint import HTML
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -34,14 +36,7 @@ def main():
         shutil.copy(HERE / "memo.html", bd / "memo.html")
         shutil.copy(HERE / "map-house-flips.png", bd)
         shutil.copy(HERE / "map-senate-flips.png", bd)
-        with sync_playwright() as p:
-            b = p.chromium.launch()
-            pg = b.new_page()
-            pg.goto((bd / "memo.html").as_uri(), wait_until="networkidle")
-            pg.evaluate("async () => { await document.fonts.ready; }")
-            pg.pdf(path=str(OUT_PDF), width="8.5in", height="11in", print_background=True,
-                   margin={"top": "0", "bottom": "0", "left": "0", "right": "0"})
-            b.close()
+        HTML(filename=str(bd / "memo.html"), base_url=str(bd) + "/").write_pdf(str(OUT_PDF))
     print("wrote", OUT_PDF)
 
 

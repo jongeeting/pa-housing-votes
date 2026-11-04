@@ -12,6 +12,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.patheffects as pe
+from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -87,6 +88,10 @@ def make(fn, colfn, flips, se_dists, legend, outname):
                frameon=False, handlelength=1.2, bbox_to_anchor=(0.5, 0.0))
     fig.savefig(OUT / outname, facecolor="white", bbox_inches="tight", dpi=200)
     plt.close(fig)
+    # Flatten to plain sRGB (drop ICC profile + alpha) so the PNG embeds in
+    # the PDF as DeviceRGB — some lightweight/inline PDF viewers won't render
+    # ICC-profiled images.
+    Image.open(OUT / outname).convert("RGB").save(OUT / outname, "PNG")
     print("wrote", OUT / outname)
 
 

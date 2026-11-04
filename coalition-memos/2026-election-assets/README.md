@@ -20,7 +20,8 @@ changed Pennsylvania's housing-reform vote math.
 # 1. maps (needs geopandas + matplotlib — use the pipeline venv)
 pipeline/.venv/bin/python coalition-memos/2026-election-assets/render_flip_maps.py
 
-# 2. PDF (needs Playwright/Chromium)
+# 2. PDF (needs WeasyPrint — embeds images as ICC-free DeviceRGB so they
+#    render in lightweight/inline PDF viewers)
 /opt/homebrew/bin/python3.14 coalition-memos/2026-election-assets/build_pdf.py
 ```
 
