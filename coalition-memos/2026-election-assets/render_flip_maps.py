@@ -28,9 +28,9 @@ plt.rcParams.update({"figure.dpi": 200, "savefig.dpi": 200,
 # --- flip definitions (unofficial as of Nov 4, 2026) ---
 HOUSE_FLIP_RD = {"18", "44", "88", "137", "142", "160"}       # called R->D
 HOUSE_UNCALLED = {"12", "13", "41", "131", "143", "147", "187"}  # still in play
-SEN_FLIP_RD = {"6", "24"}        # called R->D
-SEN_UNCALLED_RD = {"16", "40"}   # D leading, uncalled
-SEN_FLIP_DR = {"36"}             # called D->R (loss)
+SEN_FLIP_RD = {"6", "24", "16", "40"}  # called R->D (all four AP-called Nov 4)
+SEN_UNCALLED_RD = set()                # none left uncalled
+SEN_FLIP_DR = {"36"}                   # called D->R (loss)
 STROKE = [pe.withStroke(linewidth=1.6, foreground=BPN["dark"])]
 
 
@@ -117,8 +117,7 @@ if __name__ == "__main__":
          "map-house-flips.png")
     make("pa_senate_districts.geojson", s_col, SEN_FLIP_RD | SEN_UNCALLED_RD | SEN_FLIP_DR,
          {"6", "24", "16"},
-         [(BPN["green"], "Flipped R → D (2, called)"),
-          (BPN["ochre"], "D leading, uncalled (2)"),
+         [(BPN["green"], "Flipped R → D (4, called)"),
           (BPN["sienna"], "D → R loss (SD-36)"),
           (BPN["context"], "No change / not up")],
          "map-senate-flips.png")

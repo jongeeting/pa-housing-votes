@@ -1,6 +1,7 @@
 # Senate nesting math — post-election retarget (Nov 2026)
 
-> **PRELIMINARY.** Unofficial results; SD-16 and SD-40 uncalled.
+> **PRELIMINARY.** Unofficial results. All 4 Senate flips (incl. SD-16,
+> SD-40) are now AP-called; several House races remain uncalled.
 
 **Status:** internal working note. Companion to
 `2026-11-flips-by-region-and-committee.md`. See [[project_nesting_strategy]].
@@ -84,10 +85,10 @@ to open with.
 ### Incoming senators (the chamber that flipped — highest leverage)
 | SD | New senator | District's recorded nesting | Pitch / read |
 |---|---|---|---|
-| SD-40 | Wrightson (D) | HB 2186 **75%**, HB 2109 75% | uncalled. Strongest district terrain of any newcomer — lead here. "Your House delegation already backs this." |
+| SD-40 | Wrightson (D) | HB 2186 **75%**, HB 2109 75% | called. Strongest district terrain of any newcomer — lead here. "Your House delegation already backs this." |
 | SD-24 | Thomas (D) | HB 2186 67%, HB 2109 67% | called. Solid terrain; warm intro. |
 | SD-6 | Albillar (D) | HB 2186 50%, HB 2109 50% | called, Bucks. Mixed terrain **and** 2 of her 4 nested House seats are themselves now new — low hard data, real conversation. |
-| SD-16 | Pinsley (D) | HB 2186 **20%**, HB 2109 40% | uncalled. A Democrat in R-leaning House turf — the *least* district cover of any newcomer. Talk early, expect to educate, don't assume. |
+| SD-16 | Pinsley (D) | HB 2186 **20%**, HB 2109 40% | called. A Democrat in R-leaning House turf — the *least* district cover of any newcomer. Talk early, expect to educate, don't assume. |
 | SD-36 | **Jones (R)** | HB 2186 40%, HB 2109 20% | the D→R flip (Lancaster) — but **not unproven**: Jones is the former HD-98 rep who voted **Yea on HB 2186 (ADU)** both readings (Nay on HB 2109 occupancy final). A **potential Senate champion on ADUs** — a priority conversation, *not* a hold-the-line. His district's nesting is low, so lead with his own record, not the delegation. |
 
 ### Incoming House members (all six flipped seats — none has voted)
@@ -117,7 +118,8 @@ unknown territory) vs. Yea (ask them to continue what the district showed):
   across the board; occupancy stays the harder ask.
 
 ## To-dos
-1. Resolve SD-16 and SD-40; both are uncalled and both change the list.
+1. Senate settled — all 4 flips called (SD-16 Pinsley, SD-40 Wrightson
+   confirmed). Next: resolve the uncalled House races.
 2. Build an intro-meeting list for the newcomers above once seated.
 3. Re-run with cosponsor data folded in (floor votes only here).
 4. Scrub the same "D successor = Yea" assumption from the PDF and the
