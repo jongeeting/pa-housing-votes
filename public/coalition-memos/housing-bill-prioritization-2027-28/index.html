@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta name="robots" content="noindex, nofollow"><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Housing Bill Prioritization for the 2027-28 Session</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--fg:#1f2937;--fg2:#4b5563;--faint:#6b7280;--bg:#fdfdfc;--rule:#d6d3d1;--rule2:#e7e5e4;--accent:#4d8d6f;--accent-bg:#eef5f1;--warm-bg:#fbf3ee;--warm:#c97b54}
+*{box-sizing:border-box}
+html{background:#f5f5f4}
+body{margin:0;color:var(--fg);font-family:"Charter","Bitstream Charter","Source Serif 4",Georgia,serif;font-size:10.5pt;line-height:1.5}
+.page{max-width:8.5in;margin:24px auto;background:var(--bg);padding:.55in .7in .7in;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+.sans,h1,h2,h3,table,.masthead,.meta,.callout h3,.kicker,figcaption{font-family:"Inter","Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent);text-underline-offset:2px}
+.masthead{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--fg);padding-bottom:10px}
+.logo{height:46px;width:auto}
+.masthead .doc{text-align:right;font-size:8.5pt;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;font-size:9pt;margin:12px 0 6px;color:var(--fg2)}
+.meta b{color:var(--fg);font-weight:600}
+.kicker{font-size:8.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:22px 0 4px}
+h1{font-size:24pt;line-height:1.1;font-weight:800;margin:0 0 8px;letter-spacing:-.01em}
+.dek{font-size:11.5pt;color:var(--fg2);margin:0 0 14px}
+h2{font-size:13pt;font-weight:700;margin:24px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--rule);break-after:avoid}
+h3{font-size:10.5pt;font-weight:700;margin:14px 0 4px;break-after:avoid}
+p{margin:6px 0} ul,ol{margin:6px 0;padding-left:20px} li+li{margin-top:3px}
+.callout{background:var(--accent-bg);border-left:4px solid var(--accent);padding:10px 14px;margin:12px 0;break-inside:avoid}
+.callout h3{margin:0 0 4px;font-size:9.5pt;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.callout.warm{background:var(--warm-bg);border-left-color:var(--warm)} .callout.warm h3{color:var(--warm)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0;break-inside:avoid}
+.card{border:1px solid var(--rule);border-top:3px solid var(--accent);padding:8px 10px;background:#fff}
+.card .n{font-family:Inter,Arial,sans-serif;font-size:8pt;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.card h4{font-family:Inter,Arial,sans-serif;font-size:10pt;margin:2px 0 4px}
+.card p{font-size:9pt;margin:0;color:var(--fg2)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0;break-inside:avoid}
+.stat{border:1px solid var(--rule);padding:8px 10px;background:#fff}
+.stat .v{font-family:Inter,Arial,sans-serif;font-size:19pt;font-weight:800;line-height:1.1}
+.stat .l{font-family:Inter,Arial,sans-serif;font-size:8.5pt;color:var(--fg2);line-height:1.3}
+table{width:100%;border-collapse:collapse;font-size:8.6pt;line-height:1.3;margin:6px 0 12px;font-variant-numeric:tabular-nums}
+thead th{text-align:left;font-weight:700;background:#f7f6f4;padding:5px 6px;border-bottom:1.5px solid var(--fg)}
+tbody td{padding:4px 6px;border-bottom:1px solid var(--rule2);vertical-align:top}
+tr{break-inside:avoid}
+.c{text-align:center} .sub{color:var(--faint);font-size:8pt} .na{color:#a8a29e}
+.ck{color:var(--accent);font-weight:700}
+.chip{display:inline-block;padding:1px 7px;border-radius:999px;font-size:7.8pt;font-weight:600;white-space:nowrap;border:1px solid}
+.chip.both{color:#2f6e58;border-color:#9ec5b0;background:#eef5f1} .chip.house,.chip.senate{color:#7a5a14;border-color:#e6cf8f;background:#fbf6e6}
+.chip.none{color:#a2502b;border-color:#e6b9a1;background:#fbf0ea}
+.pipe .dot{display:inline-block;width:9px;height:9px;border-radius:50%;border:1.5px solid #9ca3af;margin:0 2px;vertical-align:middle}
+.pipe .dot.on{background:var(--accent);border-color:var(--accent)}
+.pipe tr.gap td:first-child{font-weight:700;color:#a2502b}
+.bloc .m{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle} .bloc .vote,.lg.vote{background:#256abf} .bloc .sig,.lg.sig{border:2px solid #6da7ec;background:#fff} .bloc .no{color:#a2502b;width:auto;height:auto}
+.lg{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-right:3px}
+.bloc .role{display:block;font-size:7pt;color:var(--faint)}
+figure{margin:10px 0 16px;break-inside:avoid}
+figcaption{font-size:8.5pt;color:var(--fg2);margin-top:4px}
+figcaption b{color:var(--fg)}
+.glance{font-size:7.8pt} .glance tbody td{padding:2px 5px;line-height:1.2} .glance td:first-child{width:28%} .rd{font-weight:600} .rd.high{color:#2f6e58} .rd.medium{color:#7a5a14} .rd.low{color:#a2502b} .appx{font-size:7.4pt} .appx tbody td{padding:1px 4px;line-height:1.1} .appx+h2{margin-top:12px} .sp{color:var(--fg2);white-space:nowrap} .appx td:nth-child(2),.nowrap{white-space:nowrap}
+.foot{margin-top:24px;padding-top:8px;border-top:1px solid var(--rule);font-family:Inter,Arial,sans-serif;font-size:8pt;color:var(--faint)}
+.pb{break-before:page}
+@media print{html{background:#fff} .foot{display:none} .page{margin:0;box-shadow:none;padding:0;max-width:none;background:#fff} a{color:var(--accent);text-decoration:none} @page{size:letter;margin:.6in .65in .7in}}
+@media screen and (max-width:700px){.page{padding:18px 16px;margin:0} .cards,.stats{grid-template-columns:1fr 1fr} table{font-size:8pt} .wide{overflow-x:auto}}
+
+@media print{.wide,table,figure,.callout,.stats,.cards,svg{break-inside:avoid;page-break-inside:avoid} h2,h3{break-after:avoid;page-break-after:avoid}}
+.dl{}@media print{.dl{display:none}}</style></head><body><div class="page">
+<p class="dl" style="font-family:Inter,Arial,sans-serif;font-size:9pt;margin:0 0 10px;text-align:right"><a href="BPN_Housing_Bill_Prioritization_2027-28.pdf">Download PDF</a></p>
+<header class="masthead">
+<svg aria-label="Build Philly Now" class="logo" id="Layer_1" role="img" version="1.1" viewbox="0 0 377.7 144" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<style>
+      .st0 {
+        fill: #231f20;
+      }
+    </style>
+</defs>
+<g>
+<path class="st0" d="M86.5,125.2v12h-7.6v-27.1h.4l15.3,12.4v-12h7.6v27.1h-.3l-15.4-12.4Z"></path>
+<path class="st0" d="M120.2,109.9c8.4,0,14.3,6.3,14.3,13.9s-5.9,13.9-14.3,13.9-14.3-6.2-14.3-13.9,5.9-13.9,14.3-13.9ZM120.2,130.7c3.9,0,6.5-3.2,6.5-6.8s-2.5-6.8-6.5-6.8-6.5,3.3-6.5,6.8,2.6,6.8,6.5,6.8Z"></path>
+<path class="st0" d="M143,110.4l4.5,16.1h0l4.9-16.1h5.7l4.9,16.1h0l4.5-16.1h8.7l-9.4,26.8h-6.7l-4.9-14.2-4.9,14.2h-6.7l-9.4-26.8h8.7Z"></path>
+</g>
+<g>
+<path class="st0" d="M7.2,137.1v-9.1c0-6.1,2.3-11,7.7-11s4.4,1.7,5,3.5c.6-2.2,2.8-4.4,6-4.4,5.7,0,8.1,4.7,8.1,11.4v9.7H7.2ZM13.4,129.7h4.6v-2.2c0-1.5-.6-2.8-2.3-2.8s-2.3,1.3-2.3,2.8v2.2ZM22.8,129.7h4.9v-2.7c0-1.5-.6-3-2.5-3s-2.5,1.5-2.5,3v2.7Z"></path>
+<path class="st0" d="M7.2,113.4v-7.8h15.8c2.8,0,4.4-1.4,4.4-4.2s-1.6-4.2-4.4-4.2H7.2v-7.8h16.7c6.4,0,10.7,4.4,10.7,12s-4.3,12-10.7,12H7.2Z"></path>
+<path class="st0" d="M34,77.9v7.8H7.2v-7.8h26.8Z"></path>
+<path class="st0" d="M34,74.2H7.2v-7.8h20.2v-9.1h6.5v16.9Z"></path>
+<path class="st0" d="M34,53.9H7.2v-9.4c0-9.6,5.7-15.4,13.4-15.4s13.4,5.8,13.4,15.4v9.4ZM13.7,46.1h13.7v-1.5c0-5.2-3.3-7.7-6.8-7.7s-6.8,2.5-6.8,7.7v1.5Z"></path>
+</g>
+<g>
+<path class="st0" d="M45.5,28.8h20.1v10.3c0,2.3-.2,3.9-.2,3.9h.2c2.7-5.7,10.5-10.1,19-10.1,15.5,0,28.4,11.7,28.4,32.1s-10.8,35.5-27.9,35.5-14.9-3.5-18-7.9h-.2s.4,1.6.4,5.1v39.1h-21.7V28.8ZM92.6,66.7c0-8.5-5.4-15-12.3-15s-12.3,5.8-12.3,15,5.8,15,12.3,15,12.3-6.3,12.3-15Z"></path>
+<path class="st0" d="M140,7.8v28.4c0,2.8-.1,5.7-.2,6.9,3.5-4.9,10.5-10.2,18.9-10.2,13,0,21.3,8,21.3,24.6v41.3h-21.7v-36.4c0-4.7-1.9-8.4-6.6-8.4-6.8,0-11.2,5.2-11.2,12.5v32.2h-21.8V7.8h21.3Z"></path>
+<path class="st0" d="M199.4,6c7.1,0,11.6,4.3,11.6,11.2s-4.5,11.3-11.6,11.3-11.7-4.4-11.7-11.3,4.5-11.2,11.7-11.2ZM210.3,34.6v64.2h-21.8V34.6h21.8Z"></path>
+<path class="st0" d="M249.5,82.7v-.9c-1.1.3-2.2.5-3.3.5-3,0-5.6-1.5-5.6-6.7V7.8h-21.7v72.6c0,14.7,9.4,20.1,20.5,20.1s11.3-1.1,13.3-1.9c.5-.2,1.4-.6,2.2-.9-3.3-3.2-5.4-8-5.4-14.9Z"></path>
+<path class="st0" d="M255.8,7.8h21.7v67.8c0,5.2,2.6,6.7,5.6,6.7s5.1-1,6.5-1.6v17.9c-1.9.9-6.8,1.9-13.3,1.9-11.1,0-20.5-5.4-20.5-20.1V7.8Z"></path>
+<rect class="st0" height="109.3" width="21.7" x="45.5" y="27.9"></rect>
+<rect class="st0" height="91" width="21.7" x="118.7" y="7.8"></rect>
+<path class="st0" d="M340.5,29.7l-12.2,44.6-11.9-44.6h-28.8l25.5,71.9-.6,1.3c-2.8,6.5-9.2,7.7-16.3,7.7h-107.8v26.5h107.8c16.4,0,31.3-9.7,38-24.8l36.3-82.8h-30Z"></path>
+</g>
+</svg><div class="doc">Memorandum</div></header>
+<div class="meta"><b>To</b><span>Interested Parties</span><b>From</b><span>Jon Geeting, Director of Policy and Advocacy, Build Philly Now</span><b>Date</b><span>November 5, 2026</span><b>Re</b><span>Priorities for Pennsylvania housing and zoning legislation in the 2027-28 session</span></div>
+<div class="kicker">2027-28 Session</div>
+<h1>Housing Bill Prioritization for the 2027-28 Session</h1>
+<p class="dek">With unified Democratic control of Harrisburg, the floodgates are about to open: many housing bills will move in 2027-28. This memo shows decision makers which housing supply reforms already have the most support, measured several ways: recorded votes, cosponsors, Republican backing and the Governor's own words. It then recommends where to start. Other groups will bring their own priorities; this is the evidence on ours.</p>
+<div class="stats">
+<div class="stat"><div class="v">139-62</div><div class="l">House vote on statewide ADUs (HB 2186), June 2026. 38 Republicans voted yes.</div></div>
+<div class="stat"><div class="v">21 of 26</div><div class="l">Senators on record for ADUs (9 committee yes votes, 12 signed without a vote), against the 26 votes needed to pass the 50-member Senate</div></div>
+<div class="stat"><div class="v">6</div><div class="l">Supply concepts with a perfect policy score (45 of 45). All are rule changes with no state cost.</div></div>
+<div class="stat"><div class="v">3</div><div class="l">Concepts from the 2023-24 zoning omnibus (SB 1126) with no Senate bill: parking, lot size, manufactured homes</div></div>
+</div>
+<div class="callout"><h3>Bottom line</h3><ul>
+<li><b>Lead with ADUs.</b> It pairs a perfect policy score with the highest readiness of any zoning concept. Merge HB 2186, SB 1346 (Senate ADU bill) and SB 1256 (ADUs) into one ADU-only bill in Title 53, so it reaches Philadelphia and Pittsburgh.</li>
+<li><b>Six concepts earn a perfect policy score:</b> ADUs, occupancy, commercial-zone housing, parking, minimum lot size and manufactured homes. Transit-oriented development and missing middle follow at 43 of 45. Most have low readiness, so they need bills and champions.</li>
+<li><b>Move one concept per bill.</b> Standalone bills pass more easily than an omnibus. SB 1126 (2023-24), backed by Sens. Rothman, Laughlin, Saval and Kearney, is the source for several concepts.</li>
+<li><b>Fill the Senate gaps.</b> Parking, minimum lot size and manufactured homes have no Senate bill. Lot size and manufactured homes have no bill in either chamber.</li>
+<li><b>Occupancy is next.</b> SB 1263 (occupancy limits) is a clean ban, and the House passed its companion 123-78.</li>
+<li><b>Preservation is a separate track.</b> Tangled title, home repair and the historic tax credit have broad support but add few homes, and the last two need state money. They complement supply; they can't substitute for it.</li>
+</ul></div>
+<h2>1. The landscape</h2>
+<ul>
+<li><b>The House was never the problem.</b> HB 2186 (ADUs) passed 139-62 and HB 2109 (occupancy) 123-78. Both died in the Republican-controlled Senate Urban Affairs committee. Under unified control, these bills can get a Senate vote.</li>
+<li><b>What passed the Senate got weaker to pass.</b> SB 1281 (pre-approved housing plans) went 50-0 only after an amendment required projects to comply with existing zoning. HB 2109 picked up an explicit five-person cap on unrelated housemates. The 2027-28 versions should return to the stronger texts.</li>
+<li><b>The Governor's agenda points to statewide standards.</b> His Housing Action Plan proposes a zoning catalog, model ordinances and a "Housing-Ready" designation. Statewide standards deliver the same goals without asking DCED to review 2,560 municipalities one by one. He named <a href="https://www.pa.gov/governor/newsroom/2026-press-releases/governor-shapiro-s-2026-27-budget-address-as-prepared-for-delive">"standards for accessory dwelling units," transit-oriented development, and mixed use on commercial corridors</a>, and the plan names lot size, setbacks, manufactured homes, parking and occupancy (<a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">pp. 26, 32</a>). The plan is silent on preemption; nothing in it argues against a statewide standard.</li>
+<li><b>Coverage matters.</b> Bills that amend the Municipalities Planning Code skip Philadelphia and Pittsburgh. Each bill should be written into Title 53.</li>
+</ul>
+<h2>2. Supply concepts at a glance</h2>
+<p>One row per concept, scored on the concept at its best: the version BPN would write, not any one bill's current text. Each concept gets two scores. The <b>policy score</b> (effectiveness ×3, low admin burden ×2, Governor ×2, low fiscal cost ×2; maximum 45) measures what the policy would do. Fiscal cost is inverted like admin burden: 5 means no state cost, 1 means a large recurring appropriation or tax expenditure. <b>Readiness</b> is lawmaker support today (0-5: High 3.5+, Medium 1.5-3.5, Low below 1.5). The table is sorted by policy score. Each criterion is 0-5; ✓ marks a score of 4 or more. Transit-oriented development is scored as by-right density and no parking minimums near rail and frequent bus; permit-growth payments as a formula payment per new permitted unit per capita, from Census data. (The bill ranking in section 5 and the appendix scores actual bill texts and combines all five criteria, out of 60.)</p>
+<p><b>Lot splits</b>, <b>land value tax authorization</b> and a <b>housing bond</b> have no bill, vote or memo anywhere, so their readiness reads "No record." The Governor proposed a "$1 billion Critical Infrastructure Fund, supported by the issuing of bonds, that will go toward housing" (<a href="https://www.pa.gov/governor/newsroom/2026-press-releases/governor-shapiro-s-2026-27-budget-address-as-prepared-for-delive">budget address</a>); the plan's lot-size and subdivision language is related to lot splits but doesn't name them (<a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">pp. 10, 32</a>); neither mentions land value taxation.</p>
+<div class="wide"><table class="glance"><thead><tr><th>Concept</th><th class="c">Effect.</th><th class="c">Low admin</th><th class="c">Gov.</th><th class="c">Low cost</th><th class="c">Policy score<br/><span class="sub">of 45</span></th><th class="c">Readiness<br/><span class="sub">support, 0-5</span></th><th>Cost to the state</th><th>Introduced</th></tr></thead><tbody>
+<tr><td>ADUs</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>45</b></td><td class="c"><span class="rd high">High</span> 3.9</td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Occupancy limits (unrelated housemates)</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>45</b></td><td class="c"><span class="rd medium">Medium</span> 3.1</td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Housing by right in commercial zones</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>45</b></td><td class="c"><span class="rd low">Low</span> 0.8</td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Parking minimums</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>45</b></td><td class="c"><span class="rd low">Low</span> 0.4</td><td class="sub">No state cost</td><td><span class="chip house">House only</span></td></tr>
+<tr><td>Minimum lot size cap (+ setbacks, height)</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>45</b></td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Manufactured homes in single-family zones</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>45</b></td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Duplexes to fourplexes (missing middle)</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>43</b></td><td class="c"><span class="rd low">Low</span> 0.9</td><td class="sub">No state cost</td><td><span class="chip house">House only</span></td></tr>
+<tr><td>Transit-oriented development</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>43</b></td><td class="c"><span class="rd low">Low</span> 0.1</td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Lot splits</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>41</b></td><td class="c"><span class="na">No record</span></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Objective design standards / staff approval</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>40</b></td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>State-agency permit shot clock</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><b>36</b></td><td class="c"><span class="rd medium">Medium</span> 2.5</td><td class="sub">Agency process changes</td><td><span class="chip senate">Senate only</span></td></tr>
+<tr><td>Permit-growth payments to municipalities</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">2</td><td class="c"><b>34</b></td><td class="c"><span class="rd low">Low</span> 1.1</td><td class="sub">State funding (formula payments)</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Single-stair buildings</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>34</b></td><td class="c"><span class="rd low">Low</span> 0.9</td><td class="sub">No state cost</td><td><span class="chip senate">Senate only</span></td></tr>
+<tr><td>Housing bond</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">2</td><td class="c"><b>32</b></td><td class="c"><span class="na">No record</span></td><td class="sub">State borrowing (loans repaid; grants not)</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Mall/greyfield redevelopment tax abatement</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><b>30</b></td><td class="c"><span class="rd high">High</span> 4.6</td><td class="sub">Local tax revenue (opt-in)</td><td><span class="chip house">House only</span></td></tr>
+<tr><td>LERTA abatement for housing</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><b>28</b></td><td class="c"><span class="rd high">High</span> 4.6</td><td class="sub">Local tax revenue (opt-in)</td><td><span class="chip senate">Senate only</span></td></tr>
+<tr><td>RACP money for housing</td><td class="c">2</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">3</td><td class="c"><b>28</b></td><td class="c"><span class="rd low">Low</span> 1.0</td><td class="sub">State bond funds</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Land value tax authorization</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">0</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>27</b></td><td class="c"><span class="na">No record</span></td><td class="sub">No state cost (local revenue shift, opt-in)</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Enforcement of state housing standards</td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">not scored</span></td><td class="c"><span class="rd low">Low</span> 0.0</td><td class="sub">Depends on design</td><td><span class="chip none">Neither</span></td></tr>
+</tbody></table></div>
+<figure><svg aria-labelledby="f1t" font-family="Inter, Helvetica, Arial, sans-serif" role="img" viewbox="0 0 730 406" width="100%">
+<title id="{tid}">Weighted score by concept, split into its four components</title>
+<rect fill="#2a78d6" height="10" rx="2" width="10" x="210" y="4"></rect><text fill="#52514e" font-size="9.5" x="224" y="13">Effectiveness ×3</text>
+<rect fill="#eb6834" height="10" rx="2" width="10" x="332" y="4"></rect><text fill="#52514e" font-size="9.5" x="346" y="13">Low admin burden ×2</text>
+<rect fill="#1baf7a" height="10" rx="2" width="10" x="454" y="4"></rect><text fill="#52514e" font-size="9.5" x="468" y="13">Governor ×2</text>
+<rect fill="#e87ba4" height="10" rx="2" width="10" x="576" y="4"></rect><text fill="#52514e" font-size="9.5" x="590" y="13">Low fiscal cost ×2</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="250.0" x2="250.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="250.0" y="396">0</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="290.0" x2="290.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="290.0" y="396">5</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="330.0" x2="330.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="330.0" y="396">10</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="370.0" x2="370.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="370.0" y="396">15</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="410.0" x2="410.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="410.0" y="396">20</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="450.0" x2="450.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="450.0" y="396">25</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="490.0" x2="490.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="490.0" y="396">30</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="530.0" x2="530.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="530.0" y="396">35</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="570.0" x2="570.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="570.0" y="396">40</text>
+<line stroke="#e1e0d9" stroke-width="1" x1="610.0" x2="610.0" y1="30" y2="382"></line>
+<text fill="#898781" font-size="9" text-anchor="middle" x="610.0" y="396">45</text>
+<line stroke="#c3c2b7" stroke-width="1" x1="250" x2="250" y1="30" y2="382"></line>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="48">ADUs</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="38"><title>ADUs: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="38"><title>ADUs: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="450.0" y="38"><title>ADUs: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M530.0,38 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>ADUs: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="616.0" y="49">45<tspan fill="#52514e" font-weight="400"> · High readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="67">Occupancy limits (unrelated housemates)</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="57"><title>Occupancy limits (unrelated housemates): Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="57"><title>Occupancy limits (unrelated housemates): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="450.0" y="57"><title>Occupancy limits (unrelated housemates): Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M530.0,57 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Occupancy limits (unrelated housemates): Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="616.0" y="68">45<tspan fill="#52514e" font-weight="400"> · Medium readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="86">Housing by right in commercial zones</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="76"><title>Housing by right in commercial zones: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="76"><title>Housing by right in commercial zones: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="450.0" y="76"><title>Housing by right in commercial zones: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M530.0,76 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Housing by right in commercial zones: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="616.0" y="87">45<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="105">Parking minimums</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="95"><title>Parking minimums: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="95"><title>Parking minimums: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="450.0" y="95"><title>Parking minimums: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M530.0,95 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Parking minimums: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="616.0" y="106">45<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="124">Minimum lot size cap (+ setbacks, height)</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="114"><title>Minimum lot size cap (+ setbacks, height): Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="114"><title>Minimum lot size cap (+ setbacks, height): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="450.0" y="114"><title>Minimum lot size cap (+ setbacks, height): Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M530.0,114 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Minimum lot size cap (+ setbacks, height): Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="616.0" y="125">45<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="143">Manufactured homes in single-family zones</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="133"><title>Manufactured homes in single-family zones: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="133"><title>Manufactured homes in single-family zones: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="450.0" y="133"><title>Manufactured homes in single-family zones: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M530.0,133 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Manufactured homes in single-family zones: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="616.0" y="144">45<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="162">Duplexes to fourplexes (missing middle)</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="152"><title>Duplexes to fourplexes (missing middle): Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="152"><title>Duplexes to fourplexes (missing middle): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="62.0" x="450.0" y="152"><title>Duplexes to fourplexes (missing middle): Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M514.0,152 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Duplexes to fourplexes (missing middle): Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="600.0" y="163">43<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="181">Transit-oriented development</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="171"><title>Transit-oriented development: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="62.0" x="370.0" y="171"><title>Transit-oriented development: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="434.0" y="171"><title>Transit-oriented development: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M514.0,171 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Transit-oriented development: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="600.0" y="182">43<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="200">Lot splits</text>
+<rect fill="#2a78d6" height="14" width="118.0" x="250.0" y="190"><title>Lot splits: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="370.0" y="190"><title>Lot splits: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="46.0" x="450.0" y="190"><title>Lot splits: Governor ×2 = 3.0 → 6 pts</title></rect>
+<path d="M498.0,190 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Lot splits: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="584.0" y="201">41<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="219">Objective design standards / staff approval</text>
+<rect fill="#2a78d6" height="14" width="94.0" x="250.0" y="209"><title>Objective design standards / staff approval: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="346.0" y="209"><title>Objective design standards / staff approval: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="62.0" x="426.0" y="209"><title>Objective design standards / staff approval: Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M490.0,209 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Objective design standards / staff approval: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="576.0" y="220">40<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="238">State-agency permit shot clock</text>
+<rect fill="#2a78d6" height="14" width="94.0" x="250.0" y="228"><title>State-agency permit shot clock: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
+<rect fill="#eb6834" height="14" width="46.0" x="346.0" y="228"><title>State-agency permit shot clock: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="394.0" y="228"><title>State-agency permit shot clock: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M474.0,228 h58.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-58.0 z" fill="#e87ba4"><title>State-agency permit shot clock: Low fiscal cost ×2 = 4.0 → 8 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="544.0" y="239">36<tspan fill="#52514e" font-weight="400"> · Medium readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="257">Permit-growth payments to municipalities</text>
+<rect fill="#2a78d6" height="14" width="94.0" x="250.0" y="247"><title>Permit-growth payments to municipalities: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
+<rect fill="#eb6834" height="14" width="78.0" x="346.0" y="247"><title>Permit-growth payments to municipalities: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="62.0" x="426.0" y="247"><title>Permit-growth payments to municipalities: Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M490.0,247 h26.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-26.0 z" fill="#e87ba4"><title>Permit-growth payments to municipalities: Low fiscal cost ×2 = 2.0 → 4 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="528.0" y="258">34<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="276">Single-stair buildings</text>
+<rect fill="#2a78d6" height="14" width="94.0" x="250.0" y="266"><title>Single-stair buildings: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
+<rect fill="#eb6834" height="14" width="46.0" x="346.0" y="266"><title>Single-stair buildings: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="46.0" x="394.0" y="266"><title>Single-stair buildings: Governor ×2 = 3.0 → 6 pts</title></rect>
+<path d="M442.0,266 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Single-stair buildings: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="528.0" y="277">34<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="295">Housing bond</text>
+<rect fill="#2a78d6" height="14" width="94.0" x="250.0" y="285"><title>Housing bond: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
+<rect fill="#eb6834" height="14" width="46.0" x="346.0" y="285"><title>Housing bond: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="394.0" y="285"><title>Housing bond: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M474.0,285 h26.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-26.0 z" fill="#e87ba4"><title>Housing bond: Low fiscal cost ×2 = 2.0 → 4 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="512.0" y="296">32<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="314">Mall/greyfield redevelopment tax abatement</text>
+<rect fill="#2a78d6" height="14" width="46.0" x="250.0" y="304"><title>Mall/greyfield redevelopment tax abatement: Effectiveness ×3 = 2.0 → 6 pts</title></rect>
+<rect fill="#eb6834" height="14" width="62.0" x="298.0" y="304"><title>Mall/greyfield redevelopment tax abatement: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="62.0" x="362.0" y="304"><title>Mall/greyfield redevelopment tax abatement: Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M426.0,304 h58.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-58.0 z" fill="#e87ba4"><title>Mall/greyfield redevelopment tax abatement: Low fiscal cost ×2 = 4.0 → 8 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="496.0" y="315">30<tspan fill="#52514e" font-weight="400"> · High readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="333">LERTA abatement for housing</text>
+<rect fill="#2a78d6" height="14" width="46.0" x="250.0" y="323"><title>LERTA abatement for housing: Effectiveness ×3 = 2.0 → 6 pts</title></rect>
+<rect fill="#eb6834" height="14" width="62.0" x="298.0" y="323"><title>LERTA abatement for housing: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="46.0" x="362.0" y="323"><title>LERTA abatement for housing: Governor ×2 = 3.0 → 6 pts</title></rect>
+<path d="M410.0,323 h58.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-58.0 z" fill="#e87ba4"><title>LERTA abatement for housing: Low fiscal cost ×2 = 4.0 → 8 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="480.0" y="334">28<tspan fill="#52514e" font-weight="400"> · High readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="352">RACP money for housing</text>
+<rect fill="#2a78d6" height="14" width="46.0" x="250.0" y="342"><title>RACP money for housing: Effectiveness ×3 = 2.0 → 6 pts</title></rect>
+<rect fill="#eb6834" height="14" width="46.0" x="298.0" y="342"><title>RACP money for housing: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#1baf7a" height="14" width="78.0" x="346.0" y="342"><title>RACP money for housing: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M426.0,342 h42.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-42.0 z" fill="#e87ba4"><title>RACP money for housing: Low fiscal cost ×2 = 3.0 → 6 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="480.0" y="353">28<tspan fill="#52514e" font-weight="400"> · Low readiness</tspan></text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="242" y="371">Land value tax authorization</text>
+<rect fill="#2a78d6" height="14" width="70.0" x="250.0" y="361"><title>Land value tax authorization: Effectiveness ×3 = 3.0 → 9 pts</title></rect>
+<rect fill="#eb6834" height="14" width="62.0" x="322.0" y="361"><title>Land value tax authorization: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<path d="M386.0,361 h74.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-74.0 z" fill="#e87ba4"><title>Land value tax authorization: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<text fill="#0b0b0b" font-size="10" font-weight="700" x="472.0" y="372">27<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
+</svg><figcaption><b>Figure 1. Policy score by concept, with readiness.</b> Segment length is the weighted points from effectiveness, admin, Governor alignment and fiscal cost. Readiness (lawmaker support today) is noted at the end of each bar. The highest-scoring policies, including TOD, missing middle, lot size and manufactured homes, have low readiness: they need new bills and champions. The tax abatements are the reverse: high readiness, weaker mechanisms, and they cost local tax revenue. Permit-growth payments lose points for needing a state appropriation. Preservation concepts appear separately in section 7.</figcaption></figure>
+<h2 style="break-before:page;page-break-before:always">3. Where support already is</h2>
+<p>Every supply concept on one page, with each kind of support side by side. Counts are <b>current</b> legislators, on any bill that carries the concept, excluding members not returning in 2027 (unofficial November results). "Voted" is each member's most recent committee or floor vote; "signed only" means a cosponsor or memo signer with no recorded vote. Republicans on record counts yes votes and signatures in both chambers. Readiness (0-5) weighs a yes vote fully and a signature half, against the votes needed to pass. Sorted by readiness.</p>
+<div class="wide"><table class="glance support"><thead><tr><th>Concept</th><th class="c">House<br/><span class="sub">voted yes–no</span></th><th class="c">House<br/><span class="sub">signed only</span></th><th class="c">Senate<br/><span class="sub">voted yes–no</span></th><th class="c">Senate<br/><span class="sub">signed only</span></th><th class="c">Republicans<br/><span class="sub">on record</span></th><th>Passed a chamber<br/><span class="sub">2025-26</span></th><th>Governor</th><th class="c">Readiness<br/><span class="sub">0-5</span></th></tr></thead><tbody>
+<tr><td>Mall/greyfield redevelopment tax abatement*</td><td class="c">94–81</td><td class="c">1</td><td class="c">23–1</td><td class="c">2</td><td class="c">16</td><td class="sub nowrap">—</td><td class="sub">Plan goal</td><td class="c"><span class="rd high">High</span> 4.6</td></tr>
+<tr><td>LERTA abatement for housing*</td><td class="c">94–81</td><td class="c">1</td><td class="c">23–1</td><td class="c">2</td><td class="c">16</td><td class="sub nowrap">—</td><td class="sub">Related</td><td class="c"><span class="rd high">High</span> 4.6</td></tr>
+<tr><td>ADUs</td><td class="c">137–60</td><td class="c">0</td><td class="c">9–0</td><td class="c">12</td><td class="c">45</td><td class="sub nowrap">House 139-62</td><td class="sub">Named</td><td class="c"><span class="rd high">High</span> 3.9</td></tr>
+<tr><td>Occupancy limits (unrelated housemates)</td><td class="c">120–77</td><td class="c">0</td><td class="c">0–0</td><td class="c">12</td><td class="c">37</td><td class="sub nowrap">House 123-78</td><td class="sub">Named</td><td class="c"><span class="rd medium">Medium</span> 3.1</td></tr>
+<tr><td>State-agency permit shot clock</td><td class="c">0–0</td><td class="c">0</td><td class="c">27–19</td><td class="c">0</td><td class="c">23</td><td class="sub nowrap">Senate 30-20</td><td class="sub">Named</td><td class="c"><span class="rd medium">Medium</span> 2.5</td></tr>
+<tr><td>Permit-growth payments to municipalities</td><td class="c">0–0</td><td class="c">14</td><td class="c">8–1</td><td class="c">3</td><td class="c">6</td><td class="sub nowrap">—</td><td class="sub">Plan goal</td><td class="c"><span class="rd low">Low</span> 1.1</td></tr>
+<tr><td>RACP money for housing</td><td class="c">14–12</td><td class="c">14</td><td class="c">0–0</td><td class="c">10</td><td class="c">1</td><td class="sub nowrap">—</td><td class="sub">Named</td><td class="c"><span class="rd low">Low</span> 1.0</td></tr>
+<tr><td>Duplexes to fourplexes (missing middle)</td><td class="c">13–12</td><td class="c">24</td><td class="c">0–0</td><td class="c">5</td><td class="c">4</td><td class="sub nowrap">—</td><td class="sub">Plan goal</td><td class="c"><span class="rd low">Low</span> 0.9</td></tr>
+<tr><td>Single-stair buildings</td><td class="c">0–0</td><td class="c">18</td><td class="c">0–0</td><td class="c">14</td><td class="c">3</td><td class="sub nowrap">—</td><td class="sub">Related</td><td class="c"><span class="rd low">Low</span> 0.9</td></tr>
+<tr><td>Housing by right in commercial zones</td><td class="c">14–11</td><td class="c">29</td><td class="c">0–0</td><td class="c">3</td><td class="c">2</td><td class="sub nowrap">—</td><td class="sub">Named</td><td class="c"><span class="rd low">Low</span> 0.8</td></tr>
+<tr><td>Parking minimums</td><td class="c">0–0</td><td class="c">11</td><td class="c">0–0</td><td class="c">5</td><td class="c">4</td><td class="sub nowrap">—</td><td class="sub">Named</td><td class="c"><span class="rd low">Low</span> 0.4</td></tr>
+<tr><td>Minimum lot size cap (+ setbacks, height)</td><td class="c">0–0</td><td class="c">0</td><td class="c">0–0</td><td class="c">5</td><td class="c">3</td><td class="sub nowrap">—</td><td class="sub">Named</td><td class="c"><span class="rd low">Low</span> 0.2</td></tr>
+<tr><td>Manufactured homes in single-family zones</td><td class="c">0–0</td><td class="c">0</td><td class="c">0–0</td><td class="c">5</td><td class="c">3</td><td class="sub nowrap">—</td><td class="sub">Named</td><td class="c"><span class="rd low">Low</span> 0.2</td></tr>
+<tr><td>Objective design standards / staff approval</td><td class="c">0–0</td><td class="c">19</td><td class="c">0–0</td><td class="c">0</td><td class="c">0</td><td class="sub nowrap">—</td><td class="sub">Plan goal</td><td class="c"><span class="rd low">Low</span> 0.2</td></tr>
+<tr><td>Transit-oriented development</td><td class="c">0–0</td><td class="c">7</td><td class="c">0–0</td><td class="c">0</td><td class="c">0</td><td class="sub nowrap">—</td><td class="sub">Named</td><td class="c"><span class="rd low">Low</span> 0.1</td></tr>
+<tr><td>Lot splits</td><td class="c na" colspan="5">No bill, vote or memo yet</td><td class="sub nowrap">—</td><td class="sub">Related</td><td class="c"><span class="na">No record</span></td></tr>
+<tr><td>Housing bond</td><td class="c na" colspan="5">No bill, vote or memo yet</td><td class="sub nowrap">—</td><td class="sub">Named</td><td class="c"><span class="na">No record</span></td></tr>
+<tr><td>Land value tax authorization</td><td class="c na" colspan="5">No bill, vote or memo yet</td><td class="sub nowrap">—</td><td class="sub">Not mentioned</td><td class="c"><span class="na">No record</span></td></tr>
+</tbody></table></div>
+<p class="sub">* The two tax abatements share one support count: HB 1446 (malls and greyfields) drew the House votes and SB 1277 (LERTA) the Senate votes. Governor: "Named" means the budget address or plan names the concept; "Plan goal" means the plan states the goal without naming the tool; "Related" means adjacent language only.</p>
+<figure><svg aria-labelledby="f2t" font-family="Inter, Helvetica, Arial, sans-serif" role="img" viewbox="0 0 680 256" width="100%">
+<title id="f2t">Current legislators on record by concept, House and Senate, against the votes needed to pass</title>
+<rect fill="#256abf" height="10" rx="2" width="10" x="120" y="6"></rect><text fill="#52514e" font-size="9.5" x="134" y="15">Voted yes</text>
+<rect fill="#b7d3f6" height="10" rx="2" width="10" x="200" y="6"></rect><text fill="#52514e" font-size="9.5" x="214" y="15">Signed only (no vote yet)</text>
+<line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="356" x2="374" y1="11" y2="11"></line><text fill="#52514e" font-size="9.5" x="378" y="15">Votes needed to pass</text>
+<text fill="#0b0b0b" font-size="10.5" font-weight="700" x="120" y="36">House <tspan fill="#898781" font-weight="400">(of 203; 102 to pass)</tspan></text>
+<line stroke="#e1e0d9" x1="120.0" x2="120.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="120.0" y="244">0</text>
+<line stroke="#e1e0d9" x1="181.6" x2="181.6" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="181.6" y="244">50</text>
+<line stroke="#e1e0d9" x1="243.2" x2="243.2" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="243.2" y="244">100</text>
+<line stroke="#e1e0d9" x1="304.7" x2="304.7" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="304.7" y="244">150</text>
+<line stroke="#e1e0d9" x1="366.3" x2="366.3" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="366.3" y="244">200</text>
+<line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="245.6" x2="245.6" y1="42" y2="230"></line>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="60">ADUs</text>
+<rect fill="#256abf" height="14" rx="3" width="168.7" x="120" y="50"><title>House · ADUs: 137 voted yes</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="293.7" y="61">137</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="82">Occupancy</text>
+<rect fill="#256abf" height="14" rx="3" width="147.8" x="120" y="72"><title>House · Occupancy: 120 voted yes</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="272.8" y="83">120</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="104">Commercial zones</text>
+<rect fill="#256abf" height="14" rx="0" width="15.2" x="120" y="94"><title>House · Commercial zones: 14 voted yes</title></rect>
+<rect fill="#b7d3f6" height="14" rx="3" width="35.7" x="137.2" y="94"><title>House · Commercial zones: 29 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="178.0" y="105">14 + 29</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="126">Missing middle</text>
+<rect fill="#256abf" height="14" rx="0" width="14.0" x="120" y="116"><title>House · Missing middle: 13 voted yes</title></rect>
+<rect fill="#b7d3f6" height="14" rx="3" width="29.6" x="136.0" y="116"><title>House · Missing middle: 24 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="170.6" y="127">13 + 24</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="148">Parking</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="13.5" x="120.0" y="138"><title>House · Parking: 11 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="138.5" y="149">0 + 11</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="170">Minimum lot size</text>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="125.0" y="171">0</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="192">Manufactured homes</text>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="125.0" y="193">0</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="214">TOD</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="8.6" x="120.0" y="204"><title>House · TOD: 7 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="133.6" y="215">0 + 7</text>
+<text fill="#0b0b0b" font-size="10.5" font-weight="700" x="410" y="36">Senate <tspan fill="#898781" font-weight="400">(of 50; 26 to pass)</tspan></text>
+<line stroke="#e1e0d9" x1="410.0" x2="410.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="410.0" y="244">0</text>
+<line stroke="#e1e0d9" x1="460.0" x2="460.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="460.0" y="244">10</text>
+<line stroke="#e1e0d9" x1="510.0" x2="510.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="510.0" y="244">20</text>
+<line stroke="#e1e0d9" x1="560.0" x2="560.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="560.0" y="244">30</text>
+<line stroke="#e1e0d9" x1="610.0" x2="610.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="610.0" y="244">40</text>
+<line stroke="#e1e0d9" x1="660.0" x2="660.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="660.0" y="244">50</text>
+<line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="540.0" x2="540.0" y1="42" y2="230"></line>
+<rect fill="#256abf" height="14" rx="0" width="43.0" x="410" y="50"><title>Senate · ADUs: 9 voted yes</title></rect>
+<rect fill="#b7d3f6" height="14" rx="3" width="60.0" x="455.0" y="50"><title>Senate · ADUs: 12 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="520.0" y="61">9 + 12</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="60.0" x="410.0" y="72"><title>Senate · Occupancy: 12 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="475.0" y="83">0 + 12</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="15.0" x="410.0" y="94"><title>Senate · Commercial zones: 3 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="430.0" y="105">0 + 3</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="116"><title>Senate · Missing middle: 5 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="127">0 + 5</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="138"><title>Senate · Parking: 5 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="149">0 + 5</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="160"><title>Senate · Minimum lot size: 5 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="171">0 + 5</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="182"><title>Senate · Manufactured homes: 5 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="193">0 + 5</text>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="415.0" y="215">0</text>
+</svg><figcaption><b>Figure 2. Legislators on record, by chamber, against the votes needed to pass.</b> The House has voted on ADUs and occupancy. In the Senate, only ADUs come close to 26 (9 yes votes + 12 signatures), and none of the SB 1126 concepts has a single recorded Senate vote.</figcaption></figure>
+<h3>Bipartisan Senate support for the SB 1126 concepts</h3>
+<div class="wide"><table class="bloc"><thead><tr><th>Senator</th><th class="c">ADUs</th><th class="c">Missing middle</th><th class="c">Parking</th><th class="c">Lot size</th><th class="c">Mfd. homes</th><th class="c">Occupancy</th><th class="c">Commercial</th></tr></thead><tbody>
+<tr><td><b>Greg Rothman</b> <span class="sub">(R-34)</span></td><td class="c"><span class="m sig" title="Prime"></span><span class="role">Prime</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="na">—</span></td><td class="c"><span class="na">—</span></td></tr>
+<tr><td><b>Daniel Laughlin</b> <span class="sub">(R-49)</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="na">—</span></td><td class="c"><span class="na">—</span></td></tr>
+<tr><td><b>Nikil Saval</b> <span class="sub">(D-1)</span></td><td class="c"><span class="m vote" title="voted yes"></span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Prime"></span><span class="role">Prime</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td></tr>
+<tr><td><b>Timothy Kearney</b> <span class="sub">(D-26)</span></td><td class="c"><span class="m sig" title="Memo"></span><span class="role">Memo</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="m sig" title="Cosp."></span><span class="role">Cosp.</span></td><td class="c"><span class="na">—</span></td></tr>
+</tbody></table></div>
+<p class="sub"><span class="lg vote"></span>voted yes on a bill in this area · <span class="lg sig"></span>signed (prime sponsor, memo co-author or cosponsor) without a vote · — no record. Source: palegis.us bill pages, memos and roll calls.</p>
+<p>All four have signed the ADU, missing-middle, parking, lot-size and manufactured-home concepts through SB 1126. None has yet voted on any of them except ADUs (Saval, in committee). Their record makes them well placed to carry standalone Senate bills on these concepts. Sens. Vogel and Argall (R) are also on record on ADUs, commercial conversion and single-stair.</p>
+<h2>4. Where the supply bills are</h2>
+<figure><table class="pipe"><thead><tr><th>Concept</th><th class="c">House</th><th>House bill</th><th class="c">Senate</th><th>Senate bill</th></tr></thead><tbody>
+<tr class=""><td>ADUs</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">HB 2186 <span class="sp">· Rep. Inglis (D)</span></td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></td><td class="sub">SB 1346 <span class="sp">· Sen. Rothman (R)</span><br/>SB 1256 <span class="sp">· Sen. Collett (D)</span></td></tr>
+<tr class=""><td>Occupancy limits</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">HB 2109 <span class="sp">· Rep. Khan (D)</span></td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">SB 1263 <span class="sp">· Sen. Saval (D)</span></td></tr>
+<tr class=""><td>Housing in commercial zones</td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">HB 1459 <span class="sp">· Rep. Siegel (D)</span></td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">SB 1239 <span class="sp">· Sen. Coleman (R)</span></td></tr>
+<tr class=""><td>Parking minimums</td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">HB 2155 <span class="sp">· Rep. Scott (D)</span></td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td></tr>
+<tr class=""><td>Missing middle</td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">HB 2185 <span class="sp">· Rep. Inglis (D)</span></td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td></tr>
+<tr class="gap"><td>Minimum lot size</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td></tr>
+<tr class="gap"><td>Manufactured homes</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td></tr>
+<tr class="gap"><td>Transit-oriented development</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">memo only</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td></tr>
+<tr class=""><td>Mall/greyfield abatement</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></td><td class="sub">HB 1446 <span class="sp">· Rep. Siegel (D)</span></td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td></tr>
+<tr class=""><td>LERTA for housing</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></td><td class="sub">SB 1277 <span class="sp">· Sen. Stefano (R)</span></td></tr>
+<tr class=""><td>RACP for housing</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></td><td class="sub">HB 2367 <span class="sp">· Rep. Boyd (D)</span></td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">SB 294 <span class="sp">· Sen. Hughes (D)</span></td></tr>
+<tr class=""><td>State permit shot clock</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">SB 1279 <span class="sp">· Sen. Phillips-Hill (R)</span></td></tr>
+<tr class=""><td>Single-stair (study only)</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">SR 348 <span class="sp">· Sen. Street (D)</span></td></tr>
+<tr class="gap"><td>Objective design standards</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">2023-24 only</td><td class="c"><span class="dot"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">—</td></tr>
+</tbody></table><figcaption><b>Figure 3. Furthest step reached in 2025-26, by chamber.</b> Dots: introduced · committee vote · passed the chamber. Bills are listed with their prime sponsor and party. Concepts in red have no bill in either chamber.</figcaption></figure>
+<h2>5. The ranked supply bills (Tier 1)</h2>
+<table><thead><tr><th class="c">#</th><th>Bill</th><th>What it does</th><th>Furthest stage</th><th class="c">Support</th><th class="c">Score</th></tr></thead><tbody>
+<tr><td class="c">1</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/hb2186">HB 2186</a><div class="sub">John Inglis III (D-38)</div></td><td>Accessory Dwelling Units</td><td class="sub">Passed House; died in Senate Urban Affairs &amp; Housing</td><td class="c">3.9</td><td class="c"><b>56.7</b></td></tr>
+<tr><td class="c">1</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/sb1256">SB 1256</a><div class="sub">Maria Collett (D-12)</div></td><td>Accessory Dwelling Units (Collett)</td><td class="sub">Referred to Senate Urban Affairs &amp; Housing; no action</td><td class="c">3.9</td><td class="c"><b>56.7</b></td></tr>
+<tr><td class="c">3</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/sb1263">SB 1263</a><div class="sub">Nikil Saval (D-1)</div></td><td>Municipal Occupancy Reform (Golden Girls Law, Senate)</td><td class="sub">Referred to Senate Urban Affairs &amp; Housing; no action</td><td class="c">3.1</td><td class="c"><b>54.3</b></td></tr>
+<tr><td class="c">4</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/sb1346">SB 1346</a><div class="sub">Greg Rothman (R-34)</div></td><td>Accessory Dwelling Units (Senate)</td><td class="sub">Reported from Senate Urban Affairs &amp; Housing; first consideration</td><td class="c">3.9</td><td class="c"><b>53.7</b></td></tr>
+<tr><td class="c">5</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/hb2109">HB 2109</a><div class="sub">Tarik Khan (D-194)</div></td><td>Occupancy Reform (Golden Girls Law)</td><td class="sub">Passed House; died in Senate Urban Affairs &amp; Housing</td><td class="c">3.1</td><td class="c"><b>48.3</b></td></tr>
+<tr><td class="c">6</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/sb1239">SB 1239</a><div class="sub">Jarrett Coleman (R-16)</div></td><td>Residential in Commercial Zones</td><td class="sub">Referred to Senate Local Government; no action</td><td class="c">0.8</td><td class="c"><b>47.4</b></td></tr>
+<tr><td class="c">7</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/hb2155">HB 2155</a><div class="sub">Greg Scott (D-54)</div></td><td>Parking Flexibility</td><td class="sub">Referred to House H&amp;CD; no action</td><td class="c">0.4</td><td class="c"><b>46.2</b></td></tr>
+<tr><td class="c">8</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/hb1446">HB 1446</a><div class="sub">Joshua Siegel (D-22)</div></td><td>Redevelopment of Malls, Greyfields and Brownfields (tax abatement)</td><td class="sub">Reported from House Local Government and Rules; laid on table (Rule 71)</td><td class="c">4.6</td><td class="c"><b>43.8</b></td></tr>
+<tr><td class="c">9</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/sb1279">SB 1279</a><div class="sub">Kristin Phillips-Hill (R-28)</div></td><td>Regulatory Compliance Officer for Housing</td><td class="sub">Passed Senate; died in House H&amp;CD</td><td class="c">2.5</td><td class="c"><b>43.5</b></td></tr>
+<tr><td class="c">10</td><td class="nowrap"><a href="https://www.palegis.us/legislation/bills/2025/hb1459">HB 1459</a><div class="sub">Joshua Siegel (D-22)</div></td><td>Multi-Family Housing in Commercial Zones</td><td class="sub">Referred to House Local Government; no action</td><td class="c">0.8</td><td class="c"><b>42.4</b></td></tr>
+</tbody></table>
+<p class="sub">Full supply ranking in Appendix A; preservation bills are ranked separately in Appendix B. Scores update automatically from the data files.</p>
+<h2>6. Recommended approach: one concept per bill</h2>
+<div class="cards">
+<div class="card"><div class="n">Wave 1 · votes on record</div><h4>Move first</h4><p>ADU bill (HB 2186 + SB 1346 + SB 1256, Title 53) · Occupancy (SB 1263 text)</p></div>
+<div class="card"><div class="n">Wave 2 · strong text, needs support</div><h4>Build support</h4><p>Parking (HB 2155) · Commercial zones (SB 1239 substance in Title 53) · Missing middle (HB 2185)</p></div>
+<div class="card"><div class="n">Wave 3 · new bills</div><h4>Introduce</h4><p>Senate parking bill · Minimum lot size · Manufactured homes · Single-stair · Transit-oriented development · Enforcement</p></div>
+</div>
+<p>The Governor's "modernize the Municipalities Planning Code" language becomes the umbrella message for the package, not a single bill.</p>
+<h3>Bills that still need to be introduced</h3>
+<table><thead><tr><th>Concept</th><th>House</th><th>Senate</th><th>Draft from</th><th>Plan cite</th></tr></thead><tbody>
+<tr><td><b>Parking reform</b></td><td>HB 2155 (Scott)</td><td style="color:#a2502b;font-weight:600">None</td><td>HB 2155's one-sentence ban on parking minimums; SB 1126 caps as a fallback</td><td><a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 32</a></td></tr>
+<tr><td><b>Minimum lot size</b> (+ setbacks, height)</td><td style="color:#a2502b;font-weight:600">None</td><td style="color:#a2502b;font-weight:600">None</td><td>SB 1126 s. 603(p): no minimum over 1,400 sq ft, setbacks ≤4 ft, height floor of 4 stories where water and sewer exist</td><td><a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 32</a></td></tr>
+<tr><td><b>Manufactured homes</b></td><td style="color:#a2502b;font-weight:600">None</td><td style="color:#a2502b;font-weight:600">None</td><td>SB 1126 s. 603(m): by right where single-family homes are allowed, not confined to parks</td><td><a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 32</a></td></tr>
+<tr><td><b>Missing middle</b></td><td>HB 2185 (Inglis)</td><td style="color:#a2502b;font-weight:600">None</td><td>HB 2185, with the proof-of-concurrency clause narrowed</td><td><a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 32</a></td></tr>
+<tr><td><b>Enforcement of state housing standards</b></td><td style="color:#a2502b;font-weight:600">None</td><td style="color:#a2502b;font-weight:600">None</td><td>Design open; options include county and DCED review, Attorney General authority and a private right of action (see below)</td><td><a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 31</a></td></tr>
+<tr><td><b>Single-stair buildings</b></td><td style="color:#a2502b;font-weight:600">None</td><td style="color:#a2502b;font-weight:600">SR 348 (study only)</td><td>A statute requiring the building code to allow single-exit stairways up to six stories, with sprinklers and other fire-safety conditions, by a set date</td><td><a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 31</a></td></tr>
+<tr><td><b>Transit-oriented development</b></td><td style="color:#a2502b;font-weight:600">Memo 47776 only</td><td style="color:#a2502b;font-weight:600">None</td><td>New text: by-right density, no parking minimums near rail and frequent bus</td><td><a href="https://www.pa.gov/governor/newsroom/2026-press-releases/governor-shapiro-s-2026-27-budget-address-as-prepared-for-delive">Budget address</a></td></tr>
+<tr><td><b>Lot splits</b></td><td style="color:#a2502b;font-weight:600">None</td><td style="color:#a2502b;font-weight:600">None</td><td>New text: by-right split of a single-family lot into two, ministerial approval, each lot buildable</td><td><a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">pp. 10, 32</a> (related; not named)</td></tr>
+<tr><td><b>Land value tax authorization</b></td><td style="color:#a2502b;font-weight:600">None</td><td style="color:#a2502b;font-weight:600">None</td><td>New text: let any municipality tax land at a higher rate than buildings</td><td>Not mentioned</td></tr>
+<tr><td><b>Housing bond</b></td><td style="color:#a2502b;font-weight:600">None</td><td style="color:#a2502b;font-weight:600">None</td><td>A state bond for a mixed-income revolving loan fund and home repair; the Governor's $1B bond-backed fund is the starting point (see below)</td><td><a href="https://www.pa.gov/governor/newsroom/2026-press-releases/governor-shapiro-s-2026-27-budget-address-as-prepared-for-delive">Budget address</a>; <a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 20</a></td></tr>
+</tbody></table>
+<p class="sub">The manufactured-home community rights bills, SB 1446 (Santarsiero) and HB 2098 (Ciresi), "provide for manufactured homes" but rewrite tenant rights in manufactured-home communities. They contain no zoning provisions.</p>
+<h3>Funding: a housing bond</h3>
+<p>The Governor proposed "a new $1 billion Critical Infrastructure Fund, supported by the issuing of bonds, that will go toward housing" (<a href="https://www.pa.gov/governor/newsroom/2026-press-releases/governor-shapiro-s-2026-27-budget-address-as-prepared-for-delive">budget address</a>). Borrowing costs have risen since, which makes any bond more expensive. A bond is still the most direct way to pay for the parts of the agenda that need money. BPN would put the proceeds toward two uses:</p>
+<ul>
+<li><b>A revolving loan fund for mixed-income housing,</b> modeled on Montgomery County, Maryland's $100 million Housing Production Fund. It makes five-year construction loans to mixed-income projects with at least 30% of units income-restricted, then relends the money as it is repaid (<a href="https://www.hocmc.org/about-us/innovations/housing-production-fund/">HOC</a>, <a href="https://www.naco.org/news/county-backed-loan-fund-unlocks-thousands-affordable-housing-units">NACo</a>).</li>
+<li><b>Home repair</b> (HB 1650/SB 876), which has gone three budgets without state money (<a href="https://penncapital-star.com/housing/pennsylvanias-home-repair-program-left-out-of-state-budget-despite-high-demand/">Capital-Star</a>).</li>
+</ul>
+<p>The bond and the zoning bills reinforce each other: by-right rules lower what each project costs, and the fund pays for more of them.</p>
+<h3>Who enforces? An open design question</h3>
+<p>A statewide standard is only as strong as its enforcement. Today the main enforcer is the applicant who gets denied: validity challenges, curative amendments and deemed-approval suits are slow, paid for by the applicant, and award no attorney's fees. Enforcement should be settled alongside the standards themselves. The specific choices lawmakers make will determine how much it asks of the state, so we do not score it yet.</p>
+<p>Options under discussion, which could be combined:</p>
+<ul>
+<li><b>County planning commissions</b> flagging noncompliance in the zoning reviews they already conduct.</li>
+<li><b>DCED review</b> of municipalities, ideally triggered by complaints rather than routine audits.</li>
+<li><b>Attorney General authority</b> to sue noncompliant municipalities. Pennsylvania has a precedent in the ACRE law for local agricultural ordinances (Act 38 of 2005).</li>
+<li><b>A private right of action</b> for applicants and residents, with attorney's fees.</li>
+<li><b>Loss of discretionary state grant eligibility</b> for noncompliant municipalities.</li>
+</ul>
+<p>One principle holds regardless of the details: <b>complaint-driven enforcement asks far less of the state than audit-driven verification.</b></p>
+<table><thead><tr><th></th><th>Audit-driven verification<br/><span class="sub">REDD grants, Housing-Ready designation, zoning catalog</span></th><th>Complaint-driven enforcement</th></tr></thead><tbody>
+<tr><td><b>Who does the work</b></td><td>The state reviews every participating municipality and confirms follow-through</td><td>The state acts when someone complains</td></tr>
+<tr><td><b>Workload grows with</b></td><td>The number of municipalities (up to 2,560)</td><td>The number of disputes</td></tr>
+<tr><td><b>If the state is slow</b></td><td>Nothing changes; the incentive is simply not paid</td><td>The statewide standard still applies</td></tr>
+</tbody></table>
+<h2>7. Preservation track: separate from supply</h2>
+<div class="callout warm"><h3>Complements supply reform; doesn't replace it</h3>
+<p>These bills keep existing homes and buildings livable, owned and in use. They have some of the broadest support in the legislature, but they add few or no new homes. Home repair and a larger historic credit also need state money, while most of the supply agenda costs the state nothing. Passing these instead of the supply bills would leave the shortage where it is.</p></div>
+<div class="wide"><table class="glance"><thead><tr><th>Concept</th><th class="c">Effect.</th><th class="c">Low admin</th><th class="c">Gov.</th><th class="c">Low cost</th><th class="c">Policy score<br/><span class="sub">of 45</span></th><th class="c">Readiness<br/><span class="sub">support, 0-5</span></th><th>Cost to the state</th><th>Introduced</th></tr></thead><tbody>
+<tr><td>Transfer-on-death deeds (tangled title)</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>36</b></td><td class="c"><span class="rd high">High</span> 3.9</td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Heirs-property partition protections (tangled title)</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><b>32</b></td><td class="c"><span class="rd high">High</span> 3.9</td><td class="sub">Court process</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Small-estate home affidavit (tangled title)</td><td class="c">3</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><b>31</b></td><td class="c"><span class="rd high">High</span> 3.9</td><td class="sub">County and court process</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Historic preservation tax credit expansion</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c">1</td><td class="c"><b>25</b></td><td class="c"><span class="rd medium">Medium</span> 3.4</td><td class="sub">State tax expenditure (program cap now $20M a year)</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Home repair grants (Whole-Home Repairs successor)</td><td class="c">2</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">1</td><td class="c"><b>22</b></td><td class="c"><span class="rd medium">Medium</span> 3.4</td><td class="sub">Annual state appropriation (budget line exists, unfunded)</td><td><span class="chip both">Both</span></td></tr>
+</tbody></table></div>
+<figure><table class="pipe"><thead><tr><th>Concept</th><th class="c">House</th><th>House bill</th><th class="c">Senate</th><th>Senate bill</th></tr></thead><tbody>
+<tr class=""><td>Transfer-on-death deeds</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">HB 2124 <span class="sp">· Rep. Briggs (D)</span></td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></td><td class="sub">SB 890 <span class="sp">· Sen. Bartolotta (R)</span></td></tr>
+<tr class=""><td>Heirs-property protections</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">HB 1498 <span class="sp">· Rep. Rabb (D)</span></td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></td><td class="sub">SB 890 <span class="sp">· Sen. Bartolotta (R)</span></td></tr>
+<tr class=""><td>Small-estate home affidavit</td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">HB 2172 <span class="sp">· Rep. Scott (D)</span></td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">SB 1203 <span class="sp">· Sen. Malone (D)</span></td></tr>
+<tr class=""><td>Home repair grants</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">HB 1650 <span class="sp">· Rep. Powell (D)</span></td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">SB 876 <span class="sp">· Sen. Argall (R)</span></td></tr>
+<tr class=""><td>Historic tax credit</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">HB 1572 <span class="sp">· Rep. Goughnour (D)</span></td><td class="c"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></td><td class="sub">SB 1356 <span class="sp">· Sen. Flynn (D)</span><br/>SB 1394 <span class="sp">· Sen. Farry (R)</span></td></tr>
+</tbody></table><figcaption><b>Figure 4. Preservation bills: furthest step reached in 2025-26.</b> Dots: introduced · committee vote · passed the chamber.</figcaption></figure>
+<figure><svg aria-labelledby="f5t" font-family="Inter, Helvetica, Arial, sans-serif" role="img" viewbox="0 0 680 146" width="100%">
+<title id="f5t">Current legislators on record by concept, House and Senate, against the votes needed to pass</title>
+<rect fill="#256abf" height="10" rx="2" width="10" x="120" y="6"></rect><text fill="#52514e" font-size="9.5" x="134" y="15">Voted yes</text>
+<rect fill="#b7d3f6" height="10" rx="2" width="10" x="200" y="6"></rect><text fill="#52514e" font-size="9.5" x="214" y="15">Signed only (no vote yet)</text>
+<line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="356" x2="374" y1="11" y2="11"></line><text fill="#52514e" font-size="9.5" x="378" y="15">Votes needed to pass</text>
+<text fill="#0b0b0b" font-size="10.5" font-weight="700" x="120" y="36">House <tspan fill="#898781" font-weight="400">(of 203; 102 to pass)</tspan></text>
+<line stroke="#e1e0d9" x1="120.0" x2="120.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="120.0" y="134">0</text>
+<line stroke="#e1e0d9" x1="181.6" x2="181.6" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="181.6" y="134">50</text>
+<line stroke="#e1e0d9" x1="243.2" x2="243.2" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="243.2" y="134">100</text>
+<line stroke="#e1e0d9" x1="304.7" x2="304.7" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="304.7" y="134">150</text>
+<line stroke="#e1e0d9" x1="366.3" x2="366.3" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="366.3" y="134">200</text>
+<line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="245.6" x2="245.6" y1="42" y2="120"></line>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="60">Tangled title</text>
+<rect fill="#256abf" height="14" rx="3" width="242.6" x="120" y="50"><title>House · Tangled title: 197 voted yes</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="367.6" y="61">197</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="82">Home repair</text>
+<rect fill="#256abf" height="14" rx="3" width="142.9" x="120" y="72"><title>House · Home repair: 116 voted yes</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="267.9" y="83">116</text>
+<text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="104">Historic tax credit</text>
+<rect fill="#256abf" height="14" rx="3" width="165.0" x="120" y="94"><title>House · Historic tax credit: 134 voted yes</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="290.0" y="105">134</text>
+<text fill="#0b0b0b" font-size="10.5" font-weight="700" x="410" y="36">Senate <tspan fill="#898781" font-weight="400">(of 50; 26 to pass)</tspan></text>
+<line stroke="#e1e0d9" x1="410.0" x2="410.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="410.0" y="134">0</text>
+<line stroke="#e1e0d9" x1="460.0" x2="460.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="460.0" y="134">10</text>
+<line stroke="#e1e0d9" x1="510.0" x2="510.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="510.0" y="134">20</text>
+<line stroke="#e1e0d9" x1="560.0" x2="560.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="560.0" y="134">30</text>
+<line stroke="#e1e0d9" x1="610.0" x2="610.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="610.0" y="134">40</text>
+<line stroke="#e1e0d9" x1="660.0" x2="660.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="660.0" y="134">50</text>
+<line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="540.0" x2="540.0" y1="42" y2="120"></line>
+<rect fill="#256abf" height="14" rx="0" width="58.0" x="410" y="50"><title>Senate · Tangled title: 12 voted yes</title></rect>
+<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="470.0" y="50"><title>Senate · Tangled title: 5 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="500.0" y="61">12 + 5</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="90.0" x="410.0" y="72"><title>Senate · Home repair: 18 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="505.0" y="83">0 + 18</text>
+<rect fill="#b7d3f6" height="14" rx="3" width="90.0" x="410.0" y="94"><title>Senate · Historic tax credit: 18 signed, no vote</title></rect>
+<text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="505.0" y="105">0 + 18</text>
+</svg><figcaption><b>Figure 5. Legislators on record for preservation, by chamber.</b> All three have passed the House. In the Senate, 12 senators voted for SB 890 (heirs property and transfer-on-death deeds) in committee; home repair has 18 Senate signers and the historic credit 18, with no Senate votes yet on either.</figcaption></figure>
+<ul>
+<li><b>Tangled title.</b> The plan counts about 35,000 heirs' properties statewide and over 10,000 tangled titles in Philadelphia, and names "transfer-on-death deeds for primary residences" (<a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">pp. 15, 24</a>). HB 2124 (transfer-on-death deeds) passed the House 202-0. <a href="https://www.palegis.us/legislation/bills/2025/sb890">SB 890</a> (Bartolotta, R) cleared Senate Judiciary 14-0. No state cost beyond court and county process.</li>
+<li><b>Home repair.</b> HB 1650 (Home Preservation Grant Program) passed the House 122-80. It would succeed the 2022 Whole-Home Repairs program, which passed with bipartisan support and $125 million in one-time federal aid; 3,965 of about 17,000 applicants got help (<a href="https://penncapital-star.com/housing/pennsylvanias-home-repair-program-left-out-of-state-budget-despite-high-demand/">Capital-Star</a>). Republicans have since pulled their support. In 2024 the money stalled after the Governor signed the budget, with Senate Republicans saying it needed enabling legislation (<a href="https://whyy.org/articles/pennsylvania-whole-home-repairs-program-budget-funding-shapiro">WHYY</a>). The 2025-26 budget left it out, the third year without a state-funded successor (<a href="https://penncapital-star.com/housing/pennsylvanias-home-repair-program-left-out-of-state-budget-despite-high-demand/">Capital-Star</a>). House Republicans voted 20-80 on HB 1650. The Senate version, SB 876, is co-authored by Sens. Argall (R) and Saval (D). The plan calls for a "state-sponsored home preservation fund" (<a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 21</a>). <b>It needs an annual appropriation.</b></li>
+<li><b>Historic preservation tax credit.</b> The credit pays for rehabilitating historic buildings, including conversions to housing. Current law caps it at $20 million a year statewide and $500,000 per taxpayer. HB 1572 (Goughnour, D) passed the House 141-62 (D 102-0, R 39-62). It and the Senate bills, SB 1356 (Flynn, D) and SB 1394 (Farry, R), would raise only the per-taxpayer cap, to $1.5 million (<a href="https://www.palegis.us/legislation/bills/2025/hb1572">bill text</a>). None raises the $20 million program cap. Peer states go much further: Kentucky's cap rose from $5 million to $100 million a year (<a href="https://www.novoco.com/news/kentucky-state-htc-cap-officially-expands-5-million-100-million">Novogradac</a>), and Ohio's base cap was $60 million, temporarily doubled to $120 million for 2023-24 (<a href="https://www.vorys.com/publication-Ohio-Legislature-Passes-Bill-to-Expand-Ohio-Opportunity-Zones-and-Historic-Preservation-Tax-Credits">Vorys, 2022</a>). BPN's version would remove the per-project cap or raise it sharply and lift the program cap toward those levels. It is a tax expenditure, so it scores 1 of 5 on fiscal cost. The plan supports state money for conversions and upper-floor rehab (<a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">p. 20</a>) but does not name the credit.</li>
+</ul>
+<h2>8. Recommended changes to bill text</h2>
+<ol>
+<li><b>Every by-right bill:</b> add SB 1256's clause making noncompliant local ordinances void by a date, with the state standard applying meanwhile.</li>
+<li><b>ADUs:</b> keep the 14-day deemed approval and utility-fee shield; reject "subject to reasonable regulation."</li>
+<li><b>Occupancy:</b> use SB 1263's clean ban; drop HB 2109's five-person authorization and student carve-out.</li>
+<li><b>Missing middle:</b> narrow HB 2185's proof-of-concurrency clause.</li>
+<li><b>Commercial zones:</b> drop the growing-county test in HB 1459 (housing in commercial zones) and add the density, lot-size and setback waivers from SB 1239.</li>
+<li><b>Grants:</b> replace application-based grants (SB 1278/HB 2423) with a formula payment per new permitted unit per capita, from Census Building Permits Survey data.</li>
+<li><b>Small-estate affidavit:</b> make SB 1203/HB 2172 (small-estate home affidavit) mandatory statewide, not a county opt-in.</li>
+<li><b>Single-stair:</b> turn SR 348 (single-stair study) from a study into a statutory directive with a deadline.</li>
+</ol>
+<h2>9. Recommendations</h2>
+<ol>
+<li><b>Pass a single statewide ADU bill early in the session,</b> combining the House-passed HB 2186 with the Senate's 14-day deemed-approval process.</li>
+<li><b>Move occupancy reform (SB 1263) early.</b></li>
+<li><b>Introduce standalone Senate bills on parking, minimum lot size and manufactured homes,</b> building on the SB 1126 coalition, and House bills on lot size and manufactured homes.</li>
+<li><b>Advance parking (HB 2155), commercial-zone housing (SB 1239 in Title 53) and missing middle (HB 2185)</b> as standalone bills.</li>
+<li><b>Settle enforcement alongside the standards,</b> favoring complaint-driven review over state audits of 2,560 municipalities.</li>
+<li><b>Introduce a transit-oriented development bill</b> to match the Governor's call in the budget address.</li>
+<li><b>Pursue a housing bond</b> for a mixed-income revolving loan fund (the Montgomery County, Maryland model) and home repair, building on the Governor's $1 billion bond-backed fund.</li>
+<li><b>Legalize single-stair apartment buildings up to six stories by statute,</b> building on the 14 senators who signed SR 348, rather than waiting on a study.</li>
+<li><b>On the separate preservation track, pass tangled-title reform (SB 890), fund home repair (HB 1650/SB 876) and expand the historic tax credit's program cap, not just its per-project cap,</b> alongside, not instead of, the supply bills.</li>
+<li><b>Release the Municipalities Planning Code study (SR 211).</b> Its scope covers single-family zoning, lot sizes, setbacks and missing middle, and it was due in October 2026.</li>
+</ol>
+<h3 style="margin-top:10px">Method and caveats</h3>
+<ul class="sub" style="font-size:7.8pt;line-height:1.28;margin-top:2px">
+<li><b>Data:</b> bill text, sponsors, cosponsors, histories and roll calls from palegis.us (fetched Nov 5, 2026); member-level votes from the <a href="https://pa-housing-votes.netlify.app/">PA Housing Votes</a> tracker plus palegis roll calls; Governor statements from the <a href="https://www.pa.gov/governor/newsroom/2026-press-releases/governor-shapiro-s-2026-27-budget-address-as-prepared-for-delive">budget address</a> and <a href="https://dced.pa.gov/download/housing-action-plan-2026/?wpdmdl=128767">Housing Action Plan</a> (printed page numbers).</li>
+<li><b>Scoring:</b> effectiveness rewards self-executing statewide standards; admin burden and fiscal cost are inverted (5 = no agency capacity needed; 5 = no state cost), and a bill scoring 0-1 on admin cannot rank above Tier 3. Fiscal cost: 4 = administrative cost only or opt-in local revenue, 3 = redirects existing state money, 2 = new sizable spending, 1 = large recurring appropriation or tax expenditure. Lawmaker support is computed, not judged. Concepts are reported as a policy score and readiness; bills as one combined score. Supply and preservation are scored the same way but ranked separately. We do not score housing units unlocked, because no estimates exist.</li>
+<li><b>Caveats:</b> November 2026 results were unofficial at the time of writing; counts exclude members not returning in 2027, and new members have no record yet. Preservation bills score low on effectiveness by design.</li>
+</ul>
+<h2>Appendix A: ranked supply bills</h2>
+<p class="sub">E effectiveness ×3 · A low admin burden ×2 · G Governor ×2 · C low fiscal cost ×2 · S lawmaker support ×3; score out of 60. † Capped at Tier 3 because its admin score is 0-1. SB 1126 (2023-24 zoning omnibus) is the concept source, not a vehicle, and SR 211 (MPC study) is already adopted; neither is ranked.</p>
+<div class="wide"><table class="appx"><thead><tr><th class="c">#</th><th>Bill</th><th>Title</th><th>Prime sponsor</th><th>Tier</th><th class="c">E</th><th class="c">A</th><th class="c">G</th><th class="c">C</th><th class="c">S</th><th class="c">Score</th></tr></thead><tbody>
+<tr><td class="c">1</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2186">HB 2186</a></td><td>Accessory Dwelling Units</td><td class="nowrap">Rep. Inglis (D)</td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>56.7</b></td></tr>
+<tr><td class="c">1</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1256">SB 1256</a></td><td>Accessory Dwelling Units (Collett)</td><td class="nowrap">Sen. Collett (D)</td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>56.7</b></td></tr>
+<tr><td class="c">3</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1263">SB 1263</a></td><td>Municipal Occupancy Reform (Golden Girls Law, Senate)</td><td class="nowrap">Sen. Saval (D)</td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.1</td><td class="c"><b>54.3</b></td></tr>
+<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1346">SB 1346</a></td><td>Accessory Dwelling Units (Senate)</td><td class="nowrap">Sen. Rothman (R)</td><td class="sub nowrap">Tier 1</td><td class="c">4</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>53.7</b></td></tr>
+<tr><td class="c">5</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2109">HB 2109</a></td><td>Occupancy Reform (Golden Girls Law)</td><td class="nowrap">Rep. Khan (D)</td><td class="sub nowrap">Tier 1</td><td class="c">3</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.1</td><td class="c"><b>48.3</b></td></tr>
+<tr><td class="c">6</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1239">SB 1239</a></td><td>Residential in Commercial Zones</td><td class="nowrap">Sen. Coleman (R)</td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">0.8</td><td class="c"><b>47.4</b></td></tr>
+<tr><td class="c">7</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2155">HB 2155</a></td><td>Parking Flexibility</td><td class="nowrap">Rep. Scott (D)</td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">0.4</td><td class="c"><b>46.2</b></td></tr>
+<tr><td class="c">8</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1446">HB 1446</a></td><td>Redevelopment of Malls, Greyfields and Brownfields (tax abatement)</td><td class="nowrap">Rep. Siegel (D)</td><td class="sub nowrap">Tier 1</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">4</td><td class="c">4.6</td><td class="c"><b>43.8</b></td></tr>
+<tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1279">SB 1279</a></td><td>Regulatory Compliance Officer for Housing</td><td class="nowrap">Sen. Phillips-Hill (R)</td><td class="sub nowrap">Tier 1</td><td class="c">4</td><td class="c">3</td><td class="c">5</td><td class="c">4</td><td class="c">2.5</td><td class="c"><b>43.5</b></td></tr>
+<tr><td class="c">10</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1459">HB 1459</a></td><td>Multi-Family Housing in Commercial Zones</td><td class="nowrap">Rep. Siegel (D)</td><td class="sub nowrap">Tier 1</td><td class="c">4</td><td class="c">4</td><td class="c">5</td><td class="c">5</td><td class="c">0.8</td><td class="c"><b>42.4</b></td></tr>
+<tr><td class="c">11</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1277">SB 1277</a></td><td>Property Tax Abatement for Housing Redevelopment</td><td class="nowrap">Sen. Stefano (R)</td><td class="sub nowrap">Tier 2</td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">4.6</td><td class="c"><b>41.8</b></td></tr>
+<tr><td class="c">12</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2185">HB 2185</a></td><td>Duplex/Triplex/Fourplex in Single-Family-Only Zones</td><td class="nowrap">Rep. Inglis (D)</td><td class="sub nowrap">Tier 2</td><td class="c">4</td><td class="c">4</td><td class="c">4</td><td class="c">5</td><td class="c">0.9</td><td class="c"><b>40.7</b></td></tr>
+<tr><td class="c">13</td><td><a href="https://www.palegis.us/legislation/bills/2023/hb1975">HB 1975</a></td><td>Objective Design Standards / Staff Review</td><td class="nowrap">Rep. Siegel (D)</td><td class="sub nowrap">Tier 2</td><td class="c">3</td><td class="c">5</td><td class="c">3</td><td class="c">5</td><td class="c">0.2</td><td class="c"><b>35.6</b></td></tr>
+<tr><td class="c">14</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2367">HB 2367</a></td><td>RACP for Housing Development</td><td class="nowrap">Rep. Boyd (D)</td><td class="sub nowrap">Tier 2</td><td class="c">2</td><td class="c">3</td><td class="c">5</td><td class="c">3</td><td class="c">1.0</td><td class="c"><b>31.0</b></td></tr>
+<tr><td class="c">14</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb294">SB 294</a></td><td>RACP for Housing (Senate)</td><td class="nowrap">Sen. Hughes (D)</td><td class="sub nowrap">Tier 2</td><td class="c">2</td><td class="c">3</td><td class="c">5</td><td class="c">3</td><td class="c">1.0</td><td class="c"><b>31.0</b></td></tr>
+<tr><td class="c">16</td><td><a href="https://www.palegis.us/legislation/bills/2025/sr348">SR 348</a></td><td>Single-Exit Stairwell Study</td><td class="nowrap">Sen. Street (D)</td><td class="sub nowrap">Tier 2</td><td class="c">1</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">1.3</td><td class="c"><b>28.9</b></td></tr>
+<tr><td class="c">17</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2428">HB 2428</a></td><td>Residential Construction Workforce Training Grant</td><td class="nowrap">Rep. Solomon (D)</td><td class="sub nowrap">Tier 2</td><td class="c">1</td><td class="c">3</td><td class="c">5</td><td class="c">4</td><td class="c">0.1</td><td class="c"><b>27.3</b></td></tr>
+<tr><td class="c">18</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2434">HB 2434</a></td><td>Expedited High Density Housing Approval</td><td class="nowrap">Rep. Solomon (D)</td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">0</td><td class="c">4</td><td class="c">4</td><td class="c">2.7</td><td class="c"><b>27.1</b></td></tr>
+<tr><td class="c">18</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1281">SB 1281</a></td><td>Pre-Approved Housing Plans</td><td class="nowrap">Sen. Rothman (R)</td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">1</td><td class="c">3</td><td class="c">4</td><td class="c">2.7</td><td class="c"><b>27.1</b></td></tr>
+<tr><td class="c">20</td><td><a href="https://www.palegis.us/legislation/bills/2025/hr484">HR 484</a></td><td>Housing Accelerator Study</td><td class="nowrap">Rep. Solomon (D)</td><td class="sub nowrap">Tier 3</td><td class="c">1</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">0.1</td><td class="c"><b>25.3</b></td></tr>
+<tr><td class="c">21</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2423">HB 2423</a></td><td>Residential Economic Development District Grant Program</td><td class="nowrap">Rep. Solomon (D)</td><td class="sub nowrap">Tier 3†</td><td class="c">2</td><td class="c">1</td><td class="c">4</td><td class="c">2</td><td class="c">1.1</td><td class="c"><b>23.3</b></td></tr>
+<tr><td class="c">21</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1278">SB 1278</a></td><td>Residential Economic Development District Grant Program (Senate)</td><td class="nowrap">Sen. Picozzi (R)</td><td class="sub nowrap">Tier 3†</td><td class="c">2</td><td class="c">1</td><td class="c">4</td><td class="c">2</td><td class="c">1.1</td><td class="c"><b>23.3</b></td></tr>
+<tr><td class="c">23</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2445">HB 2445</a></td><td>Office of Housing Opportunity</td><td class="nowrap">Rep. Solomon (D)</td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">1</td><td class="c">5</td><td class="c">3</td><td class="c">0.4</td><td class="c"><b>22.2</b></td></tr>
+<tr><td class="c">24</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2192">HB 2192</a></td><td>Commonwealth Housing Council</td><td class="nowrap">Rep. Smith-Wade-El (D)</td><td class="sub nowrap">Tier 3</td><td class="c">0</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">0.4</td><td class="c"><b>21.2</b></td></tr>
+<tr><td class="c">24</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2430">HB 2430</a></td><td>Housing Ombudsman</td><td class="nowrap">Rep. Solomon (D)</td><td class="sub nowrap">Tier 3</td><td class="c">0</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">0.4</td><td class="c"><b>21.2</b></td></tr>
+</tbody></table></div>
+<h3>Appendix B: preservation bills (ranked separately; same columns)</h3>
+<div class="wide"><table class="appx"><thead><tr><th class="c">#</th><th>Bill</th><th>Title</th><th>Prime sponsor</th><th class="c">E</th><th class="c">A</th><th class="c">G</th><th class="c">C</th><th class="c">S</th><th class="c">Score</th></tr></thead><tbody>
+<tr><td class="c">1</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2124">HB 2124</a></td><td>Transfer-on-Death Deeds for Real Property</td><td class="nowrap">Rep. Briggs (D)</td><td class="c">2</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>47.7</b></td></tr>
+<tr><td class="c">2</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb890">SB 890</a></td><td>Heirs Property Partition + Transfer-on-Death Deeds</td><td class="nowrap">Sen. Bartolotta (R)</td><td class="c">2</td><td class="c">4</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>45.7</b></td></tr>
+<tr><td class="c">3</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1498">HB 1498</a></td><td>Uniform Partition of Heirs Property</td><td class="nowrap">Rep. Rabb (D)</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>43.7</b></td></tr>
+<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1572">HB 1572</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M</td><td class="nowrap">Rep. Goughnour (D)</td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
+<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1356">SB 1356</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M</td><td class="nowrap">Sen. Flynn (D)</td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
+<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1394">SB 1394</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M; nonprofit owners eligible</td><td class="nowrap">Sen. Farry (R)</td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
+<tr><td class="c">7</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2172">HB 2172</a></td><td>Small-Estate Primary Residence Affidavit</td><td class="nowrap">Rep. Scott (D)</td><td class="c">1</td><td class="c">3</td><td class="c">4</td><td class="c">4</td><td class="c">3.9</td><td class="c"><b>36.7</b></td></tr>
+<tr><td class="c">7</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1203">SB 1203</a></td><td>Small-Estate Primary Residence Affidavit</td><td class="nowrap">Sen. Malone (D)</td><td class="c">1</td><td class="c">3</td><td class="c">4</td><td class="c">4</td><td class="c">3.9</td><td class="c"><b>36.7</b></td></tr>
+<tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1650">HB 1650</a></td><td>Home Preservation Grant Program (Whole-Home Repairs successor)</td><td class="nowrap">Rep. Powell (D)</td><td class="c">2</td><td class="c">2</td><td class="c">5</td><td class="c">1</td><td class="c">3.4</td><td class="c"><b>32.2</b></td></tr>
+<tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb876">SB 876</a></td><td>Home Preservation Grant Program (Senate)</td><td class="nowrap">Sen. Argall (R)</td><td class="c">2</td><td class="c">2</td><td class="c">5</td><td class="c">1</td><td class="c">3.4</td><td class="c"><b>32.2</b></td></tr>
+</tbody></table></div>
+<div class="foot">Build Philly Now · Housing Bill Prioritization for the 2027-28 Session · November 5, 2026. Sources: palegis.us, the PA Housing Votes tracker and the Governor's Housing Action Plan.</div>
+</div></body></html>
