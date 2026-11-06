@@ -14,6 +14,11 @@ changed Pennsylvania's housing-reform vote math.
   `public/data/pa_{house,senate}_districts.geojson` in BPN colors.
 - `build_pdf.py` — stages brand fonts/logos + maps and prints the PDF.
 - `map-house-flips.png`, `map-senate-flips.png` — rendered maps.
+- `deck.html` + `build_deck.py` → `BPN-PA-2026-built-environment-deck.pdf`
+  — branded 16:9 slide deck (WeasyPrint), same sections as the memo.
+- `social-cards.html` + `render_social.py` → `social-*.png` — BPN
+  Instagram-square (1080×1080) cards (Playwright screenshot): Senate
+  flip, 4 anti-transit senators, built-environment summary.
 
 ## Rebuild
 ```bash

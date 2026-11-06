@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PA 2026 — Built Environment Deck</title>
+<style>
+@font-face{font-family:"Brother1816";src:url("fonts/Brother1816-Bold.otf") format("opentype");font-weight:700;}
+@font-face{font-family:"Plus Jakarta Sans";src:url("fonts/PlusJakartaSans-Variable-latin.woff2") format("woff2");font-weight:200 800;}
+@page{size:13.333in 7.5in;margin:0;}
+:root{--green:#00844D;--cream:#EAE7E4;--white:#fff;--dark:#1a1a1a;--sienna:#A0785A;--ochre:#C99B2E;--stone:#8B8178;--mut:#5c5852;--line:#d9d5d0;}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;margin:0;padding:0;}
+body{font-family:"Plus Jakarta Sans",sans-serif;color:var(--dark);}
+.slide{position:relative;width:13.333in;height:7.5in;overflow:hidden;page-break-after:always;padding:0.62in 0.72in;background:var(--white);}
+.slide:last-child{page-break-after:auto;}
+h1,h2,h3,.bro{font-family:"Brother1816",sans-serif;font-weight:700;letter-spacing:-0.01em;}
+.kick{font-family:"Brother1816";text-transform:uppercase;letter-spacing:.14em;color:var(--green);font-size:15px;margin-bottom:12px;}
+h2{font-size:38px;text-transform:uppercase;line-height:1.02;color:var(--dark);}
+h2 .g{color:var(--green);}
+.rule{height:5px;width:70px;background:var(--green);margin:14px 0 22px;}
+.logo{position:absolute;bottom:0.42in;right:0.62in;height:30px;}
+.pnum{position:absolute;bottom:0.46in;left:0.72in;font-size:12px;color:var(--mut);}
+.lead{font-size:20px;line-height:1.42;max-width:11in;color:var(--dark);}
+.mut{color:var(--mut);}
+.big{font-family:"Brother1816";color:var(--green);font-size:84px;line-height:1;}
+.big small{font-size:34px;}
+
+/* title slide */
+.title{background:var(--green);color:#fff;padding:0.9in 0.9in;}
+.title .kick{color:#bfe6d4;}
+.title h1{font-size:62px;line-height:1.02;text-transform:uppercase;max-width:11in;}
+.title .sub{margin-top:22px;font-size:18px;color:#d6efe3;}
+.title .prelim{display:inline-block;margin-top:26px;border:1px solid #ffffff66;color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.08em;padding:5px 12px;border-radius:4px;}
+.title .logo{filter:none;}
+
+.cols{display:flex;gap:30px;}
+.stat{flex:1;background:var(--cream);border-radius:10px;padding:22px 22px;}
+.stat .big{font-size:60px;}
+.stat .l{font-family:"Brother1816";text-transform:uppercase;font-size:14px;color:var(--dark);margin-top:8px;}
+.stat .d{font-size:14px;color:var(--mut);margin-top:8px;line-height:1.4;}
+
+.maps{display:flex;gap:26px;align-items:flex-start;margin-top:6px;}
+.maps figure{flex:1;}
+.maps img{width:100%;border:1px solid var(--line);border-radius:7px;}
+.maps figcaption{font-size:13px;color:var(--mut);margin-top:8px;}
+
+table{width:100%;border-collapse:collapse;font-size:16px;margin-top:10px;}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);}
+thead th{font-family:"Brother1816";text-transform:uppercase;font-size:12px;letter-spacing:.03em;background:var(--cream);}
+td.c,th.c{text-align:center;}
+.hd{font-weight:700;color:var(--green);}
+.chip{display:inline-block;min-width:42px;text-align:center;font-size:13px;font-weight:700;padding:3px 10px;border-radius:12px;color:#fff;}
+.yea{background:var(--green);}.nay{background:var(--sienna);}.mix{background:var(--ochre);}
+
+.gav{display:flex;gap:20px;margin-top:10px;}
+.gcard{flex:1;background:var(--cream);border-radius:9px;padding:18px;border-left:5px solid var(--green);}
+.gcard .cm{font-family:"Brother1816";text-transform:uppercase;font-size:14px;margin-bottom:8px;}
+.gcard .from{font-size:14px;color:var(--mut);}
+.gcard .to{font-size:20px;font-weight:700;color:var(--green);margin-top:4px;}
+.note{background:#faf6ee;border:1px solid #e7dcc2;border-radius:7px;padding:12px 16px;font-size:14px;color:#6b5a30;margin-top:16px;}
+ul{margin:8px 0 0 22px;}li{font-size:19px;line-height:1.5;margin:10px 0;}
+.bars{margin-top:14px;}
+.barrow{display:flex;align-items:center;gap:14px;margin:10px 0;}
+.barcap{width:130px;text-align:right;font-family:"Brother1816";text-transform:uppercase;font-size:13px;color:var(--mut);}
+.bar{flex:1;height:34px;border-radius:5px;overflow:hidden;display:flex;position:relative;}
+.bar .d{background:var(--green);display:flex;align-items:center;}
+.bar .r{background:var(--stone);display:flex;align-items:center;}
+.bar span{color:#fff;font-weight:700;font-size:15px;padding:0 12px;}
+.maj{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed var(--dark);}
+</style>
+</head>
+<body>
+
+<!-- 1 TITLE -->
+<section class="slide title">
+  <p class="kick">Built Environment Impact Brief · Build Philly Now</p>
+  <h1>What PA's 2026 Elections Mean for the Built Environment</h1>
+  <div class="sub">Housing + transit · November 2026 · PA housing &amp; transit coalitions</div>
+  <div class="prelim">Preliminary — unofficial returns, House races still uncalled</div>
+  <img class="logo" src="bpn-logo-white.svg" alt="BPN">
+</section>
+
+<!-- 2 TRIFECTA -->
+<section class="slide">
+  <p class="kick">The headline</p>
+  <h2>Democrats won a <span class="g">trifecta</span> — and flipped the Senate</h2>
+  <div class="rule"></div>
+  <div class="cols">
+    <div class="stat"><div class="big">~108<small>/203</small></div><div class="l">State House — D</div><div class="d">Held &amp; expanded (from 103). 7 races uncalled.</div></div>
+    <div class="stat"><div class="big">26<small>/50</small></div><div class="l">State Senate — D</div><div class="d">Flipped from R 27–23. All 4 flips AP-called. First D majority since 1994.</div></div>
+    <div class="stat"><div class="big">3</div><div class="l">Branches aligned</div><div class="d">House + Senate + Shapiro. Bills can finally move through both chambers.</div></div>
+  </div>
+  <div class="bars">
+    <div class="barrow"><div class="barcap">Senate before</div><div class="bar"><div class="d" style="width:46%"><span>23 D</span></div><div class="r" style="width:54%"><span>27 R</span></div><div class="maj" style="left:51%"></div></div></div>
+    <div class="barrow"><div class="barcap">Senate after</div><div class="bar"><div class="d" style="width:52%"><span>26 D</span></div><div class="r" style="width:48%"><span>24 R</span></div><div class="maj" style="left:51%"></div></div></div>
+  </div>
+  <p class="lead" style="margin-top:18px;font-size:17px"><strong>Why it matters:</strong> the House always passed these bills — they died in a Republican Senate. That wall is gone.</p>
+  <img class="logo" src="bpn-logo-green.svg" alt="BPN"><div class="pnum">2</div>
+</section>
+
+<!-- 3 MAPS -->
+<section class="slide">
+  <p class="kick">Where the seats changed hands</p>
+  <h2>It was the <span class="g">southeast suburban collar</span></h2>
+  <div class="rule"></div>
+  <div class="maps">
+    <figure><img src="map-house-flips.png" alt="House flips"><figcaption><strong>House — 6 flips, all R→D.</strong> Bucks, Delaware/Chester, Lehigh Valley, Cumberland, Allegheny.</figcaption></figure>
+    <figure><img src="map-senate-flips.png" alt="Senate flips"><figcaption><strong>Senate — the chamber flips.</strong> All 4 R→D called; SD-36 the lone D→R loss.</figcaption></figure>
+  </div>
+  <img class="logo" src="bpn-logo-green.svg" alt="BPN"><div class="pnum">3</div>
+</section>
+
+<!-- 4 WHO LOST -->
+<section class="slide">
+  <p class="kick">The cost on zoning</p>
+  <h2>We lost two Republican <span class="g">champions</span></h2>
+  <div class="rule"></div>
+  <table>
+    <thead><tr><th>District</th><th>Member (lost)</th><th class="c">HB 2186 ADU</th><th class="c">HB 2109 Occupancy</th></tr></thead>
+    <tbody>
+      <tr><td class="hd">HD-142</td><td>Joe Hogan</td><td class="c"><span class="chip yea">Yea</span></td><td class="c"><span class="chip yea">Yea</span></td></tr>
+      <tr><td class="hd">HD-137</td><td>Joe Emrick</td><td class="c"><span class="chip yea">Yea</span></td><td class="c"><span class="chip yea">Yea</span></td></tr>
+      <tr><td class="hd">HD-44</td><td>Valerie Gaydos</td><td class="c"><span class="chip yea">Yea</span></td><td class="c"><span class="chip yea">Yea</span></td></tr>
+    </tbody>
+  </table>
+  <div class="note"><strong>No assuming the newcomers.</strong> Their Democratic successors are unproven — none has voted on these bills. The honest read is a loss of two rock-solid R champions, not an automatic swap for new Yeas.</div>
+  <img class="logo" src="bpn-logo-green.svg" alt="BPN"><div class="pnum">4</div>
+</section>
+
+<!-- 5 TRANSIT -->
+<section class="slide">
+  <p class="kick">Transit funding</p>
+  <h2>The same wall — now <span class="g">gone</span></h2>
+  <div class="rule"></div>
+  <div class="cols" style="margin-bottom:16px">
+    <div class="stat"><div class="big" style="font-size:50px">108<small>–95</small></div><div class="l">HB 1788 passed House</div></div>
+    <div class="stat"><div class="big" style="font-size:50px">27<small>–22</small></div><div class="l">Senate tabled Saval's funding amendment</div></div>
+    <div class="stat"><div class="big" style="font-size:50px">4</div><div class="l">Anti-transit senators defeated</div><div class="d">Farry, Pennycuick, Coleman, Brown — all voted to table it.</div></div>
+  </div>
+  <p class="lead" style="font-size:17px"><strong>But housing ≠ transit.</strong> Hogan was pro-both; Emrick &amp; Gaydos pro-housing / anti-transit; Williams the reverse; incoming Tom Jones (SD-36) is pro-ADU but anti-transit.</p>
+  <img class="logo" src="bpn-logo-green.svg" alt="BPN"><div class="pnum">5</div>
+</section>
+
+<!-- 6 GAVELS -->
+<section class="slide">
+  <p class="kick">What changes in the Senate</p>
+  <h2>New committee gavels <span class="g">(likely)</span></h2>
+  <div class="rule"></div>
+  <div class="gav">
+    <div class="gcard"><div class="cm">Urban Affairs &amp; Housing</div><div class="from">from Picozzi (R)</div><div class="to">Nikil Saval (D)</div></div>
+    <div class="gcard"><div class="cm">Local Government</div><div class="from">from Keefer (R)</div><div class="to">Patty Kim (D)</div></div>
+    <div class="gcard"><div class="cm">Transportation</div><div class="from">from Judy Ward (R)</div><div class="to">Marty Flynn (D)</div></div>
+  </div>
+  <div class="note"><strong>Not final.</strong> The Senate Democratic caucus doesn't assign committee chairs until it organizes in the new year. These are the likely incoming chairs — Saval notably authored both the housing coalition's case and the tabled transit amendment.</div>
+  <img class="logo" src="bpn-logo-green.svg" alt="BPN"><div class="pnum">6</div>
+</section>
+
+<!-- 7 SO WHAT -->
+<section class="slide">
+  <p class="kick">What it means</p>
+  <h2>The chokepoint is <span class="g">gone</span>. Now the work.</h2>
+  <div class="rule"></div>
+  <ul>
+    <li><strong>Both fights can move.</strong> A D Senate + D House + Shapiro turns "passes the House, dies in the Senate" into bills that reach the desk.</li>
+    <li><strong>Protect a thin majority &amp; a thinner bipartisan bench.</strong> We lost proven R champions; the new members are unproven — talk to them now.</li>
+    <li><strong>Pick up where we can.</strong> Tom Jones (SD-36) is a proven ADU vote; surviving Rs like Langerholc &amp; Robinson sit on pro-reform delegations.</li>
+    <li><strong>Mind the gaps.</strong> Housing and transit aren't the same coalition — and the newcomers need a conversation, not an assumption.</li>
+  </ul>
+  <img class="logo" src="bpn-logo-green.svg" alt="BPN"><div class="pnum">7</div>
+</section>
+
+</body>
+</html>

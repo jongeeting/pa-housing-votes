@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:"Brother1816";src:url("fonts/Brother1816-Bold.otf") format("opentype");font-weight:700;}
+@font-face{font-family:"Plus Jakarta Sans";src:url("fonts/PlusJakartaSans-Variable-latin.woff2") format("woff2");font-weight:200 800;}
+:root{--green:#00844D;--cream:#EAE7E4;--dark:#1a1a1a;--sienna:#A0785A;--ochre:#C99B2E;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;}
+body{font-family:"Plus Jakarta Sans",sans-serif;}
+.card{position:relative;width:1080px;height:1080px;overflow:hidden;padding:80px;display:flex;flex-direction:column;}
+.bro{font-family:"Brother1816",sans-serif;font-weight:700;letter-spacing:-0.01em;text-transform:uppercase;}
+.kick{font-family:"Brother1816";text-transform:uppercase;letter-spacing:.16em;font-size:26px;}
+.logo{position:absolute;bottom:48px;right:80px;width:150px;}
+
+/* green card */
+.green{background:var(--green);color:#fff;}
+.green .kick{color:#bfe6d4;}
+.cream{background:var(--cream);color:var(--dark);}
+.cream .kick{color:var(--green);}
+
+.head{font-family:"Brother1816";text-transform:uppercase;line-height:1.0;letter-spacing:-0.01em;}
+.sub{line-height:1.35;font-weight:500;}
+.spacer{flex:1;}
+
+/* card 1 */
+#c1 .head{font-size:96px;margin-top:26px;}
+#c1 .big{font-family:"Brother1816";font-size:150px;line-height:1;margin-top:30px;}
+#c1 .sub{font-size:34px;margin-top:26px;color:#eafff5;max-width:860px;}
+
+/* card 2 */
+#c2 .big{font-family:"Brother1816";font-size:360px;line-height:0.9;color:var(--green);margin-top:10px;}
+#c2 .head{font-size:62px;margin-top:4px;}
+#c2 .sub{font-size:32px;margin-top:28px;color:#4a463f;max-width:900px;}
+#c2 .names{font-size:26px;margin-top:22px;color:var(--sienna);font-weight:700;}
+
+/* card 3 */
+#c3 .head{font-size:72px;margin-top:24px;max-width:920px;}
+#c3 .rows{margin-top:40px;}
+#c3 .row{display:flex;align-items:center;gap:22px;margin:22px 0;font-size:34px;font-weight:600;color:#eafff5;}
+#c3 .dot{width:18px;height:18px;border-radius:4px;background:#bfe6d4;flex:none;}
+#c3 .row b{color:#fff;}
+</style>
+</head>
+<body>
+
+<!-- CARD 1 — Senate flip (green) -->
+<section class="card green" id="c1">
+  <div class="kick">Pennsylvania · 2026</div>
+  <div class="head">Democrats flip<br>the state Senate</div>
+  <div class="big">26–24</div>
+  <div class="sub">The first Democratic Senate majority in more than 30 years — and the chamber where housing and transit bills kept dying.</div>
+  <div class="spacer"></div>
+  <img class="logo" src="bpn-logo-white.svg" alt="BPN">
+</section>
+
+<!-- CARD 2 — 4 anti-transit senators (cream) -->
+<section class="card cream" id="c2">
+  <div class="kick">Transit funding</div>
+  <div class="big">4</div>
+  <div class="head">anti-transit<br>senators defeated</div>
+  <div class="sub">All four voted to table Pennsylvania's transit-funding amendment (HB 1788). All four lost their seats — and the Senate flipped Democratic.</div>
+  <div class="names">Farry · Pennycuick · Coleman · Brown</div>
+  <div class="spacer"></div>
+  <img class="logo" src="bpn-logo-green.svg" alt="BPN">
+</section>
+
+<!-- CARD 3 — built environment summary (green) -->
+<section class="card green" id="c3">
+  <div class="kick">What it means for the built environment</div>
+  <div class="head">The chokepoint is gone</div>
+  <div class="rows">
+    <div class="row"><span class="dot"></span><span><b>Senate flipped</b> — a Democratic trifecta with Shapiro</span></div>
+    <div class="row"><span class="dot"></span><span><b>2 pro-housing Republican champions</b> lost (Hogan, Emrick)</span></div>
+    <div class="row"><span class="dot"></span><span><b>Housing ≠ transit</b> — the coalitions aren't the same people</span></div>
+    <div class="row"><span class="dot"></span><span>New members are <b>unproven</b> — the work is just beginning</span></div>
+  </div>
+  <div class="spacer"></div>
+  <img class="logo" src="bpn-logo-white.svg" alt="BPN">
+</section>
+
+</body>
+</html>
