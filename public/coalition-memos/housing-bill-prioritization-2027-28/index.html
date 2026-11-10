@@ -48,7 +48,7 @@ tr{break-inside:avoid}
 .pipe .dot{display:inline-block;width:9px;height:9px;border-radius:50%;border:1.5px solid #9ca3af;margin:0 2px;vertical-align:middle}
 .pipe .dot.on{background:var(--accent);border-color:var(--accent)}
 .pipe tr.gap td:first-child{font-weight:700;color:#a2502b}
-.bloc .m{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle} .bloc .vote,.lg.vote{background:#256abf} .bloc .sig,.lg.sig{border:2px solid #6da7ec;background:#fff} .bloc .no{color:#a2502b;width:auto;height:auto}
+.bloc .m{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle} .bloc .vote,.lg.vote{background:#b04019} .bloc .sig,.lg.sig{border:2px solid #f29d74;background:#fff} .bloc .no{color:#a2502b;width:auto;height:auto}
 .lg{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-right:3px}
 .bloc .role{display:block;font-size:7pt;color:var(--faint)}
 figure{margin:10px 0 16px;break-inside:avoid}
@@ -124,38 +124,40 @@ figcaption b{color:var(--fg)}
 <h2>2. Supply concepts at a glance</h2>
 <p>One row per concept, scored on the concept at its best: the version BPN would write, not any one bill's current text. Each concept gets one <b>overall score</b> out of 60. Forty-five points rate the policy itself (effectiveness ×3, low admin burden ×2, Governor ×2, low fiscal cost ×2). Fifteen rate <b>legislative momentum</b>: lawmaker support today, 0-5, ×3 (High 3.5+, Medium 1.5-3.5, Low below 1.5). Fiscal cost is inverted like admin burden: 5 means no state cost, 1 means a large recurring appropriation or tax expenditure. The table and Figure 1 are sorted by overall score. Each criterion is 0-5; ✓ marks a score of 4 or more. Transit-oriented development is scored as by-right density and no parking mandates near rail and frequent bus; permit-growth payments as a formula payment per new permitted unit per capita, from Census data. (The bill ranking in section 5 and the appendix uses the same formula on actual bill texts.)</p>
 <p>Concepts with no bill, vote or memo yet show momentum as "No record" and get no momentum points. Minimum lot size reform includes a staff-approved path to split a lot, so that smaller minimums produce starter homes without a full subdivision approval for each split.</p>
-<div class="wide"><table class="glance"><thead><tr><th>Concept</th><th class="c">Effect.</th><th class="c">Low admin</th><th class="c">Gov.</th><th class="c">Low cost</th><th class="c">Momentum<br/><span class="sub">0-5</span></th><th class="c">Overall<br/><span class="sub">of 60</span></th><th>Cost to the state</th><th>Introduced</th></tr></thead><tbody>
+<div class="wide"><table class="glance"><thead><tr><th>Concept</th><th class="c">Effect.</th><th class="c">Low admin</th><th class="c">Low cost</th><th class="c">Gov.</th><th class="c">Momentum<br/><span class="sub">0-5</span></th><th class="c">Overall<br/><span class="sub">of 60</span></th><th>Cost to the state</th><th>Introduced</th></tr></thead><tbody>
 <tr><td>ADUs</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd high">High</span> 3.9</td><td class="c"><b>56.7</b></td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
 <tr><td>Occupancy limits (unrelated housemates)</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd medium">Medium</span> 3.1</td><td class="c"><b>54.3</b></td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
 <tr><td>Housing by right in commercial zones</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.8</td><td class="c"><b>47.4</b></td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
 <tr><td>Parking mandates</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.4</td><td class="c"><b>46.2</b></td><td class="sub">No state cost</td><td><span class="chip house">House only</span></td></tr>
-<tr><td>Duplexes to fourplexes (missing middle)</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.9</td><td class="c"><b>45.7</b></td><td class="sub">No state cost</td><td><span class="chip house">House only</span></td></tr>
+<tr><td>Duplexes to fourplexes (missing middle)</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd low">Low</span> 0.9</td><td class="c"><b>45.7</b></td><td class="sub">No state cost</td><td><span class="chip house">House only</span></td></tr>
 <tr><td>Minimum lot size reform (starter homes on smaller lots)</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="c"><b>45.6</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
 <tr><td>Manufactured homes in single-family zones</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="c"><b>45.6</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
 <tr><td>Mall/greyfield redevelopment tax abatement</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd high">High</span> 4.6</td><td class="c"><b>43.8</b></td><td class="sub">Local tax revenue (opt-in)</td><td><span class="chip house">House only</span></td></tr>
 <tr><td>Transit-oriented development</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.1</td><td class="c"><b>43.3</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
 <tr><td>Local permitting speed, certainty and accountability</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="na">No record</span></td><td class="c"><b>43</b></td><td class="sub">Applicants pay review fees</td><td><span class="chip none">Neither</span></td></tr>
 <tr><td>Housing on faith-owned and state-owned land</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="na">No record</span></td><td class="c"><b>43</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
-<tr><td>LERTA abatement for housing</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd high">High</span> 4.6</td><td class="c"><b>41.8</b></td><td class="sub">Local tax revenue (opt-in)</td><td><span class="chip senate">Senate only</span></td></tr>
+<tr><td>LERTA abatement for housing</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="rd high">High</span> 4.6</td><td class="c"><b>41.8</b></td><td class="sub">Local tax revenue (opt-in)</td><td><span class="chip senate">Senate only</span></td></tr>
 <tr><td>State-agency permit shot clock</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd medium">Medium</span> 2.5</td><td class="c"><b>41.5</b></td><td class="sub">Agency process changes</td><td><span class="chip senate">Senate only</span></td></tr>
-<tr><td>Objective design standards / staff approval</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="c"><b>40.6</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
-<tr><td>Land bank disposition reform</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="na">No record</span></td><td class="c"><b>38</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
-<tr><td>Permit-growth payments to municipalities</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">2</td><td class="c"><span class="rd low">Low</span> 1.1</td><td class="c"><b>37.3</b></td><td class="sub">State funding (formula payments)</td><td><span class="chip both">Both</span></td></tr>
-<tr><td>Single-stair buildings</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 0.9</td><td class="c"><b>36.7</b></td><td class="sub">No state cost</td><td><span class="chip senate">Senate only</span></td></tr>
-<tr><td>Housing bond</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">2</td><td class="c"><span class="na">No record</span></td><td class="c"><b>32</b></td><td class="sub">State borrowing (loans repaid; grants not)</td><td><span class="chip none">Neither</span></td></tr>
-<tr><td>Bigger PHARE (raise its revenue cap)</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">2</td><td class="c"><span class="na">No record</span></td><td class="c"><b>31</b></td><td class="sub">Realty transfer tax revenue redirected to PHARE</td><td><span class="chip none">Neither</span></td></tr>
-<tr><td>RACP money for housing</td><td class="c">2</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">3</td><td class="c"><span class="rd low">Low</span> 1.0</td><td class="c"><b>31</b></td><td class="sub">State bond funds</td><td><span class="chip both">Both</span></td></tr>
-<tr><td>Residential Reinvestment Tax Credit</td><td class="c">3</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">1</td><td class="c"><span class="na">No record</span></td><td class="c"><b>27</b></td><td class="sub">State tax expenditure (new credit)</td><td><span class="chip none">Neither</span></td></tr>
-<tr><td>Regular property reassessment</td><td class="c">3</td><td class="c">3</td><td class="c">0</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="c"><b>23.6</b></td><td class="sub">County cost (fee allowed)</td><td><span class="chip senate">Senate only</span></td></tr>
+<tr><td>Objective design standards / staff approval</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="c"><b>40.6</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Land bank disposition reform</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="na">No record</span></td><td class="c"><b>38</b></td><td class="sub">No state cost</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Permit-growth payments to municipalities</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd low">Low</span> 1.1</td><td class="c"><b>37.3</b></td><td class="sub">State funding (formula payments)</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Single-stair buildings</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">3</td><td class="c"><span class="rd low">Low</span> 0.9</td><td class="c"><b>36.7</b></td><td class="sub">No state cost</td><td><span class="chip senate">Senate only</span></td></tr>
+<tr><td>Housing bond</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="na">No record</span></td><td class="c"><b>32</b></td><td class="sub">State borrowing (loans repaid; grants not)</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Bigger PHARE (raise its revenue cap)</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="na">No record</span></td><td class="c"><b>31</b></td><td class="sub">Realty transfer tax revenue redirected to PHARE</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>RACP money for housing</td><td class="c">2</td><td class="c">3</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd low">Low</span> 1.0</td><td class="c"><b>31</b></td><td class="sub">State bond funds</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Residential Reinvestment Tax Credit</td><td class="c">3</td><td class="c">3</td><td class="c">1</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="na">No record</span></td><td class="c"><b>27</b></td><td class="sub">State tax expenditure (new credit)</td><td><span class="chip none">Neither</span></td></tr>
+<tr><td>Regular property reassessment</td><td class="c">3</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">0</td><td class="c"><span class="rd low">Low</span> 0.2</td><td class="c"><b>23.6</b></td><td class="sub">County cost (fee allowed)</td><td><span class="chip senate">Senate only</span></td></tr>
 <tr><td>Enforcement of state housing standards</td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">n/a</span></td><td class="c"><span class="na">No record</span></td><td class="c"><span class="na">not scored</span></td><td class="sub">Depends on design</td><td><span class="chip none">Neither</span></td></tr>
 </tbody></table></div>
 <figure><svg aria-labelledby="f1t" font-family="Inter, Helvetica, Arial, sans-serif" role="img" viewbox="0 0 760 482" width="100%">
 <title id="{tid}">Overall score by concept, split into its five components</title>
-<rect fill="#2a78d6" height="10" rx="2" width="10" x="0" y="4"></rect><text fill="#52514e" font-size="9.5" x="14" y="13">Effectiveness ×3</text>
-<rect fill="#eb6834" height="10" rx="2" width="10" x="152" y="4"></rect><text fill="#52514e" font-size="9.5" x="166" y="13">Low admin burden ×2</text>
-<rect fill="#1baf7a" height="10" rx="2" width="10" x="304" y="4"></rect><text fill="#52514e" font-size="9.5" x="318" y="13">Governor ×2</text>
-<rect fill="#e87ba4" height="10" rx="2" width="10" x="456" y="4"></rect><text fill="#52514e" font-size="9.5" x="470" y="13">Low fiscal cost ×2</text>
-<rect fill="#eda100" height="10" rx="2" width="10" x="608" y="4"></rect><text fill="#52514e" font-size="9.5" x="622" y="13">Legislative momentum ×3</text>
+<text fill="#0b0b0b" font-size="9.5" font-weight="700" x="0" y="13">Policy design:</text>
+<rect fill="#2a78d6" height="10" rx="2" width="10" x="90" y="4"></rect><text fill="#52514e" font-size="9.5" x="104" y="13">Effectiveness ×3</text>
+<rect fill="#1baf7a" height="10" rx="2" width="10" x="192" y="4"></rect><text fill="#52514e" font-size="9.5" x="206" y="13">Low admin burden ×2</text>
+<rect fill="#eda100" height="10" rx="2" width="10" x="309" y="4"></rect><text fill="#52514e" font-size="9.5" x="323" y="13">Low fiscal cost ×2</text>
+<text fill="#0b0b0b" font-size="9.5" font-weight="700" x="431" y="13">Support:</text>
+<rect fill="#6250d6" height="10" rx="2" width="10" x="484" y="4"></rect><text fill="#52514e" font-size="9.5" x="498" y="13">Governor ×2</text>
+<rect fill="#eb6834" height="10" rx="2" width="10" x="561" y="4"></rect><text fill="#52514e" font-size="9.5" x="575" y="13">Legislative momentum ×3</text>
 <line stroke="#e1e0d9" stroke-width="1" x1="300.0" x2="300.0" y1="30" y2="458"></line>
 <text fill="#898781" font-size="9" text-anchor="middle" x="300.0" y="472">0</text>
 <line stroke="#e1e0d9" stroke-width="1" x1="353.3" x2="353.3" y1="30" y2="458"></line>
@@ -173,152 +175,152 @@ figcaption b{color:var(--fg)}
 <line stroke="#c3c2b7" stroke-width="1" x1="300" x2="300" y1="30" y2="458"></line>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="48">ADUs</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="38"><title>ADUs: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="380.0" y="38"><title>ADUs: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="433.3" y="38"><title>ADUs: Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="486.7" y="38"><title>ADUs: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M540.0,38 h56.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-56.4 z" fill="#eda100"><title>ADUs: Legislative momentum ×3 = 3.9 → 11.7 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="38"><title>ADUs: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="433.3" y="38"><title>ADUs: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="486.7" y="38"><title>ADUs: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M540.0,38 h56.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-56.4 z" fill="#eb6834"><title>ADUs: Legislative momentum ×3 = 3.9 → 11.7 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="608.4" y="49">56.7<tspan fill="#52514e" font-weight="400"> · High momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="67">Occupancy limits (unrelated housemates)</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="57"><title>Occupancy limits (unrelated housemates): Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="380.0" y="57"><title>Occupancy limits (unrelated housemates): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="433.3" y="57"><title>Occupancy limits (unrelated housemates): Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="486.7" y="57"><title>Occupancy limits (unrelated housemates): Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M540.0,57 h43.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-43.6 z" fill="#eda100"><title>Occupancy limits (unrelated housemates): Legislative momentum ×3 = 3.1 → 9.3 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="57"><title>Occupancy limits (unrelated housemates): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="433.3" y="57"><title>Occupancy limits (unrelated housemates): Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="486.7" y="57"><title>Occupancy limits (unrelated housemates): Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M540.0,57 h43.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-43.6 z" fill="#eb6834"><title>Occupancy limits (unrelated housemates): Legislative momentum ×3 = 3.1 → 9.3 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="595.6" y="68">54.3<tspan fill="#52514e" font-weight="400"> · Medium momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="86">Housing by right in commercial zones</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="76"><title>Housing by right in commercial zones: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="380.0" y="76"><title>Housing by right in commercial zones: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="433.3" y="76"><title>Housing by right in commercial zones: Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="486.7" y="76"><title>Housing by right in commercial zones: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M540.0,76 h6.8 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-6.8 z" fill="#eda100"><title>Housing by right in commercial zones: Legislative momentum ×3 = 0.8 → 2.4 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="76"><title>Housing by right in commercial zones: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="433.3" y="76"><title>Housing by right in commercial zones: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="486.7" y="76"><title>Housing by right in commercial zones: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M540.0,76 h6.8 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-6.8 z" fill="#eb6834"><title>Housing by right in commercial zones: Legislative momentum ×3 = 0.8 → 2.4 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="558.8" y="87">47.4<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="105">Parking mandates</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="95"><title>Parking mandates: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="380.0" y="95"><title>Parking mandates: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="433.3" y="95"><title>Parking mandates: Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="486.7" y="95"><title>Parking mandates: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M540.0,95 h0.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.4 z" fill="#eda100"><title>Parking mandates: Legislative momentum ×3 = 0.4 → 1.2 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="95"><title>Parking mandates: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="433.3" y="95"><title>Parking mandates: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="486.7" y="95"><title>Parking mandates: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M540.0,95 h0.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.4 z" fill="#eb6834"><title>Parking mandates: Legislative momentum ×3 = 0.4 → 1.2 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="552.4" y="106">46.2<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="124">Duplexes to fourplexes (missing middle)</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="114"><title>Duplexes to fourplexes (missing middle): Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="380.0" y="114"><title>Duplexes to fourplexes (missing middle): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="40.7" x="433.3" y="114"><title>Duplexes to fourplexes (missing middle): Governor ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="476.0" y="114"><title>Duplexes to fourplexes (missing middle): Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M529.3,114 h8.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-8.4 z" fill="#eda100"><title>Duplexes to fourplexes (missing middle): Legislative momentum ×3 = 0.9 → 2.7 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="114"><title>Duplexes to fourplexes (missing middle): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="433.3" y="114"><title>Duplexes to fourplexes (missing middle): Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="40.7" x="486.7" y="114"><title>Duplexes to fourplexes (missing middle): Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M529.3,114 h8.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-8.4 z" fill="#eb6834"><title>Duplexes to fourplexes (missing middle): Legislative momentum ×3 = 0.9 → 2.7 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="549.7" y="125">45.7<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="143">Minimum lot size reform (starter homes on smaller lots)</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="133"><title>Minimum lot size reform (starter homes on smaller lots): Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="380.0" y="133"><title>Minimum lot size reform (starter homes on smaller lots): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="433.3" y="133"><title>Minimum lot size reform (starter homes on smaller lots): Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="486.7" y="133"><title>Minimum lot size reform (starter homes on smaller lots): Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M540.0,133 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eda100"><title>Minimum lot size reform (starter homes on smaller lots): Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="133"><title>Minimum lot size reform (starter homes on smaller lots): Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="433.3" y="133"><title>Minimum lot size reform (starter homes on smaller lots): Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="486.7" y="133"><title>Minimum lot size reform (starter homes on smaller lots): Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M540.0,133 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eb6834"><title>Minimum lot size reform (starter homes on smaller lots): Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="549.2" y="144">45.6<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="162">Manufactured homes in single-family zones</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="152"><title>Manufactured homes in single-family zones: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="380.0" y="152"><title>Manufactured homes in single-family zones: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="433.3" y="152"><title>Manufactured homes in single-family zones: Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="486.7" y="152"><title>Manufactured homes in single-family zones: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M540.0,152 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eda100"><title>Manufactured homes in single-family zones: Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="152"><title>Manufactured homes in single-family zones: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="433.3" y="152"><title>Manufactured homes in single-family zones: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="486.7" y="152"><title>Manufactured homes in single-family zones: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M540.0,152 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eb6834"><title>Manufactured homes in single-family zones: Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="549.2" y="163">45.6<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="181">Mall/greyfield redevelopment tax abatement</text>
 <rect fill="#2a78d6" height="14" width="30.0" x="300.0" y="171"><title>Mall/greyfield redevelopment tax abatement: Effectiveness ×3 = 2.0 → 6 pts</title></rect>
-<rect fill="#eb6834" height="14" width="40.7" x="332.0" y="171"><title>Mall/greyfield redevelopment tax abatement: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="40.7" x="374.7" y="171"><title>Mall/greyfield redevelopment tax abatement: Governor ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="40.7" x="417.3" y="171"><title>Mall/greyfield redevelopment tax abatement: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
-<path d="M460.0,171 h67.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-67.6 z" fill="#eda100"><title>Mall/greyfield redevelopment tax abatement: Legislative momentum ×3 = 4.6 → 13.8 pts</title></path>
+<rect fill="#1baf7a" height="14" width="40.7" x="332.0" y="171"><title>Mall/greyfield redevelopment tax abatement: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#eda100" height="14" width="40.7" x="374.7" y="171"><title>Mall/greyfield redevelopment tax abatement: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#6250d6" height="14" width="40.7" x="417.3" y="171"><title>Mall/greyfield redevelopment tax abatement: Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M460.0,171 h67.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-67.6 z" fill="#eb6834"><title>Mall/greyfield redevelopment tax abatement: Legislative momentum ×3 = 4.6 → 13.8 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="539.6" y="182">43.8<tspan fill="#52514e" font-weight="400"> · High momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="200">Transit-oriented development</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="190"><title>Transit-oriented development: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="40.7" x="380.0" y="190"><title>Transit-oriented development: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="422.7" y="190"><title>Transit-oriented development: Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="476.0" y="190"><title>Transit-oriented development: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M529.3,190 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eda100"><title>Transit-oriented development: Legislative momentum ×3 = 0.1 → 0.3 pts</title></path>
+<rect fill="#1baf7a" height="14" width="40.7" x="380.0" y="190"><title>Transit-oriented development: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="422.7" y="190"><title>Transit-oriented development: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="476.0" y="190"><title>Transit-oriented development: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M529.3,190 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eb6834"><title>Transit-oriented development: Legislative momentum ×3 = 0.1 → 0.3 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="536.9" y="201">43.3<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="219">Local permitting speed, certainty and accountability</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="209"><title>Local permitting speed, certainty and accountability: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="40.7" x="380.0" y="209"><title>Local permitting speed, certainty and accountability: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="422.7" y="209"><title>Local permitting speed, certainty and accountability: Governor ×2 = 5.0 → 10 pts</title></rect>
-<path d="M476.0,209 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#e87ba4"><title>Local permitting speed, certainty and accountability: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<rect fill="#1baf7a" height="14" width="40.7" x="380.0" y="209"><title>Local permitting speed, certainty and accountability: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="422.7" y="209"><title>Local permitting speed, certainty and accountability: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<path d="M476.0,209 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#6250d6"><title>Local permitting speed, certainty and accountability: Governor ×2 = 5.0 → 10 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="535.3" y="220">43<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="238">Housing on faith-owned and state-owned land</text>
 <rect fill="#2a78d6" height="14" width="78.0" x="300.0" y="228"><title>Housing on faith-owned and state-owned land: Effectiveness ×3 = 5.0 → 15 pts</title></rect>
-<rect fill="#eb6834" height="14" width="40.7" x="380.0" y="228"><title>Housing on faith-owned and state-owned land: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="422.7" y="228"><title>Housing on faith-owned and state-owned land: Governor ×2 = 5.0 → 10 pts</title></rect>
-<path d="M476.0,228 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#e87ba4"><title>Housing on faith-owned and state-owned land: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<rect fill="#1baf7a" height="14" width="40.7" x="380.0" y="228"><title>Housing on faith-owned and state-owned land: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="422.7" y="228"><title>Housing on faith-owned and state-owned land: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<path d="M476.0,228 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#6250d6"><title>Housing on faith-owned and state-owned land: Governor ×2 = 5.0 → 10 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="535.3" y="239">43<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="257">LERTA abatement for housing</text>
 <rect fill="#2a78d6" height="14" width="30.0" x="300.0" y="247"><title>LERTA abatement for housing: Effectiveness ×3 = 2.0 → 6 pts</title></rect>
-<rect fill="#eb6834" height="14" width="40.7" x="332.0" y="247"><title>LERTA abatement for housing: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="30.0" x="374.7" y="247"><title>LERTA abatement for housing: Governor ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="40.7" x="406.7" y="247"><title>LERTA abatement for housing: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
-<path d="M449.3,247 h67.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-67.6 z" fill="#eda100"><title>LERTA abatement for housing: Legislative momentum ×3 = 4.6 → 13.8 pts</title></path>
+<rect fill="#1baf7a" height="14" width="40.7" x="332.0" y="247"><title>LERTA abatement for housing: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#eda100" height="14" width="40.7" x="374.7" y="247"><title>LERTA abatement for housing: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#6250d6" height="14" width="30.0" x="417.3" y="247"><title>LERTA abatement for housing: Governor ×2 = 3.0 → 6 pts</title></rect>
+<path d="M449.3,247 h67.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-67.6 z" fill="#eb6834"><title>LERTA abatement for housing: Legislative momentum ×3 = 4.6 → 13.8 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="528.9" y="258">41.8<tspan fill="#52514e" font-weight="400"> · High momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="276">State-agency permit shot clock</text>
 <rect fill="#2a78d6" height="14" width="62.0" x="300.0" y="266"><title>State-agency permit shot clock: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
-<rect fill="#eb6834" height="14" width="30.0" x="364.0" y="266"><title>State-agency permit shot clock: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="40.7" x="396.0" y="266"><title>State-agency permit shot clock: Governor ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="40.7" x="438.7" y="266"><title>State-agency permit shot clock: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
-<path d="M481.3,266 h34.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-34.0 z" fill="#eda100"><title>State-agency permit shot clock: Legislative momentum ×3 = 2.5 → 7.5 pts</title></path>
+<rect fill="#1baf7a" height="14" width="30.0" x="364.0" y="266"><title>State-agency permit shot clock: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#eda100" height="14" width="40.7" x="396.0" y="266"><title>State-agency permit shot clock: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#6250d6" height="14" width="40.7" x="438.7" y="266"><title>State-agency permit shot clock: Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M481.3,266 h34.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-34.0 z" fill="#eb6834"><title>State-agency permit shot clock: Legislative momentum ×3 = 2.5 → 7.5 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="527.3" y="277">41.5<tspan fill="#52514e" font-weight="400"> · Medium momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="295">Objective design standards / staff approval</text>
 <rect fill="#2a78d6" height="14" width="62.0" x="300.0" y="285"><title>Objective design standards / staff approval: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="364.0" y="285"><title>Objective design standards / staff approval: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="40.7" x="417.3" y="285"><title>Objective design standards / staff approval: Governor ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="460.0" y="285"><title>Objective design standards / staff approval: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M513.3,285 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eda100"><title>Objective design standards / staff approval: Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="364.0" y="285"><title>Objective design standards / staff approval: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="417.3" y="285"><title>Objective design standards / staff approval: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="40.7" x="470.7" y="285"><title>Objective design standards / staff approval: Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M513.3,285 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eb6834"><title>Objective design standards / staff approval: Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="522.5" y="296">40.6<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="314">Land bank disposition reform</text>
 <rect fill="#2a78d6" height="14" width="62.0" x="300.0" y="304"><title>Land bank disposition reform: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
-<rect fill="#eb6834" height="14" width="40.7" x="364.0" y="304"><title>Land bank disposition reform: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="40.7" x="406.7" y="304"><title>Land bank disposition reform: Governor ×2 = 4.0 → 8 pts</title></rect>
-<path d="M449.3,304 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#e87ba4"><title>Land bank disposition reform: Low fiscal cost ×2 = 5.0 → 10 pts</title></path>
+<rect fill="#1baf7a" height="14" width="40.7" x="364.0" y="304"><title>Land bank disposition reform: Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="406.7" y="304"><title>Land bank disposition reform: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<path d="M460.0,304 h36.7 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-36.7 z" fill="#6250d6"><title>Land bank disposition reform: Governor ×2 = 4.0 → 8 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="508.7" y="315">38<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="333">Permit-growth payments to municipalities</text>
 <rect fill="#2a78d6" height="14" width="62.0" x="300.0" y="323"><title>Permit-growth payments to municipalities: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
-<rect fill="#eb6834" height="14" width="51.3" x="364.0" y="323"><title>Permit-growth payments to municipalities: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="40.7" x="417.3" y="323"><title>Permit-growth payments to municipalities: Governor ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="19.3" x="460.0" y="323"><title>Permit-growth payments to municipalities: Low fiscal cost ×2 = 2.0 → 4 pts</title></rect>
-<path d="M481.3,323 h11.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11.6 z" fill="#eda100"><title>Permit-growth payments to municipalities: Legislative momentum ×3 = 1.1 → 3.3 pts</title></path>
+<rect fill="#1baf7a" height="14" width="51.3" x="364.0" y="323"><title>Permit-growth payments to municipalities: Low admin burden ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#eda100" height="14" width="19.3" x="417.3" y="323"><title>Permit-growth payments to municipalities: Low fiscal cost ×2 = 2.0 → 4 pts</title></rect>
+<rect fill="#6250d6" height="14" width="40.7" x="438.7" y="323"><title>Permit-growth payments to municipalities: Governor ×2 = 4.0 → 8 pts</title></rect>
+<path d="M481.3,323 h11.6 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11.6 z" fill="#eb6834"><title>Permit-growth payments to municipalities: Legislative momentum ×3 = 1.1 → 3.3 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="504.9" y="334">37.3<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="352">Single-stair buildings</text>
 <rect fill="#2a78d6" height="14" width="62.0" x="300.0" y="342"><title>Single-stair buildings: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
-<rect fill="#eb6834" height="14" width="30.0" x="364.0" y="342"><title>Single-stair buildings: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="30.0" x="396.0" y="342"><title>Single-stair buildings: Governor ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="51.3" x="428.0" y="342"><title>Single-stair buildings: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
-<path d="M481.3,342 h8.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-8.4 z" fill="#eda100"><title>Single-stair buildings: Legislative momentum ×3 = 0.9 → 2.7 pts</title></path>
+<rect fill="#1baf7a" height="14" width="30.0" x="364.0" y="342"><title>Single-stair buildings: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#eda100" height="14" width="51.3" x="396.0" y="342"><title>Single-stair buildings: Low fiscal cost ×2 = 5.0 → 10 pts</title></rect>
+<rect fill="#6250d6" height="14" width="30.0" x="449.3" y="342"><title>Single-stair buildings: Governor ×2 = 3.0 → 6 pts</title></rect>
+<path d="M481.3,342 h8.4 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-8.4 z" fill="#eb6834"><title>Single-stair buildings: Legislative momentum ×3 = 0.9 → 2.7 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="501.7" y="353">36.7<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="371">Housing bond</text>
 <rect fill="#2a78d6" height="14" width="62.0" x="300.0" y="361"><title>Housing bond: Effectiveness ×3 = 4.0 → 12 pts</title></rect>
-<rect fill="#eb6834" height="14" width="30.0" x="364.0" y="361"><title>Housing bond: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="396.0" y="361"><title>Housing bond: Governor ×2 = 5.0 → 10 pts</title></rect>
-<path d="M449.3,361 h15.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-15.3 z" fill="#e87ba4"><title>Housing bond: Low fiscal cost ×2 = 2.0 → 4 pts</title></path>
+<rect fill="#1baf7a" height="14" width="30.0" x="364.0" y="361"><title>Housing bond: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#eda100" height="14" width="19.3" x="396.0" y="361"><title>Housing bond: Low fiscal cost ×2 = 2.0 → 4 pts</title></rect>
+<path d="M417.3,361 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#6250d6"><title>Housing bond: Governor ×2 = 5.0 → 10 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="476.7" y="372">32<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="390">Bigger PHARE (raise its revenue cap)</text>
 <rect fill="#2a78d6" height="14" width="46.0" x="300.0" y="380"><title>Bigger PHARE (raise its revenue cap): Effectiveness ×3 = 3.0 → 9 pts</title></rect>
-<rect fill="#eb6834" height="14" width="40.7" x="348.0" y="380"><title>Bigger PHARE (raise its revenue cap): Low admin burden ×2 = 4.0 → 8 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="390.7" y="380"><title>Bigger PHARE (raise its revenue cap): Governor ×2 = 5.0 → 10 pts</title></rect>
-<path d="M444.0,380 h15.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-15.3 z" fill="#e87ba4"><title>Bigger PHARE (raise its revenue cap): Low fiscal cost ×2 = 2.0 → 4 pts</title></path>
+<rect fill="#1baf7a" height="14" width="40.7" x="348.0" y="380"><title>Bigger PHARE (raise its revenue cap): Low admin burden ×2 = 4.0 → 8 pts</title></rect>
+<rect fill="#eda100" height="14" width="19.3" x="390.7" y="380"><title>Bigger PHARE (raise its revenue cap): Low fiscal cost ×2 = 2.0 → 4 pts</title></rect>
+<path d="M412.0,380 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#6250d6"><title>Bigger PHARE (raise its revenue cap): Governor ×2 = 5.0 → 10 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="471.3" y="391">31<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="409">RACP money for housing</text>
 <rect fill="#2a78d6" height="14" width="30.0" x="300.0" y="399"><title>RACP money for housing: Effectiveness ×3 = 2.0 → 6 pts</title></rect>
-<rect fill="#eb6834" height="14" width="30.0" x="332.0" y="399"><title>RACP money for housing: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="364.0" y="399"><title>RACP money for housing: Governor ×2 = 5.0 → 10 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="30.0" x="417.3" y="399"><title>RACP money for housing: Low fiscal cost ×2 = 3.0 → 6 pts</title></rect>
-<path d="M449.3,399 h10.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-10.0 z" fill="#eda100"><title>RACP money for housing: Legislative momentum ×3 = 1.0 → 3 pts</title></path>
+<rect fill="#1baf7a" height="14" width="30.0" x="332.0" y="399"><title>RACP money for housing: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#eda100" height="14" width="30.0" x="364.0" y="399"><title>RACP money for housing: Low fiscal cost ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#6250d6" height="14" width="51.3" x="396.0" y="399"><title>RACP money for housing: Governor ×2 = 5.0 → 10 pts</title></rect>
+<path d="M449.3,399 h10.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-10.0 z" fill="#eb6834"><title>RACP money for housing: Legislative momentum ×3 = 1.0 → 3 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="471.3" y="410">31<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="428">Residential Reinvestment Tax Credit</text>
 <rect fill="#2a78d6" height="14" width="46.0" x="300.0" y="418"><title>Residential Reinvestment Tax Credit: Effectiveness ×3 = 3.0 → 9 pts</title></rect>
-<rect fill="#eb6834" height="14" width="30.0" x="348.0" y="418"><title>Residential Reinvestment Tax Credit: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#1baf7a" height="14" width="51.3" x="380.0" y="418"><title>Residential Reinvestment Tax Credit: Governor ×2 = 5.0 → 10 pts</title></rect>
-<path d="M433.3,418 h4.7 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-4.7 z" fill="#e87ba4"><title>Residential Reinvestment Tax Credit: Low fiscal cost ×2 = 1.0 → 2 pts</title></path>
+<rect fill="#1baf7a" height="14" width="30.0" x="348.0" y="418"><title>Residential Reinvestment Tax Credit: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#eda100" height="14" width="8.7" x="380.0" y="418"><title>Residential Reinvestment Tax Credit: Low fiscal cost ×2 = 1.0 → 2 pts</title></rect>
+<path d="M390.7,418 h47.3 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-47.3 z" fill="#6250d6"><title>Residential Reinvestment Tax Credit: Governor ×2 = 5.0 → 10 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="450.0" y="429">27<tspan fill="#52514e" font-weight="400"> · no legislative record</tspan></text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="292" y="447">Regular property reassessment</text>
 <rect fill="#2a78d6" height="14" width="46.0" x="300.0" y="437"><title>Regular property reassessment: Effectiveness ×3 = 3.0 → 9 pts</title></rect>
-<rect fill="#eb6834" height="14" width="30.0" x="348.0" y="437"><title>Regular property reassessment: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
-<rect fill="#e87ba4" height="14" width="40.7" x="380.0" y="437"><title>Regular property reassessment: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
-<path d="M422.7,437 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eda100"><title>Regular property reassessment: Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
+<rect fill="#1baf7a" height="14" width="30.0" x="348.0" y="437"><title>Regular property reassessment: Low admin burden ×2 = 3.0 → 6 pts</title></rect>
+<rect fill="#eda100" height="14" width="40.7" x="380.0" y="437"><title>Regular property reassessment: Low fiscal cost ×2 = 4.0 → 8 pts</title></rect>
+<path d="M422.7,437 h0.0 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-0.0 z" fill="#eb6834"><title>Regular property reassessment: Legislative momentum ×3 = 0.2 → 0.6 pts</title></path>
 <text fill="#0b0b0b" font-size="10" font-weight="700" x="431.9" y="448">23.6<tspan fill="#52514e" font-weight="400"> · Low momentum</tspan></text>
-</svg><figcaption><b>Figure 1. Overall score by concept.</b> Segment length is the weighted points from effectiveness, admin, Governor alignment, fiscal cost and legislative momentum (yellow). ADUs and occupancy lead because strong policy has votes behind it. Commercial zones, parking mandates, missing middle, lot size and manufactured homes score near-perfectly on policy but have little momentum; TOD, local permitting and faith-owned land have almost none yet. The tax abatements are the reverse: real momentum, weaker mechanisms, and they cost local tax revenue. Permit-growth payments lose points for needing a state appropriation. Preservation concepts appear separately in section 7.</figcaption></figure>
+</svg><figcaption><b>Figure 1. Overall score by concept.</b> Segment length is the weighted points from policy design (effectiveness, admin burden, fiscal cost) and support (Governor alignment and legislative momentum, in orange). ADUs and occupancy lead because strong policy has votes behind it. Commercial zones, parking mandates, missing middle, lot size and manufactured homes score near-perfectly on policy but have little momentum; TOD, local permitting and faith-owned land have almost none yet. The tax abatements are the reverse: real momentum, weaker mechanisms, and they cost local tax revenue. Permit-growth payments lose points for needing a state appropriation. Preservation concepts appear separately in section 7.</figcaption></figure>
 <h2 style="break-before:page;page-break-before:always">3. Where support already is</h2>
 <p>Every supply concept, with each kind of support side by side. Counts are <b>current</b> legislators on any bill carrying the concept, excluding members not returning in 2027 (unofficial results). "Voted" is each member's latest committee or floor vote; "signed only" is a cosponsor or memo signer with no recorded vote. Voters: YouGov polls (Figure 3). Legislative momentum (0-5) weighs a yes vote fully and a signature half, against the votes needed to pass.</p>
 <div class="wide"><table class="glance support"><thead><tr><th>Concept</th><th class="c">House<br/><span class="sub">voted yes–no</span></th><th class="c">House<br/><span class="sub">signed only</span></th><th class="c">Senate<br/><span class="sub">voted yes–no</span></th><th class="c">Senate<br/><span class="sub">signed only</span></th><th class="c">Republicans<br/><span class="sub">on record</span></th><th>Passed a chamber<br/><span class="sub">2025-26</span></th><th>Governor</th><th class="c">Voters<br/><span class="sub">% support</span></th><th class="c">Momentum<br/><span class="sub">0-5</span></th></tr></thead><tbody>
@@ -348,8 +350,8 @@ figcaption b{color:var(--fg)}
 <p class="sub">* The two tax abatements share one support count: HB 1446 (malls and greyfields) drew the House votes and SB 1277 (LERTA) the Senate votes. Governor: "Named" means the budget address or plan names the concept; "Plan goal" means the plan states the goal without naming the tool; "Related" means adjacent language only.</p>
 <figure><svg aria-labelledby="f2t" font-family="Inter, Helvetica, Arial, sans-serif" role="img" viewbox="0 0 680 256" width="100%">
 <title id="f2t">Current legislators on record by concept, House and Senate, against the votes needed to pass</title>
-<rect fill="#256abf" height="10" rx="2" width="10" x="120" y="6"></rect><text fill="#52514e" font-size="9.5" x="134" y="15">Voted yes</text>
-<rect fill="#b7d3f6" height="10" rx="2" width="10" x="200" y="6"></rect><text fill="#52514e" font-size="9.5" x="214" y="15">Signed only (no vote yet)</text>
+<rect fill="#b04019" height="10" rx="2" width="10" x="120" y="6"></rect><text fill="#52514e" font-size="9.5" x="134" y="15">Voted yes</text>
+<rect fill="#f29d74" height="10" rx="2" width="10" x="200" y="6"></rect><text fill="#52514e" font-size="9.5" x="214" y="15">Signed only (no vote yet)</text>
 <line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="356" x2="374" y1="11" y2="11"></line><text fill="#52514e" font-size="9.5" x="378" y="15">Votes needed to pass</text>
 <text fill="#0b0b0b" font-size="10.5" font-weight="700" x="120" y="36">House <tspan fill="#898781" font-weight="400">(of 203; 102 to pass)</tspan></text>
 <line stroke="#e1e0d9" x1="120.0" x2="120.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="120.0" y="244">0</text>
@@ -359,28 +361,28 @@ figcaption b{color:var(--fg)}
 <line stroke="#e1e0d9" x1="366.3" x2="366.3" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="366.3" y="244">200</text>
 <line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="245.6" x2="245.6" y1="42" y2="230"></line>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="60">ADUs</text>
-<rect fill="#256abf" height="14" rx="3" width="168.7" x="120" y="50"><title>House · ADUs: 137 voted yes</title></rect>
+<rect fill="#b04019" height="14" rx="3" width="168.7" x="120" y="50"><title>House · ADUs: 137 voted yes</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="293.7" y="61">137</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="82">Occupancy</text>
-<rect fill="#256abf" height="14" rx="3" width="147.8" x="120" y="72"><title>House · Occupancy: 120 voted yes</title></rect>
+<rect fill="#b04019" height="14" rx="3" width="147.8" x="120" y="72"><title>House · Occupancy: 120 voted yes</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="272.8" y="83">120</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="104">Commercial zones</text>
-<rect fill="#256abf" height="14" rx="0" width="15.2" x="120" y="94"><title>House · Commercial zones: 14 voted yes</title></rect>
-<rect fill="#b7d3f6" height="14" rx="3" width="35.7" x="137.2" y="94"><title>House · Commercial zones: 29 signed, no vote</title></rect>
+<rect fill="#b04019" height="14" rx="0" width="15.2" x="120" y="94"><title>House · Commercial zones: 14 voted yes</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="35.7" x="137.2" y="94"><title>House · Commercial zones: 29 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="178.0" y="105">14 + 29</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="126">Missing middle</text>
-<rect fill="#256abf" height="14" rx="0" width="14.0" x="120" y="116"><title>House · Missing middle: 13 voted yes</title></rect>
-<rect fill="#b7d3f6" height="14" rx="3" width="29.6" x="136.0" y="116"><title>House · Missing middle: 24 signed, no vote</title></rect>
+<rect fill="#b04019" height="14" rx="0" width="14.0" x="120" y="116"><title>House · Missing middle: 13 voted yes</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="29.6" x="136.0" y="116"><title>House · Missing middle: 24 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="170.6" y="127">13 + 24</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="148">Parking</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="13.5" x="120.0" y="138"><title>House · Parking: 11 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="13.5" x="120.0" y="138"><title>House · Parking: 11 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="138.5" y="149">0 + 11</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="170">Minimum lot size</text>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="125.0" y="171">0</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="192">Manufactured homes</text>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="125.0" y="193">0</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="214">TOD</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="8.6" x="120.0" y="204"><title>House · TOD: 7 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="8.6" x="120.0" y="204"><title>House · TOD: 7 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="133.6" y="215">0 + 7</text>
 <text fill="#0b0b0b" font-size="10.5" font-weight="700" x="410" y="36">Senate <tspan fill="#898781" font-weight="400">(of 50; 26 to pass)</tspan></text>
 <line stroke="#e1e0d9" x1="410.0" x2="410.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="410.0" y="244">0</text>
@@ -390,20 +392,20 @@ figcaption b{color:var(--fg)}
 <line stroke="#e1e0d9" x1="610.0" x2="610.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="610.0" y="244">40</text>
 <line stroke="#e1e0d9" x1="660.0" x2="660.0" y1="42" y2="230"></line><text fill="#898781" font-size="9" text-anchor="middle" x="660.0" y="244">50</text>
 <line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="540.0" x2="540.0" y1="42" y2="230"></line>
-<rect fill="#256abf" height="14" rx="0" width="43.0" x="410" y="50"><title>Senate · ADUs: 9 voted yes</title></rect>
-<rect fill="#b7d3f6" height="14" rx="3" width="60.0" x="455.0" y="50"><title>Senate · ADUs: 12 signed, no vote</title></rect>
+<rect fill="#b04019" height="14" rx="0" width="43.0" x="410" y="50"><title>Senate · ADUs: 9 voted yes</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="60.0" x="455.0" y="50"><title>Senate · ADUs: 12 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="520.0" y="61">9 + 12</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="60.0" x="410.0" y="72"><title>Senate · Occupancy: 12 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="60.0" x="410.0" y="72"><title>Senate · Occupancy: 12 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="475.0" y="83">0 + 12</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="15.0" x="410.0" y="94"><title>Senate · Commercial zones: 3 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="15.0" x="410.0" y="94"><title>Senate · Commercial zones: 3 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="430.0" y="105">0 + 3</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="116"><title>Senate · Missing middle: 5 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="25.0" x="410.0" y="116"><title>Senate · Missing middle: 5 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="127">0 + 5</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="138"><title>Senate · Parking: 5 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="25.0" x="410.0" y="138"><title>Senate · Parking: 5 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="149">0 + 5</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="160"><title>Senate · Minimum lot size: 5 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="25.0" x="410.0" y="160"><title>Senate · Minimum lot size: 5 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="171">0 + 5</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="410.0" y="182"><title>Senate · Manufactured homes: 5 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="25.0" x="410.0" y="182"><title>Senate · Manufactured homes: 5 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="440.0" y="193">0 + 5</text>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="415.0" y="215">0</text>
 </svg><figcaption><b>Figure 2. Legislators on record, by chamber, against the votes needed to pass.</b> The House has voted on ADUs and occupancy. In the Senate, only ADUs come close to 26 (9 yes votes + 12 signatures), and none of the SB 1126 concepts has a single recorded Senate vote.</figcaption></figure>
@@ -564,12 +566,12 @@ figcaption b{color:var(--fg)}
 <h2>7. Preservation track: separate from supply</h2>
 <div class="callout warm"><h3>Complements supply reform; doesn't replace it</h3>
 <p>These bills keep existing homes and buildings livable, owned and in use. They have some of the broadest support in the legislature, but they add few or no new homes. Home repair and a larger historic credit also need state money, while most of the supply agenda costs the state nothing. Passing these instead of the supply bills would leave the shortage where it is.</p></div>
-<div class="wide"><table class="glance"><thead><tr><th>Concept</th><th class="c">Effect.</th><th class="c">Low admin</th><th class="c">Gov.</th><th class="c">Low cost</th><th class="c">Momentum<br/><span class="sub">0-5</span></th><th class="c">Overall<br/><span class="sub">of 60</span></th><th>Cost to the state</th><th>Introduced</th></tr></thead><tbody>
+<div class="wide"><table class="glance"><thead><tr><th>Concept</th><th class="c">Effect.</th><th class="c">Low admin</th><th class="c">Low cost</th><th class="c">Gov.</th><th class="c">Momentum<br/><span class="sub">0-5</span></th><th class="c">Overall<br/><span class="sub">of 60</span></th><th>Cost to the state</th><th>Introduced</th></tr></thead><tbody>
 <tr><td>Transfer-on-death deeds (tangled title)</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd high">High</span> 3.9</td><td class="c"><b>47.7</b></td><td class="sub">No state cost</td><td><span class="chip both">Both</span></td></tr>
-<tr><td>Heirs-property partition protections (tangled title)</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd high">High</span> 3.9</td><td class="c"><b>43.7</b></td><td class="sub">Court process</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Heirs-property partition protections (tangled title)</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd high">High</span> 3.9</td><td class="c"><b>43.7</b></td><td class="sub">Court process</td><td><span class="chip both">Both</span></td></tr>
 <tr><td>Small-estate home affidavit (tangled title)</td><td class="c">3</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="ck">✓</span> 4</td><td class="c"><span class="rd high">High</span> 3.9</td><td class="c"><b>42.7</b></td><td class="sub">County and court process</td><td><span class="chip both">Both</span></td></tr>
-<tr><td>Historic preservation tax credit expansion</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">3</td><td class="c">1</td><td class="c"><span class="rd medium">Medium</span> 3.4</td><td class="c"><b>35.2</b></td><td class="sub">State tax expenditure (program cap now $20M a year)</td><td><span class="chip both">Both</span></td></tr>
-<tr><td>Home repair grants (Whole-Home Repairs successor)</td><td class="c">2</td><td class="c">2</td><td class="c"><span class="ck">✓</span> 5</td><td class="c">1</td><td class="c"><span class="rd medium">Medium</span> 3.4</td><td class="c"><b>32.2</b></td><td class="sub">Annual state appropriation (budget line exists, unfunded)</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Historic preservation tax credit expansion</td><td class="c">3</td><td class="c"><span class="ck">✓</span> 4</td><td class="c">1</td><td class="c">3</td><td class="c"><span class="rd medium">Medium</span> 3.4</td><td class="c"><b>35.2</b></td><td class="sub">State tax expenditure (program cap now $20M a year)</td><td><span class="chip both">Both</span></td></tr>
+<tr><td>Home repair grants (Whole-Home Repairs successor)</td><td class="c">2</td><td class="c">2</td><td class="c">1</td><td class="c"><span class="ck">✓</span> 5</td><td class="c"><span class="rd medium">Medium</span> 3.4</td><td class="c"><b>32.2</b></td><td class="sub">Annual state appropriation (budget line exists, unfunded)</td><td><span class="chip both">Both</span></td></tr>
 </tbody></table></div>
 <figure><table class="pipe"><thead><tr><th>Concept</th><th class="c">House</th><th>House bill</th><th class="c">Senate</th><th>Senate bill</th></tr></thead><tbody>
 <tr class=""><td>Transfer-on-death deeds</td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></td><td class="sub">HB 2124 <span class="sp">· Rep. Briggs (D)</span></td><td class="c"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></td><td class="sub">SB 890 <span class="sp">· Sen. Bartolotta (R)</span></td></tr>
@@ -580,8 +582,8 @@ figcaption b{color:var(--fg)}
 </tbody></table><figcaption><b>Figure 5. Preservation bills: furthest step reached in 2025-26.</b> Dots: introduced · committee vote · passed the chamber.</figcaption></figure>
 <figure><svg aria-labelledby="f5t" font-family="Inter, Helvetica, Arial, sans-serif" role="img" viewbox="0 0 680 146" width="100%">
 <title id="f5t">Current legislators on record by concept, House and Senate, against the votes needed to pass</title>
-<rect fill="#256abf" height="10" rx="2" width="10" x="120" y="6"></rect><text fill="#52514e" font-size="9.5" x="134" y="15">Voted yes</text>
-<rect fill="#b7d3f6" height="10" rx="2" width="10" x="200" y="6"></rect><text fill="#52514e" font-size="9.5" x="214" y="15">Signed only (no vote yet)</text>
+<rect fill="#b04019" height="10" rx="2" width="10" x="120" y="6"></rect><text fill="#52514e" font-size="9.5" x="134" y="15">Voted yes</text>
+<rect fill="#f29d74" height="10" rx="2" width="10" x="200" y="6"></rect><text fill="#52514e" font-size="9.5" x="214" y="15">Signed only (no vote yet)</text>
 <line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="356" x2="374" y1="11" y2="11"></line><text fill="#52514e" font-size="9.5" x="378" y="15">Votes needed to pass</text>
 <text fill="#0b0b0b" font-size="10.5" font-weight="700" x="120" y="36">House <tspan fill="#898781" font-weight="400">(of 203; 102 to pass)</tspan></text>
 <line stroke="#e1e0d9" x1="120.0" x2="120.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="120.0" y="134">0</text>
@@ -591,13 +593,13 @@ figcaption b{color:var(--fg)}
 <line stroke="#e1e0d9" x1="366.3" x2="366.3" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="366.3" y="134">200</text>
 <line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="245.6" x2="245.6" y1="42" y2="120"></line>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="60">Tangled title</text>
-<rect fill="#256abf" height="14" rx="3" width="242.6" x="120" y="50"><title>House · Tangled title: 197 voted yes</title></rect>
+<rect fill="#b04019" height="14" rx="3" width="242.6" x="120" y="50"><title>House · Tangled title: 197 voted yes</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="367.6" y="61">197</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="82">Home repair</text>
-<rect fill="#256abf" height="14" rx="3" width="142.9" x="120" y="72"><title>House · Home repair: 116 voted yes</title></rect>
+<rect fill="#b04019" height="14" rx="3" width="142.9" x="120" y="72"><title>House · Home repair: 116 voted yes</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="267.9" y="83">116</text>
 <text fill="#0b0b0b" font-size="10" text-anchor="end" x="112" y="104">Historic tax credit</text>
-<rect fill="#256abf" height="14" rx="3" width="165.0" x="120" y="94"><title>House · Historic tax credit: 134 voted yes</title></rect>
+<rect fill="#b04019" height="14" rx="3" width="165.0" x="120" y="94"><title>House · Historic tax credit: 134 voted yes</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="290.0" y="105">134</text>
 <text fill="#0b0b0b" font-size="10.5" font-weight="700" x="410" y="36">Senate <tspan fill="#898781" font-weight="400">(of 50; 26 to pass)</tspan></text>
 <line stroke="#e1e0d9" x1="410.0" x2="410.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="410.0" y="134">0</text>
@@ -607,12 +609,12 @@ figcaption b{color:var(--fg)}
 <line stroke="#e1e0d9" x1="610.0" x2="610.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="610.0" y="134">40</text>
 <line stroke="#e1e0d9" x1="660.0" x2="660.0" y1="42" y2="120"></line><text fill="#898781" font-size="9" text-anchor="middle" x="660.0" y="134">50</text>
 <line stroke="#0b0b0b" stroke-dasharray="3 2" stroke-width="1.5" x1="540.0" x2="540.0" y1="42" y2="120"></line>
-<rect fill="#256abf" height="14" rx="0" width="58.0" x="410" y="50"><title>Senate · Tangled title: 12 voted yes</title></rect>
-<rect fill="#b7d3f6" height="14" rx="3" width="25.0" x="470.0" y="50"><title>Senate · Tangled title: 5 signed, no vote</title></rect>
+<rect fill="#b04019" height="14" rx="0" width="58.0" x="410" y="50"><title>Senate · Tangled title: 12 voted yes</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="25.0" x="470.0" y="50"><title>Senate · Tangled title: 5 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="500.0" y="61">12 + 5</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="90.0" x="410.0" y="72"><title>Senate · Home repair: 18 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="90.0" x="410.0" y="72"><title>Senate · Home repair: 18 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="505.0" y="83">0 + 18</text>
-<rect fill="#b7d3f6" height="14" rx="3" width="90.0" x="410.0" y="94"><title>Senate · Historic tax credit: 18 signed, no vote</title></rect>
+<rect fill="#f29d74" height="14" rx="3" width="90.0" x="410.0" y="94"><title>Senate · Historic tax credit: 18 signed, no vote</title></rect>
 <text fill="#52514e" font-size="9.5" paint-order="stroke" stroke="#ffffff" stroke-width="3" x="505.0" y="105">0 + 18</text>
 </svg><figcaption><b>Figure 6. Legislators on record for preservation, by chamber.</b> All three have passed the House. In the Senate, 12 senators voted for SB 890 (heirs property and transfer-on-death deeds) in committee; home repair has 18 Senate signers and the historic credit 18, with no Senate votes yet on either.</figcaption></figure>
 <ul>
@@ -656,8 +658,8 @@ figcaption b{color:var(--fg)}
 <li><b>Caveats:</b> November 2026 results were unofficial at the time of writing; counts exclude members not returning in 2027, and new members have no record yet. Preservation bills score low on effectiveness by design.</li>
 </ul>
 <div class="keep"><h2>Appendix A: ranked supply bills</h2>
-<p class="sub">Cosp. = cosponsors listed on the bill at palegis (Democrats / Republicans), not counting the prime sponsor. E effectiveness ×3 · A low admin burden ×2 · G Governor ×2 · C low fiscal cost ×2 · S lawmaker support ×3; score out of 60. † Capped at Tier 3 because its admin score is 0-1. SB 1126 (2023-24 zoning omnibus) is the concept source, not a vehicle, and SR 211 (MPC study) is already adopted; neither is ranked.</p>
-<div class="wide"><table class="appx"><thead><tr><th class="c">#</th><th>Bill</th><th>Title</th><th>Prime sponsor</th><th class="c">Cosp. (D / R)</th><th>Tier</th><th class="c">E</th><th class="c">A</th><th class="c">G</th><th class="c">C</th><th class="c">S</th><th class="c">Score</th></tr></thead><tbody>
+<p class="sub">Cosp. = cosponsors listed on the bill at palegis (Democrats / Republicans), not counting the prime sponsor. E effectiveness ×3 · A low admin burden ×2 · C low fiscal cost ×2 · G Governor ×2 · S legislative momentum ×3; score out of 60. † Capped at Tier 3 because its admin score is 0-1. SB 1126 (2023-24 zoning omnibus) is the concept source, not a vehicle, and SR 211 (MPC study) is already adopted; neither is ranked.</p>
+<div class="wide"><table class="appx"><thead><tr><th class="c">#</th><th>Bill</th><th>Title</th><th>Prime sponsor</th><th class="c">Cosp. (D / R)</th><th>Tier</th><th class="c">E</th><th class="c">A</th><th class="c">C</th><th class="c">G</th><th class="c">S</th><th class="c">Score</th></tr></thead><tbody>
 <tr><td class="c">1</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2186">HB 2186</a></td><td>Accessory Dwelling Units</td><td class="nowrap">Rep. Inglis (D)</td><td class="c nowrap">26 <span class="sub">(24 / 2)</span></td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>56.7</b></td></tr>
 <tr><td class="c">1</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1256">SB 1256</a></td><td>Accessory Dwelling Units (Collett)</td><td class="nowrap">Sen. Collett (D)</td><td class="c nowrap">6 <span class="sub">(6 / 0)</span></td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>56.7</b></td></tr>
 <tr><td class="c">3</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1263">SB 1263</a></td><td>Municipal Occupancy Reform (Golden Girls Law, Senate)</td><td class="nowrap">Sen. Saval (D)</td><td class="c nowrap">11 <span class="sub">(10 / 1)</span></td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.1</td><td class="c"><b>54.3</b></td></tr>
@@ -667,36 +669,36 @@ figcaption b{color:var(--fg)}
 <tr><td class="c">7</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2155">HB 2155</a></td><td>Parking Flexibility</td><td class="nowrap">Rep. Scott (D)</td><td class="c nowrap">10 <span class="sub">(9 / 1)</span></td><td class="sub nowrap">Tier 1</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">0.4</td><td class="c"><b>46.2</b></td></tr>
 <tr><td class="c">8</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1446">HB 1446</a></td><td>Redevelopment of Malls, Greyfields and Brownfields (tax abatement)</td><td class="nowrap">Rep. Siegel (D)</td><td class="c nowrap">10 <span class="sub">(9 / 1)</span></td><td class="sub nowrap">Tier 1</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">4</td><td class="c">4.6</td><td class="c"><b>43.8</b></td></tr>
 <tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1459">HB 1459</a></td><td>Multi-Family Housing in Commercial Zones</td><td class="nowrap">Rep. Siegel (D)</td><td class="c nowrap">14 <span class="sub">(14 / 0)</span></td><td class="sub nowrap">Tier 1</td><td class="c">4</td><td class="c">4</td><td class="c">5</td><td class="c">5</td><td class="c">0.8</td><td class="c"><b>42.4</b></td></tr>
-<tr><td class="c">10</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1277">SB 1277</a></td><td>Property Tax Abatement for Housing Redevelopment</td><td class="nowrap">Sen. Stefano (R)</td><td class="c nowrap">5 <span class="sub">(1 / 4)</span></td><td class="sub nowrap">Tier 1</td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">4.6</td><td class="c"><b>41.8</b></td></tr>
+<tr><td class="c">10</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1277">SB 1277</a></td><td>Property Tax Abatement for Housing Redevelopment</td><td class="nowrap">Sen. Stefano (R)</td><td class="c nowrap">5 <span class="sub">(1 / 4)</span></td><td class="sub nowrap">Tier 1</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">3</td><td class="c">4.6</td><td class="c"><b>41.8</b></td></tr>
 <tr><td class="c">11</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1279">SB 1279</a></td><td>Regulatory Compliance Officer for Housing</td><td class="nowrap">Sen. Phillips-Hill (R)</td><td class="c nowrap">4 <span class="sub">(0 / 4)</span></td><td class="sub nowrap">Tier 2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">4</td><td class="c">2.5</td><td class="c"><b>41.5</b></td></tr>
-<tr><td class="c">12</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2185">HB 2185</a></td><td>Duplex/Triplex/Fourplex in Single-Family-Only Zones</td><td class="nowrap">Rep. Inglis (D)</td><td class="c nowrap">17 <span class="sub">(16 / 1)</span></td><td class="sub nowrap">Tier 2</td><td class="c">4</td><td class="c">4</td><td class="c">4</td><td class="c">5</td><td class="c">0.9</td><td class="c"><b>40.7</b></td></tr>
-<tr><td class="c">13</td><td><a href="https://www.palegis.us/legislation/bills/2023/hb1975">HB 1975</a></td><td>Objective Design Standards / Staff Review</td><td class="nowrap">Rep. Siegel (D)</td><td class="c nowrap">20 <span class="sub">(20 / 0)</span></td><td class="sub nowrap">Tier 2</td><td class="c">3</td><td class="c">5</td><td class="c">3</td><td class="c">5</td><td class="c">0.2</td><td class="c"><b>35.6</b></td></tr>
-<tr><td class="c">14</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2367">HB 2367</a></td><td>RACP for Housing Development</td><td class="nowrap">Rep. Boyd (D)</td><td class="c nowrap">17 <span class="sub">(17 / 0)</span></td><td class="sub nowrap">Tier 2</td><td class="c">2</td><td class="c">3</td><td class="c">5</td><td class="c">3</td><td class="c">1.0</td><td class="c"><b>31.0</b></td></tr>
-<tr><td class="c">14</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb294">SB 294</a></td><td>RACP for Housing (Senate)</td><td class="nowrap">Sen. Hughes (D)</td><td class="c nowrap">9 <span class="sub">(8 / 1)</span></td><td class="sub nowrap">Tier 2</td><td class="c">2</td><td class="c">3</td><td class="c">5</td><td class="c">3</td><td class="c">1.0</td><td class="c"><b>31.0</b></td></tr>
-<tr><td class="c">16</td><td><a href="https://www.palegis.us/legislation/bills/2025/sr348">SR 348</a></td><td>Single-Exit Stairwell Study</td><td class="nowrap">Sen. Street (D)</td><td class="c nowrap">14 <span class="sub">(10 / 4)</span></td><td class="sub nowrap">Tier 2</td><td class="c">1</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">1.3</td><td class="c"><b>28.9</b></td></tr>
-<tr><td class="c">17</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2428">HB 2428</a></td><td>Residential Construction Workforce Training Grant</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">9 <span class="sub">(6 / 3)</span></td><td class="sub nowrap">Tier 2</td><td class="c">1</td><td class="c">3</td><td class="c">5</td><td class="c">4</td><td class="c">0.1</td><td class="c"><b>27.3</b></td></tr>
+<tr><td class="c">12</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2185">HB 2185</a></td><td>Duplex/Triplex/Fourplex in Single-Family-Only Zones</td><td class="nowrap">Rep. Inglis (D)</td><td class="c nowrap">17 <span class="sub">(16 / 1)</span></td><td class="sub nowrap">Tier 2</td><td class="c">4</td><td class="c">4</td><td class="c">5</td><td class="c">4</td><td class="c">0.9</td><td class="c"><b>40.7</b></td></tr>
+<tr><td class="c">13</td><td><a href="https://www.palegis.us/legislation/bills/2023/hb1975">HB 1975</a></td><td>Objective Design Standards / Staff Review</td><td class="nowrap">Rep. Siegel (D)</td><td class="c nowrap">20 <span class="sub">(20 / 0)</span></td><td class="sub nowrap">Tier 2</td><td class="c">3</td><td class="c">5</td><td class="c">5</td><td class="c">3</td><td class="c">0.2</td><td class="c"><b>35.6</b></td></tr>
+<tr><td class="c">14</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2367">HB 2367</a></td><td>RACP for Housing Development</td><td class="nowrap">Rep. Boyd (D)</td><td class="c nowrap">17 <span class="sub">(17 / 0)</span></td><td class="sub nowrap">Tier 2</td><td class="c">2</td><td class="c">3</td><td class="c">3</td><td class="c">5</td><td class="c">1.0</td><td class="c"><b>31.0</b></td></tr>
+<tr><td class="c">14</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb294">SB 294</a></td><td>RACP for Housing (Senate)</td><td class="nowrap">Sen. Hughes (D)</td><td class="c nowrap">9 <span class="sub">(8 / 1)</span></td><td class="sub nowrap">Tier 2</td><td class="c">2</td><td class="c">3</td><td class="c">3</td><td class="c">5</td><td class="c">1.0</td><td class="c"><b>31.0</b></td></tr>
+<tr><td class="c">16</td><td><a href="https://www.palegis.us/legislation/bills/2025/sr348">SR 348</a></td><td>Single-Exit Stairwell Study</td><td class="nowrap">Sen. Street (D)</td><td class="c nowrap">14 <span class="sub">(10 / 4)</span></td><td class="sub nowrap">Tier 2</td><td class="c">1</td><td class="c">4</td><td class="c">4</td><td class="c">3</td><td class="c">1.3</td><td class="c"><b>28.9</b></td></tr>
+<tr><td class="c">17</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2428">HB 2428</a></td><td>Residential Construction Workforce Training Grant</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">9 <span class="sub">(6 / 3)</span></td><td class="sub nowrap">Tier 2</td><td class="c">1</td><td class="c">3</td><td class="c">4</td><td class="c">5</td><td class="c">0.1</td><td class="c"><b>27.3</b></td></tr>
 <tr><td class="c">18</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2434">HB 2434</a></td><td>Expedited High Density Housing Approval</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">15 <span class="sub">(13 / 2)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">0</td><td class="c">4</td><td class="c">4</td><td class="c">2.7</td><td class="c"><b>27.1</b></td></tr>
-<tr><td class="c">18</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1281">SB 1281</a></td><td>Pre-Approved Housing Plans</td><td class="nowrap">Sen. Rothman (R)</td><td class="c nowrap">6 <span class="sub">(0 / 6)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">1</td><td class="c">3</td><td class="c">4</td><td class="c">2.7</td><td class="c"><b>27.1</b></td></tr>
-<tr><td class="c">20</td><td><a href="https://www.palegis.us/legislation/bills/2025/hr484">HR 484</a></td><td>Housing Accelerator Study</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">9 <span class="sub">(6 / 3)</span></td><td class="sub nowrap">Tier 3</td><td class="c">1</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">0.1</td><td class="c"><b>25.3</b></td></tr>
-<tr><td class="c">21</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb567">SB 567</a></td><td>Regular cyclical countywide property reassessment</td><td class="nowrap">Sen. Fontana (D)</td><td class="c nowrap">3 <span class="sub">(3 / 0)</span></td><td class="sub nowrap">Tier 3</td><td class="c">3</td><td class="c">3</td><td class="c">0</td><td class="c">4</td><td class="c">0.2</td><td class="c"><b>23.6</b></td></tr>
-<tr><td class="c">22</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2423">HB 2423</a></td><td>Residential Economic Development District Grant Program</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">14 <span class="sub">(12 / 2)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">2</td><td class="c">1</td><td class="c">4</td><td class="c">2</td><td class="c">1.1</td><td class="c"><b>23.3</b></td></tr>
-<tr><td class="c">22</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1278">SB 1278</a></td><td>Residential Economic Development District Grant Program (Senate)</td><td class="nowrap">Sen. Picozzi (R)</td><td class="c nowrap">3 <span class="sub">(2 / 1)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">2</td><td class="c">1</td><td class="c">4</td><td class="c">2</td><td class="c">1.1</td><td class="c"><b>23.3</b></td></tr>
-<tr><td class="c">24</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2445">HB 2445</a></td><td>Office of Housing Opportunity</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">16 <span class="sub">(14 / 2)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">1</td><td class="c">5</td><td class="c">3</td><td class="c">0.4</td><td class="c"><b>22.2</b></td></tr>
+<tr><td class="c">18</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1281">SB 1281</a></td><td>Pre-Approved Housing Plans</td><td class="nowrap">Sen. Rothman (R)</td><td class="c nowrap">6 <span class="sub">(0 / 6)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">1</td><td class="c">4</td><td class="c">3</td><td class="c">2.7</td><td class="c"><b>27.1</b></td></tr>
+<tr><td class="c">20</td><td><a href="https://www.palegis.us/legislation/bills/2025/hr484">HR 484</a></td><td>Housing Accelerator Study</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">9 <span class="sub">(6 / 3)</span></td><td class="sub nowrap">Tier 3</td><td class="c">1</td><td class="c">4</td><td class="c">4</td><td class="c">3</td><td class="c">0.1</td><td class="c"><b>25.3</b></td></tr>
+<tr><td class="c">21</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb567">SB 567</a></td><td>Regular cyclical countywide property reassessment</td><td class="nowrap">Sen. Fontana (D)</td><td class="c nowrap">3 <span class="sub">(3 / 0)</span></td><td class="sub nowrap">Tier 3</td><td class="c">3</td><td class="c">3</td><td class="c">4</td><td class="c">0</td><td class="c">0.2</td><td class="c"><b>23.6</b></td></tr>
+<tr><td class="c">22</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2423">HB 2423</a></td><td>Residential Economic Development District Grant Program</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">14 <span class="sub">(12 / 2)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">2</td><td class="c">1</td><td class="c">2</td><td class="c">4</td><td class="c">1.1</td><td class="c"><b>23.3</b></td></tr>
+<tr><td class="c">22</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1278">SB 1278</a></td><td>Residential Economic Development District Grant Program (Senate)</td><td class="nowrap">Sen. Picozzi (R)</td><td class="c nowrap">3 <span class="sub">(2 / 1)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">2</td><td class="c">1</td><td class="c">2</td><td class="c">4</td><td class="c">1.1</td><td class="c"><b>23.3</b></td></tr>
+<tr><td class="c">24</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2445">HB 2445</a></td><td>Office of Housing Opportunity</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">16 <span class="sub">(14 / 2)</span></td><td class="sub nowrap">Tier 3†</td><td class="c">1</td><td class="c">1</td><td class="c">3</td><td class="c">5</td><td class="c">0.4</td><td class="c"><b>22.2</b></td></tr>
 <tr><td class="c">25</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2192">HB 2192</a></td><td>Commonwealth Housing Council</td><td class="nowrap">Rep. Smith-Wade-El (D)</td><td class="c nowrap">22 <span class="sub">(22 / 0)</span></td><td class="sub nowrap">Tier 3</td><td class="c">0</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">0.4</td><td class="c"><b>21.2</b></td></tr>
 <tr><td class="c">25</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2430">HB 2430</a></td><td>Housing Ombudsman</td><td class="nowrap">Rep. Solomon (D)</td><td class="c nowrap">14 <span class="sub">(12 / 2)</span></td><td class="sub nowrap">Tier 3</td><td class="c">0</td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">0.4</td><td class="c"><b>21.2</b></td></tr>
 </tbody></table></div></div>
 <div class="keep"><h3>Appendix B: preservation bills (ranked separately; same columns)</h3>
-<div class="wide"><table class="appx"><thead><tr><th class="c">#</th><th>Bill</th><th>Title</th><th>Prime sponsor</th><th class="c">Cosp. (D / R)</th><th class="c">E</th><th class="c">A</th><th class="c">G</th><th class="c">C</th><th class="c">S</th><th class="c">Score</th></tr></thead><tbody>
+<div class="wide"><table class="appx"><thead><tr><th class="c">#</th><th>Bill</th><th>Title</th><th>Prime sponsor</th><th class="c">Cosp. (D / R)</th><th class="c">E</th><th class="c">A</th><th class="c">C</th><th class="c">G</th><th class="c">S</th><th class="c">Score</th></tr></thead><tbody>
 <tr><td class="c">1</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2124">HB 2124</a></td><td>Transfer-on-Death Deeds for Real Property</td><td class="nowrap">Rep. Briggs (D)</td><td class="c nowrap">23 <span class="sub">(12 / 11)</span></td><td class="c">2</td><td class="c">5</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>47.7</b></td></tr>
 <tr><td class="c">2</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb890">SB 890</a></td><td>Heirs Property Partition + Transfer-on-Death Deeds</td><td class="nowrap">Sen. Bartolotta (R)</td><td class="c nowrap">1 <span class="sub">(0 / 1)</span></td><td class="c">2</td><td class="c">4</td><td class="c">5</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>45.7</b></td></tr>
-<tr><td class="c">3</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1498">HB 1498</a></td><td>Uniform Partition of Heirs Property</td><td class="nowrap">Rep. Rabb (D)</td><td class="c nowrap">17 <span class="sub">(13 / 4)</span></td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">5</td><td class="c">3.9</td><td class="c"><b>43.7</b></td></tr>
-<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1572">HB 1572</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M</td><td class="nowrap">Rep. Goughnour (D)</td><td class="c nowrap">21 <span class="sub">(21 / 0)</span></td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
-<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1356">SB 1356</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M</td><td class="nowrap">Sen. Flynn (D)</td><td class="c nowrap">6 <span class="sub">(4 / 2)</span></td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
-<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1394">SB 1394</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M; nonprofit owners eligible</td><td class="nowrap">Sen. Farry (R)</td><td class="c nowrap">16 <span class="sub">(14 / 2)</span></td><td class="c">2</td><td class="c">4</td><td class="c">3</td><td class="c">4</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
+<tr><td class="c">3</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1498">HB 1498</a></td><td>Uniform Partition of Heirs Property</td><td class="nowrap">Rep. Rabb (D)</td><td class="c nowrap">17 <span class="sub">(13 / 4)</span></td><td class="c">2</td><td class="c">4</td><td class="c">5</td><td class="c">4</td><td class="c">3.9</td><td class="c"><b>43.7</b></td></tr>
+<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1572">HB 1572</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M</td><td class="nowrap">Rep. Goughnour (D)</td><td class="c nowrap">21 <span class="sub">(21 / 0)</span></td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">3</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
+<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1356">SB 1356</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M</td><td class="nowrap">Sen. Flynn (D)</td><td class="c nowrap">6 <span class="sub">(4 / 2)</span></td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">3</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
+<tr><td class="c">4</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1394">SB 1394</a></td><td>Historic Preservation Tax Credit: per-taxpayer cap to $1.5M; nonprofit owners eligible</td><td class="nowrap">Sen. Farry (R)</td><td class="c nowrap">16 <span class="sub">(14 / 2)</span></td><td class="c">2</td><td class="c">4</td><td class="c">4</td><td class="c">3</td><td class="c">3.4</td><td class="c"><b>38.2</b></td></tr>
 <tr><td class="c">7</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb2172">HB 2172</a></td><td>Small-Estate Primary Residence Affidavit</td><td class="nowrap">Rep. Scott (D)</td><td class="c nowrap">9 <span class="sub">(9 / 0)</span></td><td class="c">1</td><td class="c">3</td><td class="c">4</td><td class="c">4</td><td class="c">3.9</td><td class="c"><b>36.7</b></td></tr>
 <tr><td class="c">7</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb1203">SB 1203</a></td><td>Small-Estate Primary Residence Affidavit</td><td class="nowrap">Sen. Malone (D)</td><td class="c nowrap">4 <span class="sub">(4 / 0)</span></td><td class="c">1</td><td class="c">3</td><td class="c">4</td><td class="c">4</td><td class="c">3.9</td><td class="c"><b>36.7</b></td></tr>
-<tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1650">HB 1650</a></td><td>Home Preservation Grant Program (Whole-Home Repairs successor)</td><td class="nowrap">Rep. Powell (D)</td><td class="c nowrap">36 <span class="sub">(33 / 3)</span></td><td class="c">2</td><td class="c">2</td><td class="c">5</td><td class="c">1</td><td class="c">3.4</td><td class="c"><b>32.2</b></td></tr>
-<tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb876">SB 876</a></td><td>Home Preservation Grant Program (Senate)</td><td class="nowrap">Sen. Argall (R)</td><td class="c nowrap">18 <span class="sub">(14 / 4)</span></td><td class="c">2</td><td class="c">2</td><td class="c">5</td><td class="c">1</td><td class="c">3.4</td><td class="c"><b>32.2</b></td></tr>
+<tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/hb1650">HB 1650</a></td><td>Home Preservation Grant Program (Whole-Home Repairs successor)</td><td class="nowrap">Rep. Powell (D)</td><td class="c nowrap">36 <span class="sub">(33 / 3)</span></td><td class="c">2</td><td class="c">2</td><td class="c">1</td><td class="c">5</td><td class="c">3.4</td><td class="c"><b>32.2</b></td></tr>
+<tr><td class="c">9</td><td><a href="https://www.palegis.us/legislation/bills/2025/sb876">SB 876</a></td><td>Home Preservation Grant Program (Senate)</td><td class="nowrap">Sen. Argall (R)</td><td class="c nowrap">18 <span class="sub">(14 / 4)</span></td><td class="c">2</td><td class="c">2</td><td class="c">1</td><td class="c">5</td><td class="c">3.4</td><td class="c"><b>32.2</b></td></tr>
 </tbody></table></div></div>
 <div class="foot">Build Philly Now · Housing Bill Prioritization for the 2027-28 Session · November 5, 2026. Sources: palegis.us, the PA Housing Votes tracker and the Governor's Housing Action Plan.</div>
 </div></body></html>
