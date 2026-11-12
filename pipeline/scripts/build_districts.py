@@ -7,7 +7,9 @@ Outputs:
 Each district feature has these properties:
 
     district          str   "1".."203"
-    population        int   ACS 2023 5-year total population
+    population        int   ACS 2023 5-year total population, split
+                            within municipalities by 2020 census-block
+                            population (see Method)
     landAreaSqMi      float Land area in square miles
     topMunicipalities list  Up to 5 largest municipalities by pop share;
                             entries: { name, classCode, populationShare }
@@ -27,11 +29,42 @@ Method
 3. Download PA county shapefile (national file, filtered to STATEFP=42).
 4. Download PA county-subdivision population from ACS 2023 5-year
    (table B01003).
-5. Spatially intersect each district with each municipality; apportion
-   muni population by area share to get population-in-intersection.
-6. Aggregate per-district: top-N municipalities, top-N counties (grouped
-   from muni intersections by county FIPS), per-class population shares.
-7. Write enriched district GeoJSON + simplified county polygon GeoJSON.
+5. Download the 2020 Census block file (TIGER TABBLOCK20, which carries
+   the P.L. 94-171 block population POP20 and an internal point per
+   block). Assign every populated block to the municipality and to the
+   House/Senate district containing its internal point.
+6. Spatially intersect each district with each municipality. Each
+   (district, muni) piece gets a population weight: the share of the
+   muni's 2020 block population whose blocks fall in that district.
+   Muni-level counts (ACS 2023 population, PEP 2020/2024 population,
+   BPS permits, ACS household counts) are split across districts by
+   that weight, NOT by land area. Area weighting badly misplaces people
+   wherever a muni spans several districts — e.g. Philadelphia is one
+   muni, and area weighting gave its 26 House districts 18k-168k people
+   instead of ~64k each. Munis with no populated 2020 blocks fall back
+   to area share (their population is ~0 either way).
+7. Aggregate per-district: total population, top-N municipalities,
+   top-N counties (grouped from muni pieces by county FIPS), per-class
+   population shares, permits per 1k residents, 2020-24 pop change.
+8. Write enriched district GeoJSON + simplified county polygon GeoJSON.
+
+Caveats
+-------
+- District population = ACS 2023 5-year muni population x 2020 block
+  share. Inside a muni we assume the 2020 within-muni distribution
+  still holds in 2023; growth that is concentrated in one part of a
+  big city is spread evenly across that city's districts.
+- popChange2020to2024Pct is PEP muni-level change apportioned the same
+  way, so every district that lies wholly inside one muni (e.g. most
+  Philadelphia HDs) shows that muni's citywide rate. PEP has no
+  sub-municipal estimates, so that can't be fixed with this data.
+- permits5yrTotal for munis other than Philadelphia and Pittsburgh
+  (which use geocoded parcel permits) is the muni's BPS total split by
+  2020 population share — i.e. it assumes permits are spread like
+  residents within a muni.
+- The housing medians/burdens are tract-based (see
+  aggregate_acs_at_district_level) and still split tracts by area;
+  tracts are small enough that this is a minor approximation.
 
 Run:
     cd pipeline
@@ -82,6 +115,13 @@ SLDU_URL = f"{TIGER_BASE}/SLDU/tl_2024_42_sldu.zip"  # PA State Senate
 COUSUB_URL = f"{TIGER_BASE}/COUSUB/tl_2024_42_cousub.zip"  # PA municipalities
 COUNTY_URL = f"{TIGER_BASE}/COUNTY/tl_2024_us_county.zip"  # All counties; filtered to PA
 TRACT_URL = f"{TIGER_BASE}/TRACT/tl_2024_42_tract.zip"  # PA census tracts
+# 2020 tabulation blocks for PA. Carries the 2020 Decennial (P.L. 94-171)
+# block population in POP20 plus an internal point per block. ~400 MB
+# zipped; we read it once and cache a slim CSV of populated blocks.
+TABBLOCK_URL = (
+    "https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/"
+    "tl_2020_42_tabblock20.zip"
+)
 
 # ACS 2023 5-year. We pull these tables at county-subdivision level for PA
 # (state FIPS 42):
@@ -510,6 +550,80 @@ def load_pa_tracts() -> gpd.GeoDataFrame:
     return gdf[["geoid", "geometry"]].copy()
 
 
+def load_block_points(munis: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Populated 2020 Census blocks as points, tagged with their muni.
+
+    Returns a GeoDataFrame (EQUAL_AREA_CRS) with columns:
+      pop20      2020 Decennial (P.L. 94-171) block population
+      muniGeoid  10-char county-subdivision GEOID containing the block's
+                 internal point (2024 TIGER cousub polygons)
+      geometry   the block's Census internal point
+
+    PA has ~340k blocks; ~250k are populated. The raw shapefile is read
+    once (attributes only) and a slim CSV is cached in CACHE_DIR.
+    """
+    cache = CACHE_DIR / "blocks_pa_2020_pop.csv"
+    if cache.exists():
+        log.info("cached: %s", cache.name)
+        df = pd.read_csv(cache, dtype={"geoid": str})
+    else:
+        zip_path = download(TABBLOCK_URL, RAW_DIR / "tl_2020_42_tabblock20.zip")
+        with zipfile.ZipFile(zip_path) as zf:
+            shp_name = next(n for n in zf.namelist() if n.endswith(".shp"))
+        raw = gpd.read_file(
+            f"zip://{zip_path}!{shp_name}",
+            ignore_geometry=True,
+            columns=["GEOID20", "POP20", "INTPTLAT20", "INTPTLON20"],
+        )
+        df = pd.DataFrame(
+            {
+                "geoid": raw["GEOID20"].astype(str),
+                "pop20": pd.to_numeric(raw["POP20"], errors="coerce").fillna(0).astype(int),
+                "lat": pd.to_numeric(raw["INTPTLAT20"], errors="coerce"),
+                "lon": pd.to_numeric(raw["INTPTLON20"], errors="coerce"),
+            }
+        )
+        df = df[df["pop20"] > 0].reset_index(drop=True)
+        df.to_csv(cache, index=False)
+    log.info(
+        "loaded %d populated 2020 blocks (%d people)", len(df), int(df["pop20"].sum())
+    )
+    pts = gpd.GeoDataFrame(
+        df[["geoid", "pop20"]],
+        geometry=gpd.points_from_xy(df["lon"], df["lat"]),
+        crs="EPSG:4269",  # TIGER internal points are NAD83 lon/lat
+    ).to_crs(EQUAL_AREA_CRS)
+    pts["muniGeoid"] = _point_to_polygon_key(pts, munis, "geoid")
+    return pts
+
+
+def _point_to_polygon_key(
+    pts: gpd.GeoDataFrame, polys: gpd.GeoDataFrame, key: str
+) -> pd.Series:
+    """For each point, the `key` of the polygon containing it. Points
+    that land in no polygon (coastline / Lake Erie / boundary slop
+    between the 2020 block file and 2024 polygons) take the nearest
+    polygon instead, so no population is dropped."""
+    joined = gpd.sjoin(pts[["geometry"]], polys[[key, "geometry"]], how="left", predicate="within")
+    # A point on a shared edge can match two polygons; keep the first.
+    joined = joined[~joined.index.duplicated(keep="first")]
+    out = joined[key].reindex(pts.index)
+    missing = out.isna()
+    if missing.any():
+        near = gpd.sjoin_nearest(
+            pts.loc[missing, ["geometry"]], polys[[key, "geometry"]], how="left"
+        )
+        near = near[~near.index.duplicated(keep="first")]
+        out.loc[missing] = near[key]
+        log.info(
+            "  %d points outside every %s polygon -> nearest (%d people)",
+            int(missing.sum()),
+            key,
+            int(pts.loc[missing, "pop20"].sum()) if "pop20" in pts else 0,
+        )
+    return out.astype(str)
+
+
 def load_acs_housing_facts_tract() -> pd.DataFrame:
     """ACS 2023 5-year housing facts at the tract level. Same tables
     as load_acs_housing_facts() (B19013 income, B25077 home value,
@@ -853,13 +967,25 @@ def aggregate_acs_at_district_level(
 def intersect_districts_x_munis(
     districts: gpd.GeoDataFrame,
     munis: gpd.GeoDataFrame,
-) -> gpd.GeoDataFrame:
+    blocks: gpd.GeoDataFrame,
+) -> pd.DataFrame:
+    """One row per (district, muni) piece with two weights:
+
+      area_share  share of the MUNI's land area in this district. Only
+                  used for the muni popup's "overlapShareOfMuni" list.
+      pop_share   share of the MUNI's 2020 block population in this
+                  district. Used to split every muni-level count
+                  (population, permits, households) across districts.
+
+    pop_share sums to 1 over each populated muni. Munis with no
+    populated 2020 blocks fall back to area_share.
+    """
     log.info(
         "intersecting %d districts x %d municipalities",
         len(districts),
         len(munis),
     )
-    # Pre-compute muni areas for areal interpolation.
+    # Pre-compute muni areas for the area_share column.
     munis = munis.copy()
     munis["muni_area"] = munis.geometry.area
 
@@ -869,7 +995,36 @@ def intersect_districts_x_munis(
     inter = gpd.overlay(districts, munis, how="intersection", keep_geom_type=True)
     inter["intersection_area"] = inter.geometry.area
     inter["area_share"] = inter["intersection_area"] / inter["muni_area"]
-    return inter
+    inter = pd.DataFrame(inter.drop(columns="geometry"))
+
+    # Block-population weights: which district each populated block's
+    # internal point falls in, summed per (district, muni).
+    blk = blocks[["pop20", "muniGeoid", "geometry"]].copy()
+    blk["district"] = _point_to_polygon_key(blk, districts, "district")
+    piece_pop = (
+        blk.groupby(["district", "muniGeoid"])["pop20"].sum()
+        .rename("block_pop").reset_index()
+        .rename(columns={"muniGeoid": "geoid"})
+    )
+    muni_pop = piece_pop.groupby("geoid")["block_pop"].sum().rename("muni_block_pop")
+
+    # Outer-merge so a (district, muni) pair found only via blocks
+    # (a sliver the overlay dropped) still carries its people.
+    attrs = munis[["geoid", "countyGeoid", "name", "classCode"]]
+    pairs = inter[["district", "geoid", "area_share"]].merge(
+        piece_pop, on=["district", "geoid"], how="outer"
+    )
+    pairs = pairs.merge(attrs, on="geoid", how="left")
+    pairs = pairs.merge(muni_pop, on="geoid", how="left")
+    pairs["block_pop"] = pairs["block_pop"].fillna(0)
+    pairs["muni_block_pop"] = pairs["muni_block_pop"].fillna(0)
+    pairs["pop_share"] = (pairs["block_pop"] / pairs["muni_block_pop"]).where(
+        pairs["muni_block_pop"] > 0, pairs["area_share"].fillna(0)
+    )
+    n_block_only = int(pairs["area_share"].isna().sum())
+    if n_block_only:
+        log.info("  %d (district, muni) pairs found only via blocks", n_block_only)
+    return pairs
 
 
 def compute_parcel_overrides(
@@ -1046,28 +1201,28 @@ def aggregate_district_stats(
     else:
         df["pop2020"] = pd.NA
         df["pop2024"] = pd.NA
-    df["population_in_intersection"] = df["population"].fillna(0) * df["area_share"]
-    df["pop2020_in_intersection"] = df["pop2020"].fillna(0) * df["area_share"]
-    df["pop2024_in_intersection"] = df["pop2024"].fillna(0) * df["area_share"]
-    # Counts that aggregate cleanly via area_share apportionment.
+    df["population_in_intersection"] = df["population"].fillna(0) * df["pop_share"]
+    df["pop2020_in_intersection"] = df["pop2020"].fillna(0) * df["pop_share"]
+    df["pop2024_in_intersection"] = df["pop2024"].fillna(0) * df["pop_share"]
+    # Counts split across districts by 2020 block-population share.
     df["permits_in_intersection"] = (
-        df["permitsUnits5yrTotal"].fillna(0) * df["area_share"]
+        df["permitsUnits5yrTotal"].fillna(0) * df["pop_share"]
     )
     df["rent_households_in_intersection"] = (
-        df["rentHouseholds"].fillna(0) * df["area_share"]
+        df["rentHouseholds"].fillna(0) * df["pop_share"]
     )
     df["rent_burdened_in_intersection"] = (
         df["rentBurdenedPct"].fillna(0)
         * df["rentHouseholds"].fillna(0)
-        * df["area_share"]
+        * df["pop_share"]
     )
     df["owner_households_in_intersection"] = (
-        df["ownerHouseholds"].fillna(0) * df["area_share"]
+        df["ownerHouseholds"].fillna(0) * df["pop_share"]
     )
     df["owner_burdened_in_intersection"] = (
         df["ownerBurdenedPct"].fillna(0)
         * df["ownerHouseholds"].fillna(0)
-        * df["area_share"]
+        * df["pop_share"]
     )
     # Median weighted by population-in-intersection. Mixing medians is
     # approximate — but it's a useful district-level signal.
@@ -1097,6 +1252,7 @@ def aggregate_district_stats(
         sub = sub.assign(
             share=sub["population_in_intersection"] / total
         ).sort_values("share", ascending=False)
+        sub = sub[sub["share"] > 0]
         top_munis[district] = [
             {
                 "name": str(r["name"]),
@@ -1172,7 +1328,7 @@ def aggregate_district_stats(
     # Permits per 1,000 residents per year (5-year window)
     permits_per_1k = _maybe_div(permits_total, district_pop) * (1000 / 5)
     # District-level 2020 -> 2024 popchange. Built from the muni-level
-    # PEP data weighted by each muni's area_share inside the district —
+    # PEP data weighted by each muni's pop_share inside the district —
     # so a split muni (Allentown across 3 HDs) contributes its
     # proportional pop to each district. Districts where PEP data is
     # missing get a NaN, which downstream serializes as null.
@@ -1473,6 +1629,7 @@ def build_chamber_geojson(
     cross_chamber_data: dict[str, list[dict]],
     parcel_overrides: dict[str, float] | None = None,
     acs_tract_override: pd.DataFrame | None = None,
+    blocks: gpd.GeoDataFrame | None = None,
 ) -> dict[str, list[dict]]:
     """Intersect districts with munis, aggregate stats, simplify, write GeoJSON.
 
@@ -1486,7 +1643,7 @@ def build_chamber_geojson(
     neighbor district doesn't list it as a "nested" district.
     """
     log.info("building %s GeoJSON...", label)
-    inter = intersect_districts_x_munis(districts, munis)
+    inter = intersect_districts_x_munis(districts, munis, blocks)
     stats = aggregate_district_stats(
         inter, acs, bps, county_names, parcel_overrides=parcel_overrides
     )
@@ -1528,7 +1685,7 @@ def build_chamber_geojson(
     # muni geoid, drop slivers, and emit a sorted list.
     muni_to_districts: dict[str, list[dict]] = {}
     SLIVER_THRESHOLD = 0.005
-    keep = inter[inter["area_share"] > SLIVER_THRESHOLD]
+    keep = inter[inter["area_share"].fillna(0) > SLIVER_THRESHOLD]
     for muni_geoid, sub in keep.groupby("geoid"):
         rows = sub.sort_values("area_share", ascending=False)
         muni_to_districts[str(muni_geoid)] = [
@@ -1581,6 +1738,8 @@ def main(argv: Iterable[str]) -> int:
     tracts = load_pa_tracts()
     log.info("loading ACS housing facts at tract level...")
     acs_tract = load_acs_housing_facts_tract()
+    log.info("loading 2020 census blocks (population apportionment)...")
+    blocks = load_block_points(munis)
     log.info("loading BPS housing permits...")
     bps = load_bps_permits()
     bps = redistribute_bps_across_slices(bps, acs)
@@ -1619,6 +1778,7 @@ def main(argv: Iterable[str]) -> int:
         cross_chamber_data=hd_to_sd,
         parcel_overrides=parcel_overrides.get("house"),
         acs_tract_override=acs_tract_house,
+        blocks=blocks,
     )
     muni_to_senate = build_chamber_geojson(
         senate, munis, acs, bps_for_aggregation, county_names, SENATE_OUTPUT_PATH,
@@ -1627,6 +1787,7 @@ def main(argv: Iterable[str]) -> int:
         cross_chamber_data=sd_to_hd,
         parcel_overrides=parcel_overrides.get("senate"),
         acs_tract_override=acs_tract_senate,
+        blocks=blocks,
     )
     write_counties_geojson(counties, COUNTIES_OUTPUT_PATH)
     write_munis_geojson(

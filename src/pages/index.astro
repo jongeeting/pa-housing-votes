@@ -127,10 +127,23 @@ const pastGroups = groupBillsByTopic(pastBills);
     </p>
     <ul>
       <li>
+        <strong>District population</strong> &mdash; each
+        municipality&rsquo;s ACS 2023 5-year population, split across
+        the districts it touches in proportion to where its residents
+        lived in the 2020 Census (summed from census blocks, the
+        units the 2022 district maps were drawn from). The same
+        population split is used for the population-change and
+        permits-per-1,000 figures and for the county, municipality
+        and municipal-class shares listed for each district.
+        Population change (Census PEP, 2020&ndash;2024) only exists
+        at the municipality level, so districts inside one city all
+        show that city&rsquo;s overall rate.
+      </li>
+      <li>
         <strong>Median income, median home value, rent-burdened %,
         owner-burdened %</strong> &mdash; pulled from the ACS 2023
-        5-year survey at the municipality level, then
-        population-weighted across the muni areas inside each
+        5-year survey at the census-tract level, then
+        population-weighted across the tracts inside each
         district. ACS suppresses estimates for very small populations;
         those districts display &ldquo;&mdash;.&rdquo;
       </li>
@@ -159,13 +172,11 @@ const pastGroups = groupBillsByTopic(pastBills);
           </li>
           <li>
             Other municipalities that span multiple state districts
-            (Allentown, Reading, Erie, Lancaster, etc.) use
-            area-apportionment of the BPS total &mdash; this assumes
-            permits are roughly evenly distributed across each
-            city&rsquo;s area, which is a known approximation. Of these,
-            only Allentown spans more than two House districts, and
-            even there the largest slice holds 42% of the city&rsquo;s
-            area.
+            (Allentown, Reading, Erie, Lancaster, etc.) split the BPS
+            total in proportion to each district&rsquo;s share of the
+            city&rsquo;s 2020 population &mdash; this assumes permits
+            are spread across a city the way its residents are, which
+            is a known approximation.
           </li>
         </ul>
       </li>
